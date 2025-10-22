@@ -445,6 +445,23 @@
                     </a>
                 </div>
             </section>
+
+           <!-- 일정보고 지침 (섹션 전체를 details로 감싸서 내용 숨김) -->
+            <section id="music-prompts" class="mb-16">
+                <details class="group border border-indigo-700 rounded-xl">
+                    <summary class="collapsible-summary text-3xl font-bold text-slate-200 p-4 bg-indigo-900/30 rounded-t-xl hover:bg-indigo-900/50 transition-colors">
+                        일정시간에 보고받기
+                    </summary>
+                    <div class="p-6 bg-slate-900/70 rounded-b-xl border-t border-indigo-700">
+                        <div class="prompt-card !p-6">
+                            <p class="text-slate-300 leading-relaxed prompt-card-content mb-4">
+                                chatGPT에 복붙: 전날 14시부터 보고하는 날 13:55까지 발생한 새로운 사회 이슈나 보도들을 3가지만 정리해서 보고하는 날 14시에 보고해줘. 보고할 때는 제목-배경-현황-문제점-해결방안 순으로 나열해주고, 새로운 용어가 있을 경우에는 용어 설명도 덧붙여줘
+                            </p>
+                        </div>
+                    </div>
+                </details>
+            </section>
+
             
             <!-- GPT 지침 (details로 내용 숨김) -->
             <section id="gpt-instructions" class="mb-16">
@@ -926,6 +943,7 @@
     </div>
 </body>
 </html>
+
 
 
 
