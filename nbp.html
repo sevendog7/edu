@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoBananaPro Prompt Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        .option-group:focus-within label { color: #38bdf8; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-yellow-400 rounded-lg flex items-center justify-center text-slate-900 font-bold text-xl">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h1 class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">
+                    NanoBananaPro Builder
+                </h1>
+            </div>
+            <div class="text-xs md:text-sm text-slate-400">
+                AI Image Prompt Generator
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto p-4 flex flex-col lg:flex-row gap-6">
+        
+        <!-- Left Column: Input Controls -->
+        <div class="w-full lg:w-2/3 space-y-6">
+            
+            <!-- Section 1: Core Subject (핵심 주제) -->
+            <section class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm">
+                <h2 class="text-lg font-semibold text-yellow-400 mb-4 border-b border-slate-700 pb-2">
+                    <i class="fa-solid fa-user-tag mr-2"></i>주체 및 기본 설정 (Subject)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="option-group col-span-1 md:col-span-2">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">메인 주제 (상세 묘사) *</label>
+                        <input type="text" id="subject" placeholder="예: A futuristic warrior girl, a cute cat" 
+                            class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition placeholder-slate-500">
+                        <p class="text-xs text-slate-500 mt-1">* 영문 입력을 권장합니다.</p>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">행동 (Action)</label>
+                        <select id="action" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-yellow-400">
+                            <option value="">선택 안함</option>
+                            <option value="standing">서 있는 (Standing)</option>
+                            <option value="sitting">앉아 있는 (Sitting)</option>
+                            <option value="running">달리는 (Running)</option>
+                            <option value="flying">날고 있는 (Flying)</option>
+                            <option value="fighting">싸우는 (Fighting)</option>
+                            <option value="dancing">춤추는 (Dancing)</option>
+                            <option value="reading">독서 중인 (Reading)</option>
+                            <option value="looking at viewer">정면 응시 (Looking at viewer)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">자세/구도 (Pose/Framing)</label>
+                        <select id="pose" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-yellow-400">
+                            <option value="">선택 안함</option>
+                            <option value="dynamic pose">역동적인 자세 (Dynamic)</option>
+                            <option value="portrait">초상화/인물 (Portrait)</option>
+                            <option value="full body">전신 (Full body)</option>
+                            <option value="close up">클로즈업 (Close up)</option>
+                            <option value="back view">뒷모습 (Back view)</option>
+                            <option value="symmetry">대칭 (Symmetry)</option>
+                            <option value="wide shot">와이드 샷 (Wide shot)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Environment & Style (배경 및 스타일) -->
+            <section class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm">
+                <h2 class="text-lg font-semibold text-blue-400 mb-4 border-b border-slate-700 pb-2">
+                    <i class="fa-solid fa-image mr-2"></i>배경 및 스타일 (Env & Style)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">배경/장소 (Background)</label>
+                        <select id="background" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="">선택 안함</option>
+                            <option value="simple background">단순 배경 (Simple)</option>
+                            <option value="white background">흰색 배경 (White)</option>
+                            <option value="cyberpunk city">사이버펑크 도시 (Cyberpunk City)</option>
+                            <option value="mystical forest">신비로운 숲 (Mystical Forest)</option>
+                            <option value="outer space">우주 (Outer Space)</option>
+                            <option value="ruins">폐허 (Ruins)</option>
+                            <option value="beach">해변 (Beach)</option>
+                            <option value="library">도서관 (Library)</option>
+                            <option value="studio background">스튜디오 배경 (Studio)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">화풍/스타일 (Art Style)</label>
+                        <select id="style" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="">선택 안함</option>
+                            <option value="photorealistic, 8k, raw photo">실사/포토리얼리스틱 (Photorealistic)</option>
+                            <option value="anime style, cell shading">애니메이션 (Anime)</option>
+                            <option value="oil painting, textured">유화 (Oil Painting)</option>
+                            <option value="watercolor, soft edges">수채화 (Watercolor)</option>
+                            <option value="cyberpunk, neon">사이버펑크 (Cyberpunk)</option>
+                            <option value="steampunk, brass, gears">스팀펑크 (Steampunk)</option>
+                            <option value="3d render, octane render, unreal engine">3D 렌더링 (3D Render)</option>
+                            <option value="sketch, pencil drawing">스케치/연필 (Sketch)</option>
+                            <option value="ukiyo-e">우키요에 (Ukiyo-e)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">시간대/날씨 (Time/Weather)</label>
+                        <select id="weather" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="">선택 안함</option>
+                            <option value="sunny day">맑은 날 (Sunny)</option>
+                            <option value="rainy night">비 오는 밤 (Rainy Night)</option>
+                            <option value="sunset">노을/일몰 (Sunset)</option>
+                            <option value="cloudy">흐림 (Cloudy)</option>
+                            <option value="foggy">안개 (Foggy)</option>
+                            <option value="golden hour">골든 아워 (Golden Hour)</option>
+                            <option value="moonlight">달빛 (Moonlight)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">컬러 팔레트 (Color)</label>
+                        <select id="color" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="">선택 안함</option>
+                            <option value="vivid colors">선명한 색상 (Vivid)</option>
+                            <option value="pastel colors">파스텔 톤 (Pastel)</option>
+                            <option value="monochrome">흑백/단색 (Monochrome)</option>
+                            <option value="warm tones">따뜻한 톤 (Warm)</option>
+                            <option value="cool tones">차가운 톤 (Cool)</option>
+                            <option value="vintage colors">빈티지 (Vintage)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Section 3: Technical (기술적 요소) -->
+             <section class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm">
+                <h2 class="text-lg font-semibold text-purple-400 mb-4 border-b border-slate-700 pb-2">
+                    <i class="fa-solid fa-camera mr-2"></i>조명 및 카메라 (Tech Specs)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">조명 (Lighting)</label>
+                        <select id="lighting" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-purple-400">
+                            <option value="">선택 안함</option>
+                            <option value="cinematic lighting">영화적 조명 (Cinematic)</option>
+                            <option value="natural light">자연광 (Natural)</option>
+                            <option value="volumetric lighting, god rays">볼류메트릭/빛내림 (God Rays)</option>
+                            <option value="studio lighting">스튜디오 조명 (Studio)</option>
+                            <option value="neon lights">네온 조명 (Neon)</option>
+                            <option value="soft lighting">부드러운 조명 (Soft)</option>
+                            <option value="rembrandt lighting">렘브란트 조명 (Rembrandt)</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">카메라/렌즈 (Camera)</label>
+                        <select id="camera" class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-purple-400">
+                            <option value="">선택 안함</option>
+                            <option value="wide angle">광각 (Wide Angle)</option>
+                            <option value="telephoto lens">망원 (Telephoto)</option>
+                            <option value="macro shot">접사 (Macro)</option>
+                            <option value="fisheye lens">어안 렌즈 (Fisheye)</option>
+                            <option value="depth of field, bokeh">아웃포커싱/보케 (Bokeh)</option>
+                            <option value="drone view">드론 뷰 (Drone)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Section 4: Text & Details (텍스트 및 추가) -->
+             <section class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-sm">
+                <h2 class="text-lg font-semibold text-green-400 mb-4 border-b border-slate-700 pb-2">
+                    <i class="fa-solid fa-font mr-2"></i>텍스트 및 퀄리티 (Details)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div class="option-group col-span-1 md:col-span-2">
+                        <label class="block text-sm font-medium mb-1 text-slate-400">이미지 내 삽입 텍스트 (Insert Text)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="insertText" placeholder="예: HELLO WORLD (간판, 티셔츠 등)" 
+                                class="w-full bg-slate-700 border border-slate-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-green-400 outline-none">
+                            <div class="flex items-center">
+                                <span class="text-xs text-slate-500 whitespace-nowrap">※ 모델 지원 필요</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="option-group col-span-1 md:col-span-2">
+                        <label class="flex items-center space-x-2 cursor-pointer p-2 border border-slate-600 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition">
+                            <input type="checkbox" id="qualityToggle" checked class="w-5 h-5 text-green-500 rounded focus:ring-green-500 bg-slate-800 border-slate-600">
+                            <span class="text-slate-200 text-sm">고품질 보정 태그 자동 추가 (Best Quality, Masterpiece 등)</span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Right Column: Output & Preview -->
+        <div class="w-full lg:w-1/3 space-y-4">
+            <div class="sticky top-24">
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 shadow-xl ring-1 ring-slate-700/50">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-terminal mr-2"></i>최종 프롬프트</h2>
+                        <span id="tokenCount" class="text-xs text-slate-500 bg-slate-900 px-2 py-1 rounded">0 chars</span>
+                    </div>
+
+                    <textarea id="finalPrompt" readonly 
+                        class="w-full h-64 bg-slate-900 border border-slate-600 rounded-lg p-4 text-slate-300 font-mono text-sm leading-relaxed resize-none focus:ring-2 focus:ring-blue-500 outline-none mb-4 custom-scrollbar"
+                        placeholder="좌측에서 옵션을 선택하면 여기에 프롬프트가 생성됩니다..."></textarea>
+
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <button onclick="copyToClipboard()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2 shadow-lg shadow-blue-900/50">
+                            <i class="fa-regular fa-copy"></i> 복사하기
+                        </button>
+                        <button onclick="resetAll()" class="bg-slate-700 hover:bg-slate-600 text-slate-300 font-semibold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> 초기화
+                        </button>
+                    </div>
+                    
+                    <button onclick="randomize()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa-solid fa-dice"></i> 랜덤 영감 생성 (Randomize)
+                    </button>
+
+                    <!-- Negative Prompt Accordion -->
+                    <div class="mt-6 pt-4 border-t border-slate-700">
+                        <label class="block text-xs font-bold text-red-400 mb-2 uppercase tracking-wider">Negative Prompt (제외할 요소)</label>
+                        <textarea id="negativePrompt" 
+                            class="w-full h-24 bg-slate-900 border border-red-900/30 rounded-lg p-3 text-red-100/70 font-mono text-xs resize-none focus:border-red-500 outline-none">nsfw, low quality, worst quality, deformed, blurry, bad anatomy, disfigured, watermark, text, signature, mutation</textarea>
+                        <div class="flex justify-end mt-2">
+                            <button onclick="copyNegative()" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> 네거티브 복사
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Box -->
+                <div class="mt-4 bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 text-sm text-slate-400">
+                    <p class="font-semibold text-yellow-400 mb-1"><i class="fa-regular fa-lightbulb"></i> Tip</p>
+                    <p class="leading-relaxed text-xs">
+                        • "주체"는 구체적일수록 좋습니다.<br>
+                        • 스타일을 섞으면 독특한 결과가 나옵니다.<br>
+                        • 텍스트 삽입 시 <span class="font-mono bg-slate-900 px-1 rounded">'text content'</span> 따옴표 형식을 추천합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const inputs = {
+            subject: document.getElementById('subject'),
+            action: document.getElementById('action'),
+            pose: document.getElementById('pose'),
+            background: document.getElementById('background'),
+            style: document.getElementById('style'),
+            weather: document.getElementById('weather'),
+            color: document.getElementById('color'),
+            lighting: document.getElementById('lighting'),
+            camera: document.getElementById('camera'),
+            insertText: document.getElementById('insertText'),
+            qualityToggle: document.getElementById('qualityToggle')
+        };
+
+        const finalPromptArea = document.getElementById('finalPrompt');
+        const tokenCountDisplay = document.getElementById('tokenCount');
+
+        // Quality Tags
+        const qualityTags = "best quality, masterpiece, high resolution, detailed, 8k";
+
+        // Event Listeners for all inputs
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', generatePrompt);
+            input.addEventListener('change', generatePrompt);
+        });
+
+        // Generate Prompt Function
+        function generatePrompt() {
+            let parts = [];
+
+            // 1. Subject (Most Important)
+            const subjectVal = inputs.subject.value.trim();
+            if (subjectVal) parts.push(subjectVal);
+
+            // 2. Action & Pose
+            if (inputs.action.value) parts.push(inputs.action.value);
+            if (inputs.pose.value) parts.push(inputs.pose.value);
+
+            // 3. Environment
+            if (inputs.background.value) parts.push(inputs.background.value);
+            if (inputs.weather.value) parts.push(inputs.weather.value);
+
+            // 4. Style & Aesthetics
+            if (inputs.style.value) parts.push(inputs.style.value);
+            if (inputs.color.value) parts.push(inputs.color.value);
+
+            // 5. Technical
+            if (inputs.lighting.value) parts.push(inputs.lighting.value);
+            if (inputs.camera.value) parts.push(inputs.camera.value);
+
+            // 6. Text Insertion
+            const textVal = inputs.insertText.value.trim();
+            if (textVal) {
+                parts.push(`text saying '${textVal}'`);
+                parts.push("typography");
+            }
+
+            // 7. Quality Boosters
+            if (inputs.qualityToggle.checked) {
+                parts.push(qualityTags);
+            }
+
+            // Join and Display
+            const finalString = parts.join(", ");
+            finalPromptArea.value = finalString;
+            
+            // Update Char Count
+            tokenCountDisplay.innerText = `${finalString.length} chars`;
+        }
+
+        // Copy Function
+        function copyToClipboard() {
+            if (!finalPromptArea.value) return;
+            finalPromptArea.select();
+            document.execCommand('copy');
+            
+            const btn = document.querySelector('button[onclick="copyToClipboard()"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> 복사 완료!`;
+            btn.classList.add('bg-green-600', 'hover:bg-green-500');
+            btn.classList.remove('bg-blue-600', 'hover:bg-blue-500');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-green-600', 'hover:bg-green-500');
+                btn.classList.add('bg-blue-600', 'hover:bg-blue-500');
+            }, 2000);
+        }
+
+        function copyNegative() {
+            const neg = document.getElementById('negativePrompt');
+            neg.select();
+            document.execCommand('copy');
+            alert("네거티브 프롬프트가 복사되었습니다.");
+        }
+
+        // Reset Function
+        function resetAll() {
+            Object.values(inputs).forEach(input => {
+                if (input.type === 'checkbox') input.checked = true;
+                else input.value = '';
+            });
+            generatePrompt();
+        }
+
+        // Randomize Function (For Inspiration)
+        function randomize() {
+            const subjects = ["A cybernetic samurai", "A sleeping wizard", "A futuristic racing car", "A giant monster made of clouds", "A cute robot gardening"];
+            const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+            
+            inputs.subject.value = randomSubject;
+            
+            // Helper to pick random option from select
+            const pickRandom = (selectElement) => {
+                const options = selectElement.options;
+                const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1; // skip first empty
+                selectElement.selectedIndex = randomIndex;
+            };
+
+            pickRandom(inputs.style);
+            pickRandom(inputs.lighting);
+            pickRandom(inputs.background);
+            pickRandom(inputs.color);
+            
+            // Optional: reset others
+            inputs.action.value = "";
+            inputs.pose.value = "";
+            
+            generatePrompt();
+        }
+
+        // Initial Run
+        generatePrompt();
+    </script>
+</body>
+</html>
