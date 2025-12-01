@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>감성 폴라로이드 메이커 with Gemini</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Nanum Pen Script (손글씨 폰트) -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Nanum Pen Script', cursive;
+            background-color: #e5e5f7;
+            background-image:  radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* 폴라로이드 흔들림 효과 */
+        @keyframes develop {
+            0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .polaroid-enter {
+            animation: develop 0.8s ease-out forwards;
+        }
+
+        /* 카메라 렌즈 반사 효과 */
+        .lens-reflection {
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
+
+        /* 셔터 깜빡임 효과 */
+        @keyframes flash {
+            0% { opacity: 1; }
+            50% { opacity: 0; background-color: white; }
+            100% { opacity: 1; }
+        }
+        .flash-active {
+            animation: flash 0.2s;
+        }
+
+        .handwriting {
+            font-family: 'Nanum Pen Script', cursive;
+        }
+
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* AI 토글 스위치 스타일 */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #a78bfa;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #a78bfa;
+        }
+        
+        /* 로딩 텍스트 애니메이션 */
+        @keyframes blink {
+            0% { opacity: .2; }
+            20% { opacity: 1; }
+            100% { opacity: .2; }
+        }
+        .loading-dots span {
+            animation-name: blink;
+            animation-duration: 1.4s;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+        }
+        .loading-dots span:nth-child(2) { animation-delay: .2s; }
+        .loading-dots span:nth-child(3) { animation-delay: .4s; }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col items-center justify-center text-slate-700">
+
+    <div class="fixed top-4 left-4 z-50 bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-sm border border-slate-200">
+        <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="camera" class="w-6 h-6"></i>
+            감성 폴라로이드 <span class="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full border border-purple-200">AI Powered</span>
+        </h1>
+    </div>
+
+    <!-- 메인 컨테이너: 좌측(카메라) / 우측(갤러리) -->
+    <main class="w-full max-w-6xl h-[90vh] flex flex-col md:flex-row gap-8 p-4 items-center justify-center">
+        
+        <!-- 1. 카메라 영역 -->
+        <section class="relative group w-full max-w-md aspect-square flex-shrink-0">
+            <!-- 토이 카메라 본체 디자인 -->
+            <div class="absolute inset-0 bg-[#fdf6e3] rounded-[3rem] shadow-2xl border-b-8 border-r-8 border-[#e6dcc5] flex flex-col items-center justify-center overflow-hidden">
+                
+                <!-- 뷰파인더/플래시 장식 -->
+                <div class="absolute top-8 left-8 w-24 h-16 bg-[#2a2a2a] rounded-lg border-4 border-gray-400 shadow-inner overflow-hidden flex items-center justify-center">
+                    <div class="w-20 h-10 bg-black/50 rounded flex items-center justify-center">
+                        <span id="camera-status" class="text-white text-lg animate-pulse">Ready</span>
+                    </div>
+                </div>
+                
+                <!-- AI Writer 토글 스위치 (우측 상단) -->
+                <div class="absolute top-8 right-8 flex flex-col items-end gap-1 z-30">
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="toggle" id="ai-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 checked:left-6 border-slate-300 checked:border-purple-400"/>
+                        <label for="ai-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors duration-300 checked:bg-purple-400"></label>
+                    </div>
+                    <label for="ai-toggle" class="text-xs font-bold text-slate-500 mr-2 cursor-pointer flex items-center gap-1">
+                        <span class="text-purple-500">✨ AI Writer</span> 
+                        <span id="ai-status-text">OFF</span>
+                    </label>
+                </div>
+
+                <!-- 렌즈 (비디오 화면) -->
+                <div class="relative w-64 h-64 md:w-72 md:h-72 bg-[#2a2a2a] rounded-full border-[16px] border-[#eecfa1] shadow-xl flex items-center justify-center overflow-hidden z-10">
+                    <div class="absolute inset-0 border-[4px] border-[#d4b483] rounded-full z-20 pointer-events-none"></div>
+                    <div class="absolute inset-0 border-[1px] border-white/20 rounded-full z-20 pointer-events-none scale-90"></div>
+                    
+                    <!-- 실제 비디오 요소 -->
+                    <video id="video" autoplay playsinline class="w-full h-full object-cover transform scale-x-[-1]"></video>
+                    
+                    <!-- 카메라 꺼졌을 때 대체 화면 (클릭 시 업로드) -->
+                    <div id="no-camera-msg" onclick="document.getElementById('upload-input').click()" class="absolute inset-0 bg-black/90 flex flex-col items-center justify-center text-white/70 text-center p-4 z-10 hidden cursor-pointer hover:bg-black transition-colors group/error">
+                        <i data-lucide="image-plus" class="w-10 h-10 mb-2 text-white/50 group-hover/error:text-white transition-colors"></i>
+                        <span class="text-xl font-bold mb-1" id="error-text">카메라 연결 실패</span>
+                        <span class="text-sm text-slate-400 animate-pulse">화면을 눌러 사진 업로드하기</span>
+                    </div>
+
+                    <!-- 렌즈 반사 효과 -->
+                    <div class="absolute inset-0 lens-reflection rounded-full z-30"></div>
+                </div>
+
+                <!-- 셔터 버튼 & 업로드 버튼 -->
+                <div class="absolute bottom-8 w-full flex justify-center items-center gap-6 z-20">
+                    
+                    <!-- 파일 업로드 버튼 -->
+                    <label class="cursor-pointer group/btn flex flex-col items-center gap-1 transition-transform active:scale-95">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full border-4 border-slate-300 shadow-md flex items-center justify-center hover:bg-slate-300 transition-colors">
+                            <i data-lucide="image-plus" class="w-6 h-6 text-slate-600"></i>
+                        </div>
+                        <span class="text-lg text-slate-500 font-bold">업로드</span>
+                        <input type="file" id="upload-input" accept="image/*" class="hidden">
+                    </label>
+
+                    <!-- 셔터 버튼 -->
+                    <button id="shutter-btn" class="w-20 h-20 bg-[#ff8e8e] rounded-full border-8 border-[#ffcccc] shadow-lg active:shadow-inner active:scale-95 transition-all flex items-center justify-center relative group/shutter">
+                        <div class="w-14 h-14 bg-[#ff7070] rounded-full border-2 border-white/20"></div>
+                        <span class="absolute -bottom-8 text-lg text-[#ff8e8e] font-bold">Capture</span>
+                    </button>
+
+                    <!-- 다운로드/초기화 버튼 -->
+                    <button id="reset-btn" onclick="clearGallery()" class="group/btn flex flex-col items-center gap-1 transition-transform active:scale-95">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full border-4 border-slate-300 shadow-md flex items-center justify-center hover:bg-slate-300 transition-colors">
+                            <i data-lucide="trash-2" class="w-6 h-6 text-slate-600"></i>
+                        </div>
+                        <span class="text-lg text-slate-500 font-bold">비우기</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 장식용 스트랩 고리 -->
+            <div class="absolute top-1/2 -left-2 w-4 h-8 bg-gray-300 rounded-l-md border-l border-gray-400"></div>
+            <div class="absolute top-1/2 -right-2 w-4 h-8 bg-gray-300 rounded-r-md border-r border-gray-400"></div>
+        </section>
+
+
+        <!-- 2. 갤러리 영역 -->
+        <section class="flex-1 h-full w-full max-w-2xl bg-white/40 backdrop-blur-sm rounded-3xl border border-white/60 p-6 shadow-xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center mb-4 px-2">
+                <h2 class="text-3xl text-slate-700">My Memories</h2>
+                <span class="text-xl text-slate-500 bg-white/50 px-3 py-1 rounded-full">클릭해서 저장하세요 ✨</span>
+            </div>
+            
+            <!-- 사진들이 쌓이는 곳 -->
+            <div id="gallery" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
+                <!-- 폴라로이드 샘플 (없을 때 표시) -->
+                <div id="empty-msg" class="col-span-full h-64 flex flex-col items-center justify-center text-slate-400 border-2 border-dashed border-slate-300 rounded-2xl">
+                    <i data-lucide="camera" class="w-12 h-12 mb-2 opacity-50"></i>
+                    <p class="text-2xl">사진을 찍거나 업로드해보세요!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 오디오 효과음 -->
+    <audio id="shutter-sound" src="https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3"></audio>
+
+    <!-- 숨겨진 캔버스 (이미지 처리용) -->
+    <canvas id="canvas" class="hidden"></canvas>
+
+    <script>
+        const apiKey = ""; // Gemini API Key injected by environment
+
+        // DOM 요소 가져오기
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const shutterBtn = document.getElementById('shutter-btn');
+        const gallery = document.getElementById('gallery');
+        const uploadInput = document.getElementById('upload-input');
+        const shutterSound = document.getElementById('shutter-sound');
+        const noCameraMsg = document.getElementById('no-camera-msg');
+        const cameraStatus = document.getElementById('camera-status');
+        const emptyMsg = document.getElementById('empty-msg');
+        const errorText = document.getElementById('error-text');
+        
+        // AI 관련 DOM
+        const aiToggle = document.getElementById('ai-toggle');
+        const aiStatusText = document.getElementById('ai-status-text');
+
+        // 아이콘 초기화
+        lucide.createIcons();
+
+        // AI 토글 상태 변경 이벤트
+        aiToggle.addEventListener('change', (e) => {
+            if(e.target.checked) {
+                aiStatusText.innerText = "ON";
+                aiStatusText.classList.add("text-purple-600");
+            } else {
+                aiStatusText.innerText = "OFF";
+                aiStatusText.classList.remove("text-purple-600");
+            }
+        });
+
+        // 1. 웹캠 시작 함수
+        async function startCamera() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                handleCameraError({ name: 'NotSupported' });
+                return;
+            }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = stream;
+                cameraStatus.innerText = "ON AIR";
+                cameraStatus.classList.add("text-red-500");
+                noCameraMsg.classList.add('hidden');
+            } catch (err) {
+                handleCameraError(err);
+            }
+        }
+
+        function handleCameraError(err) {
+            cameraStatus.innerText = "OFF";
+            cameraStatus.classList.remove("text-red-500");
+            
+            let msg = "카메라를 찾을 수 없습니다.";
+            let detail = "화면을 눌러 사진 업로드하기";
+            
+            if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError' || err.message?.includes('not found')) {
+                msg = "연결된 카메라 없음 📷";
+                detail = "이곳을 눌러 사진을 업로드하세요!";
+            } else if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                msg = "카메라 권한 필요 🔒";
+            } else if (err.name === 'NotReadableError') {
+                msg = "카메라 사용 불가 🚫";
+            } else if (err.name === 'NotSupported') {
+                msg = "카메라 미지원 브라우저 ⚠️";
+            }
+
+            if (errorText) {
+                errorText.innerText = msg;
+                const detailText = noCameraMsg.querySelector('.animate-pulse');
+                if(detailText) detailText.innerText = detail;
+            }
+            noCameraMsg.classList.remove('hidden');
+        }
+
+        // 초기 실행
+        startCamera();
+
+        // 2. 사진 찍기 기능
+        shutterBtn.addEventListener('click', () => {
+            if (!video.srcObject || !video.srcObject.active) {
+                uploadInput.click();
+                return;
+            }
+            shutterSound.currentTime = 0;
+            shutterSound.play().catch(e => console.log('Audio play failed')); 
+            document.body.classList.add('flash-active');
+            setTimeout(() => document.body.classList.remove('flash-active'), 200);
+
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.translate(canvas.width, 0);
+            context.scale(-1, 1);
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            const imageUrl = canvas.toDataURL('image/png');
+            addPolaroid(imageUrl);
+        });
+
+        // 3. 파일 업로드 기능
+        uploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    addPolaroid(e.target.result);
+                };
+                reader.readAsDataURL(file);
+                uploadInput.value = '';
+            }
+        });
+
+        // 4. Gemini API 호출 함수
+        async function getGeminiCaption(base64Image) {
+            try {
+                // Remove header if present
+                const imageParts = base64Image.split(',');
+                const pureBase64 = imageParts.length > 1 ? imageParts[1] : imageParts[0];
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: "Look at this photo. Write a very short, emotional, aesthetic, or witty caption (maximum 15 characters, around 3-5 words) that fits a polaroid vibe. It can be in English or Korean. Do not use quotes or special characters like emojis." },
+                                {
+                                    inlineData: {
+                                        mimeType: "image/png",
+                                        data: pureBase64
+                                    }
+                                }
+                            ]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const caption = data.candidates?.[0]?.content?.parts?.[0]?.text || "May I meet you";
+                return caption.trim();
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                return "May I meet you"; // Fallback
+            }
+        }
+
+        // 5. 폴라로이드 생성 및 갤러리 추가
+        async function addPolaroid(imgSrc) {
+            emptyMsg.style.display = 'none';
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+            const randomRotation = (Math.random() * 20 - 10).toFixed(1);
+            const randomScale = (Math.random() * 0.2 + 0.9).toFixed(2);
+            
+            // AI 사용 여부 확인
+            const useAI = aiToggle.checked;
+            let initialCaption = useAI ? `<span class="loading-dots">Writing<span>.</span><span>.</span><span>.</span></span>` : "May I meet you";
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'polaroid-enter relative group cursor-pointer transition-transform hover:z-10 hover:scale-110 transform duration-300';
+            wrapper.style.setProperty('--tw-rotate', `${randomRotation}deg`);
+            wrapper.style.setProperty('--tw-scale-x', randomScale);
+            wrapper.style.setProperty('--tw-scale-y', randomScale);
+            
+            wrapper.innerHTML = `
+                <div class="bg-white p-3 pb-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.3)] transition-shadow duration-300 ease-out w-full">
+                    <div class="aspect-[4/5] overflow-hidden bg-slate-100 mb-3 filter sepia-[0.2] contrast-[1.1]">
+                        <img src="${imgSrc}" class="w-full h-full object-cover" alt="Memory">
+                    </div>
+                    <div class="text-center px-1">
+                        <p class="caption-text text-2xl text-slate-800 font-bold handwriting leading-none mb-1 h-7 flex items-center justify-center overflow-hidden whitespace-nowrap">${initialCaption}</p>
+                        <p class="date-text text-xl text-slate-500 handwriting tracking-widest">${dateStr} ${timeStr}</p>
+                    </div>
+                </div>
+                <!-- 다운로드 힌트 오버레이 -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                     <span class="bg-black/70 text-white text-lg px-3 py-1 rounded-full backdrop-blur-sm">Click to Save ↓</span>
+                </div>
+            `;
+
+            // 클릭 이벤트: 현재 DOM에 있는 텍스트를 읽어서 저장
+            wrapper.addEventListener('click', () => {
+                const currentCaption = wrapper.querySelector('.caption-text').innerText;
+                const currentDate = wrapper.querySelector('.date-text').innerText;
+                downloadPolaroid(imgSrc, currentCaption, currentDate);
+            });
+
+            gallery.insertBefore(wrapper, gallery.firstChild);
+
+            // AI가 켜져있다면 캡션 생성 시작
+            if (useAI) {
+                const captionEl = wrapper.querySelector('.caption-text');
+                try {
+                    const aiCaption = await getGeminiCaption(imgSrc);
+                    // 텍스트 업데이트 애니메이션 효과
+                    captionEl.style.opacity = 0;
+                    setTimeout(() => {
+                        captionEl.innerText = aiCaption;
+                        captionEl.style.opacity = 1;
+                        // 보라색 빛나는 효과 잠깐 추가
+                        captionEl.classList.add('text-purple-600');
+                        setTimeout(() => captionEl.classList.remove('text-purple-600'), 1000);
+                    }, 300);
+                } catch (e) {
+                    captionEl.innerText = "Beautiful Moment";
+                }
+            }
+        }
+
+        // 6. 폴라로이드 이미지 합성 및 다운로드 함수 (동적 텍스트 지원)
+        function downloadPolaroid(imgSrc, captionText, dateText) {
+            const saveCanvas = document.createElement('canvas');
+            const ctx = saveCanvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = () => {
+                const width = 600;
+                const padding = 40;
+                const bottomPadding = 120;
+                const height = width + bottomPadding; 
+
+                saveCanvas.width = width;
+                saveCanvas.height = height;
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, width, height);
+
+                const size = width - (padding * 2); 
+                let sWidth, sHeight, sx, sy;
+                if (img.width > img.height) {
+                    sHeight = img.height;
+                    sWidth = sHeight; 
+                    sx = (img.width - sWidth) / 2;
+                    sy = 0;
+                } else {
+                    sWidth = img.width;
+                    sHeight = sWidth;
+                    sx = 0;
+                    sy = (img.height - sHeight) / 2;
+                }
+
+                ctx.filter = 'sepia(0.2) contrast(1.1)';
+                ctx.drawImage(img, sx, sy, sWidth, sHeight, padding, padding, size, size);
+                ctx.filter = 'none';
+
+                ctx.fillStyle = '#333333';
+                ctx.textAlign = 'center';
+                
+                // 캡션 폰트 사이즈 조정 (글자 수에 따라 약간 조정 가능하지만 기본 50px)
+                ctx.font = 'bold 50px "Nanum Pen Script", cursive';
+                ctx.fillText(captionText, width / 2, height - 70);
+                
+                ctx.fillStyle = '#666666';
+                ctx.font = '30px "Nanum Pen Script", cursive';
+                ctx.fillText(dateText, width / 2, height - 30);
+
+                const link = document.createElement('a');
+                link.download = `polaroid_${Date.now()}.png`;
+                link.href = saveCanvas.toDataURL('image/png');
+                link.click();
+            };
+            img.src = imgSrc;
+        }
+
+        function clearGallery() {
+            if(confirm('모든 추억을 지우시겠습니까?')) {
+                while(gallery.firstChild && gallery.firstChild.id !== 'empty-msg') {
+                    gallery.removeChild(gallery.firstChild);
+                }
+                emptyMsg.style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
