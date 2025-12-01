@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반짝반짝 매직 피아노 (2옥타브)</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --white-key-color: #f0f0f0;
+            --black-key-color: #333;
+            --active-color: #ffbd69;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #2e2e4e 0%, #1a1a2e 100%);
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .piano-wrapper {
+            max-width: 100vw;
+            overflow-x: auto;
+            padding: 20px;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+            text-align: center; /* Center piano if wider than screen */
+        }
+        .piano-wrapper::-webkit-scrollbar { 
+            display: none; 
+        }
+
+        .piano-container {
+            position: relative;
+            background: #444;
+            padding: 20px 20px 10px 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+            display: inline-block;
+        }
+
+        .piano {
+            display: flex;
+            position: relative;
+        }
+
+        .key {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border-radius: 0 0 5px 5px;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .key.white {
+            width: 60px;
+            height: 220px;
+            background: var(--white-key-color);
+            border: 1px solid #ccc;
+            border-top: none;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.1), inset 0 -5px 0 rgba(0,0,0,0.1);
+            margin-right: 0; /* Remove margin to make calc easier, use border for separation */
+            border-right: 1px solid #bbb;
+        }
+        .key.white:last-child {
+            border-right: 1px solid #ccc;
+        }
+
+        .key.white:active, .key.white.active {
+            background: #e0e0e0;
+            box-shadow: 0 2px 2px rgba(0,0,0,0.1), inset 0 -2px 0 rgba(0,0,0,0.1);
+            transform: translateY(2px);
+            background: linear-gradient(to bottom, #fff 0%, #ffe0b2 100%);
+        }
+
+        .key.black {
+            position: absolute;
+            width: 40px;
+            height: 130px;
+            background: linear-gradient(to bottom, #333 0%, #000 100%);
+            z-index: 2;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            top: 0;
+            /* left is calculated inline */
+        }
+
+        .key.black:active, .key.black.active {
+            background: linear-gradient(to bottom, #222 0%, #444 100%);
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            transform: scale(0.98);
+        }
+
+        /* Note labels */
+        .key::after {
+            content: attr(data-key);
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #888;
+            pointer-events: none;
+        }
+        .key.black::after {
+            color: #fff;
+            bottom: 5px;
+            font-size: 10px;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            animation: burst 0.8s ease-out forwards;
+            box-shadow: 0 0 10px #fff, 0 0 20px #ff00de;
+        }
+
+        @keyframes burst {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            text-align: center;
+        }
+
+        #start-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #ff00de;
+            border: none;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 0 15px #ff00de;
+        }
+
+        #start-btn:hover { transform: scale(1.05); }
+
+        .instruction {
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .key.white { width: 40px; height: 180px; }
+            .key.black { width: 28px; height: 100px; } /* Calc handles positioning dynamically */
+            h1 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h2>✨ 2옥타브 매직 피아노 ✨</h2>
+        <p>소리를 켜려면 아래 버튼을 눌러주세요.</p>
+        <button id="start-btn">연주 시작하기</button>
+    </div>
+
+    <h1>더 넓게 연주해보세요!</h1>
+
+    <div class="piano-wrapper">
+        <div class="piano-container">
+            <div class="piano" id="piano">
+                <!-- 
+                    Logic for positioning black keys:
+                    Total white keys: 14.
+                    Unit width: 100% / 14.
+                    Black key center position = Unit * N
+                    CSS Left = calc( (100% / 14) * N - (BlackKeyWidth / 2) )
+                    Note: BlackKeyWidth is 40px on desktop. On mobile it is 28px.
+                    To handle responsive black key centering perfectly without complex media query calcs in style attribute,
+                    we can use a slight trick: transform: translateX(-50%) and left: (100%/14)*N.
+                -->
+
+                <!-- OCTAVE 4 (Low) -->
+                <!-- Whites -->
+                <div class="key white" data-note="C4" data-key="A" onclick="playNote(261.63, this)"></div>
+                <div class="key white" data-note="D4" data-key="S" onclick="playNote(293.66, this)"></div>
+                <div class="key white" data-note="E4" data-key="D" onclick="playNote(329.63, this)"></div>
+                <div class="key white" data-note="F4" data-key="F" onclick="playNote(349.23, this)"></div>
+                <div class="key white" data-note="G4" data-key="G" onclick="playNote(392.00, this)"></div>
+                <div class="key white" data-note="A4" data-key="H" onclick="playNote(440.00, this)"></div>
+                <div class="key white" data-note="B4" data-key="J" onclick="playNote(493.88, this)"></div>
+
+                <!-- Blacks (Octave 4) -->
+                <!-- C#4: After 1st key (1/14) -->
+                <div class="key black" data-note="C#4" data-key="W" style="left: calc((100% / 14) * 1); transform: translateX(-50%);" onclick="playNote(277.18, this)"></div>
+                <!-- D#4: After 2nd key (2/14) -->
+                <div class="key black" data-note="D#4" data-key="E" style="left: calc((100% / 14) * 2); transform: translateX(-50%);" onclick="playNote(311.13, this)"></div>
+                <!-- F#4: After 4th key (4/14) -->
+                <div class="key black" data-note="F#4" data-key="T" style="left: calc((100% / 14) * 4); transform: translateX(-50%);" onclick="playNote(369.99, this)"></div>
+                <!-- G#4: After 5th key (5/14) -->
+                <div class="key black" data-note="G#4" data-key="Y" style="left: calc((100% / 14) * 5); transform: translateX(-50%);" onclick="playNote(415.30, this)"></div>
+                <!-- A#4: After 6th key (6/14) -->
+                <div class="key black" data-note="A#4" data-key="U" style="left: calc((100% / 14) * 6); transform: translateX(-50%);" onclick="playNote(466.16, this)"></div>
+
+
+                <!-- OCTAVE 5 (High) -->
+                <!-- Whites -->
+                <div class="key white" data-note="C5" data-key="K" onclick="playNote(523.25, this)"></div>
+                <div class="key white" data-note="D5" data-key="L" onclick="playNote(587.33, this)"></div>
+                <div class="key white" data-note="E5" data-key=";" onclick="playNote(659.25, this)"></div>
+                <div class="key white" data-note="F5" data-key="'" onclick="playNote(698.46, this)"></div>
+                <div class="key white" data-note="G5" data-key="" onclick="playNote(783.99, this)"></div>
+                <div class="key white" data-note="A5" data-key="" onclick="playNote(880.00, this)"></div>
+                <div class="key white" data-note="B5" data-key="" onclick="playNote(987.77, this)"></div>
+
+                <!-- Blacks (Octave 5) -->
+                <!-- C#5: After 8th key (8/14) -->
+                <div class="key black" data-note="C#5" data-key="O" style="left: calc((100% / 14) * 8); transform: translateX(-50%);" onclick="playNote(554.37, this)"></div>
+                <!-- D#5: After 9th key (9/14) -->
+                <div class="key black" data-note="D#5" data-key="P" style="left: calc((100% / 14) * 9); transform: translateX(-50%);" onclick="playNote(622.25, this)"></div>
+                <!-- F#5: After 11th key (11/14) -->
+                <div class="key black" data-note="F#5" data-key="]" style="left: calc((100% / 14) * 11); transform: translateX(-50%);" onclick="playNote(739.99, this)"></div>
+                <!-- G#5: After 12th key (12/14) -->
+                <div class="key black" data-note="G#5" data-key="" style="left: calc((100% / 14) * 12); transform: translateX(-50%);" onclick="playNote(830.61, this)"></div>
+                <!-- A#5: After 13th key (13/14) -->
+                <div class="key black" data-note="A#5" data-key="" style="left: calc((100% / 14) * 13); transform: translateX(-50%);" onclick="playNote(932.33, this)"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="instruction">
+        <b>1옥타브:</b> A ~ J (흰건반) / W, E, T, Y, U (검은건반)<br>
+        <b>2옥타브:</b> K ~ ' (흰건반) / O, P, ] (검은건반)<br>
+        *표시되지 않은 높은 음은 마우스나 터치로 연주 가능합니다.
+    </div>
+
+    <script>
+        let audioCtx;
+        
+        document.getElementById('start-btn').addEventListener('click', () => {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            document.getElementById('overlay').style.display = 'none';
+        });
+
+        // Expanded Key map
+        const keyMap = {
+            // Octave 1
+            'a': { freq: 261.63, id: 'C4' },
+            'w': { freq: 277.18, id: 'C#4' },
+            's': { freq: 293.66, id: 'D4' },
+            'e': { freq: 311.13, id: 'D#4' },
+            'd': { freq: 329.63, id: 'E4' },
+            'f': { freq: 349.23, id: 'F4' },
+            't': { freq: 369.99, id: 'F#4' },
+            'g': { freq: 392.00, id: 'G4' },
+            'y': { freq: 415.30, id: 'G#4' },
+            'h': { freq: 440.00, id: 'A4' },
+            'u': { freq: 466.16, id: 'A#4' },
+            'j': { freq: 493.88, id: 'B4' },
+
+            // Octave 2
+            'k': { freq: 523.25, id: 'C5' },
+            'o': { freq: 554.37, id: 'C#5' },
+            'l': { freq: 587.33, id: 'D5' },
+            'p': { freq: 622.25, id: 'D#5' },
+            ';': { freq: 659.25, id: 'E5' },
+            "'": { freq: 698.46, id: 'F5' },
+            ']': { freq: 739.99, id: 'F#5' }
+        };
+
+        const pressedKeys = new Set();
+
+        window.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            if (keyMap[key] && !pressedKeys.has(key)) {
+                pressedKeys.add(key);
+                const data = keyMap[key];
+                
+                // Find matching key by checking the data-key attribute (visual label)
+                // Since not all keys have keyboard mappings, we need to match strictly.
+                
+                const keyChar = e.key.toUpperCase();
+                const keys = document.querySelectorAll('.key');
+                let targetKey = null;
+
+                // Match by keyboard char directly if displayed, OR by data-note if needed
+                // Using the specific mapping ID is safer for logic, but visual feedback needs the element.
+                // We'll iterate and check data-key. 
+                // Note: symbols like ; or ' might display differently or be confusing in data-key,
+                // so we rely on the visual label we put in HTML 'data-key' attribute matching the keypress char.
+                
+                for(let k of keys) {
+                    // Check if the data-key matches the pressed key (case insensitive)
+                    if (k.getAttribute('data-key') && k.getAttribute('data-key').toLowerCase() === key) {
+                        targetKey = k;
+                        break;
+                    }
+                }
+
+                if (targetKey) {
+                    playNote(data.freq, targetKey);
+                    targetKey.classList.add('active');
+                }
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            const key = e.key.toLowerCase();
+            if (pressedKeys.has(key)) {
+                pressedKeys.delete(key);
+                const keys = document.querySelectorAll('.key');
+                for(let k of keys) {
+                    if (k.getAttribute('data-key') && k.getAttribute('data-key').toLowerCase() === key) {
+                        k.classList.remove('active');
+                        break;
+                    }
+                }
+            }
+        });
+
+        function playNote(frequency, element) {
+            if (!audioCtx) return;
+
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'triangle';
+            oscillator.frequency.value = frequency;
+
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.02);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 1.5);
+
+            createSparkles(element);
+        }
+
+        function createSparkles(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height * 0.8; 
+
+            const colors = ['#FFD700', '#FF00DE', '#00FFFF', '#FFFFFF', '#FFA500'];
+
+            for (let i = 0; i < 10; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                
+                const tx = (Math.random() - 0.5) * 100 + 'px';
+                const ty = (Math.random() - 1) * 100 - 50 + 'px';
+                
+                sparkle.style.setProperty('--tx', tx);
+                sparkle.style.setProperty('--ty', ty);
+                sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                sparkle.style.left = centerX + 'px';
+                sparkle.style.top = centerY + 'px';
+                
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 800);
+            }
+        }
+    </script>
+</body>
+</html>
