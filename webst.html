@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 교육부 주요정책 가이드</title>
+    <!-- Tailwind CSS (스타일링 도구) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons (아이콘 라이브러리) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts (Noto Sans KR) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* 모달 애니메이션 */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 0.2s, transform 0.2s; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 0.2s, transform 0.2s; }
+        
+        /* 그래프 애니메이션 */
+        .bar-animate { transition: width 1s ease-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- 헤더 영역 -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-2.5 rounded-xl shadow-lg shadow-blue-200 text-white">
+                    <i class="ph-bold ph-book-open-text text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">2024 교육부 주요정책 가이드</h1>
+                    <p class="text-xs text-slate-500 font-medium">시·도교육청 교육행정 공무원 업무지원 대시보드</p>
+                </div>
+            </div>
+            
+            <!-- PC 검색창 -->
+            <div class="relative hidden md:block w-96">
+                <input type="text" id="searchInputPC" placeholder="정책 키워드 검색 (예: 늘봄, 디지털, 교권)" 
+                    class="w-full pl-11 pr-4 py-2.5 bg-slate-100 border-none rounded-full focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all text-sm shadow-inner outline-none">
+                <i class="ph ph-magnifying-glass absolute left-4 top-3 text-slate-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- 통계 섹션 (시각화) -->
+        <section class="mb-10 grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- 총괄 카드 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-sm font-semibold text-slate-500 flex items-center gap-2 mb-1">
+                        <i class="ph ph-chart-bar"></i> 전체 정책 과제
+                    </h2>
+                    <div class="text-4xl font-extrabold text-slate-900 mt-2" id="totalCount">0건</div>
+                </div>
+                <div class="text-xs text-slate-400 mt-4 bg-slate-50 p-2 rounded-lg">
+                    * 2024년도 주요업무계획 기준
+                </div>
+            </div>
+
+            <!-- 분포 그래프 카드 -->
+            <div class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h2 class="text-sm font-semibold text-slate-500 flex items-center gap-2 mb-4">
+                    <i class="ph ph-chart-pie-slice"></i> 정책 분야별 분포 현황
+                </h2>
+                <div class="space-y-4" id="statsBarChart">
+                    <!-- 자바스크립트로 그래프가 여기에 생성됩니다 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 모바일 검색창 -->
+        <div class="md:hidden mb-6 relative">
+            <input type="text" id="searchInputMobile" placeholder="정책 검색..." 
+                class="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            <i class="ph ph-magnifying-glass absolute left-3.5 top-3.5 text-lg text-slate-400"></i>
+        </div>
+
+        <!-- 카테고리 필터 버튼 -->
+        <div class="flex flex-wrap gap-2 mb-8" id="categoryFilterContainer">
+            <!-- 자바스크립트로 버튼이 생성됩니다 -->
+        </div>
+
+        <!-- 정책 카드 그리드 -->
+        <div id="policyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 자바스크립트로 카드가 생성됩니다 -->
+        </div>
+
+        <!-- 검색 결과 없음 메시지 -->
+        <div id="noResults" class="hidden col-span-full py-16 text-center text-slate-500 bg-white rounded-2xl border border-dashed border-slate-200">
+            <i class="ph ph-info text-5xl text-slate-300 mb-3 block"></i>
+            <p>검색 결과가 없습니다.</p>
+        </div>
+    </main>
+
+    <!-- 상세 모달 -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-slate-900/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-200" aria-hidden="true">
+        <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl transform transition-transform duration-200 scale-95 opacity-0" id="modalContent">
+            <!-- 모달 내용은 자바스크립트로 동적 로드됩니다 -->
+        </div>
+    </div>
+
+    <!-- JavaScript 로직 -->
+    <script>
+        // ==========================================
+        // 1. 데이터 정의 (React 버전의 policyData)
+        // ==========================================
+        const policyData = [
+            {
+                id: 1,
+                category: "책임교육정책관",
+                categoryColor: "indigo",
+                icon: "ph-book-open",
+                title: "자율형 공립고 2.0 추진",
+                summary: "지자체·대학·기업 등과 협력하여 지역 특색에 맞는 자공고 2.0 모델 창출",
+                details: {
+                    direction: "지역 교육력 제고의 기반 마련",
+                    actionItems: [
+                        "시·도교육청 주요 업무계획에 지역 특성을 고려한 자공고 2.0 운영계획 수립",
+                        "지자체, 대학, 기업 등 협력 방안 마련 및 행·재정적 지원 제공",
+                        "대상: 각 시·도교육청 내 공립 일반고"
+                    ],
+                    schedule: "'24.1월~ (자체 추진계획 수립 및 공모)",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 2,
+                category: "책임교육정책관",
+                categoryColor: "indigo",
+                icon: "ph-chalkboard-teacher",
+                title: "현장의 자율적 교실수업 혁신",
+                summary: "AI·에듀테크 활용 및 학생 참여형 수업 등 자율적 혁신 분위기 조성",
+                details: {
+                    direction: "교원의 자발적 수업 연구 지원 확대 및 수업 혁신 교사 우대",
+                    actionItems: [
+                        "지역(지원청) 단위 실습형 수업 연수 기획·운영",
+                        "수업 중심 전문적학습공동체 지원 확대",
+                        "학습연구년제 선발 시 교원의 수업 혁신 노력 반영 등 인센티브 확대"
+                    ],
+                    schedule: "'24.3월 (주요 업무계획 반영)",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 3,
+                category: "책임교육정책관",
+                categoryColor: "indigo",
+                icon: "ph-users-three",
+                title: "「함께학교」 디지털 소통 플랫폼",
+                summary: "교육 3주체(학생, 교원, 학부모)가 소통하는 온라인 공간 구축 및 운영",
+                details: {
+                    direction: "정책 제안, 정보 제공, 상호 소통의 장 구현",
+                    actionItems: [
+                        "함께학교 플랫폼 홍보 지원 (배너, 팝업, 가정통신문 등)",
+                        "플랫폼 운영 연계 및 콘텐츠 개발 지원"
+                    ],
+                    schedule: "'24년 연중 (1분기 계획 수립 ~ 4분기 성과 분석)",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 4,
+                category: "책임교육정책관",
+                categoryColor: "indigo",
+                icon: "ph-notebook",
+                title: "2022 개정 교육과정 현장 적용",
+                summary: "초등 1~2학년 적용 시작 및 단계적 적용 대비 후속 지원",
+                details: {
+                    direction: "학교의 자율성과 학생 주도성이 강화된 교육과정 안착",
+                    actionItems: [
+                        "초등 1~2학년 전환기 교육과정 편성·운영 지원",
+                        "교과 교육과정 선도교원을 활용한 자체 연수 추진",
+                        "교육과정 연구학교 지원을 통한 모델 발굴"
+                    ],
+                    schedule: "'24.1월~ (자체 계획 수립 및 추진)",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 5,
+                category: "책임교육정책관",
+                categoryColor: "indigo",
+                icon: "ph-student",
+                title: "고교학점제 안정적 도입·운영",
+                summary: "2025년 전면 적용 대비 단위학교 학점제 운영 역량 강화",
+                details: {
+                    direction: "제도 개선 사항 현장 안착 및 인프라 구축",
+                    actionItems: [
+                        "소인수 과목 개설 지원(순회교사, 강사 등)",
+                        "공동교육과정, 온라인학교 신설, 학점제형 공간 조성",
+                        "단위학교 학점제 전담 부서 및 이수지도팀 구성",
+                        "수업량 적정화(192학점)에 따른 교육과정 정비"
+                    ],
+                    schedule: "'24년 연중",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 6,
+                category: "책임교육정책관",
+                categoryColor: "indigo",
+                icon: "ph-pencil-simple",
+                title: "책임교육학년제 도입 (기초학력)",
+                summary: "학습/성장 결정적 시기인 초3, 중1을 '책임교육학년'으로 지정·지원",
+                details: {
+                    direction: "기초학력 집중 지원 및 학습 결손 조기 예방",
+                    actionItems: [
+                        "맞춤형 학업성취도 자율평가 참여 권고 (초3, 중1 전체)",
+                        "진단 결과에 따른 중점 지원 대상 확대",
+                        "학습지원: 정규-방과후 연계 교과보충, 튜터링, 방학 중 학습도약 계절학기 운영"
+                    ],
+                    schedule: "'24.3월~",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 7,
+                category: "책임교육지원관",
+                categoryColor: "green",
+                icon: "ph-shield-check",
+                title: "교권 확립",
+                summary: "교권 보호 4법 개정 사항 반영 및 정당한 교육활동 보호",
+                details: {
+                    direction: "학생 권리와 교권 간 불균형 개선 및 공교육 정상화",
+                    actionItems: [
+                        "아동학대 신고 대응: '교육감 의견 제출' 제도 활성화",
+                        "악성민원 대응: 학교 민원대응팀 운영, 교육지원청 통합민원팀 이관 체계",
+                        "학교교권보호위원회 교육지원청 이관",
+                        "교원 마음건강 지원 및 상호존중 캠페인 추진"
+                    ],
+                    schedule: "'24.1월~ (기본계획 수립)",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 8,
+                category: "책임교육지원관",
+                categoryColor: "green",
+                icon: "ph-briefcase",
+                title: "학교 행정업무 경감 및 효율화",
+                summary: "학교 업무 총량 감축으로 교육활동 중심 환경 조성",
+                details: {
+                    direction: "교육지원청 이관 확대 및 학교 내 행정업무 효율화",
+                    actionItems: [
+                        "학교-교육지원청 행정사무기능 재배분",
+                        "학교 인력채용, 시설관리 등 지원청 이관 확대",
+                        "디지털 기술을 활용한 업무 효율화 모델 개발"
+                    ],
+                    schedule: "'24.3월 (자체 계획 수립)",
+                    quarter: [0, 1, 1, 1]
+                }
+            },
+            {
+                id: 9,
+                category: "책임교육지원관",
+                categoryColor: "green",
+                icon: "ph-heart-beat",
+                title: "학생 마음건강 보호지원 강화",
+                summary: "위기 학생 조기 발견(검사도구 개선) 및 치유 지원 체계 강화",
+                details: {
+                    direction: "모든 학생 대상 사회정서 교육 및 통합지원",
+                    actionItems: [
+                        "위기학생 선별검사(마음 EASY 검사 등) 활용 계획 수립",
+                        "생명존중(자살예방) 교육 연간 6차시 의무화",
+                        "학교 위기관리위원회 구성 및 전문기관(Wee센터 등) 연계 강화"
+                    ],
+                    schedule: "'24.3월~ (검사 및 교육 시행)",
+                    quarter: [0, 1, 1, 1]
+                }
+            },
+            {
+                id: 10,
+                category: "책임교육지원관",
+                categoryColor: "green",
+                icon: "ph-users-four",
+                title: "학교폭력 예방교육 강화",
+                summary: "교육과정 연계 예방교육 및 학생 참여 중심 예방 활동 확대",
+                details: {
+                    direction: "학교폭력 없는 안전한 학교문화 조성",
+                    actionItems: [
+                        "학교폭력예방교육 연간 11차시 이상 편성 (어울림 프로그램 활용)",
+                        "학교폭력 책임규약 캠페인 추진",
+                        "교원 학교폭력 대응 역량 강화 연수 필수 실시"
+                    ],
+                    schedule: "'24년 연중",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 11,
+                category: "교육복지돌봄지원관",
+                categoryColor: "pink",
+                icon: "ph-smiley",
+                title: "늘봄학교 도입",
+                summary: "희망하는 초등학생에게 정규수업 전후 교육·돌봄 통합 제공",
+                details: {
+                    direction: "17개 시도교육청 도입 및 단계적 확대 (1학기 2천교 → 2학기 전면)",
+                    actionItems: [
+                        "늘봄학교 선발·지정 및 인력 배치 (교원 업무 배제 원칙)",
+                        "초1 에듀케어 프로그램(매일 2시간 무료) 편성",
+                        "단위학교 늘봄지원실 구성 및 교육청 늘봄지원센터 역할 강화"
+                    ],
+                    schedule: "'24.3월~",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 12,
+                category: "교육복지돌봄지원관",
+                categoryColor: "pink",
+                icon: "ph-baby",
+                title: "유보통합 기반 조성 (이음교육)",
+                summary: "유치원-초등 교육과정 연계 강화 및 5세 2학기 이음학기 운영",
+                details: {
+                    direction: "유아 공교육 강화 및 초등 입학 적응 지원",
+                    actionItems: [
+                        "시도별 유·초 연계 자체 계획 수립",
+                        "이음학기 시범유치원 운영 및 컨설팅",
+                        "교원 간 상호 교육과정 이해 연수 추진"
+                    ],
+                    schedule: "'24.1월~",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 13,
+                category: "교육복지돌봄지원관",
+                categoryColor: "pink",
+                icon: "ph-globe-hemisphere-west",
+                title: "다문화교육 지원 강화",
+                summary: "이주배경학생 특성 맞춤형 한국어교육 및 강점 개발 지원",
+                details: {
+                    direction: "차별 없는 교육환경 및 인재 성장 지원",
+                    actionItems: [
+                        "지역 다문화교육지원센터 기능 강화 (한국어 예비과정 등)",
+                        "다문화 강점개발 정책학교 운영",
+                        "모든 학생 대상 다문화 이해교육 (연 2시간 이상 권장)"
+                    ],
+                    schedule: "'24년 연중",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 14,
+                category: "교육복지돌봄지원관",
+                categoryColor: "pink",
+                icon: "ph-handshake",
+                title: "학생맞춤통합지원 체계 구축",
+                summary: "분절적 지원을 넘어, 복합적 어려움이 있는 학생을 통합 지원",
+                details: {
+                    direction: "조기 발굴 및 개입, 지역사회 자원 연계",
+                    actionItems: [
+                        "선도학교 및 시범교육지원청 운영 모델 확산",
+                        "교육복지안전망 확대 및 내실화",
+                        "교내 '학생맞춤통합지원팀' 구성 권장 (교감, 상담, 복지, 보건 등 협력)"
+                    ],
+                    schedule: "'24년 연중",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 15,
+                category: "디지털교육기획관",
+                categoryColor: "blue",
+                icon: "ph-monitor",
+                title: "디지털 기반 교육혁신",
+                summary: "2025년 AI 디지털교과서 도입 대비 교원 역량 및 인프라 구축",
+                details: {
+                    direction: "'모두를 위한 맞춤 교육' 실현을 위한 체제 전환",
+                    actionItems: [
+                        "디지털 기반 교육혁신 선도학교 운영 (에듀테크 활용 수업 모델)",
+                        "교원 연수: AI 디지털교과서 적용 교원 맞춤 연수",
+                        "인프라: 학생 1인 1기기 및 학교 무선망 점검·개선",
+                        "추진체계: 교육청 내 전담 조직/인력 확보"
+                    ],
+                    schedule: "'24.1월~",
+                    quarter: [1, 1, 1, 1]
+                }
+            },
+            {
+                id: 16,
+                category: "평생직업교육정책관",
+                categoryColor: "orange",
+                icon: "ph-wrench",
+                title: "직업계고 채용연계형 직무교육",
+                summary: "기업 수요 반영 사전 직무교육 + 현장교육 통합 제공",
+                details: {
+                    direction: "현장 일자리 수요 매칭 및 구인·구직난 해소",
+                    actionItems: [
+                        "학교별 참여 인원 배분 및 교육생 선발",
+                        "대상: 직업계고 3학년 재학생 및 졸업자",
+                        "거점 공동훈련센터 등을 통한 직무교육 지원"
+                    ],
+                    schedule: "'24.3월~ (선발 및 교육)",
+                    quarter: [0, 1, 1, 1]
+                }
+            },
+            {
+                id: 17,
+                category: "교육자치협력안전국",
+                categoryColor: "purple",
+                icon: "ph-buildings",
+                title: "교육발전특구 시범지역 지정",
+                summary: "지자체-교육청 협력으로 지역 인재 양성 및 정주 여건 개선",
+                details: {
+                    direction: "지역 주도 교육혁신 모델 창출",
+                    actionItems: [
+                        "지자체와 협력하여 특구 지정 신청 및 운영기획서 작성",
+                        "지역 발전전략과 연계한 특화 교육 모델 수립",
+                        "유형: 기초지자체장-교육감(1유형), 광역지자체장-교육감(2,3유형)"
+                    ],
+                    schedule: "'24.2월 (1차 공모), 6월 (2차 공모)",
+                    quarter: [1, 1, 1, 0]
+                }
+            },
+            {
+                id: 18,
+                category: "교육자치협력안전국",
+                categoryColor: "purple",
+                icon: "ph-house-line",
+                title: "학교복합시설 활성화",
+                summary: "학교 내 문화·체육·복지 시설 건립으로 늘봄학교 및 지역사회 지원",
+                details: {
+                    direction: "늘봄학교 인프라 확충 및 지역 정주여건 개선",
+                    actionItems: [
+                        "지자체-교육청 간 업무협약 및 사업 발굴",
+                        "공모 신청: 연평균 40교 선정 (수영장 포함 권장)",
+                        "재정지원: 총사업비의 최대 50%까지 교육부 지원"
+                    ],
+                    schedule: "'24.2월, 6월 (공모 접수)",
+                    quarter: [1, 1, 1, 0]
+                }
+            },
+            {
+                id: 19,
+                category: "교육자치협력안전국",
+                categoryColor: "purple",
+                icon: "ph-siren",
+                title: "학교안전사고 예방 강화",
+                summary: "지역계획 및 학교계획 수립을 통한 안전한 학교 환경 조성",
+                details: {
+                    direction: "데이터 기반 안전관리 및 체험 중심 교육",
+                    actionItems: [
+                        "교육청: '2024년 학교안전사고 예방 지역계획' 수립",
+                        "학교: '학교안전사고 예방 학교계획' 수립 (2월 말까지)",
+                        "안전교육: 학생 및 교직원 대상 체험 중심 교육 실시"
+                    ],
+                    schedule: "'24.1월~2월",
+                    quarter: [1, 0, 0, 0]
+                }
+            }
+        ];
+
+        // ==========================================
+        // 2. 상태 관리 및 설정
+        // ==========================================
+        let currentCategory = "전체";
+        let currentSearch = "";
+        const categories = ["전체", "책임교육정책관", "책임교육지원관", "교육복지돌봄지원관", "디지털교육기획관", "평생직업교육정책관", "교육자치협력안전국"];
+
+        // 테마 컬러 매핑 (Tailwind 클래스 반환)
+        function getColors(color) {
+            const map = {
+                indigo: { bg: 'bg-indigo-600', text: 'text-indigo-700', border: 'border-indigo-200', lightBg: 'bg-indigo-50', bar: 'bg-indigo-500' },
+                green: { bg: 'bg-emerald-600', text: 'text-emerald-700', border: 'border-emerald-200', lightBg: 'bg-emerald-50', bar: 'bg-emerald-500' },
+                pink: { bg: 'bg-rose-500', text: 'text-rose-700', border: 'border-rose-200', lightBg: 'bg-rose-50', bar: 'bg-rose-400' },
+                blue: { bg: 'bg-blue-600', text: 'text-blue-700', border: 'border-blue-200', lightBg: 'bg-blue-50', bar: 'bg-blue-500' },
+                orange: { bg: 'bg-orange-500', text: 'text-orange-700', border: 'border-orange-200', lightBg: 'bg-orange-50', bar: 'bg-orange-400' },
+                purple: { bg: 'bg-purple-600', text: 'text-purple-700', border: 'border-purple-200', lightBg: 'bg-purple-50', bar: 'bg-purple-500' },
+                slate: { bg: 'bg-slate-600', text: 'text-slate-700', border: 'border-slate-200', lightBg: 'bg-slate-50', bar: 'bg-slate-300' }
+            };
+            return map[color] || map['slate'];
+        }
+
+        // ==========================================
+        // 3. 렌더링 함수들
+        // ==========================================
+
+        // (1) 통계 차트 렌더링
+        function renderStats() {
+            const counts = {};
+            policyData.forEach(p => { counts[p.category] = (counts[p.category] || 0) + 1; });
+            
+            document.getElementById('totalCount').innerText = `${policyData.length}건`;
+
+            const chartContainer = document.getElementById('statsBarChart');
+            chartContainer.innerHTML = ''; // 초기화
+
+            // 상위 3개 카테고리만 표시 (혹은 전체 표시 가능)
+            Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 3).forEach(([cat, count]) => {
+                const percentage = Math.round((count / policyData.length) * 100);
+                
+                // 컬러 결정
+                let colorKey = 'slate';
+                if (cat.includes("정책관")) colorKey = "indigo";
+                else if (cat.includes("지원관")) colorKey = "green";
+                else if (cat.includes("돌봄")) colorKey = "pink";
+                else if (cat.includes("디지털")) colorKey = "blue";
+                else if (cat.includes("직업")) colorKey = "orange";
+                else if (cat.includes("안전")) colorKey = "purple";
+                
+                const colors = getColors(colorKey);
+
+                chartContainer.innerHTML += `
+                    <div class="group">
+                        <div class="flex justify-between text-xs mb-1.5 font-medium text-slate-600">
+                            <span class="group-hover:text-slate-900 transition-colors">${cat}</span>
+                            <span>${count}건 (${percentage}%)</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                            <div class="h-2.5 rounded-full ${colors.bar} bar-animate" style="width: 0%" data-width="${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 애니메이션 실행
+            setTimeout(() => {
+                document.querySelectorAll('.bar-animate').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-width');
+                });
+            }, 100);
+        }
+
+        // (2) 필터 버튼 렌더링
+        function renderFilters() {
+            const container = document.getElementById('categoryFilterContainer');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat}')" 
+                    class="px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                        currentCategory === cat 
+                        ? 'bg-slate-900 text-white shadow-md transform scale-105' 
+                        : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }">
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        // (3) 그리드(정책 카드) 렌더링
+        function renderGrid() {
+            const grid = document.getElementById('policyGrid');
+            const noResults = document.getElementById('noResults');
+
+            const filtered = policyData.filter(p => {
+                const matchCat = currentCategory === "전체" || p.category === currentCategory;
+                const matchSearch = p.title.includes(currentSearch) || p.summary.includes(currentSearch);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            grid.innerHTML = filtered.map(p => {
+                const c = getColors(p.categoryColor);
+                return `
+                    <div onclick="openModal(${p.id})" 
+                        class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 border border-slate-100 cursor-pointer transition-all duration-300 group flex flex-col h-full overflow-hidden">
+                        
+                        <!-- 장식용 상단 바 -->
+                        <div class="h-3 w-full ${c.bg}"></div>
+                        
+                        <div class="p-6 flex flex-col h-full">
+                            <div class="flex items-start justify-between mb-4">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold ${c.lightBg} ${c.text} border ${c.border}">
+                                    ${p.category}
+                                </span>
+                                <div class="p-2 rounded-full ${c.lightBg} ${c.text} group-hover:scale-110 transition-transform">
+                                    <i class="ph-bold ${p.icon} text-lg"></i>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-lg font-bold text-slate-900 mb-3 leading-snug group-hover:text-blue-600 transition-colors">
+                                ${p.title}
+                            </h3>
+                            
+                            <p class="text-sm text-slate-600 mb-6 leading-relaxed line-clamp-2 flex-grow">
+                                ${p.summary}
+                            </p>
+
+                            <div class="pt-4 border-t border-slate-50 flex items-center justify-between text-sm">
+                                <span class="text-slate-400 flex items-center gap-1.5 text-xs">
+                                    <i class="ph ph-calendar-blank"></i> 2024년 추진
+                                </span>
+                                <div class="flex items-center text-blue-600 font-semibold group-hover:underline decoration-2 underline-offset-4">
+                                    상세 보기 <i class="ph-bold ph-caret-right ml-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // (4) 모달 열기
+        function openModal(id) {
+            const p = policyData.find(item => item.id === id);
+            if (!p) return;
+
+            const c = getColors(p.categoryColor);
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('modalContent');
+
+            // 타임라인 HTML 생성
+            let timelineHtml = '';
+            if (p.details.quarter) {
+                const quarters = p.details.quarter.map((isActive, idx) => `
+                    <div class="flex flex-col items-center">
+                        <div class="w-full h-3 rounded-full mb-2 ${isActive ? c.bg : 'bg-slate-100'}"></div>
+                        ${isActive ? `<span class="text-[10px] font-bold ${c.text}">추진</span>` : ''}
+                    </div>
+                `).join('');
+                
+                timelineHtml = `
+                    <div class="mb-8">
+                        <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center">
+                            <i class="ph ph-calendar-check text-xl mr-2 text-slate-400"></i> 추진 일정 (분기별)
+                        </h3>
+                        <div class="bg-white border border-slate-200 rounded-xl p-4">
+                            <div class="grid grid-cols-4 gap-2 text-center mb-1">
+                                <div class="text-xs text-slate-400 font-medium">1분기</div>
+                                <div class="text-xs text-slate-400 font-medium">2분기</div>
+                                <div class="text-xs text-slate-400 font-medium">3분기</div>
+                                <div class="text-xs text-slate-400 font-medium">4분기</div>
+                            </div>
+                            <div class="grid grid-cols-4 gap-2 text-center">
+                                ${quarters}
+                            </div>
+                            <div class="mt-3 text-xs text-slate-500 text-center border-t border-slate-100 pt-2">
+                                ${p.details.schedule}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 액션 아이템 HTML 생성
+            const actionsHtml = p.details.actionItems.map(item => `
+                <li class="flex items-start text-sm p-4 rounded-xl border ${c.lightBg} ${c.border}">
+                    <span class="inline-block w-2 h-2 rounded-full mt-1.5 mr-3 flex-shrink-0 ${c.bg}"></span>
+                    <span class="text-slate-800 leading-relaxed">${item}</span>
+                </li>
+            `).join('');
+
+            // 모달 내부 컨텐츠 주입
+            content.innerHTML = `
+                <!-- 헤더 -->
+                <div class="sticky top-0 bg-white border-b border-slate-100 p-6 flex items-center justify-between z-10 rounded-t-3xl">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 rounded-xl ${c.lightBg} ${c.text}">
+                            <i class="ph-bold ${p.icon} text-2xl"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold mb-1 ${c.text}">${p.category}</div>
+                            <h2 class="text-xl font-bold text-slate-900 leading-tight">${p.title}</h2>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                        <i class="ph-bold ph-x text-xl text-slate-400"></i>
+                    </button>
+                </div>
+
+                <!-- 바디 -->
+                <div class="p-6">
+                    <!-- 개요 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 mb-8">
+                        <h3 class="text-sm font-bold text-slate-900 mb-2 flex items-center">
+                            <i class="ph-fill ph-info text-slate-500 mr-2"></i> 정책 개요
+                        </h3>
+                        <p class="text-slate-700 text-sm leading-relaxed font-medium">
+                            ${p.summary}
+                        </p>
+                    </div>
+
+                    <!-- 타임라인 -->
+                    ${timelineHtml}
+
+                    <!-- 업무계획 반영사항 -->
+                    <div class="mb-8">
+                        <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center">
+                            <i class="ph ph-check-circle text-xl mr-2 text-slate-400"></i>
+                            교육청 주요 업무계획 반영 사항
+                        </h3>
+                        <ul class="space-y-3">
+                            ${actionsHtml}
+                        </ul>
+                    </div>
+
+                    <!-- 추진 방향 -->
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900 mb-3 flex items-center">
+                            <div class="w-1.5 h-6 rounded-full mr-3 ${c.bg}"></div>
+                            추진 방향
+                        </h3>
+                        <p class="text-slate-600 text-sm pl-4 border-l-2 border-slate-100 leading-relaxed">
+                            ${p.details.direction}
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 푸터 -->
+                <div class="p-6 border-t border-slate-100 bg-slate-50/50 rounded-b-3xl">
+                    <p class="text-xs text-slate-400 text-center">
+                        ※ 본 자료는 2024년도 교육부 정책자료를 기반으로 요약되었습니다.
+                    </p>
+                </div>
+            `;
+
+            // 모달 보이기 애니메이션
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('backdrop-blur-none'); 
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        // (5) 모달 닫기
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('modalContent');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // ==========================================
+        // 4. 이벤트 리스너 및 초기화
+        // ==========================================
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            renderFilters();
+            renderGrid();
+        }
+
+        // 검색 기능 (PC, 모바일 공통)
+        function handleSearch(e) {
+            currentSearch = e.target.value;
+            renderGrid();
+        }
+
+        document.getElementById('searchInputPC').addEventListener('input', handleSearch);
+        document.getElementById('searchInputMobile').addEventListener('input', handleSearch);
+
+        // 모달 배경 클릭 시 닫기
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if (e.target.id === 'detailModal') closeModal();
+        });
+
+        // 초기 실행
+        renderStats();
+        renderFilters();
+        renderGrid();
+
+    </script>
+</body>
+</html>
