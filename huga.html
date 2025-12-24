@@ -22,17 +22,29 @@
 
     <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 text-white p-2 rounded-lg">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="flex items-start gap-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg mt-1">
                     <i class="fa-solid fa-book-open"></i>
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-slate-900">2026 휴가업무 가이드</h1>
-                    <p class="text-xs text-slate-500">광주광역시교육감 소속 지방공무원 대상</p>
+                    <p class="text-xs text-slate-500 mb-2">광주광역시교육감 소속 지방공무원 대상</p>
+                    
+                    <!-- Added Links: 법령 및 조례 바로가기 -->
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <a href="https://www.law.go.kr/법령/지방공무원복무규정" target="_blank" 
+                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
+                            <i class="fa-solid fa-scale-balanced text-blue-500"></i> 지방공무원 복무 규정
+                        </a>
+                        <a href="https://www.law.go.kr/자치법규/광주광역시교육감소속지방공무원복무조례/(6558,20250425)" target="_blank" 
+                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
+                            <i class="fa-solid fa-gavel text-blue-500"></i> 광주광역시교육감 소속 지방공무원 복무 조례
+                        </a>
+                    </div>
                 </div>
             </div>
-            <button onclick="window.print()" class="text-slate-500 hover:text-blue-600 transition-colors hidden md:block">
+            <button onclick="window.print()" class="text-slate-500 hover:text-blue-600 transition-colors hidden md:block self-start md:self-center whitespace-nowrap">
                 <i class="fa-solid fa-print mr-1"></i> 인쇄하기
             </button>
         </div>
@@ -290,7 +302,7 @@
                             { 
                                 name: "가족돌봄휴가", 
                                 detail: "연간 10일 (무급 원칙, 유급 예외)", 
-                                sub: "자녀 수에 따라 유급 가능(최대 3일, 유급은 시간분할 가능), 휴업-휴원-휴교/공식행사 및 상담/미성년 자녀 병원 등, 가족돌봄휴가는  무급으로  하되,  자녀(같은  항  제4호의  경우에는  어린 이집등에  재학  중이거나  미성년인  자녀 또는  장애인인  자녀로  한정한다)  수에  1을  더한 일수까지 유급으로  사용할 수 있음. 이때  장애인인  자녀가  있는  공무원  또는 ｢한부모가족 지원법｣  제4조제1호의  모  또는  부에  해당하는  공무원의  경우에는  연  1일(8시간)의  유급 일수를 가산함" 
+                                sub: "자녀 수에 따라 유급 가능(최대 3일, 유급은 시간분할 가능), 휴업-휴원-휴교/공식행사 및 상담/미성년 자녀 병원 등, 가족돌봄휴가는  무급으로  하되,  자녀(같은  항  제4호의  경우에는  어린 이집등에  재학  중이거나  미성년인  자녀 또는  장애인인  자녀로  한정한다)  수에  1을  더한 일수까지 유급으로  사용할 수 있음. 이때  장애인인  자녀가  있는  공무원  또는 ｢한부모가족 지원법｣  제4조제1호의  모  또는  부에   해당하는  공무원의  경우에는  연  1일(8시간)의  유급 일수를 가산함" 
                             },
                              { 
                                 name: "여성보건휴가", 
