@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 지방공무원 휴가업무 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .tab-active { border-bottom: 2px solid #2563eb; color: #2563eb; font-weight: 700; }
+        .card-hover:hover { transform: translateY(-2px); transition: all 0.2s; }
+        .sub-tab-active { background-color: #eff6ff; color: #1d4ed8; font-weight: 600; border-left: 4px solid #2563eb; }
+        
+        /* 공가 강조 스타일 */
+        .gongga-content strong { color: #1e40af; font-weight: 700; }
+        .gongga-content i { transform: scale(1.2); margin-right: 4px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-2 rounded-lg">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">2026 휴가업무 가이드</h1>
+                    <p class="text-xs text-slate-500">광주광역시교육감 소속 지방공무원 대상</p>
+                </div>
+            </div>
+            <button onclick="window.print()" class="text-slate-500 hover:text-blue-600 transition-colors hidden md:block">
+                <i class="fa-solid fa-print mr-1"></i> 인쇄하기
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        
+        <!-- Search & Filter -->
+        <div class="mb-8">
+            <div class="relative">
+                <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="searchInput" placeholder="휴가 종류나 키워드를 검색하세요 (예: 자녀, 병가, 5년)" 
+                    class="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all">
+            </div>
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="flex border-b border-slate-200 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide">
+            <button onclick="switchTab('yeonga')" id="tab-yeonga" class="tab-btn tab-active px-6 py-3 text-slate-600 hover:text-blue-600 transition-colors">
+                연가
+            </button>
+            <button onclick="switchTab('byeongga')" id="tab-byeongga" class="tab-btn px-6 py-3 text-slate-600 hover:text-blue-600 transition-colors">
+                병가
+            </button>
+            <button onclick="switchTab('gongga')" id="tab-gongga" class="tab-btn px-6 py-3 text-slate-600 hover:text-blue-600 transition-colors">
+                공가
+            </button>
+            <button onclick="switchTab('special')" id="tab-special" class="tab-btn px-6 py-3 text-slate-600 hover:text-blue-600 transition-colors">
+                특별휴가
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div id="content-area">
+            <!-- Content will be injected by JS -->
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 py-8 mt-12 border-t border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p class="mb-2">본 자료는 「2026 광주광역시교육감 소속 지방공무원 휴가업무 운영요령」을 바탕으로 요약된 내용입니다.</p>
+            <p>정확한 규정 확인이 필요한 경우 반드시 원본 지침 및 복무 담당자에게 확인하시기 바랍니다.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Data & Logic -->
+    <script>
+        // Data Structure
+        const leaveData = {
+            yeonga: {
+                title: "연가 (Annual Leave)",
+                description: "정신적·신체적 휴식을 취함으로써 근무능률을 유지하고 개인생활의 편의를 위하여 사용하는 휴가",
+                items: [
+                    {
+                        title: "재직기간별 연가 일수",
+                        icon: "fa-calendar-check",
+                        content: `
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left text-slate-600">
+                                    <thead class="bg-slate-50 text-slate-700 uppercase">
+                                        <tr>
+                                            <th class="px-4 py-3 rounded-tl-lg">재직기간</th>
+                                            <th class="px-4 py-3 rounded-tr-lg">연가 일수</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr><td class="px-4 py-3">1개월 이상 ~ 1년 미만</td><td class="px-4 py-3 font-bold text-blue-600">11일</td></tr>
+                                        <tr><td class="px-4 py-3">1년 이상 ~ 3년 미만</td><td class="px-4 py-3 font-bold text-blue-600">15일</td></tr>
+                                        <tr><td class="px-4 py-3">3년 이상 ~ 4년 미만</td><td class="px-4 py-3 font-bold text-blue-600">16일</td></tr>
+                                        <tr><td class="px-4 py-3">4년 이상 ~ 5년 미만</td><td class="px-4 py-3 font-bold text-blue-600">17일</td></tr>
+                                        <tr><td class="px-4 py-3">5년 이상 ~ 6년 미만</td><td class="px-4 py-3 font-bold text-blue-600">20일</td></tr>
+                                        <tr><td class="px-4 py-3">6년 이상</td><td class="px-4 py-3 font-bold text-blue-600">21일</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4 bg-yellow-50 p-4 rounded-lg text-sm text-yellow-800">
+                                <i class="fa-solid fa-lightbulb mr-2"></i><strong>Tip:</strong> 재직기간은 공무원연금법상 재직기간을 따르며, 휴직(육아휴직 등 일부 제외) 기간은 제외됩니다.
+                            </div>
+                        `
+                    },
+                    {
+                        title: "연가 가산 및 공제",
+                        icon: "fa-calculator",
+                        content: `
+                            <ul class="list-disc pl-5 space-y-2 text-slate-700 text-sm">
+                                <li><strong>연가 가산 (최대 2일):</strong> 병가를 쓰지 않은 경우(+1일), 연가보상비를 못 받고 남은 연가가 있는 경우(+1일)</li>
+                                <li><strong>연가 공제:</strong> 결근, 정직, 직위해제 기간 등 사실상 직무에 종사하지 않은 기간이 있으면 연가 일수에서 공제됩니다.</li>
+                                <li><strong>지각/조퇴/외출:</strong> 누계 8시간을 연가 1일로 계산하여 공제합니다. 잔여시간은 다음연도로 이월,저축</li>
+                                <li><strong>연가보상비:</strong> 권장연가 10일 이상, 연가보상비 지급 대상 연가일수는 20일을 초과할 수 없음</li>
+                                <li><strong>연가저축:</strong> 연가보상비 지급대상 연가일수 중 사용하지않고 남은 연가일수에 대해 이월,저축</li>
+                            </ul>
+                        `
+                    },
+                    {
+                        title: "연가 당겨쓰기",
+                        icon: "fa-forward",
+                        content: `
+                            <p class="text-sm text-slate-700 mb-3">다음 연도 연가를 미리 당겨 쓸 수 있습니다. 단, 다음 재직기간의 전 기간을 근무하는 것을 전제로 함. 잔여 연가와 보유 저축연가를 모두 사용한 후 에 신청 가능</p>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div class="bg-slate-50 p-2 rounded">1년 미만: <strong>5일</strong></div>
+                                <div class="bg-slate-50 p-2 rounded">1~2년: <strong>6일</strong></div>
+                                <div class="bg-slate-50 p-2 rounded">2~3년: <strong>7일</strong></div>
+                                <div class="bg-slate-50 p-2 rounded">3~4년: <strong>8일</strong></div>
+                                <div class="bg-slate-50 p-2 rounded">4년 이상: <strong>10일</strong></div>
+                            </div>
+                        `
+                    }
+                ]
+            },
+            byeongga: {
+                title: "병가 (Sick Leave)",
+                description: "질병 또는 부상으로 직무 수행 불가 시 사용하는 휴가",
+                items: [
+                    {
+                        title: "병가의 종류 및 일수",
+                        icon: "fa-user-nurse",
+                        content: `
+                            <div class="space-y-4">
+                                <div class="border-l-4 border-blue-500 pl-4 py-1">
+                                    <h4 class="font-bold text-slate-800">일반 병가</h4>
+                                    <p class="text-sm text-slate-600">연간 <strong>60일</strong> 범위 내</p>
+                                </div>
+                                <div class="border-l-4 border-red-500 pl-4 py-1">
+                                    <h4 class="font-bold text-slate-800">공무상 병가</h4>
+                                    <p class="text-sm text-slate-600">연간 <strong>180일</strong> 범위 내 (공무상 요양승인 결정 필요)</p>
+                                </div>
+                            </div>
+                        `
+                    },
+                    {
+                        title: "진단서 제출 기준",
+                        icon: "fa-file-medical",
+                        content: `
+                            <ul class="list-disc pl-5 space-y-2 text-slate-700 text-sm">
+                                <li><strong>진단서 미제출:</strong> 연간 누계 <strong>6일</strong>까지 가능 (단, 진단서 미제출 병가일수는 연가에서 공제될 수 있음 확인 필요)</li>
+                                <li><strong>진단서 필수: 의료법 제17조에 의해 교부된 진단서여야함(소견서 아님)</strong> 
+                                    <ul class="list-none pl-2 mt-1 space-y-1 text-slate-500">
+                                        <li>- 병가가 <strong>7일 이상</strong> 연속될 때</li>
+                                        <li>- 병가 전체 합산 연간 누계가 <strong>6일을 초과</strong>할 때</li>
+                                        <li>- 동일 사유 병가는 최초 진단서로 갈음(1년 단위) 가능(단, 동일 사유 여부는 승인권자가 확인 결정)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="mt-4 bg-red-50 p-4 rounded-lg text-sm text-red-800">
+                                <i class="fa-solid fa-triangle-exclamation mr-2"></i><strong>주의:</strong> 연간 병가일수가 30일 이상이면 공휴일과 토요일도 병가일수에 포함됩니다.
+                            </div>
+                        `
+                    }
+                ]
+            },
+            gongga: {
+                title: "공가 (Official Leave)",
+                description: "공무 수행 협조 또는 법령상 의무 이행이 필요할 때 부여",
+                items: [
+                    {
+                        title: "주요 사용 사유",
+                        icon: "fa-building-columns",
+                        content: `
+                            <!-- 공가 강조를 위해 폰트 사이즈 키움 (text-base ~ text-lg) -->
+                            <div class="gongga-content grid grid-cols-1 md:grid-cols-2 gap-4 text-base md:text-lg text-slate-700 leading-relaxed">
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>병역판정검사, 예비군 훈련</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>공무 관련 소환 (국회, 법원 등)</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>투표 참가 (법률에 따른 선거)</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>승진/전직 시험 응시</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>건강검진 (국민건강보험법 제52조 건강검진, 산업안전보건법 제129조부터 제131조 건강검진 ,결핵예방법 제11조제1항 결핵검진)</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>헌혈 (혈액관리법)</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>외국어능력시험 응시 (지방공무원교육훈련법 시행령 제31조</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>천재지변, 교통차단 등으로 출근 불가능</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>올림픽, 체전 등 국가 지방단위 행사</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>교섭위원 등 참석, 연 1회(공무원노조법)</div></div>
+                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-1"></i> <div>예방접종 감염검사 (검역감염병 등)</div></div>
+                            </div>
+                            <p class="mt-6 text-base font-semibold text-slate-500 bg-slate-100 p-3 rounded text-center">※ 필요한 시간만큼(시간 단위) 사용하는 것이 원칙이며, 왕복 소요 시간을 포함할 수 있습니다.</p>
+                        `
+                    }
+                ]
+            },
+            special: {
+                title: "특별휴가 (Special Leave)",
+                description: "사회통념 및 관례상 특별한 사유가 있는 경우 부여",
+                categories: [
+                    {
+                        id: "경조사",
+                        name: "경조사휴가",
+                        leaves: [
+                            { 
+                                name: "결혼 (본인)", 
+                                detail: "5일, 토-공휴일 제외, 분할 불가", 
+                                sub: "본인 결혼 시, 결혼식 또는 혼인신고일 중 90일 이내" 
+                            },
+                            { 
+                                name: "결혼", 
+                                detail: "1일", 
+                                sub: "대상: 자녀, 본인 및 배우자의 형제,자매" 
+                            },
+                            { 
+                                name: "입양", 
+                                detail: "20일", 
+                                sub: "대상: 입양아가 있는 경우" 
+                            },
+                            { 
+                                name: "배우자 출산일", 
+                                detail: "20일, 25일(둘 이상)", 
+                                sub: "배우자 출산예정일 30일 전부터 출산 이후 120일 이내에서 3회분할 가능, 한번에 둘 이상 자녀 출산 시 30일전~150일 이내에서 5회 한정" 
+                            },
+                            { 
+                                name: "사망 (경조사)", 
+                                detail: "대상별 상이, (사망일 또는 장례일, 사망일의 다음날부터) 토-공휴일 제외, 분할 불가", 
+                                sub: "배우자, 본인 및 배우자의 부모 5일, 본인 및 배우자의 형제 자매 3일, 본인 및 배우자의 조부모 외조부모 3일, 자녀와 그 자녀의 배우자 3일, 본인 및 배우자 형제자매의 배우자 1일, 본인 및 배우자 부모의 형제자매와 그 형제자매의 배우자 1일, 기관대표 2명까지만 출장 가능" 
+                            }
+                        ]
+                    },
+                    {
+                        id: "출산육아",
+                        name: "출산/육아",
+                        leaves: [
+                            { 
+                                name: "출산휴가", 
+                                detail: "출산 전후 90일 (다태아 120일), 분할 불가", 
+                                sub: "출산 후 45일(다태아 60일) 이상 확보 필요, (단, 사산경험, 40세이상 등은 출산전 44일 범위에서 분할 가능)" 
+                            },
+                            { 
+                                name: "배우자 출산휴가", 
+                                detail: "10일", 
+                                sub: "출산일로부터 90일 이내 사용" 
+                            },
+                            { 
+                                name: "유산·사산휴가", 
+                                detail: "임신기간에 따라 10-90일, 배우자 3일", 
+                                sub: "15주 이내 10일, 16주~21주 이내 30일, 22주~27주 이내 60일, 28주 이상 90일" 
+                            },
+                            {
+                                name: "난임치료시술휴가",
+                                detail: "시술할 때마다 최대 4일, 남성공무원 1일(채취일)",
+                                sub: "인공수정 등 시술 시마다 총 2일, 동결보존 체외수정 시술 시마다 총 3일, 난자채취 체외수정 시술시마다 총 4일"
+                            },
+                            {
+                                name: "난임치료동행휴가",
+                                detail: "남성 최대 4일",
+                                sub: "남성공무원이 배우자 난임치료에 동행시(증빙서류: 난임 시술 진단서, 진료확인서 등)"
+                            },
+                            { 
+                                name: "모성보호시간", 
+                                detail: "1일 2시간(시간외근무 금지)", 
+                                sub: "임신 중인 여성공무원 전체 기간(1일 최소 4시간 이상 근무 필요)" 
+                            },
+                            { 
+                                name: "육아시간", 
+                                detail: "1일 2시간 이내 (36개월 범위)", 
+                                sub: "8세 이하 또는 초2 이하 자녀, 임신중에는 모성보호시간-출산후에는 육아시간 사용(1일 최소 4시간 이상 근무 필요)" 
+                            },
+                            { 
+                                name: "가족돌봄휴가", 
+                                detail: "연간 10일 (무급 원칙, 유급 예외)", 
+                                sub: "자녀 수에 따라 유급 가능(최대 3일, 유급은 시간분할 가능), 휴업-휴원-휴교/공식행사 및 상담/미성년 자녀 병원 등, 가족돌봄휴가는  무급으로  하되,  자녀(같은  항  제4호의  경우에는  어린 이집등에  재학  중이거나  미성년인  자녀 또는  장애인인  자녀로  한정한다)  수에  1을  더한 일수까지 유급으로  사용할 수 있음. 이때  장애인인  자녀가  있는  공무원  또는 ｢한부모가족 지원법｣  제4조제1호의  모  또는  부에  해당하는  공무원의  경우에는  연  1일(8시간)의  유급 일수를 가산함" 
+                            },
+                             { 
+                                name: "여성보건휴가", 
+                                detail: "월 1일 (무급)", 
+                                sub: "생리 기간 중 휴식" 
+                            },
+                            { 
+                                name: "임신검진휴가", 
+                                detail: "임신기간 중 10일 이내", 
+                                sub: "임신 기간 중 분할 사용 가능" 
+                            },
+                            { 
+                                name: "임신검진 동행휴가", 
+                                detail: "임신기간 중 10일 이내", 
+                                sub: "남성공무원이 배우자 임신검진에 동행 시(반일, 또는 1일단위)" 
+                            },
+                             { 
+                                name: "아이키움휴가", 
+                                detail: "부부(지방공무원)합산 연 3일 이내(가족돌봄휴가와 별개)", 
+                                sub: "8세 이하 또는 초2 이하 자녀 (휴업,휴원,휴교,방학,공식행사,상담,병원동행,질병-사고 돌봄), 일단위 분할 가능-시간단위 분할 불가" 
+                            }
+                        ]
+                    },
+                    {
+                        id: "self",
+                        name: "자기계발/휴식",
+                        leaves: [
+                            { 
+                                name: "재해구호휴가", 
+                                detail: "5일 이내(대규모 재난 10일)", 
+                                sub: "재해피해 공무원, 재해지역 자원봉사 공무원" 
+                            },
+                             { 
+                                name: "심리안정휴가", 
+                                detail: "4일 이내(일단위 또는 시간단위)", 
+                                sub: "공무원재해보상법 제5조제1호 및 제6호부터 제11호에 해당하는 직무수행시 인명피해가 있는 사건사고경험으로 심리적 안정과 정신적 회복 필요 인정시" 
+                            },
+                            { 
+                                name: "수업휴가", 
+                                detail: "연가일수를 초과하는 출석수업일수", 
+                                sub: "방통대 재학중 공무원중 연가초과 수업 참석 시" 
+                            },
+                            { 
+                                name: "장기재직휴가", 
+                                detail: "재직기간별 5~20일(토-공휴일제외, 일단위 사용)", 
+                                sub: "5년↑(5일, 1회), 10년↑(10일, 2회), 20년↑(20일, 4회), 30년↑(20일, 4회)" 
+                            },
+                            { 
+                                name: "학습휴가", 
+                                detail: "연 5일 이내", 
+                                sub: "학교 근무 지방공무원 대상 (방학 무관 사용 가능)" 
+                            },
+                            {
+                                name: "자녀입영휴가",
+                                detail: "1일",
+                                sub: "자녀 입영일 또는 훈련소 수료일"
+                            },
+                            { 
+                                name: "포상휴가(6개월 이내 사용)", 
+                                detail: "5일 이내(일단위 사용 가능, 시간분할 불가)", 
+                                sub: "상훈법에 따른 훈포장 5일, 정부표창규정에 따라 대통령 3일, 국무총리 2일(모범공무원 제외), 장관급 1일, 적극행정 우수공무원 등 5일 이내, 교육감 인정 1일(계획 교육감 결재), 재난재해 및 감염병예방 수행자 3일 이내" 
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentTab = 'yeonga';
+        // 수정: 초기값 'child' -> '경조사'로 변경 (데이터에 없는 ID로 인한 오류 수정)
+        let currentSpecialCat = '경조사';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderContent();
+            
+            // Search Functionality
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const keyword = e.target.value.toLowerCase();
+                if(keyword.length > 0) {
+                    renderSearchResults(keyword);
+                } else {
+                    renderContent();
+                }
+            });
+        });
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            // Update UI styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+            });
+            document.getElementById(`tab-${tabId}`).classList.add('tab-active');
+            
+            renderContent();
+        }
+
+        function switchSpecialCat(catId) {
+            currentSpecialCat = catId;
+            renderContent();
+        }
+
+        function renderContent() {
+            const container = document.getElementById('content-area');
+            const data = leaveData[currentTab];
+            let html = '';
+
+            // Header Section
+            html += `
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">${data.title}</h2>
+                    <p class="text-slate-600">${data.description}</p>
+                </div>
+            `;
+
+            if (currentTab === 'special') {
+                // Special Leave Layout (Categories)
+                html += `
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <!-- Sidebar Menu for Special Leave -->
+                        <div class="space-y-1">
+                            ${data.categories.map(cat => `
+                                <button onclick="switchSpecialCat('${cat.id}')" 
+                                    class="w-full text-left px-4 py-3 rounded-lg text-sm transition-all ${currentSpecialCat === cat.id ? 'sub-tab-active shadow-sm' : 'text-slate-600 hover:bg-slate-100'}">
+                                    ${cat.name}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <!-- Card Grid -->
+                        <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            ${data.categories.find(c => c.id === currentSpecialCat).leaves.map(leave => `
+                                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm card-hover">
+                                    <h3 class="font-bold text-lg text-slate-800 mb-2">${leave.name}</h3>
+                                    <div class="text-blue-600 font-bold mb-1">${leave.detail}</div>
+                                    <p class="text-sm text-slate-500">${leave.sub}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // General Layout (Yeonga, Byeongga, Gongga)
+                // 수정: 공가일 경우 전체 너비(grid-cols-1) 사용, 그 외에는 2단 그리드
+                const gridClass = currentTab === 'gongga' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2';
+                
+                html += `
+                    <div class="grid ${gridClass} gap-6">
+                        ${data.items.map(item => `
+                            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                        <i class="fa-solid ${item.icon}"></i>
+                                    </div>
+                                    <h3 class="font-bold text-xl text-slate-800">${item.title}</h3>
+                                </div>
+                                <div>${item.content}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderSearchResults(keyword) {
+            const container = document.getElementById('content-area');
+            let results = [];
+
+            // Search through all data
+            Object.keys(leaveData).forEach(key => {
+                const category = leaveData[key];
+                
+                if(key === 'special') {
+                    category.categories.forEach(cat => {
+                        cat.leaves.forEach(leave => {
+                            if(leave.name.includes(keyword) || leave.detail.includes(keyword) || leave.sub.includes(keyword)) {
+                                results.push({
+                                    type: '특별휴가 > ' + cat.name,
+                                    title: leave.name,
+                                    content: leave.detail + ' / ' + leave.sub
+                                });
+                            }
+                        });
+                    });
+                } else {
+                    category.items.forEach(item => {
+                        if(item.title.includes(keyword) || item.content.includes(keyword)) {
+                             results.push({
+                                type: category.title,
+                                title: item.title,
+                                content: '내용 확인 필요' // Simplified for search view
+                            });
+                        }
+                    });
+                }
+            });
+
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fa-solid fa-circle-question text-4xl text-slate-300 mb-4"></i>
+                        <p class="text-slate-500">검색 결과가 없습니다.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `<h2 class="text-xl font-bold mb-4">'${keyword}' 검색 결과 (${results.length}건)</h2><div class="grid gap-4">`;
+            results.forEach(res => {
+                html += `
+                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm" onclick="location.reload()" style="cursor:pointer">
+                        <div class="text-xs text-blue-500 font-bold mb-1">${res.type}</div>
+                        <h3 class="font-bold text-lg text-slate-800">${res.title}</h3>
+                        <p class="text-sm text-slate-600 mt-1">${res.content.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
