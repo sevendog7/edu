@@ -415,7 +415,36 @@
                             { 
                                 name: "장기재직휴가", 
                                 detail: "재직기간별 5~20일(토-공휴일제외, 일단위 사용)", 
-                                sub: "공무원연금법상 재직기간 기준 5년↑(5일, 1회), 10년↑(10일, 2회), 20년↑(20일, 4회), 30년↑(20일, 4회)" 
+                                sub: `
+                                    <div class="overflow-hidden rounded-lg border border-slate-200 mt-2">
+                                        <table class="w-full text-sm text-left text-slate-600">
+                                            <thead class="bg-slate-50 text-slate-700 font-medium border-b border-slate-200">
+                                                <tr>
+                                                    <th class="px-3 py-2">구분/대상</th>
+                                                    <th class="px-3 py-2 w-20 text-center">일수</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-slate-100 bg-white">
+                                                <tr>
+                                                    <td class="px-3 py-2">5년 이상 10년 미만</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">총 1회, 5일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">10년 이상 20년 미만 </td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">총 2회, 10일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">20년 이상 30년 미만</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">총 4회, 20일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">30년 이상</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">총 4회, 20일</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                `
                             },
                             { 
                                 name: "학습휴가", 
@@ -655,3 +684,4 @@
 </body>
 
 </html>
+
