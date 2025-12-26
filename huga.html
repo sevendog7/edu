@@ -29,34 +29,37 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-slate-900">휴가업무 가이드</h1>
-                    <p class="text-xs text-slate-500 mb-2">지방공무원 대상</p> 
-                    <div class="flex flex-wrap gap-2 text-xs">
+                    <p class="text-xs text-slate-500 mb-3">지방공무원 대상</p> 
+                    
+                    <!-- Modified: 주요 링크 강조 및 간격 추가 -->
+                    <div class="flex flex-wrap gap-3 mb-3">
                         <a href="https://www.mois.go.kr/frt/sub/a03/similarCivilComplaint/screen.do" target="_blank" 
-                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
-                            <i class="fa-solid fa-scale-balanced text-blue-500"></i>행정안전부 <strong>유사민원</strong> 검색
+                           class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm px-3 py-2 rounded-lg transition-colors font-medium border border-slate-200">
+                            <i class="fa-solid fa-magnifying-glass text-blue-600"></i>행정안전부 <strong>유사민원</strong> 검색
                         </a>
                         <a href="https://sevendog7.github.io/edu/you.html" target="_blank" 
-                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
-                            <i class="fa-solid fa-scale-balanced text-blue-500"></i>지방공무원 <strong>유연근무 가이드</strong>
+                           class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm px-3 py-2 rounded-lg transition-colors font-medium border border-slate-200">
+                            <i class="fa-solid fa-clock text-blue-600"></i>지방공무원 <strong>유연근무 가이드</strong>
                         </a>
                     </div>                    
-                    <!-- Added Links: 법령 및 조례 바로가기 -->
+                    
+                    <!-- 법령 및 조례 바로가기 -->
                     <div class="flex flex-wrap gap-2 text-xs">
                         <a href="https://www.law.go.kr/법령/지방공무원복무규정" target="_blank" 
-                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
-                            <i class="fa-solid fa-scale-balanced text-blue-500"></i> 지방공무원 복무 규정
+                           class="inline-flex items-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-500 px-2 py-1 rounded transition-colors border border-slate-100">
+                            <i class="fa-solid fa-scale-balanced text-blue-400"></i> 지방공무원 복무 규정
                         </a>
                         <a href="https://www.law.go.kr/자치법규/광주광역시교육감소속지방공무원복무조례/(6558,20250425)" target="_blank" 
-                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
-                            <i class="fa-solid fa-gavel text-blue-500"></i> 광주광역시교육감 소속 지방공무원 복무 조례
+                           class="inline-flex items-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-500 px-2 py-1 rounded transition-colors border border-slate-100">
+                            <i class="fa-solid fa-gavel text-blue-400"></i> 광주광역시교육감 소속 지방공무원 복무 조례
                         </a>
                         <a href="https://www.law.go.kr/행정규칙/지방공무원복무에관한예규/(340,20250912)" target="_blank" 
-                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
-                            <i class="fa-solid fa-gavel text-blue-500"></i> 지방공무원 복무에 관한 예규
+                           class="inline-flex items-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-500 px-2 py-1 rounded transition-colors border border-slate-100">
+                            <i class="fa-solid fa-gavel text-blue-400"></i> 지방공무원 복무에 관한 예규
                         </a>
                         <a href="https://www.law.go.kr/행정규칙/지방공무원보수업무등처리지침/(334,20250718)" target="_blank" 
-                           class="inline-flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors">
-                            <i class="fa-solid fa-scale-balanced text-blue-500"></i> 지방공무원 보수지침
+                           class="inline-flex items-center gap-1 bg-slate-50 hover:bg-slate-100 text-slate-500 px-2 py-1 rounded transition-colors border border-slate-100">
+                            <i class="fa-solid fa-scale-balanced text-blue-400"></i> 지방공무원 보수지침
                         </a>
                     </div>
                 </div>
@@ -218,49 +221,73 @@
             gongga: {
                 title: "공가",
                 description: "공무 수행 협조 또는 법령상 의무 이행이 필요할 때 부여",
-                items: [
+                // 수정: 공가 데이터를 특별휴가(categories 구조)와 동일한 형태로 변경하여 카드 뷰 적용
+                categories: [
                     {
-                        title: "주요 사용 사유",
-                        icon: "fa-building-columns",
-                        content: `
-                            <!-- 공가 강조를 위해 폰트 사이즈 키움 (text-base ~ text-lg) -->
-                            <div class="gongga-content grid grid-cols-1 md:grid-cols-2 gap-4 text-base md:text-lg text-slate-700 leading-relaxed">
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>병역판정검사, 예비군 훈련</div></div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>공무 관련 소환 (국회, 법원 등)</div>
-                                <p class="text-sm text-gray-500 mt-0.5"> 업무당담공무원은 출장, 당사자 및 참고인은 공가(다만, 그 내용이 공직신분과 무관할 경우 연가), 민사소송의 당사자로 출석시 연가(단, 소송절차에 업무상관련이 있는 공무원이 당사자(정당한 공무수행 관련 소송에 한함)이면 공가)
-                            </p>
-                                </div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>투표 참가 (법률에 따른 선거)</div></div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>승진/전직 시험 응시</div></div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>건강검진 (국민건강보험법 제52조 건강검진, 산업안전보건법 제129조부터 제131조 건강검진 ,결핵예방법 제11조제1항 결핵검진)</div>
-                                <p class="text-sm text-gray-500 mt-0.5"> 건강검진의 확진검사와 결핵검진의 확진검사는 공가대상 아님(산안법 제129조부터 제131조까지 규정에 따른 건강진단 중 의무사항으로 규정된 확진검사는 공가 대상), 국민건강보험법 시행령 제25조에 따른 암건진 통보 시 공가허가 가능
-                            </p>
-                                </div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>헌혈(혈액관리법)</div>
-                                <p class="text-sm text-gray-500 mt-0.5"> 기관에서 주관하는 헌혈행사 참여
-                            </p>                                
-                                </div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>외국어능력시험 응시</div>
-                                                                <p class="text-sm text-gray-500 mt-0.5">  (지방공무원교육훈련법 시행령 제31조)
-                            </p>        
-                                </div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>천재지변, 교통차단 등으로 출근 불가능</div></div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>올림픽, 체전 등 국가 지방단위 행사</div>
-                            <p class="text-sm text-gray-500 mt-0.5"> 행사참가는 각급기관의 장이 선수,심판 등 공가활용이 불가피하다고 인정되는 경우에 한함
-                            </p>
-                            </div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>교섭위원 등 참석, 연 1회(공무원노조법)</div></div>
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>원격지 전보발령 부임 시</div>
-                            <p class="text-sm text-gray-500 mt-0.5"> 해당없음(원 소속기관에서 발령지로 이동시 가장 빠른 교통수단으로 편도 4시간 이상 소요되는 등)
-                            </p>                                
-                                </div>                                
-                                <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg"><i class="fa-solid fa-check text-green-500 mt-0.5"></i> <div>예방접종 감염검사 (검역감염병 등)</div>
-                            <p class="text-sm text-gray-500 mt-0.5"> 감염병 예방접종은 1급 법정감염병에 한정(독감, 인플루엔자는 미해당)
-                            </p>
-                                </div>
-                            </div>
-                            <p class="mt-6 text-base font-semibold text-slate-500 bg-slate-100 p-3 rounded text-center">※ 필요한 시간만큼(시간 단위) 사용하는 것이 원칙이며, 왕복 소요 시간을 포함할 수 있습니다.</p>
-                        `
+                        id: "gongga_list",
+                        name: "공가 사용 사유",
+                        leaves: [
+                            {
+                                name: "병역판정검사, 예비군 훈련",
+                                detail: "",
+                                sub: ""
+                            },
+                            {
+                                name: "공무 관련 소환 (국회, 법원 등)",
+                                detail: "",
+                                sub: "업무당담공무원은 출장, 당사자 및 참고인은 공가(다만, 그 내용이 공직신분과 무관할 경우 연가), 민사소송의 당사자로 출석시 연가(단, 소송절차에 업무상관련이 있는 공무원이 당사자(정당한 공무수행 관련 소송에 한함)이면 공가)"
+                            },
+                            {
+                                name: "투표 참가 (법률에 따른 선거)",
+                                detail: "",
+                                sub: ""
+                            },
+                            {
+                                name: "승진/전직 시험 응시",
+                                detail: "",
+                                sub: ""
+                            },
+                            {
+                                name: "건강검진 (국민건강보험법 제52조 건강검진, 산업안전보건법 제129조부터 제131조 건강검진 ,결핵예방법 제11조제1항 결핵검진)",
+                                detail: "",
+                                sub: "건강검진의 확진검사와 결핵검진의 확진검사는 공가대상 아님(산안법 제129조부터 제131조까지 규정에 따른 건강진단 중 의무사항으로 규정된 확진검사는 공가 대상), 국민건강보험법 시행령 제25조에 따른 암건진 통보 시 공가허가 가능"
+                            },
+                            {
+                                name: "헌혈(혈액관리법)",
+                                detail: "",
+                                sub: "기관에서 주관하는 헌혈행사 참여"
+                            },
+                            {
+                                name: "외국어능력시험 응시",
+                                detail: "",
+                                sub: "(지방공무원교육훈련법 시행령 제31조)"
+                            },
+                            {
+                                name: "천재지변, 교통차단 등으로 출근 불가능",
+                                detail: "",
+                                sub: ""
+                            },
+                            {
+                                name: "올림픽, 체전 등 국가 지방단위 행사",
+                                detail: "",
+                                sub: "행사참가는 각급기관의 장이 선수,심판 등 공가활용이 불가피하다고 인정되는 경우에 한함"
+                            },
+                            {
+                                name: "교섭위원 등 참석, 연 1회(공무원노조법)",
+                                detail: "",
+                                sub: ""
+                            },
+                            {
+                                name: "원격지 전보발령 부임 시",
+                                detail: "",
+                                sub: "해당없음(원 소속기관에서 발령지로 이동시 가장 빠른 교통수단으로 편도 4시간 이상 소요되는 등)"
+                            },
+                            {
+                                name: "예방접종 감염검사 (검역감염병 등)",
+                                detail: "",
+                                sub: "감염병 예방접종은 1급 법정감염병에 한정(독감, 인플루엔자는 미해당)"
+                            }
+                        ]
                     }
                 ]
             },
@@ -411,7 +438,6 @@
         };
 
         let currentTab = 'yeonga';
-        // 수정: 초기값 'child' -> '경조사'로 변경 (데이터에 없는 ID로 인한 오류 수정)
         let currentSpecialCat = '경조사';
 
         // Initialize
@@ -437,6 +463,13 @@
             });
             document.getElementById(`tab-${tabId}`).classList.add('tab-active');
             
+            // 수정: 공가 탭으로 전환 시 카테고리 초기화
+            if (tabId === 'gongga') {
+                currentSpecialCat = 'gongga_list';
+            } else if (tabId === 'special') {
+                currentSpecialCat = '경조사';
+            }
+            
             renderContent();
         }
 
@@ -458,7 +491,8 @@
                 </div>
             `;
 
-            if (currentTab === 'special') {
+            // 수정: 공가('gongga')도 특별휴가와 동일한 렌더링 로직(카드 그리드) 사용
+            if (currentTab === 'special' || currentTab === 'gongga') {
                 // Special Leave Layout (Categories)
                 html += `
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -473,21 +507,29 @@
                         </div>
 
                         <!-- Card Grid -->
-                        <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            ${data.categories.find(c => c.id === currentSpecialCat).leaves.map(leave => `
-                                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm card-hover">
-                                    <h3 class="font-bold text-lg text-slate-800 mb-2">${leave.name}</h3>
-                                    <div class="text-blue-600 font-bold mb-1">${leave.detail}</div>
-                                    <p class="text-sm text-slate-500">${leave.sub}</p>
+                        <div class="md:col-span-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                ${data.categories.find(c => c.id === currentSpecialCat).leaves.map(leave => `
+                                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm card-hover">
+                                        <h3 class="font-bold text-lg text-slate-800 mb-2 leading-snug">${leave.name}</h3>
+                                        ${leave.detail ? `<div class="text-blue-600 font-bold mb-1">${leave.detail}</div>` : ''}
+                                        <p class="text-sm text-slate-500 leading-relaxed">${leave.sub}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <!-- 공가 하단 문구 추가 -->
+                            ${currentTab === 'gongga' ? `
+                                <div class="mt-6 text-base font-semibold text-slate-500 bg-slate-100 p-4 rounded text-center">
+                                    <i class="fa-solid fa-clock mr-2"></i>※ 필요한 시간만큼(시간 단위) 사용하는 것이 원칙이며, 왕복 소요 시간을 포함할 수 있습니다.
                                 </div>
-                            `).join('')}
+                            ` : ''}
                         </div>
                     </div>
                 `;
             } else {
-                // General Layout (Yeonga, Byeongga, Gongga)
-                // 수정: 공가일 경우 전체 너비(grid-cols-1) 사용, 그 외에는 2단 그리드
-                const gridClass = currentTab === 'gongga' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2';
+                // General Layout (Yeonga, Byeongga)
+                const gridClass = 'grid-cols-1 md:grid-cols-2';
                 
                 html += `
                     <div class="grid ${gridClass} gap-6">
@@ -517,18 +559,20 @@
             Object.keys(leaveData).forEach(key => {
                 const category = leaveData[key];
                 
-                if(key === 'special') {
-                    category.categories.forEach(cat => {
-                        cat.leaves.forEach(leave => {
-                            if(leave.name.includes(keyword) || leave.detail.includes(keyword) || leave.sub.includes(keyword)) {
-                                results.push({
-                                    type: '특별휴가 > ' + cat.name,
-                                    title: leave.name,
-                                    content: leave.detail + ' / ' + leave.sub
-                                });
-                            }
+                if(key === 'special' || key === 'gongga') {
+                    if (category.categories) {
+                        category.categories.forEach(cat => {
+                            cat.leaves.forEach(leave => {
+                                if(leave.name.includes(keyword) || (leave.detail && leave.detail.includes(keyword)) || leave.sub.includes(keyword)) {
+                                    results.push({
+                                        type: category.title + ' > ' + cat.name,
+                                        title: leave.name,
+                                        content: (leave.detail ? leave.detail + ' / ' : '') + leave.sub
+                                    });
+                                }
+                            });
                         });
-                    });
+                    }
                 } else {
                     category.items.forEach(item => {
                         if(item.title.includes(keyword) || item.content.includes(keyword)) {
@@ -569,17 +613,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
