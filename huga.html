@@ -322,8 +322,45 @@
                             },
                             { 
                                 name: "사망 (경조사)", 
-                                detail: "대상별 상이, (사망일 또는 장례일, 사망일의 다음날부터) 토-공휴일 제외, 분할 불가", 
-                                sub: "배우자, 본인 및 배우자의 부모 5일, 본인 및 배우자의 형제 자매 3일, 본인 및 배우자의 조부모 외조부모 3일, 자녀와 그 자녀의 배우자 3일, 본인 및 배우자 형제자매의 배우자 1일, 본인 및 배우자 부모의 형제자매와 그 형제자매의 배우자 1일, 기관대표 2명까지만 출장 가능" 
+                                detail: "대상별 상이, (사망일 또는 장례일, 사망일의 다음날부터) 토-공휴일 제외, 분할 불가, 기관대표 2명까지만 출장 가능", 
+                                sub: `
+                                    <div class="overflow-hidden rounded-lg border border-slate-200 mt-2">
+                                        <table class="w-full text-sm text-left text-slate-600">
+                                            <thead class="bg-slate-50 text-slate-700 font-medium border-b border-slate-200">
+                                                <tr>
+                                                    <th class="px-3 py-2">구분/대상</th>
+                                                    <th class="px-3 py-2 w-20 text-center">일수</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-slate-100 bg-white">
+                                                <tr>
+                                                    <td class="px-3 py-2">배우자, 본인 및 배우자의 부모</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">5일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">본인 및 배우자의 형재 자매</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">3일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">본인 및 배우자의 조부모, 외조부모</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">3일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">자녀와 그 자녀의 배우자</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">3일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">본인 및 배우자의 형재자매의 배우자</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">1일</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-3 py-2">본인 및 배우자 부모의 형재자매와 그 형재자매의 배우자</td>
+                                                    <td class="px-3 py-2 text-center font-bold text-blue-600">1일</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ` 
                             }
                         ]
                     },
@@ -688,6 +725,7 @@
 </body>
 
 </html>
+
 
 
 
