@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신규 공무원을 위한 시간외근무 완벽 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .highlight-box { background-color: #f0f9ff; border-left: 4px solid #0ea5e9; }
+        .warning-box { background-color: #fef2f2; border-left: 4px solid #ef4444; }
+        .calc-box { background-color: #f3f4f6; border: 1px dashed #6b7280; }
+        .check-box { background-color: #ecfdf5; border-left: 4px solid #10b981; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- 상단 헤더 -->
+    <header class="bg-blue-900 text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h1 class="text-3xl font-bold mb-2"><i class="fas fa-clock mr-2"></i> 시간외근무(초과근무) & 수당 가이드</h1>
+            <p class="text-blue-200">신규 공무원이 꼭 알아야 할 급여와 복무의 핵심 정리</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+
+        <!-- 1. 시간외근무란? -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">1. 시간외근무란?</h2>
+            <p class="mb-4 leading-relaxed">
+                정규 근무시간(평일 09:00 ~ 18:00) 외에 업무상 필요에 의해 <strong>명령권자의 근무명령</strong>을 받고 근무하는 것을 말합니다. 
+                <br>공무원 수당 등에 관한 규정에 따라 예산의 범위 내에서 수당을 지급합니다.
+            </p>
+            <div class="highlight-box p-4 rounded text-sm">
+                <strong><i class="fas fa-info-circle text-blue-500"></i> 근거:</strong>
+                <ul class="list-disc ml-5 mt-1 text-gray-700">
+                    <li>지방공무원 복무규정 제4조(시간외근무 및 공휴일 등 근무)</li>
+                    <li>지방공무원 수당 등에 관한 규정 제15조(시간외근무수당)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 시간외근무수당의 종류 -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">2. 시간외근무수당의 두 가지 종류</h2>
+            <p class="mb-4">일반직 공무원(현업 제외)의 시간외근무수당은 크게 <strong>① 정액분</strong>과 <strong>② 실적분</strong>으로 나뉩니다.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- 정액분 -->
+                <div class="border rounded-lg p-4 hover:shadow-lg transition">
+                    <h3 class="text-lg font-bold text-green-700 mb-2"><i class="fas fa-won-sign mr-1"></i> 정액분 (기본 지급)</h3>
+                    <ul class="list-disc ml-4 text-sm space-y-2 text-gray-700">
+                        <li><strong>대상:</strong> 정규 근무일수 <strong>월 15일 이상</strong> 출근한 공무원</li>
+                        <li><strong>내용:</strong> 별도의 초과근무를 하지 않아도 <strong>월 10시간</strong>분을 기본 지급</li>
+                        <li><strong>지급액:</strong> 단가 × 10시간</li>
+                        <li><strong>감액:</strong> 월 출근일수가 15일 미만인 경우, 하루마다 1/15씩 감액 (연가, 병가 등 제외 후 계산)</li>
+                    </ul>
+                </div>
+
+                <!-- 실적분 -->
+                <div class="border rounded-lg p-4 hover:shadow-lg transition">
+                    <h3 class="text-lg font-bold text-indigo-700 mb-2"><i class="fas fa-business-time mr-1"></i> 실적분 (실제 근무)</h3>
+                    <ul class="list-disc ml-4 text-sm space-y-2 text-gray-700">
+                        <li><strong>대상:</strong> 실제 초과근무 명령을 받고 근무한 공무원</li>
+                        <li><strong>내용:</strong> 실제 근무한 시간에서 공제 시간을 뺀 후 지급</li>
+                        <li><strong>한도:</strong> 1일 4시간, 월 57시간 (정액분 10시간 별도)</li>
+                        <li><strong>지급액:</strong> 단가 × 인정 시간</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 인정 시간 계산 방법 (상세) -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">3. 인정 시간 산정 방법 (상세 가이드)</h2>
+            <p class="mb-4 text-gray-600">상황에 따라 계산법이 달라지니 꼼꼼히 확인하세요. 매일의 인정 시간은 <strong>분 단위까지 합산</strong>합니다.</p>
+
+            <div class="space-y-6">
+                <!-- 평일 계산 -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2"><i class="fas fa-calendar-day text-blue-500"></i> 평일 (월~금)</h3>
+                    <div class="calc-box p-4 rounded text-center mb-2 font-mono text-lg font-bold text-blue-900">
+                        인정시간 = {(조기출근 + 야간근무) - 1시간}
+                    </div>
+                    <ul class="list-disc ml-5 text-gray-700 text-sm space-y-1">
+                        <li><strong>기본 원칙:</strong> 정규 근무시간 외 근무 시간에서 <strong>1시간을 공제</strong>합니다. (저녁식사 및 휴식시간 간주)</li>
+                        <li><strong>최대 인정:</strong> <strong>1일 4시간</strong>까지만 인정됩니다.</li>
+                        <li><strong>조기 출근:</strong> 정규 출근시간(09:00)보다 <strong>1시간 이상 일찍 출근</strong>하여 근무한 경우에만 인정되며, 퇴근 후 근무시간과 합산하여 1시간을 공제합니다.
+                            <br><span class="text-gray-500 text-xs">(예: 08:00 출근 ~ 19:00 퇴근 → 조기 1시간 + 야간 1시간 = 총 2시간 - 1시간 공제 = 1시간 인정)</span>
+                        </li>
+                        <li><strong>반일 연가/공가/외출 사용자:</strong> 초과근무 명령을 받고 근무한 경우 인정되며, 계산법은 평일과 동일하게 <strong>1시간을 공제</strong>합니다.</li>
+                        <li><strong>육아시간 사용자:</strong> 육아시간을 사용한 공무원도 초과근무 명령을 받고 근무 시 인정되며, 평일과 동일하게 계산합니다.</li>
+                    </ul>
+                </div>
+
+                <!-- 휴일 계산 -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2"><i class="fas fa-umbrella-beach text-red-500"></i> 휴일 및 토요일</h3>
+                    <div class="calc-box p-4 rounded text-center mb-2 font-mono text-lg font-bold text-blue-900">
+                        인정시간 = 실제 근무시간 (공제 없음)
+                    </div>
+                    <ul class="list-disc ml-5 text-gray-700 text-sm mb-3">
+                        <li><strong>공제 없음:</strong> 휴일은 1시간 공제가 없습니다.</li>
+                        <li><strong>최소 조건:</strong> 1시간 이상 근무 시 인정됩니다.</li>
+                        <li><strong>최대 인정:</strong> <strong>1일 4시간</strong>까지만 인정됩니다.</li>
+                    </ul>
+                    
+                    <h4 class="text-sm font-bold text-gray-700 mb-2">※ 휴일의 범위 (시간외근무수당 지급 대상 휴일)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500 border">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2 border w-1/4">구분</th>
+                                    <th class="px-4 py-2 border">내용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-4 py-2 font-medium border-r">관공서 공휴일</td>
+                                    <td class="px-4 py-2">
+                                        일요일, 국경일(3·1절, 광복절, 개천절, 한글날), 1월 1일, 설날(3일), 석가탄신일, 어린이날, 현충일, 추석(3일), 기독탄신일(성탄절)
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-4 py-2 font-medium border-r">대체 공휴일</td>
+                                    <td class="px-4 py-2">공휴일이 다른 공휴일과 겹칠 경우 지정되는 휴일</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-4 py-2 font-medium border-r">기타</td>
+                                    <td class="px-4 py-2">
+                                        「공직선거법」에 따른 임기만료 선거일, 정부 수시 지정일, 「지방공휴일에 관한 규정」에 따른 지방공휴일
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-4 py-2 font-medium border-r">토요일</td>
+                                    <td class="px-4 py-2">휴무 토요일</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 p-3 rounded border border-yellow-200 text-sm">
+                    <strong><i class="fas fa-calculator text-yellow-600"></i> 월간 정산 방식:</strong><br>
+                    매일의 인정 시간을 <strong>분 단위까지 합산</strong>한 후, 월말 총 합계 시간에서 <strong>1시간 미만(분 단위)은 절사(버림)</strong>하여 최종 지급 시간을 산정합니다.
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 수당 지급액 계산 -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">4. 나는 얼마를 받을까? (지급단가)</h2>
+            <div class="calc-box p-4 rounded text-center mb-4">
+                <p class="font-bold text-lg">시간당 단가 = 봉급기준액 × 1/209 × 150%</p>
+            </div>
+            
+            <p class="mb-2 text-sm text-gray-700"><strong>2025년 기준 대략적인 단가 (일반직 기준):</strong></p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500 border">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 border">계급</th>
+                            <th class="px-6 py-3 border">시간외수당(시간당)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b">
+                            <td class="px-6 py-4 font-medium text-gray-900">9급</td>
+                            <td class="px-6 py-4">10,579원</td>
+                        </tr>
+                        <tr class="bg-gray-50 border-b">
+                            <td class="px-6 py-4 font-medium text-gray-900">8급</td>
+                            <td class="px-6 py-4">10,729원</td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            <td class="px-6 py-4 font-medium text-gray-900">7급</td>
+                            <td class="px-6 py-4">11,950원</td>
+                        </tr>
+                         <tr class="bg-gray-50 border-b">
+                            <td class="px-6 py-4 font-medium text-gray-900">6급</td>
+                            <td class="px-6 py-4">13,229원</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 5. 사전 명령과 확인 (신설) -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">5. 초과근무 사전 명령과 확인 (매우 중요)</h2>
+            <p class="mb-4 text-gray-600">초과근무는 반드시 <strong>'명령'</strong>에 의해 이루어져야 합니다. 임의로 근무하고 나중에 청구할 수 없습니다.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="check-box p-4 rounded">
+                    <h3 class="font-bold text-green-800 mb-2"><i class="fas fa-check-circle"></i> 사전 명령 원칙</h3>
+                    <ul class="list-disc ml-4 text-sm space-y-2 text-green-900">
+                        <li>초과근무는 <strong>개인별·일별 사전 명령</strong>이 원칙입니다.</li>
+                        <li>근무 시간 전에 시스템(나이스, K-에듀파인 등)을 통해 초과근무를 상신하고 결재를 득해야 합니다.</li>
+                        <li>명령권자: 4급/5급 과장급 이상 (학교의 경우 학교장)</li>
+                    </ul>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                    <h3 class="font-bold text-blue-800 mb-2"><i class="fas fa-exclamation-circle"></i> 사후 승인 (예외)</h3>
+                    <ul class="list-disc ml-4 text-sm space-y-2 text-blue-900">
+                        <li><strong>대상:</strong> 재난 발생 등 예측 불가능한 긴급한 업무 발생 시</li>
+                        <li><strong>절차:</strong> 근무 종결 후 퇴청 시 당직자의 확인을 받아야 합니다.</li>
+                        <li><strong>기한:</strong> 초과근무 <strong>다음 날까지</strong> 명령권자의 사후 결재를 반드시 받아야 합니다.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-6 border-t pt-4">
+                <h3 class="text-lg font-bold text-gray-800 mb-2"><i class="fas fa-fingerprint text-gray-500"></i> 근무 확인 시 주안점</h3>
+                <ol class="list-decimal ml-5 text-sm space-y-2 text-gray-700">
+                    <li><strong>실적 확인 필수:</strong> 사전 명령을 받았더라도, 실제 근무 여부를 증빙해야 합니다. 주로 <strong>지문인식기, 정맥인식기, 카드 등</strong>을 통해 출/퇴근 시간을 기록합니다.</li>
+                    <li><strong>기록 누락 주의:</strong> 퇴청 시 인증을 잊어버리면 실제 근무했더라도 수당 지급이 불가할 수 있습니다.</li>
+                    <li><strong>대리 체크 절대 금지:</strong> 본인이 직접 해야 하며, 타인이 대리로 체크하는 경우 부정수급으로 간주되어 중징계 사유가 됩니다.</li>
+                    <li><strong>사적 용무 제외:</strong> 저녁 식사 시간, 개인적인 휴식 시간 등은 근무 시간에서 제외하고 산정해야 합니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 6. 절대 하면 안 되는 것 (부정수령) -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8 border-l-4 border-red-500">
+            <h2 class="text-2xl font-bold text-red-600 mb-4 pb-2"><i class="fas fa-ban"></i> 주의! 부정수령 금지</h2>
+            <p class="mb-4 text-sm">
+                초과근무수당은 감사 단골 지적 사항입니다. 다음과 같은 행위는 절대 금지됩니다.
+            </p>
+            <div class="warning-box p-4 rounded text-sm mb-4">
+                <ul class="list-disc ml-5 space-y-2 text-red-800">
+                    <li>실제 근무하지 않고 초과근무를 입력하는 행위</li>
+                    <li>초과근무 중 식사, 음주, 개인 용무를 보는 행위 (해당 시간은 제외해야 함)</li>
+                    <li>대리 입력 또는 사적 용무 후 복귀하여 입력하는 행위</li>
+                </ul>
+            </div>
+            <p class="text-sm font-bold text-gray-800">적발 시 불이익:</p>
+            <ul class="list-decimal ml-5 text-sm text-gray-700 mt-1">
+                <li>부정 수령액 전액 환수 및 <strong>5배 가산 징수</strong></li>
+                <li><strong>1년간 초과근무 명령 금지</strong> (수당 지급 정지)</li>
+                <li>징계 의결 요구 (중징계 가능) 및 승진 제한</li>
+            </ul>
+        </section>
+
+        <!-- 하단 푸터 -->
+        <footer class="text-center text-gray-500 text-xs py-6 border-t">
+            <p class="mb-1">본 가이드는 다음 규정을 참고하여 작성되었습니다:</p>
+            <p>지방공무원 수당 등에 관한 규정 (대통령령 제35564호)<br>
+               지방공무원 복무규정 (대통령령 제35666호)<br>
+               지방공무원보수업무 등 처리지침 (행정안전부 예규 제334호)</p>
+            <p class="mt-2 text-gray-400">작성일: 2025년 기준</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
