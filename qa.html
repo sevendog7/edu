@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 행정안전부 복무 질의응답 사례집</title>
+    <title>2025 행정안전부 복무 질의응답 사례집 (통합본)</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -274,12 +274,12 @@
 
 <header>
     <h1>2025 복무 질의응답 사례집</h1>
-    <p>교육행정 공무원을 위한 실무 가이드</p>
+    <p>교육행정 공무원을 위한 실무 가이드 (통합본)</p>
 </header>
 
 <div class="container">
     <div class="controls-wrapper">
-        <input type="text" id="searchInput" class="search-box" placeholder="검색어를 입력하세요 (예: 연가보상비, 병가, 유튜브, 유연근무...)">
+        <input type="text" id="searchInput" class="search-box" placeholder="검색어를 입력하세요 (예: 동호회, 대학원, 암검진, 결혼...)">
         <div class="category-nav">
             <button class="category-btn active" onclick="filterCategory('all')">전체보기</button>
             <button class="category-btn" onclick="filterCategory('휴가')">휴가제도</button>
@@ -295,14 +295,14 @@
 </div>
 
 <footer>
-    <p>본 자료는 행정안전부의 2025년도 질의응답 및 예규를 바탕으로 제작되었습니다.</p>
+    <p>본 자료는 행정안전부 질의응답 및 지방공무원 복무 예규를 바탕으로 제작되었습니다.</p>
     <p>최신 법령 개정 사항은 반드시 소속 기관의 지침을 우선 확인하시기 바랍니다.</p>
 </footer>
 
 <script>
-    // === 데이터 통합 (출처: 행정안전부 복무 질의응답(1).pdf 및 지방공무원 복무에 관한 예규 개정안.pdf) ===
+    // === 데이터 통합 (기존 질의응답 + 신규 예규 사례) ===
     const qaData = [
-        // [1] 행정안전부 질의응답 (기존 사례)
+        // [기존 데이터: 행정안전부 질의응답]
         {
             category: "휴가",
             question: "자녀의 초등학교 입학식(예비소집)에 가족돌봄휴가를 쓸 수 있나요?",
@@ -405,9 +405,6 @@
             answer: `<ul><li>선거 사무 종사 시 다음 정상 근무일에 <strong>1일 휴무</strong> 부여.</li><li>선거일이 휴일인 경우 1일 추가 부여 가능.</li></ul>`,
             ref: "행정안전부 질의응답"
         },
-
-        // [2] 지방공무원 복무에 관한 예규 (신규 사례)
-        // --- 복무 일반 및 근무기강 ---
         {
             category: "복무",
             question: "상급자의 명백히 위법한 직무 명령에 복종해야 하나요?",
@@ -429,8 +426,6 @@
             ref: "지방공무원 복무에 관한 예규",
             isNew: true
         },
-
-        // --- 근무시간 및 유연근무제 ---
         {
             category: "복무",
             question: "금요일 밤부터 토요일 새벽까지 연속 근무 시 대체휴무 가능 여부",
@@ -442,15 +437,6 @@
             category: "복무",
             question: "출장일에 유연근무(시차출퇴근 등) 사용 가능 여부",
             answer: `<ul><li>출장 예정일에는 <strong>유연근무를 하지 않는 것이 원칙</strong>입니다.</li><li>부득이하게 사용하는 경우 가능한 한 출퇴근 시간을 지정해야 합니다.</li></ul>`,
-            ref: "지방공무원 복무에 관한 예규",
-            isNew: true
-        },
-
-        // --- 출장 및 초과근무 ---
-        {
-            category: "복무",
-            question: "기관 동호회 체육대회 선수 참가 시 출장 처리",
-            answer: `<ul><li><strong>불가능합니다.</strong></li><li>본연의 직무수행과 무관한 활동이므로 출장 처리를 할 수 없습니다.</li></ul>`,
             ref: "지방공무원 복무에 관한 예규",
             isNew: true
         },
@@ -468,8 +454,6 @@
             ref: "지방공무원 복무에 관한 예규",
             isNew: true
         },
-
-        // --- 휴가 제도 (연가/병가/공가) ---
         {
             category: "휴가",
             question: "병가 미사용 시 다음 해 연가 가산 혜택",
@@ -507,20 +491,11 @@
         },
         {
             category: "휴가",
-            question: "건강검진 재검(확진검사) 시 공가 사용",
-            answer: `<ul><li><strong>원칙적 불가</strong> (일반적인 확진검사는 공가 대상 아님).</li><li>단, 「산업안전보건법」상 의무사항인 확진검사는 공가 가능.</li></ul>`,
-            ref: "지방공무원 복무에 관한 예규",
-            isNew: true
-        },
-        {
-            category: "휴가",
             question: "타 시·도 전보 발령 시 이사 준비 공가",
             answer: `<ul><li><strong>가능합니다.</strong></li><li>부임일의 다음 정상 근무일까지 실제 소요되는 최소 일수를 공가로 사용 가능합니다.</li></ul>`,
             ref: "지방공무원 복무에 관한 예규",
             isNew: true
         },
-
-        // --- 특별휴가 (모성보호/육아/기타) ---
         {
             category: "휴가",
             question: "본인 결혼 경조사 휴가 사용 기한",
@@ -535,15 +510,6 @@
             ref: "지방공무원 복무에 관한 예규",
             isNew: true
         },
-        {
-            category: "휴가",
-            question: "육아시간 36개월 산정 방식",
-            answer: `<ul><li>연속 사용 시: 월 단위 합산.</li><li>띄엄띄엄 사용 시: 사용 일수 합계 <strong>20일마다 1개월</strong>로 산정.</li></ul>`,
-            ref: "지방공무원 복무에 관한 예규",
-            isNew: true
-        },
-
-        // --- 영리업무 및 겸직 ---
         {
             category: "겸직",
             question: "퇴근 후 야간 대리운전 알바 가능 여부",
@@ -563,6 +529,64 @@
             question: "부동산 임대업 겸직 허가 대상 여부",
             answer: `<ul><li>단순 임대는 대상 아님.</li><li>임대사업자로 등록하고 다수 주택/상가를 소유하여 <strong>지속적 관리</strong>가 필요한 경우 허가 대상.</li></ul>`,
             ref: "지방공무원 복무에 관한 예규",
+            isNew: true
+        },
+
+        // [신규 추가: 예규 사례별 구체적 Q&A]
+        {
+            category: "복무",
+            question: "동호회 체육대회에 선수로 참여 시 출장 처리가 되나요?",
+            answer: `<ul><li><strong>불가능합니다.</strong></li><li>행사 주체가 행정기관이 아니며, 공무원 본연의 직무 수행과 무관한 사적 활동이므로 출장 처리는 불가합니다. (개인 연가 사용)</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "복무",
+            question: "동료 직원의 결혼식에 축의금 전달하러 출장 갈 수 있나요?",
+            answer: `<ul><li><strong>조건부 가능합니다.</strong></li><li>기관 대표 자격으로 조기/축의금 등을 전달하기 위해 <strong>2인 이내</strong>의 인원이 참석하는 경우에 한해 출장 처리가 가능합니다.</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "복무",
+            question: "대학원 수업을 듣기 위해 근무시간 중 학교에 갈 수 있나요?",
+            answer: `<ul><li><strong>출장은 불가합니다.</strong></li><li>개인적인 학위 취득은 공무 수행이 아니므로, <strong>연가(반가 또는 시간연가)</strong>를 사용해야 합니다.</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "복무",
+            question: "민원인/직원이 갑자기 쓰러져 병원에 이송해야 할 때",
+            answer: `<ul><li><strong>출장 가능합니다.</strong></li><li>긴급한 질병·부상에 대한 응급조치 및 병원 이송을 위해 필요한 인원은 출장 처리가 가능합니다.</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "수당",
+            question: "교육파견이나 휴가 중에도 시간외근무(초과근무)가 가능한가요?",
+            answer: `<ul><li><strong>불가능합니다.</strong></li><li>교육이나 휴가 기간은 본연의 직무에 종사하는 상태가 아니므로 시간외근무 명령을 내릴 수 없습니다.</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "휴가",
+            question: "국가건강검진 받을 때 '암 검진' 시간도 공가 처리 되나요?",
+            answer: `<ul><li><strong>가능합니다.</strong></li><li>건강보험공단에서 통보한 대상자에 포함되어 실시하는 일반건강검진 및 암 검진에 소요되는 시간은 공가 처리가 가능합니다.</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "휴가",
+            question: "토요일에 본인이 결혼하면 경조사 휴가는 언제부터 쓰나요?",
+            answer: `<ul><li>돌아오는 <strong>월요일부터 금요일까지 5일</strong>을 연속하여 사용할 수 있습니다.</li><li>(경조사 휴가는 사유 발생일 또는 그 다음날부터 사용 가능)</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
+            isNew: true
+        },
+        {
+            category: "휴가",
+            question: "육아시간을 매일 안 쓰고 띄엄띄엄 쓰면 '1개월' 계산은 어떻게 하나요?",
+            answer: `<ul><li><strong>20일 사용 시 1개월 차감:</strong></li><li>월 단위로 연속하여 사용하지 않는 경우, 사용한 일수를 모두 합쳐 <strong>20일</strong>이 될 때마다 1개월을 사용한 것으로 간주합니다.</li></ul>`,
+            ref: "지방공무원 복무 예규 사례",
             isNew: true
         }
     ];
@@ -645,7 +669,6 @@
                     <div class="qa-title-wrap">
                         <div class="badges">
                             <span class="badge ${badgeClass}">${item.category}</span>
-                            ${item.isNew ? '<span class="badge 기타">NEW</span>' : ''}
                         </div>
                         <div class="qa-title">${highlightText(item.question, searchInput.value)}</div>
                     </div>
