@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유연근무자 월별 자체점검표 (2025.7. 기준)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .score-cell { font-weight: bold; }
+        .violation { color: #ef4444; } /* Red for violation */
+        .safe { color: #10b981; } /* Green for 0 */
+        select, input[type="text"], input[type="month"] { border: 1px solid #d1d5db; padding: 4px; border-radius: 4px; }
+        input[type="text"] { padding: 6px; }
+        select { width: 100%; }
+        th, td { border: 1px solid #e5e7eb; padding: 6px 8px; text-align: center; vertical-align: middle; }
+        th { background-color: #f3f4f6; font-weight: 600; font-size: 0.9rem; }
+        tr:hover { background-color: #f9fafb; }
+        /* Print styles */
+        @media print {
+            .no-print { display: none; }
+            body { font-size: 10pt; }
+            select { appearance: none; border: none; background: transparent; }
+            input { border: none; background: transparent; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 p-6 text-white">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold flex items-center gap-2">
+                        📅 월별 유연근무자 자체점검표
+                    </h1>
+                    <!-- Updated Subtitle -->
+                    <p class="text-yellow-300 font-bold text-lg mt-1 bg-blue-800 bg-opacity-30 inline-block px-2 rounded">
+                        (25.7.1.시행) 위반한 날의 데이터만 입력해주세요.(지연 인식, 미인식, 나이스 미결재, 증빙 미결재 등)
+                    </p>
+                </div>
+                <!-- User Info Inputs -->
+                <div class="flex gap-2 bg-blue-700 p-2 rounded-lg bg-opacity-50">
+                    <input type="text" placeholder="소속/직급" class="text-black w-32 md:w-40 text-sm" aria-label="소속 직급 입력">
+                    <input type="text" placeholder="성명" class="text-black w-24 md:w-32 text-sm" aria-label="성명 입력">
+                </div>
+            </div>
+            
+            <div class="flex justify-end no-print space-x-2">
+                <button onclick="resetTable()" class="bg-blue-500 hover:bg-blue-400 text-white px-4 py-2 rounded text-sm transition shadow">초기화</button>
+                <button onclick="downloadExcel()" class="bg-white text-blue-600 hover:bg-gray-100 px-4 py-2 rounded text-sm font-bold transition flex items-center gap-2 shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    엑셀 다운로드
+                </button>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="p-4 bg-gray-100 border-b no-print">
+            <div class="flex flex-wrap items-center gap-2">
+                <label class="font-bold text-gray-700">대상월 선택:</label>
+                <input type="month" id="monthPicker" class="border p-2 rounded w-40 text-black" onchange="generateRows()">
+                <div class="flex flex-col md:flex-row md:items-center text-sm ml-2">
+                    <span class="text-gray-500">* 월을 변경하면 표가 초기화됩니다.</span>
+                    <span class="text-red-600 font-bold md:ml-2">※ 반드시 월별데이터를 다운로드 후 다음월을 점검해주세요.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto p-4">
+            <table class="w-full text-sm" id="checkListTable">
+                <thead>
+                    <tr>
+                        <th class="w-16">날짜</th>
+                        <th class="w-16">구분</th>
+                        <th class="w-24">실제 상황</th>
+                        <th class="w-32">지문인식</th>
+                        <th class="w-32">증빙(확인서)<br>내부결재</th>
+                        <th class="w-32">나이스<br>(지각/조퇴)</th>
+                        <th class="w-20">위반점수</th>
+                        <th>비고 (자동 판정)</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rows will be generated by JS -->
+                </tbody>
+                <tfoot>
+                    <tr class="bg-gray-100 font-bold">
+                        <td colspan="6" class="text-right pr-4 text-base">월간 위반점수 합계 (A)</td>
+                        <td id="totalScore" class="text-lg text-red-600">0</td>
+                        <td></td>
+                    </tr>
+                    <tr class="bg-blue-50 font-bold border-t-2 border-blue-200">
+                        <td colspan="6" class="text-right pr-4 text-base text-blue-800">최종 제재 점수 (A - 5점)</td>
+                        <td id="finalPenalty" class="text-lg text-blue-700">0</td>
+                        <td class="text-left text-xs font-normal text-gray-600 pl-2 leading-relaxed">
+                            * 5점 공제 후 남은 점수<br>
+                            * 1점당 1주일 유연근무 제한<br>
+                            <span class="text-blue-700 font-semibold">※ 1주일에는 주말을 포함하지 않고, 실 근무일의 합을 기준으로 함(예: 7일 제한이면 주말포함 9일임)</span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Logic Reference -->
+        <div class="p-6 bg-gray-50 border-t">
+            <h3 class="font-bold text-lg mb-4 text-gray-800">📌 위반점수 산정 근거 (2025.7.1. 시행)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <!-- Left: Normal Status -->
+                <div class="bg-white p-4 rounded border">
+                    <h4 class="font-bold text-blue-600 mb-2 border-b pb-1">1. 정상 출퇴근 (시간 준수)</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <span class="font-bold text-gray-700">✅ 지문 정상 인식:</span>
+                            <span class="float-right font-bold text-green-600">0점</span>
+                        </li>
+                        <li>
+                            <span class="font-bold text-gray-700">⚠️ 지문 지연 인식 (출근만 해당):</span>
+                            <div class="pl-2 text-xs text-gray-600">
+                                - 나이스(지각) 결재 시: <span class="font-bold text-green-600">0점</span><br>
+                                - 나이스 미결재 시: <span class="font-bold text-red-500">1점</span>
+                            </div>
+                        </li>
+                        <li class="bg-red-50 p-1 rounded">
+                            <span class="font-bold text-gray-700">🚫 지문 미인식:</span>
+                            <div class="pl-2 text-xs text-gray-600">
+                                - 증빙(확인서) 결재 시: <span class="font-bold text-red-500">1점</span> (기본 위반)<br>
+                                - 증빙 미결재 시: <span class="font-bold text-red-500">3점</span> (기본1 + 미비2)
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right: Late/Early Status -->
+                <div class="bg-white p-4 rounded border">
+                    <h4 class="font-bold text-orange-600 mb-2 border-b pb-1">2. 지각 출근 / 조기 퇴근</h4>
+                    <ul class="space-y-2">
+                        <li>
+                            <span class="font-bold text-gray-700">✅ 지문 인식 (시간 불문):</span>
+                            <div class="pl-2 text-xs text-gray-600">
+                                - 나이스(지각/조퇴) 결재 시: <span class="font-bold text-green-600">0점</span><br>
+                                - 나이스 미결재 시: <span class="font-bold text-red-500">1점</span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="font-bold text-gray-700">🚫 지문 미인식 (복합 위반):</span>
+                            <div class="pl-2 text-xs text-gray-600 mt-1">
+                                <span class="block">① 증빙O + 나이스O : <span class="font-bold text-red-500">1점</span> (기본위반)</span>
+                                <span class="block">② 증빙O + 나이스X : <span class="font-bold text-red-500">2점</span> (기본1+나이스1)</span>
+                                <span class="block">③ 증빙X + 나이스O : <span class="font-bold text-red-500">3점</span> (기본1+증빙2)</span>
+                                <span class="block">④ 증빙X + 나이스X : <span class="font-bold text-red-500">4점</span> (전체 미비)</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4 text-xs text-gray-500 bg-yellow-50 p-2 rounded">
+                ※ <strong>지문 미인식 1점</strong>: 정상 출근했더라도 지문을 찍지 않으면 출퇴근 확인 불가로 기본 1점 부과됩니다.<br>
+                ※ <strong>월별 공제</strong>: 월간 위반점수 합계에서 <strong>5점</strong>을 차감합니다. (예: 6점 위반 시 1점 적용 → 1주일 제한)<br>
+                ※ <strong>증빙(확인서)</strong>: '유연근무 출/퇴근 확인서' 내부결재를 의미함
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        const today = new Date();
+        document.getElementById('monthPicker').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+        
+        // Data Options
+        const STATUSES = ['정상 (시간준수)', '지각/조퇴'];
+        const FINGERPRINTS = ['정상 인식', '지연 인식 (늦게 찍음)', '미인식'];
+        const PROOFS = ['해당없음', '결재완료', '미결재'];
+        const NICES = ['해당없음', '결재완료', '미결재'];
+
+        function generateRows() {
+            const monthVal = document.getElementById('monthPicker').value;
+            const [year, month] = monthVal.split('-');
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                createDailyRows(tbody, year, month, day);
+            }
+            calculateTotal();
+        }
+
+        function createDailyRows(tbody, year, month, day) {
+            // Row 1: Arrival (contains Date cell with rowspan)
+            const trArrival = document.createElement('tr');
+            trArrival.classList.add('border-t-2', 'border-gray-100', 'day-row-start');
+            trArrival.dataset.day = day;
+            
+            // Helper for Selects
+            const makeSelect = (options, name, onchange, defaultType) => {
+                let html = `<select onchange="${onchange}" class="${name}-select text-sm h-full">`;
+                options.forEach(opt => {
+                    let selected = '';
+                    if (name === 'proof' || name === 'nice') {
+                        if (opt === '해당없음') selected = 'selected';
+                    } else if (name === 'fingerprint' && opt === '정상 인식') {
+                        selected = 'selected';
+                    } else if (name === 'status' && opt.startsWith('정상')) {
+                        selected = 'selected';
+                    }
+                    html += `<option value="${opt}" ${selected}>${opt}</option>`;
+                });
+                html += `</select>`;
+                return html;
+            };
+
+            // Date Column (Rowspan 2)
+            trArrival.innerHTML = `
+                <td rowspan="2" class="date-cell text-center font-bold text-gray-700 bg-gray-50 border-b-2 border-gray-200">${day}일</td>
+                <td class="bg-blue-50 font-medium text-center text-blue-800">출근
+                    <input type="hidden" class="type-val" value="출근">
+                </td>
+                <td>${makeSelect(STATUSES, 'status', 'updateRow(this)')}</td>
+                <td>${makeSelect(FINGERPRINTS, 'fingerprint', 'updateRow(this)')}</td>
+                <td>${makeSelect(PROOFS, 'proof', 'updateRow(this)')}</td>
+                <td>${makeSelect(NICES, 'nice', 'updateRow(this)')}</td>
+                <td class="score-cell text-lg text-center safe">0</td>
+                <td class="note-cell text-xs text-gray-500 text-left pl-2">-</td>
+            `;
+
+            // Row 2: Departure (No Date cell)
+            const trDeparture = document.createElement('tr');
+            trDeparture.classList.add('day-row-end');
+            trDeparture.dataset.day = day;
+            
+            trDeparture.innerHTML = `
+                <td class="bg-orange-50 font-medium text-center text-orange-800">퇴근
+                    <input type="hidden" class="type-val" value="퇴근">
+                </td>
+                <td>${makeSelect(STATUSES, 'status', 'updateRow(this)')}</td>
+                <td>${makeSelect(FINGERPRINTS, 'fingerprint', 'updateRow(this)')}</td>
+                <td>${makeSelect(PROOFS, 'proof', 'updateRow(this)')}</td>
+                <td>${makeSelect(NICES, 'nice', 'updateRow(this)')}</td>
+                <td class="score-cell text-lg text-center safe">0</td>
+                <td class="note-cell text-xs text-gray-500 text-left pl-2">-</td>
+            `;
+
+            tbody.appendChild(trArrival);
+            tbody.appendChild(trDeparture);
+        }
+
+        function updateRow(element) {
+            const row = element.closest('tr');
+            const type = row.querySelector('.type-val').value;
+            const status = row.querySelector('.status-select').value;
+            const fingerprint = row.querySelector('.fingerprint-select').value;
+            const proof = row.querySelector('.proof-select').value;
+            const nice = row.querySelector('.nice-select').value;
+            
+            const result = calculateScore(type, status, fingerprint, proof, nice);
+            
+            // Update Score Cell
+            const scoreCell = row.querySelector('.score-cell');
+            scoreCell.textContent = result.score;
+            if (result.score > 0) {
+                scoreCell.classList.remove('safe');
+                scoreCell.classList.add('violation');
+            } else {
+                scoreCell.classList.remove('violation');
+                scoreCell.classList.add('safe');
+            }
+
+            // Update Note Cell
+            row.querySelector('.note-cell').textContent = result.note;
+
+            // Auto-disable irrelevant fields for UX
+            toggleFields(row, type, status, fingerprint);
+
+            calculateTotal();
+        }
+
+        function toggleFields(row, type, status, fingerprint) {
+            const proofSelect = row.querySelector('.proof-select');
+            const niceSelect = row.querySelector('.nice-select');
+            
+            // Reset colors
+            proofSelect.style.backgroundColor = '';
+            niceSelect.style.backgroundColor = '';
+            
+            // Logic for visual cues (Optional)
+            if (fingerprint === '미인식' || (fingerprint.includes('지연') && type === '출근') || status.includes('지각') || status.includes('조퇴')) {
+                // Something is wrong
+            }
+        }
+
+        function calculateScore(type, status, fingerprint, proof, nice) {
+            let score = 0;
+            let note = "적정";
+
+            const isNormal = status.startsWith('정상');
+            const isTagged = fingerprint === '정상 인식';
+            const isLateTag = fingerprint.startsWith('지연');
+            const isNoTag = fingerprint === '미인식';
+            
+            const proofDone = proof === '결재완료';
+            const niceDone = nice === '결재완료';
+            
+            // 1. 정상 상황 (시간 준수)
+            if (isNormal) {
+                if (isTagged) {
+                    score = 0;
+                    note = "정상 처리";
+                } else if (isLateTag) {
+                    // 지연 인식 (출근만 해당, 퇴근은 시간 지나서 찍어도 정상)
+                    if (type === '출근') {
+                        if (niceDone) {
+                            score = 0;
+                            note = "지연인식 소명(나이스) 완료";
+                        } else {
+                            score = 1;
+                            note = "지연인식+나이스 미조치";
+                        }
+                    } else {
+                        // 퇴근은 늦게 찍어도 문제 없음
+                        score = 0;
+                        note = "정상 퇴근 (지문인식)";
+                    }
+                } else if (isNoTag) {
+                    // 지문 미인식은 기본 1점 부과
+                    if (proofDone) {
+                        score = 1; // 기본 위반 1점
+                        note = "지문 미인식(1) + 소명완료";
+                    } else {
+                        score = 3; // 기본(1) + 증빙 미비(2)
+                        note = "지문 미인식(1) + 증빙 미비(2)";
+                    }
+                }
+            } 
+            // 2. 비정상 상황 (지각/조퇴)
+            else {
+                // 지문 찍었으나 지각/조퇴인 경우
+                if (isTagged || isLateTag) { 
+                    if (niceDone) {
+                        score = 0;
+                        note = "지각/조퇴 나이스 처리 완료";
+                    } else {
+                        score = 1;
+                        note = "나이스 미상신 (1점)";
+                    }
+                } 
+                // 지문도 안 찍고 지각/조퇴인 경우 (복합 위반)
+                else if (isNoTag) {
+                    // 경우의 수 4가지
+                    if (proofDone && niceDone) {
+                        score = 1; // 기본 위반(지문 미인식) 점수만 부과
+                        note = "지문 미인식 위반 (1점)";
+                    } else if (proofDone && !niceDone) {
+                        score = 2; // 기본(1) + 나이스 미비(1)
+                        note = "미인식(1)+나이스 미비(1)";
+                    } else if (!proofDone && niceDone) {
+                        score = 3; // 기본(1) + 증빙 미비(2)
+                        note = "미인식(1)+증빙 미비(2)";
+                    } else {
+                        score = 4; // 기본(1) + 증빙 미비(2) + 나이스 미비(1)
+                        note = "전체 미조치 (4점)";
+                    }
+                }
+            }
+
+            return { score, note };
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            const scores = document.querySelectorAll('.score-cell');
+            scores.forEach(cell => {
+                total += parseInt(cell.textContent || 0);
+            });
+            
+            document.getElementById('totalScore').textContent = total + "점";
+            
+            // 공제 5점 적용
+            let final = total - 5;
+            if (final < 0) final = 0;
+            document.getElementById('finalPenalty').textContent = final + "점";
+        }
+
+        function resetTable() {
+            if(confirm('작성 내용을 초기화하시겠습니까?')) {
+                generateRows();
+            }
+        }
+
+        function downloadExcel() {
+            const tbody = document.getElementById('tableBody');
+            const allRows = tbody.querySelectorAll('tr');
+            let tableHTML = `<thead>${document.querySelector('thead').innerHTML}</thead><tbody>`;
+            
+            let hasContent = false;
+            let currentDayStartRow = null;
+            
+            // We need to iterate in pairs (Arrival + Departure) for each day
+            for (let i = 0; i < allRows.length; i += 2) {
+                const rowArrival = allRows[i];
+                const rowDeparture = allRows[i+1];
+                
+                // Check if meaningful data exists in either row
+                // Meaningful = Status not '정상 (시간준수)' OR Fingerprint not '정상 인식' OR Score > 0
+                const isMeaningful = (row) => {
+                    const status = row.querySelector('.status-select').value;
+                    const fingerprint = row.querySelector('.fingerprint-select').value;
+                    const score = parseInt(row.querySelector('.score-cell').textContent);
+                    return status !== '정상 (시간준수)' || fingerprint !== '정상 인식' || score > 0;
+                };
+
+                const arrivalImportant = isMeaningful(rowArrival);
+                const departureImportant = isMeaningful(rowDeparture);
+
+                if (arrivalImportant || departureImportant) {
+                    hasContent = true;
+                    // Add both rows to preserve structure, or logic to merge
+                    // Simplest approach: Add both rows if *any* part of the day is important
+                    // to keep the date rowspan correct.
+                    
+                    // Process Arrival Row
+                    tableHTML += '<tr>';
+                    const aCells = rowArrival.querySelectorAll('td');
+                    aCells.forEach((cell, idx) => {
+                         // Copy attributes like rowspan
+                        let tdAttr = '';
+                        if (cell.hasAttribute('rowspan')) tdAttr = `rowspan="${cell.getAttribute('rowspan')}"`;
+                        
+                        const select = cell.querySelector('select');
+                        const input = cell.querySelector('input:not([type="hidden"])');
+                        let text = select ? select.value : (input ? input.value : cell.innerText);
+                        
+                        let style = 'text-align:center; vertical-align:middle;';
+                        if (text === '출근') style += 'background-color:#eff6ff; color:#1e40af;';
+                        else if (cell.classList.contains('score-cell') && text !== '0') style += 'color:red; font-weight:bold;';
+                        
+                        tableHTML += `<td ${tdAttr} style="${style}">${text}</td>`;
+                    });
+                    tableHTML += '</tr>';
+
+                    // Process Departure Row
+                    tableHTML += '<tr>';
+                    const dCells = rowDeparture.querySelectorAll('td');
+                    dCells.forEach((cell, idx) => {
+                        const select = cell.querySelector('select');
+                        const input = cell.querySelector('input:not([type="hidden"])');
+                        let text = select ? select.value : (input ? input.value : cell.innerText);
+                        
+                        let style = 'text-align:center; vertical-align:middle;';
+                        if (text === '퇴근') style += 'background-color:#fff7ed; color:#9a3412;';
+                        else if (cell.classList.contains('score-cell') && text !== '0') style += 'color:red; font-weight:bold;';
+                        
+                        tableHTML += `<td style="${style}">${text}</td>`;
+                    });
+                    tableHTML += '</tr>';
+                }
+            }
+            
+            if (!hasContent) {
+                // If nothing was important, maybe show a message row or just header
+                tableHTML += '<tr><td colspan="8" style="text-align:center; padding:10px;">위반 내역이 없거나 입력된 내용이 없습니다.</td></tr>';
+            }
+
+            tableHTML += '</tbody>';
+            
+            // User Inputs
+            const inputs = document.querySelectorAll('.bg-blue-600 input');
+            const userInfo = `
+                <tr><td colspan="8" style="background-color:#2563eb; color:white; font-size:1.2em; font-weight:bold; text-align:center;">
+                    월별 유연근무자 자체점검표 (${document.getElementById('monthPicker').value})
+                </td></tr>
+                <tr>
+                    <td colspan="2" style="font-weight:bold; background-color:#e5e7eb;">소속/직급</td>
+                    <td colspan="2">${inputs[0].value}</td>
+                    <td colspan="2" style="font-weight:bold; background-color:#e5e7eb;">성명</td>
+                    <td colspan="2">${inputs[1].value}</td>
+                </tr>
+            `;
+
+            const footer = `
+                <tr></tr>
+                <tr>
+                    <td colspan="6" style="text-align:right; font-weight:bold;">월간 위반점수 합계</td>
+                    <td style="color:red; font-weight:bold; text-align:center;">${document.getElementById('totalScore').textContent}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align:right; font-weight:bold; color:blue;">최종 제재 점수 (5점 공제)</td>
+                    <td style="color:blue; font-weight:bold; text-align:center; font-size:1.2em;">${document.getElementById('finalPenalty').textContent}</td>
+                    <td style="font-size:0.8em; color:gray;">* 1점당 1주일 유연근무 제한 (주말 미포함, 실근무일 기준)</td>
+                </tr>
+            `;
+
+            const html = `
+            <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+            <head><meta charset="utf-8"></head>
+            <body>
+                <table border="1" style="border-collapse: collapse; width: 100%;">
+                    ${userInfo}
+                    ${tableHTML}
+                    ${footer}
+                </table>
+            </body></html>`;
+
+            const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `유연근무_자체점검표_${document.getElementById('monthPicker').value}_${inputs[1].value || '이름미입력'}.xls`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initial Load
+        generateRows();
+    </script>
+</body>
+</html>
