@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반기별 유연근무제 점검 현황 보고</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- xlsx-js-style for Excel Export with Styles (Borders) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        .input-cell { width: 100%; border: none; padding: 4px; background: transparent; text-align: center; outline: none; }
+        .input-cell:focus { background-color: #f0f9ff; }
+        th { background-color: #f3f4f6; text-align: center; border: 1px solid #d1d5db; padding: 8px; font-size: 0.875rem; font-weight: 600; }
+        td { border: 1px solid #d1d5db; padding: 0; height: 36px; }
+        /* Hide number input spinners */
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        /* Print Styles */
+        @media print {
+            body { background-color: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            .shadow-lg { box-shadow: none !important; }
+            .max-w-6xl { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            
+            /* Force borders on print */
+            table, th, td { border: 1px solid black !important; border-collapse: collapse !important; }
+            
+            /* Adjust colors for print legibility */
+            th { background-color: #f3f4f6 !important; color: black !important; }
+            .bg-red-50 { background-color: #fef2f2 !important; }
+            
+            /* Input styling for print */
+            input, select { 
+                background: transparent !important; 
+                border: none !important; 
+                width: 100%; 
+                text-align: center;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+            input::placeholder { color: transparent; }
+            .w-12 { width: 5%; }
+            .w-24 { width: 10%; }
+            .w-32 { width: 15%; }
+            .w-40 { width: 18%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-6">
+
+    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-8 print:p-4">
+        <!-- Header Section -->
+        <div class="mb-6 border-b pb-4 print:border-none text-center">
+            
+            <!-- Metadata Line: Period & Dept -->
+            <div class="flex justify-center items-center gap-6 mb-3 flex-wrap">
+                <!-- 1. Target Period -->
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded">
+                    <span class="font-bold text-gray-700 whitespace-nowrap">대상기간 :</span>
+                    <input type="text" id="yearInfo" placeholder="2025년" class="bg-transparent border-b border-gray-400 px-1 py-1 w-16 text-center focus:outline-none focus:border-blue-600 print:border-none">
+                    <select id="semesterInfo" class="bg-transparent border-b border-gray-400 px-1 py-1 focus:outline-none focus:border-blue-600 print:border-none print:appearance-none">
+                        <option value="상반기">상반기</option>
+                        <option value="하반기">하반기</option>
+                    </select>
+                </div>
+
+                <!-- 2. Dept Input -->
+                <div class="flex items-center gap-2">
+                    <label for="deptName" class="text-lg font-bold text-gray-700 whitespace-nowrap">부서명 :</label>
+                    <input type="text" id="deptName" placeholder="예: 총무과" class="border-b-2 border-blue-500 px-2 py-1 text-xl font-bold text-center text-blue-900 focus:outline-none focus:border-blue-700 w-40 bg-blue-50/50 placeholder-gray-400 print:bg-transparent print:border-none print:text-black print:w-auto">
+                </div>
+            </div>
+            
+            <!-- 3. Title -->
+            <h1 class="text-2xl font-bold text-gray-800 whitespace-nowrap">반기별 유연근무제 점검 현황 (보고용)</h1>
+        </div>
+
+        <!-- Summary Section (Modified: Single Line Flex) -->
+        <div class="mb-6 bg-blue-50 p-4 rounded border border-blue-100 flex flex-wrap justify-center md:justify-around items-center gap-4 print:bg-white print:border-none print:p-0 print:mb-2">
+            <!-- Participants -->
+            <div class="flex items-center space-x-2">
+                <span class="font-semibold text-gray-700 print:text-black">○ 유연근무 실시 인원:</span>
+                <span class="text-sm text-gray-500 print:hidden">(총)</span>
+                <input type="number" id="totalParticipants" class="border rounded px-2 py-1 w-20 text-right print:border-none print:text-right print:w-16" placeholder="0">
+                <span class="text-sm">명</span>
+            </div>
+            
+            <!-- Divider (Visual only) -->
+            <div class="hidden md:block h-6 w-px bg-blue-200 print:hidden"></div>
+
+            <!-- Violators -->
+            <div class="flex items-center space-x-2">
+                <span class="font-semibold text-red-700 print:text-black">○ 유연근무 위반 인원:</span>
+                <span class="text-sm text-gray-500 print:hidden">(총)</span>
+                <input type="number" id="totalViolators" class="border rounded px-2 py-1 w-20 text-right print:border-none print:text-right print:w-16" placeholder="0">
+                <span class="text-sm">명</span>
+                <span class="text-sm text-gray-500 print:hidden">(위반건수)</span>
+                <input type="number" id="totalViolationCases" class="border rounded px-2 py-1 w-20 text-right print:border-none print:text-right print:w-16" placeholder="0">
+                <span class="text-sm">건</span>
+            </div>
+        </div>
+
+        <!-- Main Table -->
+        <div class="overflow-x-auto mb-4">
+            <table class="w-full border-collapse min-w-[800px]" id="reportTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="w-12">연번</th>
+                        <th rowspan="2" class="w-24">직급</th>
+                        <th rowspan="2" class="w-24">성명</th>
+                        <th colspan="3" class="bg-red-50 text-red-900 print:text-black print:bg-gray-100">유연근무 위반내역 (반기별 총합)</th>
+                        <th rowspan="2" class="w-40">유연근무 제한조치<br>(제한일수 계)</th>
+                        <th rowspan="2" class="w-24">비고</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-red-50 text-xs w-20 print:text-black print:bg-gray-100">위반건수 계</th>
+                        <th class="bg-red-50 text-xs w-20 print:text-black print:bg-gray-100">위반점수 계</th>
+                        <th class="bg-red-50 text-xs w-24 print:text-black print:bg-gray-100">최종위반점수 계</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rows will be added here by JS -->
+                </tbody>
+                <!-- Total Row -->
+                <tfoot class="bg-gray-100 font-bold border-t-2 border-gray-300 print:bg-gray-50">
+                    <tr>
+                        <td colspan="3" class="text-center py-2 text-gray-700">부서 계</td>
+                        <td class="text-center text-red-700" id="sumCount">0</td>
+                        <td class="text-center text-red-700" id="sumScore">0</td>
+                        <td class="text-center text-red-700" id="sumFinalScore">0</td>
+                        <td class="text-center text-gray-700" id="sumPenalty">0</td>
+                        <td class="bg-gray-200"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Action Buttons (Hidden on Print) -->
+        <div class="flex justify-between items-center mb-8 no-print">
+            <!-- Row Controls Grouped -->
+            <div class="flex gap-2">
+                <button onclick="addRow()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow text-sm flex items-center gap-1 transition whitespace-nowrap">
+                    <span>+</span> 행 추가
+                </button>
+                <button onclick="removeLastRow()" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded shadow text-sm transition whitespace-nowrap">
+                    마지막 행 삭제
+                </button>
+            </div>
+            
+            <!-- Excel Download Button -->
+            <button onclick="exportToExcel()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow font-bold flex items-center gap-2 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                엑셀 다운로드
+            </button>
+        </div>
+
+        <!-- Instructions -->
+        <div class="bg-gray-100 p-6 rounded-lg border border-gray-200 text-sm text-gray-700 print:bg-white print:border-none print:p-0 print:mt-4">
+            <h3 class="font-bold text-lg mb-3 border-b border-gray-300 pb-2 print:border-black">□ 점검 총괄현황(보고용) 작성방법</h3>
+            <ul class="space-y-3">
+                <li class="flex items-start gap-2">
+                    <span class="font-bold min-w-max">○ 유연근무 실시인원:</span>
+                    <span>반기별 실시자 기준 인원 (월별 합계가 아님, 반기 동안 유연근무 사용한 인원수)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold min-w-max">○ 유연근무 위반인원:</span>
+                    <span>반기별 실시자 기준 인원 (월별 합계가 아님, 반기 동안 유연근무 위반자 인원수), 위반건수는 월별 총합계</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold min-w-max">○ 작성대상:</span>
+                    <span>반기 내 유연근무 실시자(지방공무원) 전체 작성 (정상, 위반자 전체) - 매월 유연근무 자체 점검 확인 후 작성</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold min-w-max">○ 위반건수:</span>
+                    <span>반기 내 월별 합계 (시간 미준수 나이스 미결재 + 지문 미인식 출퇴근 미증빙 + 지문 미인식 나이스 미결재 건수)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold min-w-max">○ 위반점수 기준:</span>
+                    <span>반기 내 월별 합계 (지문 미인식 1점, 나이스 미결재 1점, 출퇴근확인서 미증빙 2점)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold min-w-max">○ 최종위반점수:</span>
+                    <span>반기 내 월별 합계 - 월별 (매월 1일~말일 기준) 위반 점수 중 5점 차감</span>
+                </li>
+                <li class="mt-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 font-bold text-center sm:text-left flex items-center gap-2 print:border-black print:bg-white print:text-black">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600 flex-shrink-0 print:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span class="print:text-sm">※ 위반점수 1점당 공휴일을 제외한 근무일 7일 제한 (주말포함 약 9일)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            for(let i=0; i<5; i++) addRow();
+            updateTotals(); // Init totals
+        };
+
+        function addRow() {
+            const tbody = document.getElementById('tableBody');
+            const rowCount = tbody.rows.length + 1;
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+                <td class="text-center text-gray-500">${rowCount}</td>
+                <td class="p-0">
+                    <select class="w-full h-full border-none outline-none text-center bg-transparent cursor-pointer input-cell">
+                        <option value="주무관" selected>주무관</option>
+                        <option value="사무관">사무관</option>
+                        <option value="과장">과장</option>
+                        <option value="장학사">장학사</option>
+                        <option value="장학관">장학관</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </td>
+                <td><input type="text" class="input-cell" placeholder="성명"></td>
+                <td><input type="number" class="input-cell bg-red-50/30 print:bg-transparent" placeholder="0" oninput="updateTotals()"></td>
+                <td><input type="number" class="input-cell bg-red-50/30 print:bg-transparent" placeholder="0.0" oninput="updateTotals()"></td>
+                <td><input type="number" class="input-cell bg-red-50/30 font-bold print:bg-transparent" placeholder="0.0" oninput="calculatePenalty(this); updateTotals()"></td>
+                <td><input type="text" class="input-cell text-red-600 font-semibold print:text-black" placeholder="자동계산" readonly tabindex="-1"></td>
+                <td class="p-0">
+                    <select class="w-full h-full border-none outline-none text-center bg-transparent cursor-pointer print:appearance-none" onchange="updateRowStyle(this)">
+                        <option value="정상" selected>정상</option>
+                        <option value="위반">위반</option>
+                    </select>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function calculatePenalty(scoreInput) {
+            const row = scoreInput.closest('tr');
+            const inputs = row.querySelectorAll('input, select');
+            const penaltyInput = inputs[5]; 
+            const statusSelect = inputs[6];
+            const score = parseFloat(scoreInput.value);
+
+            if (!isNaN(score) && score > 0) {
+                const days = score * 7;
+                penaltyInput.value = days; 
+                if(statusSelect.value === '정상') {
+                    statusSelect.value = '위반';
+                    updateRowStyle(statusSelect);
+                }
+            } else {
+                penaltyInput.value = '';
+            }
+        }
+
+        function updateTotals() {
+            let totalCount = 0;
+            let totalScore = 0;
+            let totalFinal = 0;
+            let totalPenalty = 0;
+
+            const rows = document.getElementById('tableBody').querySelectorAll('tr');
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                const count = parseFloat(inputs[2].value) || 0;
+                const score = parseFloat(inputs[3].value) || 0;
+                const final = parseFloat(inputs[4].value) || 0;
+                const penalty = parseFloat(inputs[5].value) || 0;
+
+                totalCount += count;
+                totalScore += score;
+                totalFinal += final;
+                totalPenalty += penalty;
+            });
+
+            document.getElementById('sumCount').innerText = totalCount || "-";
+            document.getElementById('sumScore').innerText = totalScore || "-";
+            document.getElementById('sumFinalScore').innerText = totalFinal || "-";
+            document.getElementById('sumPenalty').innerText = totalPenalty || "-";
+        }
+
+        function removeLastRow() {
+            const tbody = document.getElementById('tableBody');
+            if (tbody.rows.length > 1) {
+                tbody.deleteRow(-1);
+                updateTotals();
+            }
+        }
+
+        function updateRowStyle(selectElement) {
+            const row = selectElement.closest('tr');
+            if (selectElement.value === '위반') {
+                row.classList.add('bg-red-50');
+            } else {
+                row.classList.remove('bg-red-50');
+            }
+        }
+
+        function exportToExcel() {
+            const year = document.getElementById('yearInfo').value || "0000년";
+            const semester = document.getElementById('semesterInfo').value;
+            const deptName = document.getElementById('deptName').value || "미지정부서";
+            const totalPeople = document.getElementById('totalParticipants').value || "";
+            const totalViolators = document.getElementById('totalViolators').value || "";
+            const totalCases = document.getElementById('totalViolationCases').value || "";
+
+            // Get Totals
+            const sumCount = document.getElementById('sumCount').innerText;
+            const sumScore = document.getElementById('sumScore').innerText;
+            const sumFinal = document.getElementById('sumFinalScore').innerText;
+            const sumPenalty = document.getElementById('sumPenalty').innerText;
+
+            const title = `[${deptName}] ${year} ${semester} 유연근무제 점검 현황 (보고용)`;
+            
+            // Separated summary rows for Excel
+            const summaryRow1 = [`□ 유연근무 실시 인원: 총 ${totalPeople}명`];
+            const summaryRow2 = [`○ 유연근무 위반 인원: 총 ${totalViolators}명 (${totalCases}건)`];
+            
+            // Extract Data
+            const tableData = [];
+            const rows = document.getElementById('tableBody').querySelectorAll('tr');
+            
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                const rowData = [
+                    row.cells[0].innerText, // 연번
+                    inputs[0].value, // 직급
+                    inputs[1].value, // 성명
+                    inputs[2].value, // 위반건수
+                    inputs[3].value, // 위반점수
+                    inputs[4].value, // 최종위반점수
+                    inputs[5].value, // 제한조치
+                    inputs[6].value  // 비고
+                ];
+                tableData.push(rowData);
+            });
+
+            // Add Total Row to Data
+            tableData.push(["", "부서 계", "", sumCount, sumScore, sumFinal, sumPenalty, ""]);
+
+            // Build Sheet Data with separated summary rows
+            // Header starts at Row 5 (index 5)
+            const ws_data = [
+                [title], // Row 0
+                [],      // Row 1
+                summaryRow1, // Row 2
+                summaryRow2, // Row 3
+                [],      // Row 4
+                ["연번", "직급", "성명", "유연근무 위반내역(반기별 총합)", "", "", "유연근무 제한조치 결과", "비고"], // Row 5 (Header Top)
+                ["", "", "", "위반건수 계", "위반점수 계", "최종위반점수 계", "(제한일수 계)", "정상/위반"], // Row 6 (Header Bottom)
+                ...tableData, 
+                [], 
+                ["□ 점검 총괄현황(보고용) 작성방법"],
+                ["○ 유연근무 실시인원: 반기별 실시자 기준 인원 (월별 합계가 아님, 반기 동안 유연근무 사용한 인원수)"],
+                ["○ 유연근무 위반인원: 반기별 실시자 기준 인원 (월별 합계가 아님, 반기 동안 유연근무 위반자 인원수), 위반건수는 월별 총합계"],
+                ["○ 작성대상: 반기 내 유연근무 실시자(지방공무원) 전체 작성 (정상, 위반자 전체) - 매월 유연근무 자체 점검 확인 후 작성"],
+                ["○ 위반건수: 반기 내 월별 합계 (시간 미준수 나이스 미결재 + 지문 미인식 출퇴근 미증빙 + 지문 미인식 나이스 미결재 건수)"],
+                ["○ 위반점수 기준: 반기 내 월별 합계 (지문 미인식 1점, 나이스 미결재 1점, 출퇴근확인서 미증빙 2점)"],
+                ["○ 최종위반점수:  반기 내 월별 합계 - 월별 (매월 1일~말일 기준) 위반 점수 중 5점 차감"],
+                ["※ 위반점수 1점당 공휴일을 제외한 근무일 7일 제한 (주말포함 약 9일)"]
+            ];
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+            // Merges
+            if(!ws['!merges']) ws['!merges'] = [];
+            ws['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } }); // Title
+            
+            // Summary Merges (Row 2 & 3)
+            ws['!merges'].push({ s: { r: 2, c: 0 }, e: { r: 2, c: 4 } }); // Summary Row 1
+            ws['!merges'].push({ s: { r: 3, c: 0 }, e: { r: 3, c: 4 } }); // Summary Row 2
+
+            // Header Merges (Row 5 & 6)
+            ws['!merges'].push({ s: { r: 5, c: 0 }, e: { r: 6, c: 0 } }); // 연번
+            ws['!merges'].push({ s: { r: 5, c: 1 }, e: { r: 6, c: 1 } }); // 직급
+            ws['!merges'].push({ s: { r: 5, c: 2 }, e: { r: 6, c: 2 } }); // 성명
+            ws['!merges'].push({ s: { r: 5, c: 3 }, e: { r: 5, c: 5 } }); // 위반내역 Header
+            ws['!merges'].push({ s: { r: 5, c: 6 }, e: { r: 6, c: 6 } }); // 제한조치
+            ws['!merges'].push({ s: { r: 5, c: 7 }, e: { r: 6, c: 7 } }); // 비고
+            
+            // Merge "Total" row label
+            const totalRowIndex = 7 + rows.length; // 5 (Header Start) + 2 (Header Rows) + Data Rows = 7 + Data Rows
+            ws['!merges'].push({ s: { r: totalRowIndex, c: 0 }, e: { r: totalRowIndex, c: 2 } }); 
+
+            // Column Widths
+            ws['!cols'] = [
+                { wch: 6 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 15 }, { wch: 20 }, { wch: 10 }
+            ];
+
+            // --- STYLING (BORDERS) ---
+            const borderStyle = {
+                top: { style: "thin", color: { rgb: "000000" } },
+                bottom: { style: "thin", color: { rgb: "000000" } },
+                left: { style: "thin", color: { rgb: "000000" } },
+                right: { style: "thin", color: { rgb: "000000" } }
+            };
+            const centerStyle = { horizontal: "center", vertical: "center" };
+            
+            // Loop through all cells in the table range (Row 5 to End of Data)
+            for (let R = 5; R <= totalRowIndex; ++R) {
+                for (let C = 0; C <= 7; ++C) {
+                    const cell_ref = XLSX.utils.encode_cell({c: C, r: R});
+                    if (!ws[cell_ref]) ws[cell_ref] = { t: 's', v: '' }; // Create cell if empty
+                    
+                    // Apply style
+                    if(!ws[cell_ref].s) ws[cell_ref].s = {};
+                    ws[cell_ref].s.border = borderStyle;
+                    ws[cell_ref].s.alignment = centerStyle;
+                    
+                    // Header specific style (Gray background)
+                    if (R === 5 || R === 6) {
+                        ws[cell_ref].s.fill = { fgColor: { rgb: "EFEFEF" } };
+                        ws[cell_ref].s.font = { bold: true };
+                    }
+                    // Total row specific style
+                    if (R === totalRowIndex) {
+                        ws[cell_ref].s.fill = { fgColor: { rgb: "F3F4F6" } }; // Light gray
+                        ws[cell_ref].s.font = { bold: true };
+                    }
+                }
+            }
+
+            XLSX.utils.book_append_sheet(wb, ws, "점검현황");
+            const fileName = `유연근무제_점검현황_${deptName}_${year}_${semester}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+        }
+    </script>
+</body>
+</html>
