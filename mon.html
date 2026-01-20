@@ -5,6 +5,377 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>유연근무 자체점검표 (부서 보관용)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 엑셀 스타일(테두리 등) 지원 라이브러리로 변경 (xlsx-js-style) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        
+        /* 인쇄 시 설정 */
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            input, select { border: none !important; background: transparent !important; }
+            /* 인쇄 시 입력창 화살표 등 숨김 */
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+        }
+
+        th { background-color: #f3f4f6; font-weight: 600; font-size: 0.95rem; word-break: keep-all; }
+        th, td { border: 1px solid #e5e7eb; padding: 6px; vertical-align: middle; text-align: center; }
+        
+        /* 입력 필드 스타일 */
+        .input-underline {
+            border: none;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            outline: none;
+            background: transparent;
+            font-family: inherit;
+        }
+        .input-cell {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            text-align: center;
+            background: transparent;
+        }
+        .input-cell:focus { background-color: #f0fdf4; } /* 포커스 시 연한 초록색 */
+
+        /* 텍스트 정렬 유틸 */
+        .text-justify-custom { text-align: justify; word-break: break-all; }
+    </style>
+</head>
+<body class="bg-white p-8 max-w-[210mm] mx-auto min-h-screen relative">
+
+    <!-- 상단 타이틀 -->
+    <div class="text-center mb-8" id="headerInfo">
+        <h1 class="text-2xl font-bold leading-loose">
+            ( <input type="text" class="input-underline w-32 text-xl" placeholder="부서명" id="deptName"> )과 
+            &nbsp;
+            ( <input type="number" class="input-underline w-16 text-xl" placeholder="월" id="checkMonth"> )월 
+            &nbsp;유연근무 자체점검표 (부서 보관용)
+        </h1>
+    </div>
+
+    <!-- 요약 정보 -->
+    <div class="mb-4 text-right space-y-1 font-medium text-gray-800" id="summaryInfo">
+        <div>○ 유연근무 실시인원 : 총 <input type="number" class="input-underline w-16 text-right"> 명</div>
+        <div>○ 유연근무 위반인원 : 총 <input type="number" class="input-underline w-16 text-right"> 명</div>
+        <div>○ 유연근무 위반건수 : 총 <input type="number" class="input-underline w-16 text-right"> 건</div>
+        <div>* 사용자별 월별 자체점검표를 이 점검표 뒤에 포함하여 내부결재</div>
+    </div>
+
+    <!-- 메인 테이블 -->
+    <table class="w-full border-collapse mb-2 text-sm" id="mainTable">
+        <thead>
+            <tr>
+                <th rowspan="2" class="w-12">연번</th>
+                <th rowspan="2" class="w-24">유연근무자<br>(성명)</th>
+                <th rowspan="2" class="w-16">위반<br>건수</th>
+                <th rowspan="2" class="w-16">위반<br>점수</th>
+                <th rowspan="2" class="w-24">최종위반점수<br>(제한대상)</th>
+                <th colspan="4">유연근무 제한조치</th>
+            </tr>
+            <tr>
+                <th class="w-20">제한일수</th>
+                <th class="w-24">점검일<br>(적발일)</th>
+                <th class="w-24">제한시작일</th>
+                <th class="w-24">제한종료일</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- 자바스크립트로 행 생성 (기본 10줄) -->
+            <script>
+                for(let i=1; i<=10; i++) {
+                    document.write(`
+                    <tr>
+                        <td class="text-gray-500">${i}</td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                        <td><input type="number" class="input-cell calc-target" data-col="count" placeholder=""></td>
+                        <td><input type="number" class="input-cell calc-target" data-col="score" placeholder=""></td>
+                        <td><input type="text" class="input-cell calc-target" data-col="final" placeholder=""></td>
+                        <td><input type="text" class="input-cell calc-target" data-col="days" placeholder=""></td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                    </tr>
+                    `);
+                }
+            </script>
+        </tbody>
+        <tfoot>
+            <tr class="bg-gray-50 font-bold">
+                <td colspan="2">합 계</td>
+                <td><input type="number" id="sumCount" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td><input type="number" id="sumScore" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td><input type="number" id="sumFinal" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td><input type="number" id="sumDays" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td colspan="3" class="bg-gray-100"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- 행 추가/삭제 버튼 영역 -->
+    <div class="flex justify-end gap-2 mb-8 no-print">
+        <button id="btnAddRow" class="bg-gray-100 border border-gray-300 hover:bg-gray-200 text-gray-700 font-medium py-1 px-3 rounded text-sm transition flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            행 추가
+        </button>
+        <button id="btnDelRow" class="bg-gray-100 border border-gray-300 hover:bg-gray-200 text-red-600 font-medium py-1 px-3 rounded text-sm transition flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+            </svg>
+            행 삭제
+        </button>
+    </div>
+
+    <!-- 하단 작성 방법 및 안내사항 (엑셀 내용 포함) -->
+    <!-- no-print 클래스 추가됨: 인쇄 시 이 영역은 숨겨집니다. -->
+    <div class="border-t-2 border-gray-400 pt-4 text-xs text-gray-700 leading-relaxed no-print">
+        <h3 class="font-bold text-base mb-2">□ 점검결과(부서) 작성방법</h3>
+        
+        <div class="space-y-2 pl-2">
+            <p>
+                <span class="font-bold text-black">※ 작성대상:</span> 
+                현재 근무 중인 직원(지방공무원) 기준으로 매월 점검 [시차출퇴근형]. 
+                정상 출퇴근(적정) 건은 실시인원만 산출하고 본 서식은 작성생략 가능
+            </p>
+            
+            <p>
+                <span class="font-bold text-black">※ 점검방법:</span> 
+                부서 자율적으로 점검방식 결정 (서식은 수정 불가)<br>
+                <span class="bg-gray-100 px-1 rounded text-gray-600 inline-block mt-1">
+                    &lt;점검예시&gt;: [본청] (총무과) 지문인식 현황 → (부서복무담당) 기초자료 → (유연근무자) 서식작성 → (부서복무담당) 수합 및 점검 → (부서복무담당) 위반점수 확인 및 제한조치안 → (부서장) 결재 [내부결재]
+                </span>
+            </p>
+
+            <p class="text-blue-700 font-semibold mt-2">
+                ☞ 본 서식 월별 자체점검 결과는 부서 자체보관(내부결재)하고 보고하지 않음 (단, 복무총괄부서에서 필요시 점검현황을 확인할 수 있음)<br><strong>사용자의 개인별 월별점검표를 첨부하여 내부결재하시기 바람</strong>
+            </p>
+
+            <div class="mt-4 border p-3 rounded bg-gray-50 space-y-2">
+                <p>
+                    <span class="font-bold">○ 유연근무 실시인원:</span> 
+                    나이스-복무-유연근무관리-유연근무관리-조회(대상자 확인) > 1일이라도 유연근무 사용한 경우 사용인원에 포함
+                </p>
+                <p>
+                    <span class="font-bold">○ 유연근무 위반인원:</span> 
+                    유연근무 실시인원 중 월별 공제 차감이전 위반점수 원점수가 1점 이상인 인원 및 위반건수 합계
+                </p>
+                <p>
+                    <span class="font-bold">○ 위반건수:</span> 
+                    시간 미준수 나이스 미결재 + 지문 미인식 출퇴근 미증빙 + 지문 미인식 나이스 미결재 건수 합계
+                </p>
+                <p>
+                    <span class="font-bold">○ 최종위반점수:</span> 
+                    월별 (매월 1일~말일 기준) 위반 점수 중 5점 차감
+                </p>
+                <p>
+                    <span class="font-bold">○ 제한일수:</span> 
+                    최종위반점수 1점당 근무일 기준 7일(주말, 휴일 제외함)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 엑셀 다운로드 버튼 -->
+    <div class="fixed bottom-8 right-8 no-print">
+        <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2">
+            <!-- 엑셀 아이콘 -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+            엑셀로 다운로드
+        </button>
+    </div>
+
+    <!-- 자동 계산 및 엑셀 다운로드 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('tableBody');
+            const sumCount = document.getElementById('sumCount');
+            const sumScore = document.getElementById('sumScore');
+            const sumFinal = document.getElementById('sumFinal');
+            const sumDays = document.getElementById('sumDays');
+            
+            // 버튼 요소 가져오기
+            const btnAddRow = document.getElementById('btnAddRow');
+            const btnDelRow = document.getElementById('btnDelRow');
+
+            function calculate() {
+                let totalCount = 0;
+                let totalScore = 0;
+                let totalFinal = 0;
+                let totalDays = 0;
+
+                const rows = tableBody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const inputs = row.querySelectorAll('input.calc-target');
+                    
+                    if(inputs[0]) totalCount += parseFloat(inputs[0].value) || 0;
+                    if(inputs[1]) totalScore += parseFloat(inputs[1].value) || 0;
+                    if(inputs[2]) totalFinal += parseFloat(inputs[2].value) || 0;
+                    if(inputs[3]) totalDays += parseFloat(inputs[3].value) || 0;
+                });
+
+                sumCount.value = totalCount || '';
+                sumScore.value = totalScore || '';
+                sumFinal.value = totalFinal || '';
+                sumDays.value = totalDays || '';
+            }
+
+            // 행 추가 함수
+            function addRow() {
+                const currentRowsCount = tableBody.getElementsByTagName('tr').length;
+                const nextIndex = currentRowsCount + 1;
+                
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td class="text-gray-500">${nextIndex}</td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                    <td><input type="number" class="input-cell calc-target" data-col="count" placeholder=""></td>
+                    <td><input type="number" class="input-cell calc-target" data-col="score" placeholder=""></td>
+                    <td><input type="text" class="input-cell calc-target" data-col="final" placeholder=""></td>
+                    <td><input type="text" class="input-cell calc-target" data-col="days" placeholder=""></td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                `;
+                tableBody.appendChild(newRow);
+            }
+
+            // 행 삭제 함수
+            function deleteRow() {
+                const rows = tableBody.getElementsByTagName('tr');
+                if (rows.length > 0) {
+                    tableBody.removeChild(rows[rows.length - 1]);
+                    calculate(); // 삭제 후 합계 재계산
+                }
+            }
+
+            // 이벤트 위임으로 모든 입력 변화 감지
+            tableBody.addEventListener('input', calculate);
+
+            // 버튼 이벤트 리스너 등록
+            if(btnAddRow) btnAddRow.addEventListener('click', addRow);
+            if(btnDelRow) btnDelRow.addEventListener('click', deleteRow);
+        });
+
+        // 엑셀 다운로드 기능 함수 (테두리 적용 추가됨)
+        function exportToExcel() {
+            // 1. 기본 정보 수집
+            const deptInput = document.getElementById('deptName');
+            const monthInput = document.getElementById('checkMonth');
+            
+            const dept = deptInput && deptInput.value ? deptInput.value : '부서미정';
+            const month = monthInput && monthInput.value ? monthInput.value : '00';
+            const filename = `${dept}과_${month}월_유연근무자체점검표.xlsx`;
+
+            // 2. 요약 정보 수집 (상단 div 내 input들)
+            const summaryDiv = document.getElementById('summaryInfo');
+            const summaryInputs = summaryDiv.querySelectorAll('input');
+            const totalPeople = summaryInputs[0].value || '0';
+            const violPeople = summaryInputs[1].value || '0';
+            const violCount = summaryInputs[2].value || '0';
+
+            // 3. 테이블 복제 및 입력값 텍스트로 변환 (화면에는 영향 없음)
+            const originalTable = document.getElementById('mainTable');
+            const tableClone = originalTable.cloneNode(true);
+            
+            // 원본 테이블의 input 값들을 복제된 테이블의 텍스트로 치환
+            const origInputs = originalTable.querySelectorAll('input');
+            const cloneInputs = tableClone.querySelectorAll('input');
+            
+            for (let i = 0; i < cloneInputs.length; i++) {
+                const val = origInputs[i].value;
+                const textSpan = document.createElement('span');
+                textSpan.innerText = val;
+                cloneInputs[i].parentNode.replaceChild(textSpan, cloneInputs[i]);
+            }
+
+            // 4. 타이틀 및 요약 정보를 테이블 상단 행으로 삽입
+            const thead = tableClone.querySelector('thead');
+            
+            // 요약 정보 행
+            const summaryRow = document.createElement('tr');
+            const summaryCell = document.createElement('th');
+            summaryCell.colSpan = 9;
+            summaryCell.style.textAlign = 'right';
+            summaryCell.innerText = `유연근무 실시인원: ${totalPeople}명 / 위반인원: ${violPeople}명 / 위반건수: ${violCount}건`;
+            summaryRow.appendChild(summaryCell);
+            
+            // 타이틀 행
+            const titleRow = document.createElement('tr');
+            const titleCell = document.createElement('th');
+            titleCell.colSpan = 9;
+            titleCell.style.fontSize = '18px';
+            titleCell.style.textAlign = 'center';
+            titleCell.innerText = `${dept}과 ${month}월 유연근무 자체점검표 (부서 보관용)`;
+            titleRow.appendChild(titleCell);
+
+            thead.insertBefore(summaryRow, thead.firstChild);
+            thead.insertBefore(titleRow, thead.firstChild);
+
+            // 5. 워크시트 생성
+            const ws = XLSX.utils.table_to_sheet(tableClone);
+
+            // 6. [NEW] 테두리 스타일 적용 로직
+            const range = XLSX.utils.decode_range(ws['!ref']);
+            
+            // 테두리 스타일 정의 (얇은 검은색 실선)
+            const borderStyle = {
+                top: { style: "thin", color: { rgb: "000000" } },
+                bottom: { style: "thin", color: { rgb: "000000" } },
+                left: { style: "thin", color: { rgb: "000000" } },
+                right: { style: "thin", color: { rgb: "000000" } }
+            };
+
+            // 타이틀과 요약행(1, 2행)을 제외하고 표 본문부터 테두리 적용을 원하면 startRow를 2로 설정
+            // 여기서는 전체 테두리를 요청하셨으므로 전체 적용하되, 병합된 셀은 렌더러가 처리함.
+            // 깔끔하게 보이기 위해 전체 범위에 테두리 적용
+            for (let R = range.s.r; R <= range.e.r; ++R) {
+                for (let C = range.s.c; C <= range.e.c; ++C) {
+                    const cell_address = XLSX.utils.encode_cell({r: R, c: C});
+                    
+                    // 셀이 존재하지 않으면 생성 (빈 셀이라도 테두리 표시를 위해)
+                    if (!ws[cell_address]) {
+                        ws[cell_address] = { t: 's', v: '' }; // 빈 텍스트 셀 생성
+                    }
+
+                    // 스타일 객체가 없으면 초기화
+                    if (!ws[cell_address].s) ws[cell_address].s = {};
+
+                    // 테두리 적용
+                    ws[cell_address].s.border = borderStyle;
+                    
+                    // (선택사항) 텍스트 가운데 정렬 추가
+                    if (!ws[cell_address].s.alignment) {
+                         ws[cell_address].s.alignment = { vertical: "center", horizontal: "center", wrapText: true };
+                    }
+                }
+            }
+
+            // 7. 파일 저장
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "점검표");
+            XLSX.writeFile(wb, filename);
+        }
+    </script>
+</body>
+</html>!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유연근무 자체점검표 (부서 보관용)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
@@ -274,6 +645,7 @@
     </script>
 </body>
 </html>
+
 
 
 
