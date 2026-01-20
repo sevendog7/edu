@@ -68,7 +68,7 @@
     </div>
 
     <!-- 메인 테이블 -->
-    <table class="w-full border-collapse mb-8 text-sm">
+    <table class="w-full border-collapse mb-2 text-sm">
         <thead>
             <tr>
                 <th rowspan="2" class="w-12">연번</th>
@@ -116,6 +116,22 @@
             </tr>
         </tfoot>
     </table>
+
+    <!-- 행 추가/삭제 버튼 영역 (추가됨) -->
+    <div class="flex justify-end gap-2 mb-8 no-print">
+        <button id="btnAddRow" class="bg-gray-100 border border-gray-300 hover:bg-gray-200 text-gray-700 font-medium py-1 px-3 rounded text-sm transition flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            행 추가
+        </button>
+        <button id="btnDelRow" class="bg-gray-100 border border-gray-300 hover:bg-gray-200 text-red-600 font-medium py-1 px-3 rounded text-sm transition flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+            </svg>
+            행 삭제
+        </button>
+    </div>
 
     <!-- 하단 작성 방법 및 안내사항 (엑셀 내용 포함) -->
     <!-- no-print 클래스 추가됨: 인쇄 시 이 영역은 숨겨집니다. -->
@@ -199,6 +215,10 @@
             const sumScore = document.getElementById('sumScore');
             const sumFinal = document.getElementById('sumFinal');
             const sumDays = document.getElementById('sumDays');
+            
+            // 버튼 요소 가져오기
+            const btnAddRow = document.getElementById('btnAddRow');
+            const btnDelRow = document.getElementById('btnDelRow');
 
             function calculate() {
                 let totalCount = 0;
@@ -228,8 +248,41 @@
                 sumDays.value = totalDays || '';
             }
 
+            // 행 추가 함수
+            function addRow() {
+                const currentRowsCount = tableBody.getElementsByTagName('tr').length;
+                const nextIndex = currentRowsCount + 1;
+                
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td class="text-gray-500">${nextIndex}</td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                    <td><input type="number" class="input-cell calc-target" data-col="count" placeholder=""></td>
+                    <td><input type="number" class="input-cell calc-target" data-col="score" placeholder=""></td>
+                    <td><input type="text" class="input-cell calc-target" data-col="final" placeholder=""></td>
+                    <td><input type="text" class="input-cell calc-target" data-col="days" placeholder=""></td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                    <td><input type="text" class="input-cell" placeholder=""></td>
+                `;
+                tableBody.appendChild(newRow);
+            }
+
+            // 행 삭제 함수
+            function deleteRow() {
+                const rows = tableBody.getElementsByTagName('tr');
+                if (rows.length > 0) {
+                    tableBody.removeChild(rows[rows.length - 1]);
+                    calculate(); // 삭제 후 합계 재계산
+                }
+            }
+
             // 이벤트 위임으로 모든 입력 변화 감지
             tableBody.addEventListener('input', calculate);
+
+            // 버튼 이벤트 리스너 등록
+            if(btnAddRow) btnAddRow.addEventListener('click', addRow);
+            if(btnDelRow) btnDelRow.addEventListener('click', deleteRow);
         });
     </script>
 </body>
