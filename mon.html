@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유연근무 자체점검표 (부서 보관용)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        
+        /* 인쇄 시 설정 */
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            input, select { border: none !important; background: transparent !important; }
+            /* 인쇄 시 입력창 화살표 등 숨김 */
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+        }
+
+        th { background-color: #f3f4f6; font-weight: 600; font-size: 0.95rem; word-break: keep-all; }
+        th, td { border: 1px solid #e5e7eb; padding: 6px; vertical-align: middle; text-align: center; }
+        
+        /* 입력 필드 스타일 */
+        .input-underline {
+            border: none;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            outline: none;
+            background: transparent;
+            font-family: inherit;
+        }
+        .input-cell {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            text-align: center;
+            background: transparent;
+        }
+        .input-cell:focus { background-color: #f0fdf4; } /* 포커스 시 연한 초록색 */
+
+        /* 텍스트 정렬 유틸 */
+        .text-justify-custom { text-align: justify; word-break: break-all; }
+    </style>
+</head>
+<body class="bg-white p-8 max-w-[210mm] mx-auto min-h-screen relative">
+
+    <!-- 상단 타이틀 -->
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold leading-loose">
+            ( <input type="text" class="input-underline w-32 text-xl" placeholder="부서명"> )과 
+            &nbsp;
+            ( <input type="number" class="input-underline w-16 text-xl" placeholder="월"> )월 
+            &nbsp;유연근무 자체점검표 (부서 보관용)
+        </h1>
+    </div>
+
+    <!-- 요약 정보 -->
+    <div class="mb-4 text-right space-y-1 font-medium text-gray-800">
+        <div>○ 유연근무 실시인원 : 총 <input type="number" class="input-underline w-16 text-right"> 명</div>
+        <div>○ 유연근무 위반인원 : 총 <input type="number" class="input-underline w-16 text-right"> 명</div>
+        <div>○ 유연근무 위반건수 : 총 <input type="number" class="input-underline w-16 text-right"> 건</div>
+    </div>
+
+    <!-- 메인 테이블 -->
+    <table class="w-full border-collapse mb-8 text-sm">
+        <thead>
+            <tr>
+                <th rowspan="2" class="w-12">연번</th>
+                <th rowspan="2" class="w-24">유연근무자<br>(성명)</th>
+                <th rowspan="2" class="w-16">위반<br>건수</th>
+                <th rowspan="2" class="w-16">위반<br>점수</th>
+                <th rowspan="2" class="w-24">최종위반점수<br>(제한대상)</th>
+                <th colspan="4">유연근무 제한조치</th>
+            </tr>
+            <tr>
+                <th class="w-20">제한일수</th>
+                <th class="w-24">점검일<br>(적발일)</th>
+                <th class="w-24">제한시작일</th>
+                <th class="w-24">제한종료일</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- 자바스크립트로 행 생성 (기본 10줄) -->
+            <script>
+                for(let i=1; i<=10; i++) {
+                    document.write(`
+                    <tr>
+                        <td class="text-gray-500">${i}</td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                        <td><input type="number" class="input-cell calc-target" data-col="count" placeholder=""></td>
+                        <td><input type="number" class="input-cell calc-target" data-col="score" placeholder=""></td>
+                        <td><input type="text" class="input-cell calc-target" data-col="final" placeholder=""></td>
+                        <td><input type="text" class="input-cell calc-target" data-col="days" placeholder=""></td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                        <td><input type="text" class="input-cell" placeholder=""></td>
+                    </tr>
+                    `);
+                }
+            </script>
+        </tbody>
+        <tfoot>
+            <tr class="bg-gray-50 font-bold">
+                <td colspan="2">합 계</td>
+                <td><input type="number" id="sumCount" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td><input type="number" id="sumScore" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td><input type="number" id="sumFinal" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td><input type="number" id="sumDays" class="input-cell font-bold" readonly placeholder="0"></td>
+                <td colspan="3" class="bg-gray-100"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- 하단 작성 방법 및 안내사항 (엑셀 내용 포함) -->
+    <!-- no-print 클래스 추가됨: 인쇄 시 이 영역은 숨겨집니다. -->
+    <div class="border-t-2 border-gray-400 pt-4 text-xs text-gray-700 leading-relaxed no-print">
+        <h3 class="font-bold text-base mb-2">□ 점검결과(부서) 작성방법</h3>
+        
+        <div class="space-y-2 pl-2">
+            <p>
+                <span class="font-bold text-black">※ 작성대상:</span> 
+                현재 근무 중인 직원(지방공무원) 기준으로 매월 점검 [시차출퇴근형]. 
+                정상 출퇴근(적정) 건은 실시인원만 산출하고 본 서식은 작성생략 가능
+            </p>
+            
+            <p>
+                <span class="font-bold text-black">※ 점검방법:</span> 
+                부서 자율적으로 점검방식 결정 (서식은 수정 불가)<br>
+                <span class="bg-gray-100 px-1 rounded text-gray-600 inline-block mt-1">
+                    &lt;점검예시&gt;: [본청] (총무과) 지문인식 현황 → (부서복무담당) 기초자료 → (유연근무자) 서식작성 → (부서복무담당) 수합 및 점검 → (부서복무담당) 위반점수 확인 및 제한조치안 → (부서장) 결재 [내부결재]
+                </span>
+            </p>
+
+            <p class="text-blue-700 font-semibold mt-2">
+                ☞ 본 서식 월별 자체점검 결과는 부서 자체보관(내부결재)하고 보고하지 않음 (단, 복무총괄부서에서 필요시 점검현황을 확인할 수 있음)
+            </p>
+
+            <div class="mt-4 border p-3 rounded bg-gray-50 space-y-2">
+                <p>
+                    <span class="font-bold">○ 유연근무 실시인원:</span> 
+                    나이스-복무-유연근무관리-유연근무관리-조회(대상자 확인) > 1일이라도 유연근무 사용한 경우 사용인원에 포함
+                </p>
+                <p>
+                    <span class="font-bold">○ 유연근무 위반인원:</span> 
+                    유연근무 실시인원 중 월별 공제 차감이전 위반점수 원점수가 1점 이상인 인원 및 위반건수 합계
+                </p>
+                <p>
+                    <span class="font-bold">○ 출퇴근 등록(지문인식을 한 경우):</span> 
+                    출퇴근시 지문인식을 하였으나 제 시간(유연근무 시간)에 하지 않은 경우
+                </p>
+                <p class="font-bold text-red-600 pt-1">
+                    ★ (본청) 매월 총무과에서 유연근무자 지문인식 확인 현황 송부 예정 / (기관/학교) 복무 주관 부서에서 지문인식 현황 확인 <br> - 시간 미준수 :  지문인식은 하였으나 출근 지문(지각 등), 퇴근 지문(조퇴 등) 인식시간이 유연근무 시간범위를 벗어난 경우 <br> - 시간 미준수 조치건수:  시간초과 등에 대한 나이스 복무 조치 여부 (ex. 10분 지각등 유연근무 시간과 차이나는 시간만큼 지각, 조퇴 등 나이스 복무조치 여부)
+                </p>
+                <p>
+                    <span class="font-bold">○ 출퇴근 미등록(지문 미인식):</span> 
+                    유연근무일임에도 출근(지각포함), 퇴근(조퇴포함) 지문인식을 하지 않는 경우
+                </p>
+                <p class="font-bold text-red-600 pt-1">
+                    ★  ★ 지문 인식 불필요(불가능)한 경우는 제외 - 연가, 학습휴가, 공가, 병가 및 출장(출장지로 바로 출장을 가는 경우 및 출장이후 사무실 미복귀 출장) 등 유연근무일임에도 지문인식이 필요하지 않는 경우 등<br> - 지문인식 미인식 건수(출근, 퇴근): 실제 정상 출퇴근 여부와 상관없이 지문인식을 하지 않은 경우  <br>  - 지문 미인식 조치 ① 건수: 출근 또는 퇴근 지문인식을 하지 못하고, 출퇴근확인서를 증빙했는지 여부(결재 완료 여부) <br>   - 지문 미인식 조치 ② 건수:  출근 또는 퇴근시 지문인식을 하지 않고, 나이스에 복무 조치를 하였는지 여부
+                </p>
+                <p>
+                    <span class="font-bold">○ 위반건수:</span> 
+                    시간 미준수 나이스 미결재 + 지문 미인식 출퇴근 미증빙 + 지문 미인식 나이스 미결재 건수 합계
+                </p>
+                <p>
+                    <span class="font-bold">○ 위반점수 기준:</span> 
+                    지문 미인식 1점, 나이스 미결재 1점, 출퇴근확인서 미증빙 2점
+                </p>
+                <p>
+                    <span class="font-bold">○ 최종위반점수:</span> 
+                    월별 (매월 1일~말일 기준) 위반 점수 중 5점 차감
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 인쇄 버튼 (화면에서만 보임) -->
+    <!-- 수정됨: window.focus() 추가하여 인쇄 창 강제 호출 -->
+    <div class="fixed bottom-8 right-8 no-print">
+        <button onclick="window.focus(); window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            점검표 인쇄하기
+        </button>
+    </div>
+
+    <!-- 자동 계산 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.getElementById('tableBody');
+            const sumCount = document.getElementById('sumCount');
+            const sumScore = document.getElementById('sumScore');
+            const sumFinal = document.getElementById('sumFinal');
+            const sumDays = document.getElementById('sumDays');
+
+            function calculate() {
+                let totalCount = 0;
+                let totalScore = 0;
+                let totalFinal = 0;
+                let totalDays = 0;
+
+                const rows = tableBody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const inputs = row.querySelectorAll('input.calc-target');
+                    
+                    // inputs[0]: 위반건수 (count)
+                    // inputs[1]: 위반점수 (score)
+                    // inputs[2]: 최종위반점수 (final)
+                    // inputs[3]: 제한일수 (days)
+
+                    if(inputs[0]) totalCount += parseFloat(inputs[0].value) || 0;
+                    if(inputs[1]) totalScore += parseFloat(inputs[1].value) || 0;
+                    if(inputs[2]) totalFinal += parseFloat(inputs[2].value) || 0;
+                    if(inputs[3]) totalDays += parseFloat(inputs[3].value) || 0;
+                });
+
+                // 값이 0이면 빈칸으로 두려면 || '' 사용, 0으로 표시하려면 그냥 대입
+                sumCount.value = totalCount || '';
+                sumScore.value = totalScore || '';
+                sumFinal.value = totalFinal || '';
+                sumDays.value = totalDays || '';
+            }
+
+            // 이벤트 위임으로 모든 입력 변화 감지
+            tableBody.addEventListener('input', calculate);
+        });
+    </script>
+</body>
+</html>
