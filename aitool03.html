@@ -907,7 +907,7 @@ body {
     <div class="sec-head">
       <div class="sec-meta">
         <span class="sec-index">05</span>
-        <h2 class="sec-name">🤖 GPT · GEM 챗봇 지침</h2>
+        <h2 class="sec-name">🤖 챗봇 지침</h2>
       </div>
       <span class="sec-token">--pattern: nested-accordion</span>
     </div>
@@ -937,6 +937,36 @@ body {
         </div>
       </details>
 
+      <!-- 지침-->
+      <details class="accord">
+        <summary>노트북LM 소스검증 프롬프트</summary>
+        <div class="accord-body">
+          <div style="display:flex;flex-direction:column;gap:var(--sp-8);padding-top:var(--sp-16);">
+            <details class="inner-accord">
+              <summary>노트북LM 소스검증 프롬프트 <span class="tog"></span></summary>
+              <div class="inner-body">  # 역할: 전문 교육행정 데이터 분석가 및 지식 구조화 전문가 <br>
+현재 업로드된 [전체 소스]를 바탕으로 다음 단계에 따라 정보의 신뢰성과 객관성을 검증해 주세요. <br>
+## 1단계: 소스별 신뢰성 및 최신성 분석 <br>
+- 각 소스의 발행일, 작성 주체(공공기관, 연구소 등), 자료의 성격(법령, 지침, 보도자료, 의견서 등)을 파악하세요. <br>
+- 정보 간의 시간적 순서를 나열하여 '가장 최신 정보'가 무엇인지 특정하고, 구 버전의 정보와 충돌하는 부분이 있는지 확인하세요. <br>
+## 2단계: 객관적 비교 및 대조 (표 형식) <br>
+- 소스들 사이에서 공통적으로 언급되는 핵심 키워드를 추출하여 아래 형식의 표로 비교해 주세요. <br>
+| 비교 항목 | 소스 A (최신순) | 소스 B | 소스 C | 검증 결과 (일치/상충) | <br>
+| :--- | :--- | :--- | :--- | :--- | <br>
+| 핵심 내용 | | | | | <br>
+| 근거 데이터 | | | | | <br>
+| 최신성(날짜) | | | | | <br>
+## 3단계: 소스 선별 및 삭제 권고 <br>
+- 위 분석을 바탕으로 '신뢰성이 높고 반드시 유지해야 할 소스'와 '정보가 노후되었거나 주관적이라 삭제가 권장되는 소스'를 구분해 주세요. <br>
+- 삭제 권장 소스의 경우, 그 이유를 논리적으로 설명해 주세요. <br>
+## 4단계: 종합 결론 <br>
+- 검증된 정보를 바탕으로 교육행정 업무에 즉시 적용 가능한 객관적인 핵심 요약을 한 문장으로 정리해 주세요. 
+              </div>
+            </details>
+          </div>
+        </div>
+      </details>
+       
   <!-- ██ 06 — 강의 자료 ██ -->
   <section id="lecture" class="sec">
     <div class="sec-head">
