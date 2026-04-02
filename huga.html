@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,33 +11,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================================
-           NEUMORPHIC DESIGN SYSTEM
-           Background: #eaecf0, Shadows: #c8cad0 / #ffffff
+           SOFT UI DESIGN SYSTEM — Blue-Gray Palette
+           Inspired by: Planner / Todo Dashboard UI
+           Background: #E2E9F2 · Card: #F4F7FA · Accent: #2C3A5C
         ============================================================ */
         :root {
-            --bg: #eaecf0;
-            --bg-light: #f4f5f8;
-            --shadow-dark: #c2c4cc;
-            --shadow-light: #ffffff;
-            --accent: #4a7fd4;
-            --accent-soft: #dce8fb;
-            --accent-dark: #2d5fb3;
-            --text-primary: #3a3d4a;
-            --text-secondary: #6b7080;
-            --text-muted: #9ea3b2;
-            --danger: #e05555;
-            --danger-soft: #fde8e8;
-            --success: #3dba7a;
-            --success-soft: #e3f7ec;
-            --warning: #e09e40;
-            --warning-soft: #fef5e7;
-            --nm-out: 6px 6px 14px var(--shadow-dark), -6px -6px 14px var(--shadow-light);
-            --nm-out-sm: 3px 3px 8px var(--shadow-dark), -3px -3px 8px var(--shadow-light);
-            --nm-in: inset 4px 4px 10px var(--shadow-dark), inset -4px -4px 10px var(--shadow-light);
-            --nm-in-sm: inset 2px 2px 6px var(--shadow-dark), inset -2px -2px 6px var(--shadow-light);
-            --radius: 16px;
-            --radius-sm: 10px;
-            --radius-lg: 24px;
+            /* ── Surface colors ── */
+            --bg:          #E2E9F2;   /* 페이지 전체 배경 */
+            --bg-card:     #EBF0F7;   /* 섹션/패널 배경 */
+            --bg-light:    #F4F7FA;   /* 카드·위젯 배경 */
+            --bg-select:   #EEF2F8;   /* 선택된 아이템 배경 */
+
+            /* ── Shadow colors (blue-gray toned) ── */
+            --shadow-dark:  rgba(160, 180, 210, 0.55);   /* 우하 음영 */
+            --shadow-light: rgba(255, 255, 255, 0.92);   /* 좌상 하이라이트 */
+
+            /* ── Accent ── */
+            --accent:      #2C3A5C;   /* 다크 네이비 — 강조/액션 */
+            --accent-soft: #EEF2F8;   /* 액센트 배경 (badge, 선택) */
+            --accent-dark: #1A2233;   /* 가장 진한 네이비 */
+            --accent-mid:  #8B9EC7;   /* 미드 블루-그레이 */
+
+            /* ── Typography ── */
+            --text-primary:   #1A2233;   /* 제목, 강조 텍스트 */
+            --text-secondary: #4A5A7A;   /* 본문·레이블 */
+            --text-muted:     #8B9EC7;   /* 힌트·캡션 */
+
+            /* ── Semantic ── */
+            --danger:       #c0392b;
+            --danger-soft:  #fdecea;
+            --success:      #1e7e5a;
+            --success-soft: #e3f5ed;
+            --warning:      #b06a10;
+            --warning-soft: #fef3e2;
+
+            /* ── Neumorphic shadows ── */
+            --nm-out:    5px 5px 12px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
+            --nm-out-sm: 3px 3px 8px  var(--shadow-dark), -2px -2px 6px  var(--shadow-light);
+            --nm-in:     inset 3px 3px 8px  var(--shadow-dark), inset -3px -3px 8px  var(--shadow-light);
+            --nm-in-sm:  inset 2px 2px 5px  var(--shadow-dark), inset -2px -2px 5px  var(--shadow-light);
+
+            /* ── Border Radius ── */
+            --radius:     16px;
+            --radius-sm:  10px;
+            --radius-lg:  20px;
             --radius-pill: 999px;
         }
 
@@ -47,23 +65,25 @@
             background-color: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
+            font-weight: 400;
+            letter-spacing: -0.01em;
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--shadow-dark); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-mid); border-radius: 99px; opacity: 0.5; }
 
         /* ============================================================
            HEADER
         ============================================================ */
         header {
-            background: var(--bg) !important;
-            box-shadow: none !important;
+            background: var(--bg-card) !important;
+            box-shadow: 0 2px 12px rgba(160,180,210,0.25) !important;
             border-bottom: none !important;
         }
         .header-inner {
-            background: var(--bg);
+            background: var(--bg-card);
             padding: 20px 24px 0;
         }
         .header-title-row {
@@ -80,12 +100,12 @@
             width: 44px;
             height: 44px;
             border-radius: var(--radius-sm);
-            background: var(--bg);
+            background: var(--accent);
             box-shadow: var(--nm-out-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
+            color: #ffffff;
             font-size: 18px;
             flex-shrink: 0;
         }
@@ -95,13 +115,14 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             box-shadow: var(--nm-out-sm) !important;
             border: none !important;
             border-radius: var(--radius-pill) !important;
             color: var(--text-secondary) !important;
             padding: 5px 12px !important;
             font-size: 12px !important;
+            font-weight: 500;
             transition: all 0.2s;
             text-decoration: none;
         }
@@ -116,11 +137,11 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             box-shadow: var(--nm-out-sm) !important;
             border: none !important;
             border-radius: var(--radius-sm) !important;
-            color: var(--text-primary) !important;
+            color: var(--text-secondary) !important;
             padding: 8px 14px !important;
             font-size: 13px !important;
             font-weight: 500;
@@ -154,7 +175,7 @@
             padding: 14px 18px 14px 46px;
             border: none !important;
             border-radius: var(--radius-pill);
-            background: var(--bg);
+            background: var(--bg-light);
             box-shadow: var(--nm-in);
             color: var(--text-primary);
             font-size: 14px;
@@ -164,7 +185,7 @@
         }
         #searchInput::placeholder { color: var(--text-muted); }
         #searchInput:focus {
-            box-shadow: var(--nm-in), 0 0 0 2px var(--accent-soft);
+            box-shadow: var(--nm-in), 0 0 0 2px rgba(44,58,92,0.15);
         }
 
         /* Main tab bar */
@@ -173,14 +194,14 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             padding: 4px;
-            background: var(--bg);
+            background: var(--bg-card);
             border: none !important;
         }
         .main-tab-btn {
             border: none !important;
             border-bottom: none !important;
             border-radius: var(--radius-sm) !important;
-            background: var(--bg);
+            background: var(--bg-light);
             box-shadow: var(--nm-out-sm);
             color: var(--text-secondary) !important;
             font-weight: 500;
@@ -201,7 +222,7 @@
             box-shadow: var(--nm-in) !important;
             color: var(--accent) !important;
             font-weight: 700 !important;
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             border-bottom: none !important;
         }
 
@@ -216,7 +237,7 @@
            CARDS / SECTIONS
         ============================================================ */
         .nm-card {
-            background: var(--bg);
+            background: var(--bg-light);
             border-radius: var(--radius-lg);
             box-shadow: var(--nm-out);
             padding: 24px;
@@ -224,10 +245,10 @@
             transition: box-shadow 0.2s;
         }
         .nm-card:hover {
-            box-shadow: 8px 8px 18px var(--shadow-dark), -8px -8px 18px var(--shadow-light);
+            box-shadow: 7px 7px 16px var(--shadow-dark), -5px -5px 14px var(--shadow-light);
         }
         .nm-card-sm {
-            background: var(--bg);
+            background: var(--bg-light);
             border-radius: var(--radius);
             box-shadow: var(--nm-out-sm);
             padding: 18px;
@@ -237,14 +258,14 @@
         /* Override section-card and bg-white cards */
         .section-card,
         .bg-white {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             box-shadow: var(--nm-out) !important;
             border: none !important;
             border-radius: var(--radius-lg) !important;
         }
         .section-card:hover {
             transform: translateY(-2px);
-            box-shadow: 10px 10px 22px var(--shadow-dark), -10px -10px 22px var(--shadow-light) !important;
+            box-shadow: 8px 8px 18px var(--shadow-dark), -6px -6px 16px var(--shadow-light) !important;
         }
 
         /* ============================================================
@@ -263,7 +284,7 @@
             flex-shrink: 0;
             border: none !important;
             border-radius: var(--radius-sm) !important;
-            background: var(--bg);
+            background: var(--bg-light);
             box-shadow: var(--nm-out-sm);
             color: var(--text-secondary) !important;
             font-weight: 500;
@@ -277,11 +298,12 @@
             box-shadow: var(--nm-in-sm) !important;
             color: var(--accent) !important;
             font-weight: 700 !important;
+            background: var(--bg-select) !important;
         }
 
         /* Sub tabs (special category sidebar) */
         .sub-tab-active {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             color: var(--accent) !important;
             font-weight: 600 !important;
@@ -293,7 +315,7 @@
            BOKMU INTERNAL TABS
         ============================================================ */
         nav.bg-white.shadow.rounded-lg {
-            background: var(--bg) !important;
+            background: var(--bg-card) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius) !important;
             padding: 6px;
@@ -301,7 +323,7 @@
             gap: 6px;
         }
         .bokmu-tab-btn {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             box-shadow: var(--nm-out-sm) !important;
             border-radius: var(--radius-sm) !important;
             color: var(--text-secondary) !important;
@@ -315,37 +337,38 @@
             box-shadow: var(--nm-in-sm) !important;
             color: var(--accent) !important;
             font-weight: 700 !important;
+            background: var(--bg-select) !important;
         }
 
         /* ============================================================
            HEADER BANNERS (bokmu & choga)
         ============================================================ */
         .bg-blue-900 {
-            background: var(--bg) !important;
+            background: var(--accent) !important;
             box-shadow: var(--nm-out) !important;
             border-radius: var(--radius-lg) !important;
-            color: var(--accent-dark) !important;
+            color: #ffffff !important;
         }
-        .bg-blue-900 h1 { color: var(--accent-dark) !important; }
-        .bg-blue-900 p { color: var(--text-secondary) !important; }
-        .bg-blue-900 a { color: var(--accent) !important; }
-        .bg-blue-900 .text-blue-200, .bg-blue-900 .text-blue-200 a { color: var(--text-secondary) !important; }
+        .bg-blue-900 h1 { color: #ffffff !important; }
+        .bg-blue-900 p { color: rgba(255,255,255,0.8) !important; }
+        .bg-blue-900 a { color: rgba(255,255,255,0.9) !important; }
+        .bg-blue-900 .text-blue-200, .bg-blue-900 .text-blue-200 a { color: rgba(255,255,255,0.75) !important; }
 
         .bg-edu-blue {
-            background: var(--bg) !important;
+            background: var(--accent) !important;
             box-shadow: var(--nm-out) !important;
             border-radius: var(--radius-lg) !important;
-            color: var(--accent-dark) !important;
+            color: #ffffff !important;
         }
-        .bg-edu-blue h1 { color: var(--accent-dark) !important; }
-        .bg-edu-blue .text-blue-100 { color: var(--text-secondary) !important; }
-        .bg-edu-blue a { color: var(--accent) !important; }
+        .bg-edu-blue h1 { color: #ffffff !important; }
+        .bg-edu-blue .text-blue-100 { color: rgba(255,255,255,0.8) !important; }
+        .bg-edu-blue a { color: rgba(255,255,255,0.9) !important; }
 
         /* ============================================================
            INFO / HIGHLIGHT BOXES
         ============================================================ */
         .highlight-box {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             border: none !important;
             border-left: 3px solid var(--accent) !important;
             box-shadow: var(--nm-in-sm) !important;
@@ -354,7 +377,7 @@
         .highlight-box p { color: var(--text-primary) !important; }
 
         .warning-box {
-            background: var(--bg) !important;
+            background: var(--danger-soft) !important;
             border: none !important;
             border-left: 3px solid var(--danger) !important;
             box-shadow: var(--nm-in-sm) !important;
@@ -363,7 +386,7 @@
         .warning-box p, .warning-box .text-red-900 { color: var(--danger) !important; }
 
         .check-box {
-            background: var(--bg) !important;
+            background: var(--success-soft) !important;
             border: none !important;
             border-left: 3px solid var(--success) !important;
             box-shadow: var(--nm-in-sm) !important;
@@ -372,20 +395,20 @@
         .check-box h3, .check-box li { color: var(--success) !important; }
 
         .calc-box {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             border: none !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-sm) !important;
         }
 
         /* ============================================================
-           COLORED BACKGROUNDS → Neumorphic inset
+           COLORED BACKGROUNDS → Soft inset on bg-light
         ============================================================ */
         .bg-blue-50, .bg-indigo-50, .bg-green-50,
         .bg-orange-50, .bg-purple-50, .bg-yellow-50,
         .bg-red-50, .bg-gray-50, .bg-slate-50,
         .bg-teal-50, .bg-red-100 {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             border: none !important;
             border-radius: var(--radius-sm) !important;
@@ -414,30 +437,30 @@
             border-collapse: separate !important;
             border-spacing: 0 !important;
             border: none !important;
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border-radius: var(--radius) !important;
             overflow: hidden;
             box-shadow: var(--nm-in-sm) !important;
         }
         table thead tr {
-            background: var(--bg) !important;
+            background: var(--bg-card) !important;
         }
         table thead th {
-            background: var(--bg) !important;
+            background: var(--bg-card) !important;
             color: var(--text-secondary) !important;
             font-weight: 600;
             font-size: 12px;
             letter-spacing: 0.03em;
-            border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+            border-bottom: 1px solid rgba(44,58,92,0.08) !important;
             padding: 12px 14px;
         }
         table tbody tr {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             transition: background 0.15s;
         }
-        table tbody tr:hover { background: rgba(74,127,212,0.04) !important; }
+        table tbody tr:hover { background: var(--bg-select) !important; }
         table tbody td {
-            border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+            border-bottom: 1px solid rgba(44,58,92,0.05) !important;
             border-right: none !important;
             padding: 12px 14px;
             color: var(--text-primary) !important;
@@ -445,10 +468,10 @@
         }
         table tbody tr:last-child td { border-bottom: none !important; }
 
-        .table-header { background: var(--bg) !important; }
+        .table-header { background: var(--bg-card) !important; }
         .process-table th {
-            background: var(--bg) !important;
-            border-bottom: 2px solid rgba(0,0,0,0.07) !important;
+            background: var(--bg-card) !important;
+            border-bottom: 2px solid rgba(44,58,92,0.08) !important;
         }
         .table-container {
             border-radius: var(--radius) !important;
@@ -461,12 +484,14 @@
            TYPOGRAPHY
         ============================================================ */
         h1, h2, h3, h4 { color: var(--text-primary) !important; }
+        h1 { font-weight: 700; }
         h2.text-xl, h2.text-2xl { font-weight: 700; }
+        h3 { font-weight: 500; }
         p { color: var(--text-secondary) !important; }
         li { color: var(--text-secondary) !important; }
         strong { color: var(--text-primary) !important; }
         a { color: var(--accent) !important; text-decoration: none; transition: opacity 0.15s; }
-        a:hover { opacity: 0.75; }
+        a:hover { opacity: 0.7; }
 
         .text-blue-600, .text-blue-700, .text-blue-800, .text-indigo-700 { color: var(--accent) !important; }
         .text-red-600, .text-red-700, .text-red-800 { color: var(--danger) !important; }
@@ -478,18 +503,18 @@
         .text-edu-blue { color: var(--accent) !important; }
 
         /* Icon colored backgrounds */
-        .bg-blue-100, .bg-blue-600 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-red-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-green-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-orange-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-purple-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-indigo-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-teal-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-emerald-100 { background: var(--bg) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-blue-100, .bg-blue-600 { background: var(--bg-select) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-red-100 { background: var(--danger-soft) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-green-100 { background: var(--success-soft) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-orange-100 { background: var(--warning-soft) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-purple-100 { background: var(--bg-select) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-indigo-100 { background: var(--bg-select) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-teal-100 { background: var(--success-soft) !important; box-shadow: var(--nm-in-sm) !important; }
+        .bg-emerald-100 { background: var(--success-soft) !important; box-shadow: var(--nm-in-sm) !important; }
         .bg-blue-600 { box-shadow: var(--nm-out-sm) !important; }
 
         span[class*="bg-"][class*="-100"] {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
         }
 
@@ -501,14 +526,14 @@
         .border-l-4.border-blue-500 {
             border: none !important;
             border-left: 3px solid var(--accent) !important;
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
         }
-        .border-l-4.border-indigo-500 { border-left: 3px solid #6366f1 !important; }
+        .border-l-4.border-indigo-500 { border-left: 3px solid #4a6fa5 !important; }
 
         /* Cards grid items */
         .card-hover {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border-radius: var(--radius) !important;
             box-shadow: var(--nm-out-sm) !important;
             border: none !important;
@@ -516,13 +541,13 @@
         }
         .card-hover:hover {
             transform: translateY(-2px);
-            box-shadow: 5px 5px 12px var(--shadow-dark), -5px -5px 12px var(--shadow-light) !important;
+            box-shadow: 5px 5px 12px var(--shadow-dark), -4px -4px 10px var(--shadow-light) !important;
         }
 
         /* Grid boxes (공휴일 등) */
         .bg-gray-50.p-3.rounded.border,
         div.bg-gray-50.p-3.rounded {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             border: none !important;
             border-radius: var(--radius-sm) !important;
@@ -530,59 +555,59 @@
 
         /* Process cards in you.html */
         .bg-white.border.border-slate-200.rounded-lg {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border: none !important;
             box-shadow: var(--nm-out-sm) !important;
             border-radius: var(--radius) !important;
         }
         .bg-white.border.border-slate-200.rounded-lg:hover {
-            box-shadow: 5px 5px 14px var(--shadow-dark), -5px -5px 14px var(--shadow-light) !important;
+            box-shadow: 5px 5px 14px var(--shadow-dark), -4px -4px 12px var(--shadow-light) !important;
         }
 
         /* Inline code/formula boxes */
         .calc-box.p-4 {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-sm) !important;
-            border: 1px dashed rgba(74,127,212,0.3) !important;
+            border: 1px dashed rgba(44,58,92,0.2) !important;
         }
 
         /* bg-slate-800 summary section */
         .bg-slate-800 {
-            background: var(--text-primary) !important;
+            background: var(--accent-dark) !important;
             border-radius: var(--radius-lg) !important;
-            box-shadow: 8px 8px 18px rgba(0,0,0,0.2), -4px -4px 10px rgba(255,255,255,0.05) !important;
+            box-shadow: 6px 6px 16px rgba(26,34,51,0.35), -3px -3px 10px rgba(255,255,255,0.06) !important;
         }
         .bg-slate-800 * { color: rgba(255,255,255,0.9) !important; }
         .bg-slate-800 strong { color: #ffffff !important; }
         .bg-slate-800 span.bg-blue-500 {
-            background: var(--accent) !important;
-            box-shadow: 2px 2px 6px rgba(74,127,212,0.5) !important;
+            background: var(--accent-mid) !important;
+            box-shadow: 2px 2px 6px rgba(44,58,92,0.4) !important;
         }
 
         /* Q&A answer boxes */
         .bg-gray-100.p-2.rounded {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-sm) !important;
         }
 
         /* orange info cards in bokmu */
         li.flex.items-start.bg-orange-50 {
-            background: var(--bg) !important;
+            background: var(--warning-soft) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-sm) !important;
         }
 
         /* indigo cards */
         .bg-indigo-50.p-4 {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
         }
 
         /* green check intro box */
         .bg-green-50 {
-            background: var(--bg) !important;
+            background: var(--success-soft) !important;
             box-shadow: var(--nm-in-sm) !important;
             border: none !important;
             border-radius: var(--radius-sm) !important;
@@ -590,14 +615,14 @@
 
         /* Section icons */
         section h2 span[class*="p-2 rounded-lg"] {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-sm) !important;
         }
 
         /* huga content cards */
         #huga-content-area .bg-white {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border: none !important;
             box-shadow: var(--nm-out) !important;
             border-radius: var(--radius-lg) !important;
@@ -613,7 +638,7 @@
 
         /* print button */
         button.hidden.md\:inline-flex {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border-radius: var(--radius-pill) !important;
             box-shadow: var(--nm-out-sm) !important;
             border: none !important;
@@ -629,7 +654,7 @@
 
         /* scroll to top button */
         footer button {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border-radius: var(--radius-pill) !important;
             box-shadow: var(--nm-out-sm) !important;
             border: none !important;
@@ -646,7 +671,7 @@
            SEARCH RESULTS
         ============================================================ */
         #search-results-area > div.grid > div {
-            background: var(--bg) !important;
+            background: var(--bg-light) !important;
             border: none !important;
             border-radius: var(--radius) !important;
             box-shadow: var(--nm-out-sm) !important;
@@ -657,7 +682,8 @@
             box-shadow: var(--nm-in-sm) !important;
         }
         #search-results-area span.text-xs.font-bold.text-blue-600.bg-blue-50 {
-            background: var(--bg) !important;
+            background: var(--accent-soft) !important;
+            color: var(--accent) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-pill) !important;
             padding: 3px 10px;
@@ -667,7 +693,7 @@
            FOOTER
         ============================================================ */
         footer {
-            background: var(--bg) !important;
+            background: var(--bg-card) !important;
             border-top: none !important;
             margin-top: 32px;
         }
@@ -676,8 +702,8 @@
            HIGHLIGHT PULSE ANIMATION (search)
         ============================================================ */
         @keyframes highlight-pulse {
-            0% { box-shadow: var(--nm-out), 0 0 0 0 rgba(74,127,212,0.6) !important; }
-            70% { box-shadow: var(--nm-out), 0 0 0 8px rgba(74,127,212,0) !important; }
+            0% { box-shadow: var(--nm-out), 0 0 0 0 rgba(44,58,92,0.4) !important; }
+            70% { box-shadow: var(--nm-out), 0 0 0 8px rgba(44,58,92,0) !important; }
             100% { box-shadow: var(--nm-out) !important; }
         }
         .highlight-target {
@@ -708,7 +734,7 @@
 
         /* Huga sub-sidebar buttons */
         #huga-content-area button {
-            background: var(--bg);
+            background: var(--bg-light);
             border-radius: var(--radius-sm) !important;
             box-shadow: var(--nm-out-sm) !important;
             border: none !important;
@@ -724,6 +750,7 @@
             box-shadow: var(--nm-in-sm) !important;
             color: var(--accent) !important;
             font-weight: 600 !important;
+            background: var(--bg-select) !important;
         }
 
         /* Responsive mobile adjustments */
@@ -735,20 +762,49 @@
         /* Lucide icon containers */
         div[class*="p-3"][class*="bg-indigo-100"],
         div[class*="p-3"][class*="bg-emerald-100"] {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-sm) !important;
         }
 
         /* number circles */
         span.bg-gray-200.text-gray-700 {
-            background: var(--bg) !important;
+            background: var(--bg-select) !important;
             box-shadow: var(--nm-in-sm) !important;
             color: var(--text-secondary) !important;
         }
 
         /* Process table row separators */
-        .process-table td { border-bottom: 1px solid rgba(0,0,0,0.04) !important; }
+        .process-table td { border-bottom: 1px solid rgba(44,58,92,0.05) !important; }
+
+        /* ============================================================
+           SCORE BADGES — 분석 이미지 스타일에 맞게 카운트 pill 스타일 적용
+        ============================================================ */
+        .score-badge {
+            border-radius: var(--radius-pill) !important;
+            box-shadow: var(--nm-out-sm) !important;
+            border: none !important;
+            font-weight: 700;
+            font-size: 11px;
+            padding: 3px 10px !important;
+        }
+        .bg-score-0 { background: var(--success-soft) !important; color: var(--success) !important; }
+        .bg-score-1 { background: var(--warning-soft) !important; color: var(--warning) !important; }
+        .bg-score-2 { background: var(--warning-soft) !important; color: #b06a10 !important; }
+        .bg-score-3 { background: var(--danger-soft) !important; color: var(--danger) !important; }
+        .bg-score-4 { background: var(--danger) !important; color: #fff !important; box-shadow: 2px 2px 6px rgba(192,57,43,0.35) !important; }
+
+        /* ============================================================
+           CATEGORY COUNT PILL — 이미지 스타일 (다크 네이비 pill)
+        ============================================================ */
+        .cat-count-pill {
+            background: var(--accent) !important;
+            color: #ffffff !important;
+            border-radius: var(--radius-pill) !important;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 10px;
+        }
     </style>
 </head>
 <body>
@@ -1208,17 +1264,26 @@
         <!-- ========================================== -->
         <!-- 3. [유연근무] 탭 컨텐츠 -->
         <!-- ========================================== -->
-        <div id="view-you" class="view-section hidden searchable-container">
-            <header class="bg-edu-blue text-white p-6 shadow-md rounded-lg mb-6">
-                <div class="max-w-4xl mx-auto">
-                    <div class="flex items-center space-x-3">
-                        <span class="bg-white text-edu-blue px-2 py-1 rounded text-xs font-bold">2025.7.1.기준</span>
-                        <h1 class="text-2xl font-bold">지방공무원 유연근무제 운영 가이드</h1>
-                    </div>
-                    <p class="mt-2 text-blue-100 text-sm"><a href="https://sevendog7.github.io/edu/UY.html" target="_blank"><strong><사용자>월별 자체점검</strong>(클릭)</a>    <a href="https://sevendog7.github.io/edu/mon.html" target="_blank"><strong><과서무>과 월별 점검표</strong>(클릭)</a>          <a href="https://sevendog7.github.io/edu/BUY.html" target="_blank"><strong><과서무>반기별 보고서</strong>(클릭)</a>
-     </p>
-                </div>
-            </header>
+<div id="view-you" class="view-section hidden searchable-container">
+    <header class="bg-edu-blue text-white p-6 shadow-md rounded-lg mb-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center space-x-3">
+                <span class="bg-white text-edu-blue px-2 py-1 rounded text-xs font-bold">2025.7.1.기준</span>
+                <h1 class="text-xl font-bold text-slate-900">지방공무원 유연근무제 운영 가이드</h1>
+            </div>
+<p class="text-sm font-bold text-slate-900 mt-2">
+    <a href="https://sevendog7.github.io/edu/UY.html" target="_blank" class="mr-3">
+        <strong style="color: #facc15 !important;"><사용자> 월별 자체점검</strong>(클릭)
+    </a>    
+    <a href="https://sevendog7.github.io/edu/mon.html" target="_blank" class="mr-3">
+        <strong style="color: #facc15 !important;"><과서무>과 월별 점검표</strong>(클릭)
+    </a>          
+    <a href="https://sevendog7.github.io/edu/BUY.html" target="_blank">
+        <strong style="color: #facc15 !important;"><과서무>반기별 보고서</strong>(클릭)
+    </a>
+</p>
+        </div>
+    </header>
 
             <div class="max-w-4xl mx-auto space-y-12">
                 <section class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
@@ -1771,16 +1836,16 @@
         <!-- 4. [시간외근무] 탭 컨텐츠 -->
         <!-- ========================================== -->
         <div id="view-choga" class="view-section hidden searchable-container">
-            <header class="bg-blue-900 text-white py-8 px-6 shadow-lg rounded-t-lg mb-6">
+            <header class="bg-blue-900 text-white p-6 shadow-lg rounded-t-lg mb-6">
                 <div class="max-w-4xl mx-auto">
-                    <h1 class="text-3xl font-bold mb-2"><i class="fas fa-clock mr-2"></i> 시간외근무(초과근무) & 수당 가이드</h1>
+                    <h1 class="text-xl font-bold text-slate-900"><i class="fas fa-clock mr-2"></i> 시간외근무(초과근무) & 수당 가이드</h1>
                     <p class="text-blue-200">신규 공무원이 꼭 알아야 할 급여와 복무의 핵심 정리</p>
                 </div>
             </header>
 
             <div class="max-w-4xl mx-auto space-y-8">
                 <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">1. 시간외근무란?</h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-4 border-b pb-2">1. 시간외근무란?</h2>
                     <p class="mb-4 leading-relaxed">
                         정규 근무시간(평일 09:00 ~ 18:00) 외에 업무상 필요에 의해 <strong>명령권자의 근무명령</strong>을 받고 근무하는 것을 말합니다. 
                         <br>공무원 수당 등에 관한 규정에 따라 예산의 범위 내에서 수당을 지급합니다. (교육훈련파견이나 휴가중에는 초과근무 불가)
@@ -1795,7 +1860,7 @@
                 </section>
 
                 <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">2. 시간외근무수당의 두 가지 종류</h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-4 border-b pb-2">2. 시간외근무수당의 두 가지 종류</h2>
                     <p class="mb-4">일반직 공무원(현업 제외)의 시간외근무수당은 크게 <strong>① 정액분</strong>과 <strong>② 실적분</strong>으로 나뉩니다.</p>
 
                     <div class="grid md:grid-cols-2 gap-6">
@@ -1822,7 +1887,7 @@
                 </section>
 
                 <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">3. 인정 시간 산정 방법 (지방공무원 보수지침 p.336)</h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-4 border-b pb-2">3. 인정 시간 산정 방법 (지방공무원 보수지침 p.336)</h2>
                     <p class="mb-4 text-gray-600">상황에 따라 계산법이 달라지니 꼼꼼히 확인하세요. 매일의 인정 시간은 <strong>분 단위까지 합산</strong>합니다.</p>
 
                     <div class="space-y-6">
@@ -1896,7 +1961,7 @@
                 </section>
 
                 <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">4. 나는 얼마를 받을까? (지급단가)</h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-4 border-b pb-2">4. 나는 얼마를 받을까? (지급단가)</h2>
                     <div class="calc-box p-4 rounded text-center mb-4">
                         <p class="font-bold text-lg">시간당 단가 = 봉급기준액 × 1/209 × 150%</p>
                     </div>
@@ -1933,7 +1998,7 @@
                 </section>
 
                 <section class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <h2 class="text-2xl font-bold text-blue-800 mb-4 border-b pb-2">5. 초과근무 사전 명령과 확인 (매우 중요)</h2>
+                    <h2 class="text-xl font-bold text-blue-800 mb-4 border-b pb-2">5. 초과근무 사전 명령과 확인 (매우 중요)</h2>
                     <p class="mb-4 text-gray-600">초과근무는 반드시 <strong>'명령'</strong>에 의해 이루어져야 합니다. 임의로 근무하고 나중에 청구할 수 없습니다.</p>
 
                     <div class="grid md:grid-cols-2 gap-6">
@@ -2212,7 +2277,6 @@
                             { name: "수업휴가(조례)", detail: "연가일수를 초과하는 출석수업일수", sub: "방통대 재학중 공무원중 연가초과 수업 참석 시" },
                             { name: "학습휴가(조례)", detail: "연 5일 이내", sub: "지방공무원 대상 (방학 무관 사용 가능)" },
                             { name: "자녀입영휴가(조례)", detail: "1일", sub: "자녀 입영일 또는 훈련소 수료일" },
-                            { name: "심리안정휴가(예규 p.102)", detail: "4일 이내(일단위 또는 시간단위)", sub: "공무원재해보상법 제5조제1호 및 제6호부터 제11호에 해당하는 직무수행시 인명피해가 있는 사건사고경험으로 심리적 안정과 정신적 회복 필요 인정시" },
                             { 
                                 name: "포상휴가(조례, 6개월 이내 사용)", 
                                 detail: "5일 이내(일단위 사용 가능, 시간분할 불가)", 
@@ -2254,7 +2318,8 @@
                                         </table>
                                     </div>
                                 `
-                            }
+                            },
+                            { name: "심리안정휴가(예규 p.102)", detail: "4일 이내(일단위 또는 시간단위)", sub: "공무원재해보상법 제5조제1호 및 제6호부터 제11호에 해당하는 직무수행시 인명피해가 있는 사건사고경험으로 심리적 안정과 정신적 회복 필요 인정시" }
                         ]
                     }
                 ]
@@ -2320,11 +2385,11 @@
             const container = document.getElementById('huga-content-area');
             const data = leaveData[currentHugaTab];
             let html = `
-                <div class="mb-6">
+                    <div class="mb-6">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">${data.title}</h2>
                     <p class="text-slate-600">${data.description}</p>
-                    <p class="text-xs text-slate-500 mt-2 font-medium bg-slate-100 inline-block px-2 py-1 rounded">
-                        <i class="fa-solid fa-gavel mr-1 text-slate-400"></i>${data.laws}
+                    <p class="text-xs text-slate-500 mt-2 font-medium bg-slate-100 inline-block px-2 py-1 rounded" style="background:var(--bg-select)!important;color:var(--text-muted)!important;border-radius:var(--radius-sm);box-shadow:var(--nm-in-sm);">
+                        <i class="fa-solid fa-gavel mr-1" style="color:var(--accent);"></i>${data.laws}
                     </p>
                 </div>
             `;
@@ -2342,10 +2407,10 @@
                         </div>
                         <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
                             ${data.categories.find(c => c.id === currentHugaSpecialCat).leaves.map(leave => `
-                                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm card-hover">
-                                    <h3 class="font-bold text-lg text-slate-800 mb-2">${leave.name}</h3>
-                                    ${leave.detail ? `<div class="text-blue-600 font-bold mb-1">${leave.detail}</div>` : ''}
-                                    <div class="text-sm text-slate-500 leading-relaxed">${leave.sub}</div>
+                                <div class="card-hover p-5" style="border-radius:var(--radius);">
+                                    <h3 class="font-bold text-lg mb-2" style="color:var(--text-primary);">${leave.name}</h3>
+                                    ${leave.detail ? `<div class="font-bold mb-1" style="color:var(--accent);">${leave.detail}</div>` : ''}
+                                    <div class="text-sm leading-relaxed" style="color:var(--text-secondary);">${leave.sub}</div>
                                 </div>
                             `).join('')}
                         </div>
@@ -2353,10 +2418,10 @@
             } else {
                 html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     ${data.items.map(item => `
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="nm-card" style="padding:24px;">
                             <div class="flex items-center gap-3 mb-4">
-                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><i class="fa-solid ${item.icon}"></i></div>
-                                <h3 class="font-bold text-xl text-slate-800">${item.title}</h3>
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background:var(--bg-select);box-shadow:var(--nm-in-sm);color:var(--accent);"><i class="fa-solid ${item.icon}"></i></div>
+                                <h3 class="font-bold text-xl" style="color:var(--text-primary);">${item.title}</h3>
                             </div>
                             <div>${item.content}</div>
                         </div>
@@ -2445,20 +2510,22 @@
         function renderSearchResults(results, keyword) {
             const container = document.getElementById('search-results-area');
             if (results.length === 0) {
-                container.innerHTML = `<div class="bg-gray-100 p-4 rounded text-center text-gray-500">"${keyword}"에 대한 검색 결과가 없습니다.</div>`;
+            container.innerHTML = `<div style="background:var(--bg-light);border-radius:var(--radius-sm);box-shadow:var(--nm-in-sm);padding:16px;text-align:center;color:var(--text-muted);">"${keyword}"에 대한 검색 결과가 없습니다.</div>`;
                 return;
             }
 
-            let html = `<h3 class="font-bold text-lg mb-3 border-b pb-2">🔍 검색 결과 (${results.length}건)</h3><div class="grid gap-3">`;
+            let html = `<h3 class="font-bold text-lg mb-3" style="color:var(--text-primary);padding-bottom:8px;border-bottom:1px solid rgba(44,58,92,0.08);">🔍 검색 결과 (${results.length}건)</h3><div class="grid gap-3">`;
             results.forEach((res, index) => {
                 html += `
-                    <div class="bg-white p-4 rounded border hover:border-blue-500 cursor-pointer shadow-sm group transition-all" id="search-res-${index}">
+                    <div style="background:var(--bg-light);border-radius:var(--radius);box-shadow:var(--nm-out-sm);padding:16px;cursor:pointer;transition:all 0.2s;" id="search-res-${index}"
+                         onmouseover="this.style.boxShadow='inset 2px 2px 5px var(--shadow-dark),inset -2px -2px 5px var(--shadow-light)'"
+                         onmouseout="this.style.boxShadow='3px 3px 8px rgba(160,180,210,0.55),-2px -2px 6px rgba(255,255,255,0.92)'">
                         <div class="flex justify-between">
-                            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">${res.type}</span>
-                            <span class="text-xs text-gray-400 group-hover:text-blue-500">이동하기 <i class="fas fa-arrow-right"></i></span>
+                            <span style="font-size:11px;font-weight:500;background:var(--accent);color:#fff;border-radius:var(--radius-pill);padding:3px 10px;">${res.type}</span>
+                            <span style="font-size:12px;color:var(--text-muted);">이동하기 →</span>
                         </div>
-                        <h4 class="font-bold text-slate-800 mt-2">${res.title}</h4>
-                        <p class="text-sm text-slate-600 mt-1 line-clamp-2">${res.snippet.substring(0, 100)}</p>
+                        <h4 class="font-bold mt-2" style="color:var(--text-primary);">${res.title}</h4>
+                        <p class="text-sm mt-1 line-clamp-2" style="color:var(--text-secondary);">${res.snippet.substring(0, 100)}</p>
                     </div>
                 `;
             });
