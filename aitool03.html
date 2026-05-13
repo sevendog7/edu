@@ -681,6 +681,31 @@ body {
     </div>
     <div class="accord-stack">
       <details class="accord">
+        <summary>GPT5.5 프롬프트</summary>
+        <div class="accord-body">
+          <div class="prompt-list">
+            <div class="prompt-item">
+              <span class="prompt-label">GPT5.5 프롬프팅 가이드</span>
+Role: [모델의 역할과 제품 맥락을 1-2문장으로 정의]<br>
+# Personality<br>
+[톤, 협업 방식, 질문/가정 기준을 짧게 정의]<br>
+# Goal<br>
+[사용자가 최종적으로 얻어야 하는 결과]<br>
+# Success criteria<br>
+- [완료 전에 반드시 참이어야 할 조건]<br>
+- [필수 근거, 액션, 출력 필드]<br>
+# Constraints<br>
+- [안전, 정책, 데이터, 사이드 이펙트 제한]<br>
+- [검색, 도구 사용, 인용 규칙]<br>
+# Output<br>
+[섹션, 길이, 언어, 형식, verbosity]<br>
+# Stop rules<br>
+[재시도, 질문, 중단, 답변 가능 시점]
+          </div>
+        </div>
+      </details>
+<!-- ██ 02 — 음악 생성 프롬프트 ██ -->       
+      <details class="accord">
         <summary>🎵 음악 생성 (GPT / GEMINI / Claude / SUNO)</summary>
         <div class="accord-body">
           <div class="prompt-list">
@@ -724,7 +749,7 @@ body {
           </div>
         </div>
       </details>
-
+       
       <!-- 일정시간 보고 -->
       <details class="accord">
         <summary>📅 일정시간에 보고받기</summary>
