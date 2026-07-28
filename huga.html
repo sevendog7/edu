@@ -822,13 +822,6 @@
                         <div>
                             <h1 class="text-xl font-bold text-slate-900">지방공무원 복무 가이드</h1>
                             <p class="text-xs text-slate-500 mb-2">('26.기준) 휴가, 출장, 유연근무, 시간외근무 참고자료 (by ST)</p> 
-
-                            <!-- ▼▼▼ 여기에 방문자 카운트 표시용 div 추가 ▼▼▼ -->
-                            <div class="flex items-center gap-3 text-xs mb-2" style="color:var(--text-muted);">
-                                <span><i class="fa-solid fa-eye mr-1"></i>오늘 방문 <strong id="todayCount">-</strong></span>
-                                <span><i class="fa-solid fa-chart-line mr-1"></i>누적 방문 <strong id="totalCount">-</strong></span>
-                            </div>
-                            <!-- ▲▲▲ -->                        
                             
                             <div class="flex flex-wrap gap-2 text-xs">
                                 <a href="https://www.law.go.kr/법령/지방공무원복무규정" target="_blank" class="law-link">
@@ -2355,30 +2348,11 @@
         let currentMainTab = 'huga';
         let currentHugaTab = 'yeonga';
         let currentHugaSpecialCat = '경조사';
-
-// ▼▼▼ 여기에 새 함수 추가 ▼▼▼
-        async function updateVisitorCount() {
-            const siteKey = 'gwangju-bokmu-guide';
-            const today = new Date().toISOString().slice(0, 10);
-
-            try {
-                const totalRes = await fetch(`https://counterapi.dev/api/${siteKey}/total/up`);
-                const totalData = await totalRes.json();
-                document.getElementById('totalCount').innerText = (totalData.count ?? totalData.value ?? '-').toLocaleString();
-
-                const todayRes = await fetch(`https://counterapi.dev/api/${siteKey}/day-${today}/up`);
-                const todayData = await todayRes.json();
-                document.getElementById('todayCount').innerText = (todayData.count ?? todayData.value ?? '-').toLocaleString();
-            } catch (e) {
-                console.error('방문자 수 카운트 실패:', e);
-            }
-        }
-        // ▲▲▲ 여기까지 ▲▲▲        
+  
 
         document.addEventListener('DOMContentLoaded', () => {
             renderHugaContent();
             lucide.createIcons();
-            updateVisitorCount();  
                         
             document.getElementById('searchInput').addEventListener('input', (e) => {
                 const keyword = e.target.value.toLowerCase().trim();
