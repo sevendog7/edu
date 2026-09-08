@@ -15,158 +15,177 @@
     --ink-soft:#767066;
     --line: rgba(22,21,20,.08);
     --accent:#2c2b3a;
-    --shadow-1: 0 1px 2px rgba(22,21,20,.04), 0 18px 40px -22px rgba(22,21,20,.16);
-    --shadow-2: 0 4px 10px rgba(22,21,20,.06), 0 26px 48px -20px rgba(22,21,20,.22);
-    --panel-w: min(1240px, 92vw);
+    --shadow-1: 0 1px 2px rgba(22,21,20,.04), 0 12px 26px -16px rgba(22,21,20,.18);
+    --shadow-2: 0 4px 10px rgba(22,21,20,.06), 0 20px 36px -16px rgba(22,21,20,.24);
+    --panel-w: min(1240px, 94vw);
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
 
-  html{ scroll-behavior:smooth; }
   body{
     background:var(--paper);
     color:var(--ink);
     font-family:'Noto Sans KR', sans-serif;
     -webkit-font-smoothing:antialiased;
-    padding: clamp(24px, 5vh, 64px) 0 clamp(40px, 6vh, 72px);
+    height:100vh; height:100dvh;
+    overflow-y:auto;
+    display:flex; flex-direction:column;
+    padding: clamp(10px, 2.2vh, 22px) 0;
   }
 
-  .wrap{ width:var(--panel-w); margin:0 auto; }
+  .wrap{
+    width:var(--panel-w); margin:0 auto;
+    flex:1 1 auto; min-height:0;
+    display:flex; flex-direction:column;
+  }
 
   /* ---------- HERO ---------- */
   header.cover{
-    padding-bottom: clamp(28px, 5vh, 48px);
-    margin-bottom: clamp(36px, 6vh, 60px);
+    flex:0 0 auto;
+    padding-bottom: clamp(10px, 1.8vh, 18px);
+    margin-bottom: clamp(10px, 1.8vh, 18px);
     border-bottom:1px solid var(--line);
   }
   .cover-label{
-    font-size: clamp(12px, 1vw, 14px);
+    font-size: clamp(10.5px, 1vw, 13px);
     color:var(--ink-soft);
-    margin-bottom: clamp(14px, 2vh, 22px);
+    margin-bottom: clamp(4px, .8vh, 8px);
   }
   h1.title{
     font-family:'Noto Serif KR', serif;
     font-weight:900;
-    font-size: clamp(48px, 8.4vw, 108px);
+    font-size: clamp(30px, 6.2vh, 62px);
     line-height:0.98;
     letter-spacing:-.015em;
     color:var(--ink);
   }
   .cover-meta{
     display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;
-    gap: clamp(16px, 3vw, 28px);
-    margin-top: clamp(20px, 3vh, 32px);
+    gap: clamp(10px, 2vw, 20px);
+    margin-top: clamp(8px, 1.4vh, 14px);
   }
   .cover-meta p.sub{
-    font-size: clamp(15px, 1.15vw, 18px);
+    font-size: clamp(11.5px, 1vw, 14.5px);
     color:var(--ink-soft);
-    line-height:1.6;
-    max-width:52ch;
+    line-height:1.5;
+    max-width:56ch;
   }
   .cover-meta .byline{
     font-family:'Noto Serif KR', serif;
     font-style:italic;
-    font-size: clamp(14px, 1.05vw, 17px);
+    font-size: clamp(11px, .95vw, 14px);
     color:var(--ink);
     text-align:right;
     white-space:nowrap;
   }
 
-  /* ---------- SECTION HEADING ---------- */
-  section{ margin-bottom: clamp(40px, 6.5vh, 64px); }
-  section:last-of-type{ margin-bottom:0; }
+  /* ---------- SECTION ---------- */
+  .body-flow{
+    flex:1 1 auto; min-height:0;
+    display:flex; flex-direction:column;
+    justify-content:space-between;
+    gap: clamp(6px, 1.2vh, 14px);
+  }
+  section{
+    flex:1 1 0; min-height:0;
+    display:flex; flex-direction:column;
+    justify-content:center;
+  }
   .section-head{
-    display:flex; align-items:baseline; gap: clamp(14px, 1.8vw, 22px);
-    margin-bottom: clamp(22px, 3.2vh, 34px);
+    display:flex; align-items:baseline; gap: clamp(8px, 1.2vw, 16px);
+    margin-bottom: clamp(6px, 1.2vh, 12px);
   }
   .section-head .num{
     font-family:'Noto Serif KR', serif;
     font-weight:700;
     font-style:italic;
-    font-size: clamp(22px, 2.6vw, 30px);
+    font-size: clamp(15px, 1.8vh, 22px);
     color:var(--ink-soft);
     flex-shrink:0;
   }
   .section-head h2{
     font-family:'Noto Serif KR', serif;
     font-weight:700;
-    font-size: clamp(24px, 2.8vw, 34px);
+    font-size: clamp(16px, 2.2vh, 25px);
     color:var(--ink);
   }
   .section-head .cap{
     margin-left:auto;
-    font-size: clamp(12.5px, 1vw, 14.5px);
+    font-size: clamp(10.5px, .85vw, 12.5px);
     color:var(--ink-soft);
     white-space:nowrap;
+    display:none;
   }
+  @media (min-width:820px){ .section-head .cap{ display:block; } }
 
-  /* ---------- CARDS ---------- */
+  /* ---------- CARDS (높이 자동, 잘림 없음) ---------- */
   .grid-cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(210px, 1fr));
-    gap: clamp(14px, 1.8vw, 22px);
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap: clamp(6px, 1vh, 12px) clamp(6px, .9vw, 12px);
     align-items:stretch;
   }
 
   a.card{
     display:flex; flex-direction:column; justify-content:space-between;
-    gap: clamp(14px, 2vh, 22px);
-    padding: clamp(20px, 2.4vw, 28px);
+    gap: clamp(4px, .8vh, 10px);
+    padding: clamp(9px, 1.3vh, 16px) clamp(10px, 1vw, 15px);
     text-decoration:none; color:var(--ink);
     background:var(--card);
-    border-radius:16px;
+    border-radius:12px;
     box-shadow:var(--shadow-1);
-    transition: transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s ease;
+    transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease;
   }
   a.card .idx{
     font-family:'Noto Serif KR', serif;
     font-style:italic;
-    font-size: clamp(12.5px, 1vw, 14.5px);
+    font-size: clamp(9.5px, .8vw, 11.5px);
     color:var(--ink-soft);
   }
   a.card h3{
     font-family:'Noto Serif KR', serif;
     font-weight:700;
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height:1.32;
+    font-size: clamp(12.5px, 1.15vw, 15.5px);
+    line-height:1.28;
     color:var(--ink);
     overflow-wrap:break-word;
   }
   a.card .domain{
-    font-size: clamp(12px, .92vw, 13.5px);
+    font-size: clamp(9px, .7vw, 10.5px);
     color:var(--ink-soft);
     overflow-wrap:break-word;
     word-break:break-word;
+    line-height:1.35;
   }
-  a.card:hover{
-    transform: translateY(-5px);
-    box-shadow:var(--shadow-2);
-  }
+  a.card:hover{ transform: translateY(-3px); box-shadow:var(--shadow-2); }
   a.card:hover h3{ color:var(--accent); }
-  a.card:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  a.card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
   footer{
-    margin-top: clamp(30px, 5vh, 48px);
-    padding-top: clamp(18px, 2.6vh, 26px);
+    flex:0 0 auto;
+    margin-top: clamp(6px, 1.2vh, 14px);
+    padding-top: clamp(6px, 1vh, 12px);
     border-top:1px solid var(--line);
     display:flex; justify-content:space-between; align-items:center;
     font-family:'Noto Serif KR', serif;
     font-style:italic;
-    font-size: clamp(13px, 1vw, 16px);
+    font-size: clamp(10.5px, .85vw, 13px);
     color:var(--ink-soft);
-    flex-wrap:wrap; gap:8px;
   }
   footer .name{ color:var(--ink); font-weight:700; font-style:normal; }
 
   @media (max-width:640px){
-    header.cover{ margin-bottom:36px; }
-    .cover-meta{ flex-direction:column; align-items:flex-start; }
+    h1.title{ font-size:clamp(30px, 9vw, 44px); }
+    .cover-meta{ flex-direction:column; align-items:flex-start; gap:4px; }
     .cover-meta .byline{ text-align:left; }
+    .cover-meta p.sub{ display:none; }
     .section-head .cap{ display:none; }
-    .grid-cards{ grid-template-columns:repeat(2, 1fr); }
-  }
-  @media (max-width:420px){
-    .grid-cards{ grid-template-columns:1fr; }
+    .grid-cards{ grid-template-columns:repeat(4, 1fr); gap:6px; }
+    a.card{ padding: 7px 6px; border-radius:9px; gap:3px; }
+    a.card h3{ font-size:11.5px; line-height:1.22; }
+    a.card .domain{ font-size:8px; }
+    a.card .idx{ font-size:8px; }
   }
 </style>
 </head>
@@ -177,115 +196,119 @@
       <p class="cover-label">업무 도구 안내 자료</p>
       <h1 class="title">비서실 검색달인</h1>
       <div class="cover-meta">
-        <p class="sub">필요한 시스템과 자료를 한 곳에 정리했습니다. 카드를 클릭하면 해당 페이지로 이동합니다.</p>
+        <p class="sub">필요한 시스템과 자료를 한 화면에 정리했습니다. 카드를 클릭하면 해당 페이지로 이동합니다.</p>
         <p class="byline">전남광주통합특별시교육청 비서실</p>
       </div>
     </header>
 
-    <section id="access" aria-labelledby="access-heading">
-      <div class="section-head">
-        <span class="num">01</span>
-        <h2 id="access-heading">필수 접속 링크</h2>
-        <span class="cap">업무 시스템 7종</span>
-      </div>
-      <div class="grid-cards">
-        <a class="card" href="https://www.jge.go.kr/jgemain/main.do" target="_blank" rel="noopener">
-          <span class="idx">01</span>
-          <h3>교육청 누리집</h3>
-          <span class="domain">jge.go.kr</span>
-        </a>
-        <a class="card" href="https://gen.eduptl.kr/bpm_lgn_lg00_001.do?noEpSession" target="_blank" rel="noopener">
-          <span class="idx">02</span>
-          <h3>업무포털</h3>
-          <span class="domain">gen.eduptl.kr</span>
-        </a>
-        <a class="card" href="https://mail.korea.kr/" target="_blank" rel="noopener">
-          <span class="idx">03</span>
-          <h3>공직자통합메일</h3>
-          <span class="domain">mail.korea.kr</span>
-        </a>
-        <a class="card" href="https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm" target="_blank" rel="noopener">
-          <span class="idx">04</span>
-          <h3>전남광주교육 통</h3>
-          <span class="domain">jngjedu.kr</span>
-        </a>
-        <a class="card" href="https://council.jeonnam-gwangju.go.kr/jngjassem/main" target="_blank" rel="noopener">
-          <span class="idx">05</span>
-          <h3>전남광주통합특별시의회</h3>
-          <span class="domain">council.jeonnam-gwangju.go.kr</span>
-        </a>
-        <a class="card" href="https://eduup.gen.go.kr/" target="_blank" rel="noopener">
-          <span class="idx">06</span>
-          <h3>광주교육연수원</h3>
-          <span class="domain">eduup.gen.go.kr</span>
-        </a>
-        <a class="card" href="https://www.law.go.kr/main.html" target="_blank" rel="noopener">
-          <span class="idx">07</span>
-          <h3>국가법령정보센터</h3>
-          <span class="domain">law.go.kr</span>
-        </a>
-      </div>
-    </section>
+    <div class="body-flow">
 
-    <section id="knowledge" aria-labelledby="knowledge-heading">
-      <div class="section-head">
-        <span class="num">02</span>
-        <h2 id="knowledge-heading">업무 지식 노트</h2>
-        <span class="cap">실무 참고자료 4종</span>
-      </div>
-      <div class="grid-cards">
-        <a class="card" href="https://notebook.google.com/notebook/90e57148-a283-4981-849c-c8f0c148af23/preview" target="_blank" rel="noopener">
-          <span class="idx">01</span>
-          <h3>사무분장과 조직개편</h3>
-          <span class="domain">notebook.google.com</span>
-        </a>
-        <a class="card" href="https://notebook.google.com/notebook/0e342cf9-37ba-45c1-93f9-7c35361e08f1/preview" target="_blank" rel="noopener">
-          <span class="idx">02</span>
-          <h3>공직선거법</h3>
-          <span class="domain">notebook.google.com</span>
-        </a>
-        <a class="card" href="https://sevendog7.github.io/edu/huga.html" target="_blank" rel="noopener">
-          <span class="idx">03</span>
-          <h3>지방공무원 복무</h3>
-          <span class="domain">sevendog7.github.io</span>
-        </a>
-        <a class="card" href="https://sevendog7.github.io/edu-staff-search/jikweon.html" target="_blank" rel="noopener">
-          <span class="idx">04</span>
-          <h3>교육청 직원검색</h3>
-          <span class="domain">sevendog7.github.io</span>
-        </a>
-      </div>
-    </section>
+      <section id="access" aria-labelledby="access-heading">
+        <div class="section-head">
+          <span class="num">01</span>
+          <h2 id="access-heading">필수 접속 링크</h2>
+          <span class="cap">업무 시스템 7종</span>
+        </div>
+        <div class="grid-cards">
+          <a class="card" href="https://www.jge.go.kr/jgemain/main.do" target="_blank" rel="noopener">
+            <span class="idx">01</span>
+            <h3>교육청 누리집</h3>
+            <span class="domain">jge.go.kr</span>
+          </a>
+          <a class="card" href="https://gen.eduptl.kr/bpm_lgn_lg00_001.do?noEpSession" target="_blank" rel="noopener">
+            <span class="idx">02</span>
+            <h3>업무포털</h3>
+            <span class="domain">gen.eduptl.kr</span>
+          </a>
+          <a class="card" href="https://mail.korea.kr/" target="_blank" rel="noopener">
+            <span class="idx">03</span>
+            <h3>공직자통합메일</h3>
+            <span class="domain">mail.korea.kr</span>
+          </a>
+          <a class="card" href="https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm" target="_blank" rel="noopener">
+            <span class="idx">04</span>
+            <h3>전남광주교육 통</h3>
+            <span class="domain">jngjedu.kr</span>
+          </a>
+          <a class="card" href="https://council.jeonnam-gwangju.go.kr/jngjassem/main" target="_blank" rel="noopener">
+            <span class="idx">05</span>
+            <h3>전남광주통합특별시의회</h3>
+            <span class="domain">council.jeonnam-gwangju.go.kr</span>
+          </a>
+          <a class="card" href="https://eduup.gen.go.kr/" target="_blank" rel="noopener">
+            <span class="idx">06</span>
+            <h3>광주교육연수원</h3>
+            <span class="domain">eduup.gen.go.kr</span>
+          </a>
+          <a class="card" href="https://www.law.go.kr/main.html" target="_blank" rel="noopener">
+            <span class="idx">07</span>
+            <h3>국가법령정보센터</h3>
+            <span class="domain">law.go.kr</span>
+          </a>
+        </div>
+      </section>
 
-    <section id="ai-tools" aria-labelledby="ai-tools-heading">
-      <div class="section-head">
-        <span class="num">03</span>
-        <h2 id="ai-tools-heading">생성형 AI 도구</h2>
-        <span class="cap">AI 보조 도구 4종</span>
-      </div>
-      <div class="grid-cards">
-        <a class="card" href="https://chatgpt.com/" target="_blank" rel="noopener">
-          <span class="idx">01</span>
-          <h3>챗GPT</h3>
-          <span class="domain">chatgpt.com</span>
-        </a>
-        <a class="card" href="https://gemini.google.com/app?hl=ko" target="_blank" rel="noopener">
-          <span class="idx">02</span>
-          <h3>제미나이</h3>
-          <span class="domain">gemini.google.com</span>
-        </a>
-        <a class="card" href="https://claude.ai/new" target="_blank" rel="noopener">
-          <span class="idx">03</span>
-          <h3>클로드</h3>
-          <span class="domain">claude.ai</span>
-        </a>
-        <a class="card" href="https://notebook.google.com/" target="_blank" rel="noopener">
-          <span class="idx">04</span>
-          <h3>노트북LM</h3>
-          <span class="domain">notebook.google.com</span>
-        </a>
-      </div>
-    </section>
+      <section id="knowledge" aria-labelledby="knowledge-heading">
+        <div class="section-head">
+          <span class="num">02</span>
+          <h2 id="knowledge-heading">업무 지식 노트</h2>
+          <span class="cap">실무 참고자료 4종</span>
+        </div>
+        <div class="grid-cards">
+          <a class="card" href="https://notebook.google.com/notebook/90e57148-a283-4981-849c-c8f0c148af23/preview" target="_blank" rel="noopener">
+            <span class="idx">01</span>
+            <h3>사무분장과 조직개편</h3>
+            <span class="domain">notebook.google.com</span>
+          </a>
+          <a class="card" href="https://notebook.google.com/notebook/0e342cf9-37ba-45c1-93f9-7c35361e08f1/preview" target="_blank" rel="noopener">
+            <span class="idx">02</span>
+            <h3>공직선거법</h3>
+            <span class="domain">notebook.google.com</span>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/huga.html" target="_blank" rel="noopener">
+            <span class="idx">03</span>
+            <h3>지방공무원 복무</h3>
+            <span class="domain">sevendog7.github.io</span>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu-staff-search/jikweon.html" target="_blank" rel="noopener">
+            <span class="idx">04</span>
+            <h3>교육청 직원검색</h3>
+            <span class="domain">sevendog7.github.io</span>
+          </a>
+        </div>
+      </section>
+
+      <section id="ai-tools" aria-labelledby="ai-tools-heading">
+        <div class="section-head">
+          <span class="num">03</span>
+          <h2 id="ai-tools-heading">생성형 AI 도구</h2>
+          <span class="cap">AI 보조 도구 4종</span>
+        </div>
+        <div class="grid-cards">
+          <a class="card" href="https://chatgpt.com/" target="_blank" rel="noopener">
+            <span class="idx">01</span>
+            <h3>챗GPT</h3>
+            <span class="domain">chatgpt.com</span>
+          </a>
+          <a class="card" href="https://gemini.google.com/app?hl=ko" target="_blank" rel="noopener">
+            <span class="idx">02</span>
+            <h3>제미나이</h3>
+            <span class="domain">gemini.google.com</span>
+          </a>
+          <a class="card" href="https://claude.ai/new" target="_blank" rel="noopener">
+            <span class="idx">03</span>
+            <h3>클로드</h3>
+            <span class="domain">claude.ai</span>
+          </a>
+          <a class="card" href="https://notebook.google.com/" target="_blank" rel="noopener">
+            <span class="idx">04</span>
+            <h3>노트북LM</h3>
+            <span class="domain">notebook.google.com</span>
+          </a>
+        </div>
+      </section>
+
+    </div>
 
     <footer>
       <span class="name">비서실 검색달인</span>
