@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0041)https://sevendog7.github.io/edu/4670.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비서실 검색달인</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:ital,wght@0,500;0,700;0,900;1,500&family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./비서실 검색달인_files/css2" rel="stylesheet">
 <style>
   :root{
     --paper:#faf9f6;
@@ -21,52 +21,49 @@
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html,body{ height:100%; }
+  html{ height:100%; }
 
   body{
     background:var(--paper);
     color:var(--ink);
     font-family:'Noto Sans KR', sans-serif;
     -webkit-font-smoothing:antialiased;
-    height:100vh; height:100dvh;
-    overflow-y:auto;
+    min-height:100vh; min-height:100dvh;
     display:flex; flex-direction:column;
-    padding: clamp(10px, 2.2vh, 22px) 0;
+    padding: clamp(14px, 3vw, 28px) 0;
   }
 
   .wrap{
     width:var(--panel-w); margin:0 auto;
-    flex:1 1 auto; min-height:0;
     display:flex; flex-direction:column;
   }
 
   /* ---------- HERO ---------- */
   header.cover{
-    flex:0 0 auto;
-    padding-bottom: clamp(10px, 1.8vh, 18px);
-    margin-bottom: clamp(10px, 1.8vh, 18px);
+    padding-bottom: clamp(12px, 2vw, 20px);
+    margin-bottom: clamp(14px, 2.2vw, 22px);
     border-bottom:1px solid var(--line);
   }
   .cover-label{
-    font-size: clamp(10.5px, 1vw, 13px);
+    font-size: clamp(11px, 1.4vw, 13px);
     color:var(--ink-soft);
-    margin-bottom: clamp(4px, .8vh, 8px);
+    margin-bottom: 6px;
   }
   h1.title{
     font-family:'Noto Serif KR', serif;
     font-weight:900;
-    font-size: clamp(30px, 6.2vh, 62px);
-    line-height:0.98;
+    font-size: clamp(30px, 6vw, 56px);
+    line-height:1.05;
     letter-spacing:-.015em;
     color:var(--ink);
   }
   .cover-meta{
     display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap;
     gap: clamp(10px, 2vw, 20px);
-    margin-top: clamp(8px, 1.4vh, 14px);
+    margin-top: clamp(8px, 1.6vw, 14px);
   }
   .cover-meta p.sub{
-    font-size: clamp(11.5px, 1vw, 14.5px);
+    font-size: clamp(12px, 1.4vw, 14.5px);
     color:var(--ink-soft);
     line-height:1.5;
     max-width:56ch;
@@ -74,7 +71,7 @@
   .cover-meta .byline{
     font-family:'Noto Serif KR', serif;
     font-style:italic;
-    font-size: clamp(11px, .95vw, 14px);
+    font-size: clamp(11.5px, 1.3vw, 14px);
     color:var(--ink);
     text-align:right;
     white-space:nowrap;
@@ -82,37 +79,33 @@
 
   /* ---------- SECTION ---------- */
   .body-flow{
-    flex:1 1 auto; min-height:0;
     display:flex; flex-direction:column;
-    justify-content:space-between;
-    gap: clamp(6px, 1.2vh, 14px);
+    gap: clamp(20px, 3.5vw, 34px);
   }
   section{
-    flex:1 1 0; min-height:0;
     display:flex; flex-direction:column;
-    justify-content:center;
   }
   .section-head{
     display:flex; align-items:baseline; gap: clamp(8px, 1.2vw, 16px);
-    margin-bottom: clamp(6px, 1.2vh, 12px);
+    margin-bottom: clamp(8px, 1.4vw, 14px);
   }
   .section-head .num{
     font-family:'Noto Serif KR', serif;
     font-weight:700;
     font-style:italic;
-    font-size: clamp(15px, 1.8vh, 22px);
+    font-size: clamp(15px, 1.8vw, 20px);
     color:var(--ink-soft);
     flex-shrink:0;
   }
   .section-head h2{
     font-family:'Noto Serif KR', serif;
     font-weight:700;
-    font-size: clamp(16px, 2.2vh, 25px);
+    font-size: clamp(17px, 2vw, 23px);
     color:var(--ink);
   }
   .section-head .cap{
     margin-left:auto;
-    font-size: clamp(10.5px, .85vw, 12.5px);
+    font-size: clamp(10.5px, 1vw, 12.5px);
     color:var(--ink-soft);
     white-space:nowrap;
     display:none;
@@ -122,15 +115,16 @@
   /* ---------- CARDS (높이 자동, 잘림 없음) ---------- */
   .grid-cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
-    gap: clamp(6px, 1vh, 12px) clamp(6px, .9vw, 12px);
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
     align-items:stretch;
   }
 
   a.card{
     display:flex; flex-direction:column; justify-content:space-between;
-    gap: clamp(4px, .8vh, 10px);
-    padding: clamp(9px, 1.3vh, 16px) clamp(10px, 1vw, 15px);
+    gap: 8px;
+    min-height:86px;
+    padding: 12px 14px;
     text-decoration:none; color:var(--ink);
     background:var(--card);
     border-radius:12px;
@@ -140,22 +134,23 @@
   a.card .idx{
     font-family:'Noto Serif KR', serif;
     font-style:italic;
-    font-size: clamp(9.5px, .8vw, 11.5px);
+    font-size:11px;
     color:var(--ink-soft);
   }
   a.card h3{
     font-family:'Noto Serif KR', serif;
     font-weight:700;
-    font-size: clamp(12.5px, 1.15vw, 15.5px);
-    line-height:1.28;
+    font-size:14.5px;
+    line-height:1.32;
     color:var(--ink);
     overflow-wrap:break-word;
+    word-break:keep-all;
   }
   a.card .domain{
-    font-size: clamp(9px, .7vw, 10.5px);
+    font-size:10px;
     color:var(--ink-soft);
     overflow-wrap:break-word;
-    word-break:break-word;
+    word-break:break-all;
     line-height:1.35;
   }
   a.card:hover{ transform: translateY(-3px); box-shadow:var(--shadow-2); }
@@ -163,32 +158,37 @@
   a.card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
   footer{
-    flex:0 0 auto;
-    margin-top: clamp(6px, 1.2vh, 14px);
-    padding-top: clamp(6px, 1vh, 12px);
+    margin-top: clamp(20px, 3.5vw, 30px);
+    padding-top: clamp(10px, 1.6vw, 14px);
     border-top:1px solid var(--line);
     display:flex; justify-content:space-between; align-items:center;
     font-family:'Noto Serif KR', serif;
     font-style:italic;
-    font-size: clamp(10.5px, .85vw, 13px);
+    font-size: clamp(11px, 1.2vw, 13px);
     color:var(--ink-soft);
   }
   footer .name{ color:var(--ink); font-weight:700; font-style:normal; }
 
   @media (max-width:640px){
-    h1.title{ font-size:clamp(30px, 9vw, 44px); }
-    .cover-meta{ flex-direction:column; align-items:flex-start; gap:4px; }
+    body{ padding: 16px 0; }
+    h1.title{ font-size:clamp(28px, 9vw, 40px); }
+    .cover-meta{ flex-direction:column; align-items:flex-start; gap:6px; }
     .cover-meta .byline{ text-align:left; }
     .cover-meta p.sub{ display:none; }
     .section-head .cap{ display:none; }
-    .grid-cards{ grid-template-columns:repeat(4, 1fr); gap:6px; }
-    a.card{ padding: 7px 6px; border-radius:9px; gap:3px; }
-    a.card h3{ font-size:11.5px; line-height:1.22; }
-    a.card .domain{ font-size:8px; }
-    a.card .idx{ font-size:8px; }
+    .grid-cards{ grid-template-columns:repeat(auto-fit, minmax(96px, 1fr)); gap:8px; }
+    a.card{ padding: 9px 8px; border-radius:10px; gap:5px; min-height:66px; }
+    a.card h3{ font-size:12px; line-height:1.28; }
+    a.card .domain{ font-size:8.5px; }
+    a.card .idx{ font-size:8.5px; }
+  }
+
+  @media (max-width:380px){
+    .grid-cards{ grid-template-columns:repeat(2, 1fr); }
   }
 </style>
-</head>
+<style>._flexBox_15diu_1{flex-flow:unset}._gap_extraTiny_15diu_5{gap:var(--size-extraTiny)}._gap_tiny_15diu_9{gap:var(--size-tiny)}._gap_extraSmall_15diu_13{gap:var(--size-extraSmall)}._gap_small_15diu_17{gap:var(--size-small)}._gap_medium_15diu_21{gap:var(--size-medium)}._gap_normal_15diu_25{gap:var(--size-normal)}._gap_large_15diu_29{gap:var(--size-large)}._gap_xLarge_15diu_33{gap:var(--size-xLarge)}._gap_xxLarge_15diu_37{gap:var(--size-xxLarge)}._gap_extraLarge_15diu_41{gap:var(--size-extraLarge)}._column_15diu_45{flex-direction:column!important}._flexWrap_15diu_49{flex-wrap:wrap}._qrlightbox_background_1k51k_1{background-color:#c8c8c880;width:100%;height:100%;position:fixed;z-index:2147483636;top:0;left:0}._backClose_1k51k_11{position:absolute;width:100%;height:100%;top:0;left:0}._qrImage_1k51k_19{width:200px;height:200px;background:#eee;background:linear-gradient(110deg,#ececec 8%,#f5f5f5 18%,#ececec 33%);background-size:200% 100%;animation:1.5s _shine_1k51k_1 linear infinite}._qrlightbox_extension_1k51k_28{padding:32px;background-color:#fff;z-index:2147483637;border:0;border-radius:10px}._title_1k51k_36{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:200px;font-size:16px;font-family:Arial,serif;font-weight:400;color:#000}@keyframes _shine_1k51k_1{to{background-position-x:-200%}}:root{--size-extraTiny: 2px;--size-tiny: 4px;--size-extraSmall: 6px;--size-small: 8px;--size-medium: 16px;--size-normal: 24px;--size-large: 32px;--size-xLarge: 48px;--size-xxLarge: 56px;--size-extraLarge: 64px;--font-size-tiny: 12px;--font-size-small: 16px;--font-size-medium: 18px;--font-size-large: 32px;--weight-thin: 100;--weight-extraLight: 200;--weight-light: 300;--weight-normal: 400;--weight-medium: 500;--weight-semiBold: 600;--weight-bold: 700;--weight-extraBold: 800}._qrlightbox_background_ffyms_1{background-color:#c8c8c880;width:100%;height:100%;position:fixed;z-index:2147483636;top:0;left:0}._backClose_ffyms_11{position:absolute;width:100%;height:100%;top:0;left:0}._qrImage_ffyms_19{width:200px;height:200px;background:#eee;background:linear-gradient(110deg,#ececec 8%,#f5f5f5 18%,#ececec 33%);background-size:200% 100%;animation:1.5s _shine_ffyms_1 linear infinite}._qrlightbox_extension_ffyms_28{padding:32px;background-color:#fff;z-index:2147483637;border:0;border-radius:10px}._title_ffyms_36{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:200px;font-size:16px;font-family:Arial,serif;font-weight:400;color:#000;margin:0}@keyframes _shine_ffyms_1{to{background-position-x:-200%}}
+</style></head>
 <body>
   <div class="wrap">
 
@@ -207,41 +207,61 @@
         <div class="section-head">
           <span class="num">01</span>
           <h2 id="access-heading">필수 접속 링크</h2>
-          <span class="cap">업무 시스템 7종</span>
+          <span class="cap">업무 시스템 11종</span>
         </div>
         <div class="grid-cards">
-          <a class="card" href="https://www.jge.go.kr/jgemain/main.do" target="_blank" rel="noopener">
+          <a class="card" href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener">
             <span class="idx">01</span>
+            <h3>구글캘린더</h3>
+            <span class="domain">calendar.google.com</span>
+          </a>
+          <a class="card" href="https://www.jge.go.kr/jgemain/main.do" target="_blank" rel="noopener">
+            <span class="idx">02</span>
             <h3>교육청 누리집</h3>
             <span class="domain">jge.go.kr</span>
           </a>
+          <a class="card" href="https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=3017&amp;bbsId=1106" target="_blank" rel="noopener">
+            <span class="idx">03</span>
+            <h3>교육감에게 바란다</h3>
+            <span class="domain">jge.go.kr</span>
+          </a>
           <a class="card" href="https://gen.eduptl.kr/bpm_lgn_lg00_001.do?noEpSession" target="_blank" rel="noopener">
-            <span class="idx">02</span>
+            <span class="idx">04</span>
             <h3>업무포털</h3>
             <span class="domain">gen.eduptl.kr</span>
           </a>
           <a class="card" href="https://mail.korea.kr/" target="_blank" rel="noopener">
-            <span class="idx">03</span>
+            <span class="idx">05</span>
             <h3>공직자통합메일</h3>
             <span class="domain">mail.korea.kr</span>
           </a>
-          <a class="card" href="https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm" target="_blank" rel="noopener">
-            <span class="idx">04</span>
+          <a class="card" href="https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&amp;view_type=sm" target="_blank" rel="noopener">
+            <span class="idx">06</span>
             <h3>전남광주교육 통</h3>
             <span class="domain">jngjedu.kr</span>
           </a>
+          <a class="card" href="https://www.ihopenews.com/" target="_blank" rel="noopener">
+            <span class="idx">07</span>
+            <h3>호남교육신문</h3>
+            <span class="domain">ihopenews.com</span>
+          </a>
           <a class="card" href="https://council.jeonnam-gwangju.go.kr/jngjassem/main" target="_blank" rel="noopener">
-            <span class="idx">05</span>
+            <span class="idx">08</span>
             <h3>전남광주통합특별시의회</h3>
             <span class="domain">council.jeonnam-gwangju.go.kr</span>
           </a>
+          <a class="card" href="https://www.moe.go.kr/boardCnts/listRenew.do?boardID=294&amp;m=020402&amp;s=moe" target="_blank" rel="noopener">
+            <span class="idx">09</span>
+            <h3>교육부 보도자료</h3>
+            <span class="domain">moe.go.kr</span>
+          </a>
           <a class="card" href="https://eduup.gen.go.kr/" target="_blank" rel="noopener">
-            <span class="idx">06</span>
+            <span class="idx">10</span>
             <h3>광주교육연수원</h3>
             <span class="domain">eduup.gen.go.kr</span>
           </a>
           <a class="card" href="https://www.law.go.kr/main.html" target="_blank" rel="noopener">
-            <span class="idx">07</span>
+            <span class="idx">11</span>
             <h3>국가법령정보센터</h3>
             <span class="domain">law.go.kr</span>
           </a>
@@ -312,9 +332,10 @@
 
     <footer>
       <span class="name">비서실 검색달인</span>
-      <span>총 15개 링크</span>
+      <span>총 19개 링크</span>
     </footer>
 
   </div>
-</body>
-</html>
+
+
+<deepl-input-controller translate="no"><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr" data-dl-surface="inputTranslator" data-dl-impl="svelte" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller></body></html>
