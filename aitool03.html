@@ -685,22 +685,31 @@ body {
         <div class="accord-body">
           <div class="prompt-list">
             <div class="prompt-item">
-              <span class="prompt-label">GPT5.5 프롬프팅 가이드</span>
-Role: [모델의 역할과 제품 맥락을 1-2문장으로 정의]<br>
-# Personality<br>
-[톤, 협업 방식, 질문/가정 기준을 짧게 정의]<br>
-# Goal<br>
-[사용자가 최종적으로 얻어야 하는 결과]<br>
-# Success criteria<br>
-- [완료 전에 반드시 참이어야 할 조건]<br>
-- [필수 근거, 액션, 출력 필드]<br>
-# Constraints<br>
-- [안전, 정책, 데이터, 사이드 이펙트 제한]<br>
-- [검색, 도구 사용, 인용 규칙]<br>
-# Output<br>
-[섹션, 길이, 언어, 형식, verbosity]<br>
-# Stop rules<br>
-[재시도, 질문, 중단, 답변 가능 시점]
+              <span class="prompt-label">프롬프팅 가이드</span>
+[역할]<br>
+너는 ○○ 분야의 전문가야.<br>
+[목표]<br>
+내가 원하는 결과는 ○○야.<br>
+[맥락]<br>
+현재 상황은 ○○이고, 대상은 ○○야.<br>
+[자료]<br>
+아래 자료를 우선적으로 활용해.<br>
+자료에 없는 내용은 임의로 만들지 마.<br>
+[수행]<br>
+1. ○○을 분석하고<br>
+2. ○○을 도출하고<br>
+3. ○○을 제안해줘.<br>
+[제약조건]<br>
+- ○○<br>
+- ○○<br>
+- ○○<br>
+[출력형식]<br>
+① ○○<br>
+② ○○<br>
+③ ○○<br>
+[평가기준]<br>
+논리성 / 정확성 / 실현가능성 / 정책효과를 중심으로 평가해.<br>
+마지막에는 결과물의 약점과 개선방안도 제시해.<br>
           </div>
         </div>
       </details>
