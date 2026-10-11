@@ -113,6 +113,47 @@
     white-space:nowrap;
   }
 
+  /* ---------- COVER QUICK LINKS ---------- */
+  .cover-links{
+    display:flex; flex-wrap:wrap; align-items:center;
+    gap: clamp(10px, 1.6vw, 16px);
+    margin-top: clamp(16px, 2.4vw, 24px);
+    padding-top: clamp(16px, 2.4vw, 22px);
+    border-top:1px dashed var(--border);
+  }
+  .cover-links .label{
+    font-size:12px; font-weight:700;
+    color:var(--ink-soft);
+    letter-spacing:.02em;
+    margin-right:4px;
+  }
+  a.quick{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:11px 18px 11px 14px;
+    font-size: clamp(13px, 1.4vw, 14.5px);
+    font-weight:700;
+    color:var(--ink);
+    text-decoration:none;
+    background:var(--surface);
+    border-radius:var(--r-pill);
+    box-shadow:var(--raise-1);
+    transition: box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+  }
+  a.quick .dot{
+    display:grid; place-items:center;
+    width:26px; height:26px; border-radius:50%;
+    font-size:11px; font-weight:900;
+    color:var(--primary-deep);
+    background:var(--primary);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
+  }
+  a.quick.gx .dot{ background:var(--primary-soft); }
+  a.quick .arrow{ font-size:12px; color:var(--ink-faint); transition: color .25s ease; }
+  a.quick:hover{ transform:translateY(-2px); box-shadow:var(--raise-2); }
+  a.quick:hover .arrow{ color:var(--primary-deep); }
+  a.quick:active{ transform:none; box-shadow:var(--inset-2); }
+  a.quick:focus-visible{ outline:none; box-shadow:var(--raise-1), var(--ring); }
+
   /* ---------- SECTION ---------- */
   .body-flow{ display:flex; flex-direction:column; gap: clamp(28px, 4.4vw, 46px); }
   section{ display:flex; flex-direction:column; }
@@ -282,6 +323,14 @@
         <p class="sub">필요한 시스템과 자료를 한 화면에 정리했습니다. 카드를 클릭하면 해당 페이지로 이동합니다.</p>
         <p class="byline">전남광주통합특별시교육청 비서실</p>
       </div>
+      <nav class="cover-links" aria-label="주요 정책 바로가기">
+        <a class="quick" href="https://sevendog7.github.io/edu/K-4.html" target="_blank" rel="noopener">
+          <span class="dot">K</span>100일 4대 핵심과제<span class="arrow">↗</span>
+        </a>
+        <a class="quick gx" href="https://sevendog7.github.io/edu/K-GX.html" target="_blank" rel="noopener">
+          <span class="dot">GX</span>녹색대전환 K-GX<span class="arrow">↗</span>
+        </a>
+      </nav>
     </header>
 
     <div class="body-flow">
