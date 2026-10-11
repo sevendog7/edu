@@ -1,0 +1,626 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>2026 교육부 업무보고 정리</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap">
+<style>
+/* Layout: 다크 퍼스트 '미래교육 관제 화면' — 그리드 배경 + 네트워크 히어로, 상단 고정 탭, 과제 카드는 본문/핵심지표 2단 */
+:root{
+  --bg:#070b1a; --bg2:#0c1330; --surface:#0f1736; --surface2:#141e44; --line:#22305f; --grid:rgba(110,140,255,.07);
+  --ink:#e8ecff; --muted:#93a0cc; --c1:#4aa8ff; --c2:#2fd4c4; --c3:#b18cff; --warn:#ffb547;
+  --glow1:rgba(74,168,255,.35); --glow3:rgba(177,140,255,.30); --onacc:#061024;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --tech:"Chakra Petch","IBM Plex Sans KR",sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#f2f5fd; --bg2:#e8edfb; --surface:#ffffff; --surface2:#f5f7fe; --line:#d9e0f3; --grid:rgba(40,70,180,.06);
+  --ink:#0d1433; --muted:#56618c; --c1:#1d6ae0; --c2:#0b8f84; --c3:#6c45d2; --warn:#b06700;
+  --glow1:rgba(29,106,224,.18); --glow3:rgba(108,69,210,.16); --onacc:#ffffff; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f2f5fd; --bg2:#e8edfb; --surface:#ffffff; --surface2:#f5f7fe; --line:#d9e0f3; --grid:rgba(40,70,180,.06);
+  --ink:#0d1433; --muted:#56618c; --c1:#1d6ae0; --c2:#0b8f84; --c3:#6c45d2; --warn:#b06700;
+  --glow1:rgba(29,106,224,.18); --glow3:rgba(108,69,210,.16); --onacc:#ffffff; color-scheme:light}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:16px;padding-block:0 72px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px}
+.wrap{max-width:1160px;margin:0 auto}
+h1,h2,h3,h4{text-wrap:balance;margin:0;line-height:1.3}
+.tech{font-family:var(--tech);letter-spacing:.06em}
+.grad{background:linear-gradient(100deg,var(--c1),var(--c2) 45%,var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent}
+strong.hl{font-weight:600;color:var(--ink);background:linear-gradient(transparent 62%,var(--glow1) 62%);padding-inline:1px}
+
+/* HERO */
+.hero{position:relative;margin-top:16px;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  background:radial-gradient(120% 90% at 85% 0%,var(--glow3),transparent 55%),radial-gradient(90% 80% at 0% 100%,var(--glow1),transparent 60%),var(--bg2)}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
+.hero-in{position:relative;padding:clamp(28px,5vw,56px) clamp(20px,5vw,56px) clamp(24px,4vw,40px)}
+.hero .eyebrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c2);box-shadow:0 0 12px var(--c2)}
+.chip{border:1px solid var(--line);border-radius:999px;padding:2px 10px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
+.hero h1{font-size:clamp(15px,1.8vw,18px);font-weight:600;color:var(--muted);margin-top:22px}
+.vision{font-size:clamp(28px,5.2vw,52px);font-weight:700;line-height:1.18;margin-top:8px;letter-spacing:-.01em}
+.goal{margin-top:16px;display:inline-flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:clamp(15px,1.8vw,18px);font-weight:500;
+  padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 75%,transparent)}
+.goal .tech{font-size:12px;color:var(--c2)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(26px,4vw,40px)}
+@media (max-width:820px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:color-mix(in srgb,var(--surface) 82%,transparent);min-width:0}
+.stat .v{font-family:var(--tech);font-weight:700;font-size:clamp(24px,3.4vw,34px);line-height:1.1;font-variant-numeric:tabular-nums}
+.stat .v small{font-family:var(--sans);font-size:.48em;font-weight:600;margin-left:3px;color:var(--ink)}
+.stat .c{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+
+/* NAV */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;margin:22px -16px 0;padding:10px 16px;
+  background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);overflow-x:auto}
+nav.tabs ol{list-style:none;margin:0 auto;padding:0;display:flex;gap:8px;max-width:1160px;white-space:nowrap}
+nav.tabs a{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:999px;border:1px solid transparent}
+nav.tabs a:hover,nav.tabs a:focus-visible{color:var(--ink);border-color:var(--line);background:var(--surface);outline:none}
+nav.tabs a i{width:7px;height:7px;border-radius:50%;background:var(--k,var(--muted))}
+
+section.block{scroll-margin-top:70px;margin-top:64px}
+.sec-h{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.sec-h .k{font-family:var(--tech);font-size:12.5px;color:var(--c1);letter-spacing:.14em}
+.sec-h h2{font-size:clamp(22px,3vw,28px);margin-top:4px}
+.sec-h p{color:var(--muted);margin:0;max-width:52ch;font-size:14px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;min-width:0;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:color-mix(in srgb,var(--c1) 50%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--c1) 20%,transparent),0 10px 40px -18px var(--glow1)}
+ul.pts{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:7px}
+ul.pts li::marker{color:var(--c1)}
+.note{font-size:12.5px;color:var(--muted)}
+
+/* REVIEW */
+.ach{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:680px){.ach{grid-template-columns:1fr}}
+.ach .tag{font-family:var(--tech);font-size:11.5px;letter-spacing:.12em;color:var(--c2)}
+.ach h3{font-size:17px;margin:4px 0 12px}
+.ach .fig{margin-top:14px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-top:12px;border-top:1px dashed var(--line)}
+.ach .fig b{font-family:var(--tech);font-size:22px;font-variant-numeric:tabular-nums}
+.ach .fig span{font-size:12.5px;color:var(--muted)}
+.improve{margin-top:14px;border-radius:16px;padding:1px;background:linear-gradient(100deg,var(--warn),var(--c3))}
+.improve>div{background:var(--surface);border-radius:15px;padding:18px 22px;display:flex;gap:10px 24px;flex-wrap:wrap;align-items:baseline}
+.improve .lab{font-family:var(--tech);font-size:12px;letter-spacing:.14em;color:var(--warn);font-weight:700}
+.improve ul{flex:1 1 300px;min-width:0;margin:0;padding-left:1.1em;font-weight:500}
+
+/* ROADMAP */
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.dirs{grid-template-columns:1fr}}
+.dir{position:relative;overflow:hidden}
+.dir::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--k)}
+.dir::after{content:"";position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:var(--k);opacity:.12;filter:blur(30px)}
+.dir .n{font-family:var(--tech);font-size:44px;font-weight:700;line-height:1;color:var(--k)}
+.dir h3{font-size:17px;margin:10px 0 14px}
+.dir .grp{font-size:12px;color:var(--muted);font-weight:600;margin:12px 0 6px}
+.dir .grp:first-of-type{margin-top:0}
+.dir ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.dir li a{display:flex;gap:10px;align-items:baseline;color:var(--ink);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:8px;background:var(--surface2);border:1px solid transparent}
+.dir li a:hover,.dir li a:focus-visible{border-color:var(--k);outline:none}
+.dir li a span{font-family:var(--tech);font-size:12px;color:var(--k);flex:0 0 auto}
+
+/* TIMELINE */
+.tl-wrap{overflow-x:auto;padding-bottom:6px}
+.tl{display:grid;grid-template-columns:repeat(8,minmax(130px,1fr));gap:0;min-width:1040px;position:relative;padding-top:6px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:27px;height:2px;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3))}
+.ev{position:relative;padding:0 10px 0 0}
+.ev .m{font-family:var(--tech);font-weight:700;font-size:15px;color:var(--ink)}
+.ev .p{width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--c2);margin:5px 0 12px;box-shadow:0 0 10px var(--c2)}
+.ev .t{font-size:13px;line-height:1.5;color:var(--muted)}
+.ev .t b{color:var(--ink);font-weight:600;display:block}
+
+/* DIRECTION HEAD */
+.dhead{display:flex;gap:16px;align-items:center;margin:56px 0 18px;scroll-margin-top:70px}
+.dhead .n{font-family:var(--tech);font-weight:700;font-size:15px;color:var(--onacc);background:var(--k);border-radius:10px;width:40px;height:40px;display:grid;place-items:center;box-shadow:0 0 22px -4px var(--k);flex:0 0 auto}
+.dhead h2{font-size:clamp(20px,2.6vw,24px)}
+.dhead .s{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* TASK */
+.task{scroll-margin-top:76px;display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:0;padding:0;overflow:hidden}
+.task+.task{margin-top:14px}
+@media (max-width:860px){.task{grid-template-columns:1fr}}
+.task .main{padding:22px clamp(18px,3vw,28px);min-width:0}
+.task .top{display:flex;gap:8px 12px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.task .idx{font-family:var(--tech);font-size:13px;color:var(--k)}
+.gq{font-size:11.5px;color:var(--k);border:1px solid color-mix(in srgb,var(--k) 55%,transparent);border-radius:999px;padding:1px 9px}
+.task h3{font-size:19px;font-weight:700}
+.sub{font-weight:600;font-size:14.5px;margin:18px 0 8px;display:flex;align-items:center;gap:8px}
+.sub::before{content:"";width:14px;height:2px;background:var(--k);flex:0 0 auto}
+.task ul.pts{font-size:14.5px}
+.task ul.pts li::marker{color:var(--k)}
+.box{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px;font-size:13.5px}
+.box .bt{font-family:var(--tech);font-size:11.5px;letter-spacing:.12em;color:var(--k);margin-bottom:6px}
+.box ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px}
+.models{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.models{grid-template-columns:1fr}}
+.models div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px}
+.models b{display:block;color:var(--k);font-size:13px}
+
+.metrics{background:linear-gradient(180deg,color-mix(in srgb,var(--k) 9%,var(--surface2)),var(--surface2));border-left:1px solid var(--line);padding:22px 20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+@media (max-width:860px){.metrics{border-left:0;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}}
+.metrics .h{font-family:var(--tech);font-size:11.5px;letter-spacing:.16em;color:var(--muted)}
+@media (max-width:860px){.metrics .h{grid-column:1/-1}}
+.m .big{font-family:var(--tech);font-weight:700;font-size:28px;line-height:1.1;color:var(--k);font-variant-numeric:tabular-nums;text-shadow:0 0 18px color-mix(in srgb,var(--k) 35%,transparent)}
+.m .big small{font-family:var(--sans);font-size:.5em;font-weight:600;margin-left:2px}
+.m .from{font-family:var(--tech);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.m .from::after{content:" →"}
+.m .cap{font-size:12.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+.meter{margin-top:8px}
+.bar{position:relative;height:8px;border-radius:99px;background:color-mix(in srgb,var(--muted) 20%,transparent);overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;width:var(--to);background:var(--k);border-radius:99px;box-shadow:0 0 12px var(--k)}
+.bar s{position:absolute;inset:0 auto 0 0;width:var(--from);background:color-mix(in srgb,var(--ink) 45%,transparent);border-radius:99px;z-index:1}
+.legend{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px;font-family:var(--tech)}
+
+/* ISSUES */
+.issues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:720px){.issues{grid-template-columns:1fr}}
+.issue{border:1px solid color-mix(in srgb,var(--warn) 45%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--warn) 10%,var(--surface)),var(--surface));border-radius:16px;padding:20px 22px}
+.issue .n{font-family:var(--tech);font-size:12px;letter-spacing:.14em;color:var(--warn)}
+.issue h3{font-size:18px;margin-top:8px}
+.disc{font-size:13px;color:var(--muted);margin-top:12px}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+  .bar i{animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes grow{from{width:var(--from)}}
+  .dot{animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.35}}
+}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <div class="eyebrow"><span class="dot"></span><span class="tech">MOE ANNUAL BRIEFING · 2026</span><span class="chip">보고일 2025. 12. 12.</span></div>
+    <h1>교육부 업무보고 · 비전</h1>
+    <p class="vision"><span class="grad">국가가 책임지는 기본교육</span><br>국민이 체감하는 교육강국</p>
+    <div class="goal"><span class="tech">GOAL</span>교육을 통한 개인, 학교, 지역의 동반성장 실현</div>
+    <div class="stats">
+      <div class="stat"><div class="v grad">3 · 15</div><div class="c">3대 추진방향 · 15개 중점과제</div></div>
+      <div class="stat"><div class="v grad">3.14<small>조 원</small></div><div class="c">거점국립대 교육혁신·연구중심대학 등 ’26 예산 (3조 1,448억)</div></div>
+      <div class="stat"><div class="v grad">4<small>조 원+</small></div><div class="c">거점국립대 5년간 집중 지원</div></div>
+      <div class="stat"><div class="v grad">1,900<small>교</small></div><div class="c">AI 교육자료 선도학교 (’26)</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="바로가기">
+  <ol>
+    <li><a href="#review"><i style="--k:var(--c2)"></i>’25 평가</a></li>
+    <li><a href="#roadmap"><i style="--k:var(--c1)"></i>추진체계</a></li>
+    <li><a href="#timeline"><i style="--k:var(--c3)"></i>’26 일정</a></li>
+    <li><a href="#dir1"><i style="--k:var(--c1)"></i>① 환경 변화 대응</a></li>
+    <li><a href="#dir2"><i style="--k:var(--c2)"></i>② 국가책임 기본교육</a></li>
+    <li><a href="#dir3"><i style="--k:var(--c3)"></i>③ 헌법가치·세계</a></li>
+    <li><a href="#issues"><i style="--k:var(--warn)"></i>쟁점이슈</a></li>
+  </ol>
+</nav>
+
+<main>
+<!-- REVIEW -->
+<section class="block" id="review">
+  <div class="sec-h"><div><div class="k">PART Ⅰ · REVIEW</div><h2>’25년 성과와 보완점</h2></div></div>
+  <div class="ach">
+    <div class="card"><div class="tag">NATIONAL RESPONSIBILITY</div><h3>교육·돌봄에 대한 국가책임 강화</h3>
+      <ul class="pts"><li><strong class="hl">영유아특별회계 신설</strong>(’25.12.), 무상교육·보육 단계적 확대</li>
+      <li>고교 무상교육 재원 국가·지자체 분담 ｢지방교육재정교부금법｣ 특례 연장(’25.8.)</li></ul>
+      <div class="fig"><b class="grad">만 5세 → 만 4~5세</b><span>무상교육·보육 (’25.7. 시행 → ’26 확대 예정)</span></div></div>
+    <div class="card"><div class="tag">BALANCED GROWTH</div><h3>국가균형성장을 위한 지방대학 육성 기반</h3>
+      <ul class="pts"><li>거점국립대를 <strong class="hl">5극3특 전략</strong>과 연계한 교육·연구 허브로 혁신</li>
+      <li>고등·평생교육지원특별회계 연장(~’30)</li></ul>
+      <div class="fig"><b class="grad">3조 1,448억 원</b><span>거점국립대 교육혁신·연구중심대학 육성 등 ’26 예산</span></div></div>
+    <div class="card"><div class="tag">AI TRANSITION</div><h3>디지털 대전환과 AI 시대 대비</h3>
+      <ul class="pts"><li>생애주기 맞춤형 AI교육과 혁신·융합·실무인재 육성을 위한 <strong class="hl">｢모두를 위한 AI 인재양성 방안｣</strong> 수립(’25.11.~)</li></ul></div>
+    <div class="card"><div class="tag">DEMOCRACY</div><h3>헌법 가치와 민주주의 확립</h3>
+      <ul class="pts"><li>초·중학교 헌법교육 전문강사 토론식 특강(’25.4분기)</li>
+      <li>방과후학교 중립성 의무 부여, 대안교육기관 패널티 강화</li></ul>
+      <div class="fig"><b class="grad">914학급</b><span>헌법교육 토론식 특강 실시</span></div></div>
+  </div>
+  <div class="improve"><div><span class="lab">개선 필요사항</span>
+    <ul><li>사회 변화에 적극 대응하여 개인과 지역의 지속가능한 성장 견인</li>
+    <li>국민이 체감하는 변화를 위해 교육 현장과의 소통·협력 강화</li></ul></div></div>
+</section>
+
+<!-- ROADMAP -->
+<section class="block" id="roadmap">
+  <div class="sec-h"><div><div class="k">PART Ⅱ · ROADMAP</div><h2>3대 추진방향 · 15개 중점과제</h2></div><p>과제명을 누르면 세부 내용으로 이동합니다.</p></div>
+  <div class="dirs">
+    <div class="card dir" style="--k:var(--c1)"><div class="n">01</div><h3>교육을 둘러싼 환경 변화에 적극 대응</h3>
+      <div class="grp">디지털 전환과 AI 시대 대응</div>
+      <ol><li><a href="#t1-1"><span>1</span>학생·교원 AI 보편 활용 교육</a></li><li><a href="#t1-2"><span>2</span>AI 3강 도약 미래인재 양성</a></li></ol>
+      <div class="grp">지역 소멸 위기 극복</div>
+      <ol><li><a href="#t1-3"><span>3</span>국가균형성장 지방대학 육성</a></li><li><a href="#t1-4"><span>4</span>소멸위기지역 교육력 제고</a></li></ol>
+      <div class="grp">기후·환경 위기 극복</div>
+      <ol><li><a href="#t1-5"><span>5</span>기후·생태전환교육 강화</a></li><li><a href="#t1-6"><span>6</span>교육시설 신재생에너지 활용</a></li></ol></div>
+    <div class="card dir" style="--k:var(--c2)"><div class="n">02</div><h3>국가가 책임지고 기본이 튼튼한 교육 실현</h3>
+      <ol><li><a href="#t2-1"><span>1</span>국가책임 교육·돌봄 강화</a></li><li><a href="#t2-2"><span>2</span>개별 맞춤형 학습 안전망</a></li><li><a href="#t2-3"><span>3</span>학생 마음건강 지원</a></li><li><a href="#t2-4"><span>4</span>교원의 교육활동 보호</a></li></ol></div>
+    <div class="card dir" style="--k:var(--c3)"><div class="n">03</div><h3>헌법가치를 실천하는 교육, 세계와 함께하는 교육</h3>
+      <div class="grp">국민이 원하는 변화</div>
+      <ol><li><a href="#t3-1"><span>1</span>민주시민교육과 역사교육</a></li><li><a href="#t3-2"><span>2</span>교육시설 개방·활용</a></li><li><a href="#t3-3"><span>3</span>AI 대학 상담 시스템</a></li></ol>
+      <div class="grp">세계가 기대하는 변화</div>
+      <ol><li><a href="#t3-4"><span>4</span>국내외 한국어교육 고도화</a></li><li><a href="#t3-5"><span>5</span>교육 분야 글로벌 이니셔티브</a></li></ol></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="block" id="timeline">
+  <div class="sec-h"><div><div class="k">2026 MILESTONES</div><h2>’26년 주요 일정</h2></div><p>원문에 월 단위로 명시된 일정만 추렸습니다.</p></div>
+  <div class="card tl-wrap">
+    <div class="tl">
+      <div class="ev"><div class="m">’26.1</div><div class="p"></div><div class="t"><b>민주시민교육과 설치</b>교육부 내</div></div>
+      <div class="ev"><div class="m">’26.2</div><div class="p"></div><div class="t"><b>영유아 정서·심리 지원</b>교육청-전문기관 협업</div></div>
+      <div class="ev"><div class="m">’26.3</div><div class="p"></div><div class="t"><b>AI 대입상담 시범운용</b>학종 상담 신설, 방과후 제로페이 시범, 헌법교육 EBS 영상</div></div>
+      <div class="ev"><div class="m">’26.5</div><div class="p"></div><div class="t"><b>어린이집 퇴로 지원</b>사회복지법인 등</div></div>
+      <div class="ev"><div class="m">’26.6</div><div class="p"></div><div class="t"><b>토론형 헌법교육 자료</b>보급</div></div>
+      <div class="ev"><div class="m">’26.7</div><div class="p"></div><div class="t"><b>ASEAN+3 교육장관회의</b>공동 의장 수임 예정</div></div>
+      <div class="ev"><div class="m">’26.8.15</div><div class="p"></div><div class="t"><b>사립대 구조개선법 시행</b>10년 한시</div></div>
+      <div class="ev"><div class="m">’26 하</div><div class="p"></div><div class="t"><b>AI 교육 필수화 교육과정</b>국교위 요청(~’26 하), K-마이스터 시범학교</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTION 1 -->
+<div class="dhead" id="dir1" style="--k:var(--c1)"><div class="n">01</div><div><h2>교육을 둘러싼 환경 변화에 적극 대응</h2><div class="s">AI 대전환 · 지역소멸 선제 대응 · 기후위기 생태전환</div></div></div>
+
+<article class="card task" id="t1-1" style="--k:var(--c1)">
+  <div class="main">
+    <div class="top"><span class="idx">1-1</span><span class="gq">국정과제 99</span></div>
+    <h3>학생·교원이 AI를 보편적으로 활용하는 교육 실현</h3>
+    <div class="sub">AI를 일상적으로 활용하는 학교 생태계</div>
+    <ul class="pts">
+      <li>학교의 AI 교육자료 자율 선택·활용 지원, 안전성·효과성 선정기준 마련(’26~)<br><span class="note">AI 교육자료: 舊AI디지털교과서, 코스웨어, 에듀테크 등 총칭</span></li>
+      <li>AI 학습데이터 수집·분석체계 구축, 수업·행정용 <strong class="hl">‘K교육 AI’ 개발</strong>(’26~)</li>
+      <li>최대 10G급 무선망, 1인 1디바이스, 디지털튜터 배치</li>
+    </ul>
+    <div class="sub">AI를 주도적·비판적으로 활용하는 학생</div>
+    <ul class="pts">
+      <li><strong class="hl">질문중심 수업과 서·논술형 평가</strong> 확대(평가 AI 학습데이터 ’26 착수 → ’29 완료)</li>
+      <li><strong class="hl">AI 교육 필수화</strong> 교육과정 개정 추진(~’26 하, 국교위 요청)</li>
+      <li>AI 중점학교 시수: 초 34 → 68시간(2배), 중 68 → 102시간(1.5배)</li>
+      <li>기초학력·특수교육·이주배경·농어촌 등 사각지대 맞춤형 AI 콘텐츠</li>
+      <li>교과연계형 AI 윤리콘텐츠(’26~), 교수·학습·평가 AI 활용 가이드라인</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><div class="big">1,900<small>교</small></div><div class="cap">AI 선도학교 (’26)</div></div>
+    <div class="m"><span class="from">1,000교</span><div class="big">2,000<small>교</small></div><div class="cap">AI 중점학교 (’26 → ’28)</div></div>
+    <div class="m"><span class="from">3천 명</span><div class="big">7천<small>명</small></div><div class="cap">선도교원 (’26 → ’27~’29)</div></div>
+    <div class="m"><div class="big">200<small>교+</small></div><div class="cap">질문하는 학교 (’26~)</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t1-2" style="--k:var(--c1)">
+  <div class="main">
+    <div class="top"><span class="idx">1-2</span><span class="gq">국정과제 99</span></div>
+    <h3>AI 3강 도약을 위한 미래인재 양성</h3>
+    <div class="sub">다층적(혁신·융합·실무) AI 인재 양성·확보</div>
+    <ul class="pts">
+      <li><strong class="hl">혁신</strong> 학·석·박 패스트트랙 신설, 우수 학부생 400명 연 2천만 원, 박사후단계 제도화</li>
+      <li><strong class="hl">융합</strong> BK21 AX 3개 연구단(’26 42억 원), AX 부트캠프 6개 분야 44개교 → 우수 10개교 교당 5억 원 추가</li>
+      <li><strong class="hl">실무</strong> AI·SW 마이스터고 신규 지정, 마이스터고 7교·특성화고 100교 지원, AID 중점 전문대 24개교 내외</li>
+      <li><strong class="hl">확보</strong> BK21 27개 대학 비자·영주권 패스트트랙(F-5 6년 → 최소 3년), 외국대학 교원 겸직 특례</li>
+    </ul>
+    <div class="sub">AI 시대 인간다움을 위한 독서·인문교육</div>
+    <ul class="pts">
+      <li>책 읽는 학교 ’26 신규 1,000교, EBS 진로연계 독서 튜터링(멘토 150명·멘티 고1 1,000명)</li>
+      <li>HUSS 11개 사업단, 교양교육 혁신모델 신규 2개교(150백만 원)</li>
+      <li>인문사회 학술지원 3,590억 → 3,884억, 거점국립대 연구소 신규 3개교(교당 40억 원)</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><span class="from">최소 8년</span><div class="big">5.5<small>년</small></div><div class="cap">학·석·박 패스트트랙 (AI 영재 연계 시 고교부터 7.5년)</div></div>
+    <div class="m"><span class="from">1,352명</span><div class="big">2,000<small>명+</small></div><div class="cap">박사후연구원 등 (’25 → ’26)</div></div>
+    <div class="m"><div class="big">45<small>%</small></div><div class="cap">GKS 석박사 중 이공계 비율 목표 (~’27)</div>
+      <div class="meter"><div class="bar" style="--from:0%;--to:45%"><i></i></div></div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t1-3" style="--k:var(--c1)">
+  <div class="main">
+    <div class="top"><span class="idx">1-3</span><span class="gq">국정과제 55-1~4</span></div>
+    <h3>국가균형성장을 위한 지방대학 육성</h3>
+    <div class="sub">거점국립대를 지·산·학·연 협력 허브로</div>
+    <ul class="pts">
+      <li>교육비 투자를 <strong class="hl">서울대 70% 수준</strong>까지 단계적 확대(’26~)</li>
+      <li>’26년부터 <strong class="hl">3개 거점국립대</strong>를 5극3특 성장엔진 분야 ‘세계적 수준의 연구대학’으로 육성</li>
+      <li>국립대 학비 지원 강화(국가장학금 2유형), 실험실습 기자재 확충</li>
+    </ul>
+    <div class="box"><div class="bt">RESEARCH UNIVERSITY CORE</div><ul>
+      <li>기업·과기원·출연연 공동연구장비 구축 및 공동 R&amp;D</li>
+      <li>학석박 통합·연계과정, 학부생 연구참여·인턴십</li>
+      <li>우수교원 유치 패키지(연구비·장비·정주), 기업·출연연 겸직 활성화</li></ul></div>
+    <div class="sub">지역-대학-기업 동반성장 · 사립대 구조개선</div>
+    <ul class="pts">
+      <li>5극3특 권역별 협업과제, 초광역권 대학 간 첨단분야 협력, 계약학과 확대(’26 상~)</li>
+      <li>전문대학을 개방형 지역 평생·직업교육 허브로</li>
+      <li>등록금 법정 상한 외 부수 규제 폐지, 특성화지방대학 규제특례 확대</li>
+      <li><strong class="hl">‘2040 대학 구조개선 마스터플랜’</strong>(’26 상) — ’40년 대입자원 약 17만 명 감소 전망</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><div class="big">4<small>조 원+</small></div><div class="cap">거점국립대 5년간 집중 지원</div></div>
+    <div class="m"><div class="big">70<small>%</small></div><div class="cap">서울대 대비 교육비 투자 목표 수준</div>
+      <div class="meter"><div class="bar" style="--from:0%;--to:70%"><i></i></div><div class="legend"><span>0</span><span>서울대 100</span></div></div></div>
+    <div class="m"><div class="big">17<small>만 명↓</small></div><div class="cap">’40년 대입자원 감소 전망</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t1-4" style="--k:var(--c1)">
+  <div class="main">
+    <div class="top"><span class="idx">1-4</span><span class="gq">국정과제 55-5</span></div>
+    <h3>소멸위기지역의 교육력 제고</h3>
+    <div class="sub">상향식 지역교육 혁신</div>
+    <ul class="pts">
+      <li>지자체·교육(지원)청·주민이 혁신계획 수립 → 정부가 <strong class="hl">집중 재정지원 + 규제특례</strong></li>
+      <li>(가칭)지역교육혁신지원특별법 제정 추진(’25.12~), 교육특구 지정·운영계획(’26 상)</li>
+      <li>학교를 정주기반·공공서비스·생활SOC 거점으로</li>
+    </ul>
+    <div class="box"><div class="bt">REGIONAL MODELS · 예시</div>
+      <div class="models">
+        <div><b>소규모 학교형</b>생태·환경교육, 농어촌유학, 초등 1~4 중심</div>
+        <div><b>거점 학교형</b>통폐합, 초-중-고 통합운영, 통합학구</div>
+        <div><b>돌봄복지형</b>야간·주말·방학돌봄, 통학버스, 장학금</div>
+        <div><b>복합시설형</b>체육관·도서관·수영장 공유·개방</div>
+      </div></div>
+    <div class="sub">규제 특례(예시)</div>
+    <ul class="pts"><li>통학구역 조정, 학기·수업일수·학급편성·교육과정 자율화, 지역교원제</li></ul>
+  </div>
+  <aside class="metrics"><div class="h">SUPPORT · 예시</div>
+    <div class="m"><div class="big">300<small>억</small></div><div class="cap">학교 신설</div></div>
+    <div class="m"><div class="big">40~90<small>억</small></div><div class="cap">통폐합 인센티브</div></div>
+    <div class="m"><div class="big">50 · 40<small>억</small></div><div class="cap">복합시설 · 기숙사</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t1-5" style="--k:var(--c1)">
+  <div class="main">
+    <div class="top"><span class="idx">1-5</span><span class="gq">국정과제 100-1</span></div>
+    <h3>기후·생태전환교육 강화</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li><strong class="hl">‘한국형 생태전환교육 프레임워크’</strong> 개발·보급(’26) → 생태전환학교 운영 지침서(’27)</li>
+      <li>교원 기후·생태전환교육 역량체계 개발 및 시범 연수</li>
+      <li>학교 환경교육 연구대회 유·초·중등으로 확대(’26)</li>
+      <li>｢환경교육법｣ 개정(기후부 협의): 국가환경교육센터 공동운영, 학교 환경교육 지원센터 근거</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><div class="big">340<small>명</small></div><div class="cap">교원 시범 연수 (’26)</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t1-6" style="--k:var(--c1)">
+  <div class="main">
+    <div class="top"><span class="idx">1-6</span></div>
+    <h3>교육시설의 신재생에너지 활용도 제고 · (가칭)School RE100</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li>국공립 초·중등학교(소규모학교 제외) <strong class="hl">태양광 발전시설</strong> 단계적 설치</li>
+      <li>설치 주체는 교육청, 위탁 운영으로 전문 유지·관리 → <strong class="hl">학교 부담 최소화</strong></li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><div class="big">78.3<small>%</small></div><div class="cap">국공립 10,444교 중 미설치 8,180교</div>
+      <div class="meter"><div class="bar" style="--from:0%;--to:78.3%"><i></i></div></div></div>
+    <div class="m"><span class="from">’26 시범 400교</span><div class="big">4,600<small>교</small></div><div class="cap">’30년까지 목표(약)</div></div>
+  </aside>
+</article>
+
+<!-- DIRECTION 2 -->
+<div class="dhead" id="dir2" style="--k:var(--c2)"><div class="n">02</div><div><h2>국가가 책임지고 기본이 튼튼한 교육 실현</h2><div class="s">유보통합 · 온동네 돌봄 · 기초학력 · 마음건강 · 교권</div></div></div>
+
+<article class="card task" id="t2-1" style="--k:var(--c2)">
+  <div class="main">
+    <div class="top"><span class="idx">2-1</span><span class="gq">국정과제 101-2, 3</span></div>
+    <h3>국가책임 교육·돌봄 강화</h3>
+    <div class="sub">정부책임형 유보통합</div>
+    <ul class="pts">
+      <li>무상교육·보육 대상 <strong class="hl">’26년 만 4~5세</strong>로 확대</li>
+      <li>0세반 교사 대 아동 비율 <strong class="hl">1:3 → 1:2</strong></li>
+      <li>보육교사 처우개선비 월 2만 원 인상(’26), 교사 4대 분야 역량 지원</li>
+      <li>어린이집 퇴로 지원(’26.5~), 영유아 인프라 지도 시범(’26 하), 정서·심리 지원(’26.2~)</li>
+    </ul>
+    <div class="sub">온동네 초등돌봄·교육</div>
+    <ul class="pts">
+      <li>범부처·지역별 협의체(’25.11~), ‘온동네 초등돌봄·교육 모델’ 안내(’25.12~)</li>
+      <li>초1·2 무상 방과후(매일 2시간) + <strong class="hl">초3 이용권 연 50만 원</strong>, 제로페이 연계(’26.3 시범)</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><span class="from">56개</span><div class="big">200<small>개</small></div><div class="cap">거점·연계형 돌봄기관 (’25 → ’26)</div></div>
+    <div class="m"><span class="from">45%</span><div class="big">60<small>%</small></div><div class="cap">초3 방과후학교 참여율 (’25 → ’26)</div>
+      <div class="meter"><div class="bar" style="--from:45%;--to:60%"><s></s><i></i></div></div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t2-2" style="--k:var(--c2)">
+  <div class="main">
+    <div class="top"><span class="idx">2-2</span><span class="gq">국정과제 101-1, 4</span></div>
+    <h3>개별 맞춤형 교육을 통한 학습 안전망 구축</h3>
+    <div class="sub">기초학력 보장</div>
+    <ul class="pts">
+      <li><strong class="hl">국가기초학력지원포털</strong>(’25.12 개통)로 학습결손 원인 종합 진단</li>
+      <li>맞춤형 콘텐츠, 1교실 2교(강)사제, 방과후 1:1 멘토링(’26~, 6만 명)</li>
+      <li>기초학력 전담교원 ’26년 525명 확충, 학습종합클리닉센터 188개</li>
+    </ul>
+    <div class="sub">통합·특수교육</div>
+    <ul class="pts">
+      <li>특수학교 197 → 199교, 특수학급 14,658 → 15,258학급(’26)</li>
+      <li>통합교육 선도학교(정다운학교) 300교, 협력교사 운영</li>
+      <li>행동중재 전문가 ’26 200명 → ’28 350명 → ’30 500명</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><span class="from">37%</span><div class="big">60<small>%</small></div><div class="cap">1교실 2교사제 학교 비율 (’25 4,481교 → ’27 7,200교)</div>
+      <div class="meter"><div class="bar" style="--from:37%;--to:60%"><s></s><i></i></div></div></div>
+    <div class="m"><span class="from">80%</span><div class="big">90<small>%</small></div><div class="cap">특수교사 정원 확보율 (’25 → ’30)</div>
+      <div class="meter"><div class="bar" style="--from:80%;--to:90%"><s></s><i></i></div></div></div>
+    <div class="m"><span class="from">5개</span><div class="big">17<small>개 시도</small></div><div class="cap">기초학력지원센터 (’25 → ’26)</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t2-3" style="--k:var(--c2)">
+  <div class="main">
+    <div class="top"><span class="idx">2-3</span><span class="gq">국정과제 101-5</span></div>
+    <h3>학생 마음건강 지원</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li>정기 선별검사 확대(현 3년 주기), 마음EASY 검사 활성화, <strong class="hl">전문상담교사 150명 증원</strong>(’26)</li>
+      <li>학교 방문형 긴급지원팀, ‘학생 마음바우처’(치료비+상담비) 확대</li>
+      <li>사회정서역량 교육 <strong class="hl">6차시 → 17차시</strong>, 선도교사 1,500명</li>
+      <li>학생 마음건강 실태조사, 복지부 협력 심리부검(’26)</li>
+      <li>｢학생 마음건강 지원방안｣(’25.12), <strong class="hl">｢(가칭)학생 마음건강 지원법｣</strong> 제정 추진(’26)</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><span class="from">80억</span><div class="big">100<small>억</small></div><div class="cap">학생 마음바우처 (’25 → ’26)</div></div>
+    <div class="m"><span class="from">56팀</span><div class="big">65<small>팀</small></div><div class="cap">긴급지원팀 (’25 → ’26)</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t2-4" style="--k:var(--c2)">
+  <div class="main">
+    <div class="top"><span class="idx">2-4</span><span class="gq">국정과제 102-2</span></div>
+    <h3>교원의 교육활동 보호</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li>중대한 침해 시 <strong class="hl">관할청 고발 강화</strong>(｢교원지위법｣ 등에 요건·절차 신설), 학부모 과태료 상향, 학생부 기재 검토</li>
+      <li>학교민원 창구를 대표번호·온라인으로 통합해 <strong class="hl">교원 개인 연락처 보호</strong>, 악성민원은 관할청 이첩</li>
+      <li>교원보호공제사업 상향평준화, 마음돌봄휴가 확대(｢교원 휴가에 관한 예규｣ 개정, ’26 상)</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><span class="from">55개</span><div class="big">112<small>개</small></div><div class="cap">지역 교육활동보호센터 (’25 → ’26)</div></div>
+    <div class="m"><span class="from">5일</span><div class="big">10<small>일</small></div><div class="cap">마음돌봄휴가 한도</div></div>
+  </aside>
+</article>
+
+<!-- DIRECTION 3 -->
+<div class="dhead" id="dir3" style="--k:var(--c3)"><div class="n">03</div><div><h2>헌법가치를 실천하는 교육, 세계와 함께하는 교육</h2><div class="s">국민이 원하는 변화 · 세계가 기대하는 변화</div></div></div>
+
+<article class="card task" id="t3-1" style="--k:var(--c3)">
+  <div class="main">
+    <div class="top"><span class="idx">3-1</span><span class="gq">국정과제 100-1~2</span></div>
+    <h3>민주시민교육과 역사교육 강화</h3>
+    <div class="sub">헌법가치 실천 민주시민교육</div>
+    <ul class="pts">
+      <li><strong class="hl">보이텔스바흐 합의에 준하는</strong> 토의·토론 교수학습 원칙 수립·법제화</li>
+      <li>헌법교육 특강 고교 확대, EBS 영상(’26.3)·토론형 자료(’26.6), 교장 자격연수 약 3,000명</li>
+      <li>민주시민교육 선도학교 150개, 시도교육청 자율 브랜드 지원</li>
+      <li>교육부 민주시민교육과 설치(’26.1), <strong class="hl">｢학교민주시민교육법｣</strong> 제정</li>
+    </ul>
+    <div class="sub">균형 잡힌 역사교육</div>
+    <ul class="pts">
+      <li>민주화운동 역사체험 34개, 역사캠프 34회, 콘텐츠 제작 대회</li>
+      <li>중학교 근현대사 영역·시수 확대, 고교 선택과목 신설(’26.3 국교위 요청)</li>
+      <li>교사연구회 20팀, 선도교사단 100명, 저경력 교원 연수 300명</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><div class="big">2,000<small>학급</small></div><div class="cap">헌법교육 전문강사 특강 (’26, 고등학교로 확대 · ’25.4분기 초·중 914학급)</div></div>
+    <div class="m"><div class="big">150<small>개</small></div><div class="cap">민주시민교육 선도학교</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t3-2" style="--k:var(--c3)">
+  <div class="main">
+    <div class="top"><span class="idx">3-2</span><span class="gq">국정과제 55-5</span></div>
+    <h3>지역 수요에 대응하는 교육시설 개방·활용</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li>한국교육시설안전원을 <strong class="hl">‘(가칭)교육시설관리공단’</strong>으로 확대 개편, 학교시설 위탁관리로 개방 확대(’26 상)</li>
+      <li>폐교 등 유휴시설 활용 계획에 주민 참여 제도화, ‘지방교육행정협의회’ 기능 확대 및 조례개정 권고</li>
+      <li>폐교활용법 개정(’26): <strong class="hl">활용 용도 네거티브 방식</strong>, 무상대부·수의계약 특례에 통합돌봄·공공시설 추가</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY CHANGE</div>
+    <div class="m"><div class="big" style="font-size:20px">학교 → 공단</div><div class="cap">교육시설 위탁 관리 주체 전환</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t3-3" style="--k:var(--c3)">
+  <div class="main">
+    <div class="top"><span class="idx">3-3</span></div>
+    <h3>AI를 활용한 대학 진학상담 고도화</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li><strong class="hl">LLM 기반 대화형 대입정보 검색</strong>(’26.3 시범), 대입상담교사단과 연계</li>
+      <li>학생부종합전형 상담 신설(’26.3)</li>
+      <li>‘AI 대학진학 진단서비스’(’27 하) → <strong class="hl">‘AI 학생부 컨설팅’</strong>(’28~) — ｢2028 대입개편｣ 대응</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><div class="big">500<small>명</small></div><div class="cap">대입상담교사단</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t3-4" style="--k:var(--c3)">
+  <div class="main">
+    <div class="top"><span class="idx">3-4</span></div>
+    <h3>국내·외 한국어교육 확산</h3>
+    <div class="sub">해외 ‘한국어반’ 중심 활성화</div>
+    <ul class="pts">
+      <li><strong class="hl">한국어학습 → 한국 유학 → 취업 → 정주</strong> 연결, 한국교육원 역할 강화</li>
+      <li>10개국 맞춤형 교재 26만 권, 모바일·학생용 전자책 신규 개발(’26)</li>
+      <li>TOPIK 홈테스트·AI 채점 디지털 전환(’28 개발 → ’29 시범)</li>
+    </ul>
+    <div class="sub">이주배경학생 한국어교육</div>
+    <ul class="pts">
+      <li>발달단계별 한국어 진단도구, <strong class="hl">｢(가칭)이주배경학생 교육지원 특별법｣</strong>(’26 상)</li>
+      <li>입학 전후 집중교육 → 초기 수업 → 학업·진로 단계별 지원, ‘모두의 한국어’ AI 고도화</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY METRICS</div>
+    <div class="m"><span class="from">77명</span><div class="big">200<small>명</small></div><div class="cap">해외 한국어교원 파견 (’25 → ’27)</div></div>
+    <div class="m"><span class="from">20명</span><div class="big">100<small>명</small></div><div class="cap">보조교사 (’26 시범 → ’27)</div></div>
+  </aside>
+</article>
+
+<article class="card task" id="t3-5" style="--k:var(--c3)">
+  <div class="main">
+    <div class="top"><span class="idx">3-5</span></div>
+    <h3>교육 분야 글로벌 이니셔티브</h3>
+    <ul class="pts" style="margin-top:12px">
+      <li>고위급 공동위원회 등 전략적 파트너십, GATE 포럼·APEC 미래교육포럼 정례화</li>
+      <li><strong class="hl">ASEAN+3 교육장관회의 공동 의장</strong> 수임 예정(’26.7), Campus Asia 4단계(’26~’30)</li>
+      <li><strong class="hl">K-마이스터</strong> 모델 확산: MOU·컨소시엄(’26 상), 교원·명장 파견 시범학교(’26 하)</li>
+      <li>美 현지 한국공장 직무분석 기반 전문대-기업 실무교육(’26)</li>
+    </ul>
+  </div>
+  <aside class="metrics"><div class="h">KEY EVENT</div>
+    <div class="m"><div class="big" style="font-size:22px">’26.7</div><div class="cap">ASEAN+3 교육장관회의 공동 의장</div></div>
+  </aside>
+</article>
+
+<!-- ISSUES -->
+<section class="block" id="issues">
+  <div class="sec-h"><div><div class="k" style="color:var(--warn)">WATCHLIST</div><h2>주요 쟁점이슈</h2></div></div>
+  <div class="issues">
+    <div class="issue"><div class="n">ISSUE 1</div><h3>영유아 사교육 대책</h3></div>
+    <div class="issue"><div class="n">ISSUE 2</div><h3>교원의 정치기본권 확대</h3></div>
+    <div class="issue"><div class="n">ISSUE 3</div><h3>고교학점제 안착 지원</h3></div>
+  </div>
+  <p class="disc">원문 추진체계도에 쟁점 항목명만 제시되어 있으며, 세부 내용은 자료에 수록되어 있지 않습니다.</p>
+</section>
+
+<footer>출처: 교육부, ｢교육부 업무보고｣(2025. 12. 12.) 원문 재구성. 수치·일정은 보고 시점의 계획이며 이후 변경될 수 있습니다.</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('net'); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext('2d'), pts=[], w=0, h=0, dpr=Math.min(window.devicePixelRatio||1,2);
+  var still=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function col(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()||'#4aa8ff';}
+  function size(){var r=cv.getBoundingClientRect();w=r.width;h=r.height;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n=Math.round(Math.min(70,w*h/9000));pts=[];for(var i=0;i<n;i++)pts.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25});}
+  function draw(){
+    var c1=col('--c1'),c3=col('--c3');ctx.clearRect(0,0,w,h);
+    for(var i=0;i<pts.length;i++){var p=pts[i];
+      if(!still){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;}
+      for(var j=i+1;j<pts.length;j++){var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=dx*dx+dy*dy;
+        if(d<12000){ctx.globalAlpha=(1-d/12000)*.35;ctx.strokeStyle=(i%3?c1:c3);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}
+      ctx.globalAlpha=.7;ctx.fillStyle=(i%3?c1:c3);ctx.beginPath();ctx.arc(p.x,p.y,1.6,0,6.3);ctx.fill();}
+    ctx.globalAlpha=1; if(!still) requestAnimationFrame(draw);
+  }
+  size(); draw(); window.addEventListener('resize',function(){size(); if(still) draw();});
+  if(still && window.matchMedia){ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw); }
+})();
+</script>
+
+</body></html>
