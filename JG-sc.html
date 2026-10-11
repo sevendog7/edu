@@ -108,6 +108,8 @@ table.dt{width:100%;border-collapse:collapse;font-size:.9rem}
 .dt th{width:28%;text-align:left;padding:10px 8px;background:#f8fafc;border-bottom:1px solid var(--line);color:#475569;font-weight:600}
 .dt td{padding:10px 8px;border-bottom:1px solid var(--line)}
 .na{color:#94a3b8}
+a.tel{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;margin:2px 4px 2px 0;border-radius:999px;background:var(--public);color:#fff;font-weight:700;text-decoration:none;font-variant-numeric:tabular-nums}
+a.tel:hover,a.tel:focus-visible{background:#047857;outline:2px solid #047857;outline-offset:2px}
 .note{font-size:.76rem;color:var(--muted);margin-top:10px;line-height:1.5}
 
 /* 불러오기 화면 */
@@ -127,12 +129,19 @@ table.dt{width:100%;border-collapse:collapse;font-size:.9rem}
 .toast.on{display:block}
 
 @media (max-width:820px){
-  #app{flex-direction:column}
-  #mapWrap{height:46vh;flex:none;order:1}
-  #sidebar{width:100%;min-width:0;flex:1;order:2;border-right:none;border-top:1px solid var(--line);min-height:0}
+  #app{flex-direction:column;height:100%}
+  #mapWrap{height:42vh;flex:none;order:1}
+  /* 휴대전화: 목록 영역 전체를 스크롤하고, 검색창은 맨 위에 고정 */
+  #sidebar{width:100%;min-width:0;flex:1;order:2;border-right:none;border-top:1px solid var(--line);min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .sb-head{order:0;padding:10px 14px} .sb-head h1{font-size:.98rem} .sb-head p,.sb-head .meta{display:none}
+  .search{order:1;position:sticky;top:0;z-index:5;background:#fff;padding:8px 12px;border-bottom:1px solid var(--line)}
+  .search input{font-size:16px;padding:9px 10px}
+  .search button{padding:0 12px;font-size:.85rem}
+  .legend{order:2;padding:8px 12px 2px} .levels{order:3;padding:6px 12px 8px} .dist-box{order:4;padding:8px 12px}
+  .list-meta{order:5;padding:8px 14px 6px} #list{order:6;flex:none;overflow:visible;padding:0 12px 12px} .foot{order:7}
   .mapgrid{grid-template-columns:1fr}
   .dist-grid{grid-template-columns:repeat(3,1fr)}
-  .hint{left:50px;font-size:.74rem}
+  .hint{left:50px;right:10px;font-size:.72rem;padding:5px 10px;border-radius:8px}
 }
 </style>
 </head>
@@ -250,7 +259,7 @@ const FIELDS = [
 ];
 
 /* ================= 상태 ================= */
-const state = { schools:[], meta:{sources:[], savedAt:null}, district:null, types:new Set(TYPES), level:'전체', query:'', gridOpen:true };
+const state = { schools:[], meta:{sources:[], savedAt:null}, district:null, types:new Set(TYPES), level:'전체', query:'', gridOpen:!(window.matchMedia && window.matchMedia('(max-width:820px)').matches) };
 let map = null, badgeLayer = null, markerLayer = null, canvasRenderer = null;
 const markerByUid = new Map();
 let pending = [];
@@ -768,6 +777,28 @@ function openSchool(s){
   }
   openModal(s);
 }
+/* 대표전화를 누르면 전화 연결(tel:). 공시 원문 표기는 그대로 보여 주고, 걸 수 있는 번호만 버튼으로 만든다 */
+function telHtml(raw, district){
+  const area = String(district || '').startsWith('광주') ? '062' : '061';
+  const nums = [];
+  let prev = '';
+  for (const part of String(raw).split(/[,，\/]/)){
+    const m = part.match(/\d[\d\s-]*\d/); if (!m) continue;
+    let tok = m[0].replace(/\s/g, '');
+    const g = tok.split('-');
+    if (g.length === 4 && g[3].length <= 2) tok = g.slice(0, 3).join('-');        /* 062-370-7172-3 → 062-370-7172 */
+    let d = tok.replace(/-/g, '');
+    if (d.length <= 4 && prev) d = prev.slice(0, prev.length - d.length) + d;   /* "7540(교)" → 앞 번호 기준 내선 */
+    else if (!d.startsWith('0') && (d.length === 7 || d.length === 8)) d = area + d; /* 지역번호 누락 */
+    if (/^0\d{8,10}$/.test(d)){ nums.push(d); prev = d; }
+  }
+  const uniq = [...new Set(nums)];
+  const fmt = d => d.startsWith('02') ? d.replace(/^(02)(\d{3,4})(\d{4})$/, '$1-$2-$3')
+                                      : d.replace(/^(0\d{2})(\d{3,4})(\d{4})$/, '$1-$2-$3');
+  const btns = uniq.map(d => `<a class="tel" href="tel:${d}">📞 ${fmt(d)}</a>`).join(' ');
+  if (!btns) return esc(raw);
+  return btns + (uniq.length === 1 && fmt(uniq[0]) === String(raw).trim() ? '' : `<div class="na" style="font-size:.75rem;margin-top:4px">공시 표기: ${esc(raw)}</div>`);
+}
 function openModal(s){
   $('mDot').outerHTML = `<span id="mDot">${badge(s.level, TYPE_CLASS[s.type])}</span>`;
   $('mName').textContent = s.name;
@@ -777,7 +808,7 @@ function openModal(s){
   $('mAddr').innerHTML = s.addr ? esc(s.addr) : '<span class="na">자료 없음</span>';
   $('mClasses').innerHTML = fmtNum(s.classes, '학급');
   $('mStudents').innerHTML = fmtNum(s.students, '명') + (s.level === '유치원' ? ' <span class="na">(원아수)</span>' : '');
-  $('mTel').innerHTML = s.tel ? esc(s.tel) : '<span class="na">자료 없음</span>';
+  $('mTel').innerHTML = s.tel ? telHtml(s.tel, s.district) : '<span class="na">자료 없음</span>';
   $('mNote').textContent = s.approx ? `※ 위치정보가 없어 본교(${s.approx}) 위치에 표시했습니다.`
     : (s.lat == null ? '※ 위치정보(위도·경도)가 없어 지도에는 표시되지 않습니다.' : '');
   $('schoolOv').classList.add('on');
