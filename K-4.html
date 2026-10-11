@@ -1,0 +1,471 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>K-교육특별시 정책 콘솔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Oxanium:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: 정책 관제 콘솔. HUD 헤더 → 히어로(사이클 레이더) → 검증 리포트(diff) → 통합 배경 → 4대 과제 모듈 → 필터형 로드맵 → 교육감 발언 */
+:root{
+  --bg:#070b16; --bg2:#0b1122; --panel:rgba(120,150,255,.05); --panel2:rgba(120,150,255,.09);
+  --ink:#e9eefc; --ink2:#b4bfd8; --muted:#7a87a6; --line:rgba(140,170,255,.14); --line2:rgba(140,170,255,.28);
+  --p1:#a996ff; --p2:#3fd9b8; --p3:#5ab0ff; --p4:#f7b350;
+  --bad:#ff7088; --badS:rgba(255,112,136,.10); --good:#3fd9b8; --goodS:rgba(63,217,184,.10);
+  --grid:rgba(120,150,255,.07); --glow1:rgba(80,110,255,.28); --glow2:rgba(40,200,220,.16);
+  --d1:#6a4fd8; --d2:#0d8a70; --d3:#2369d0; --d4:#b86e00;
+  --sDone:#5b6478; --sRun:#15894c; --sPlan:#0b7ea6; --sGoal:#d25e0c; --sPush:#4b52c9; --sRev:#c8304b; --onSolid:#ffffff;
+  --kr:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --tech:"Oxanium","Noto Sans KR",ui-monospace,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#eef2f9; --bg2:#ffffff; --panel:rgba(255,255,255,.85); --panel2:rgba(230,236,250,.9);
+  --ink:#121a2e; --ink2:#34405c; --muted:#5d6985; --line:rgba(40,60,120,.14); --line2:rgba(40,60,120,.26);
+  --p1:#6b4fe0; --p2:#0b8f74; --p3:#1f6fd1; --p4:#b36b00;
+  --bad:#c8304b; --badS:rgba(200,48,75,.08); --good:#0b8f74; --goodS:rgba(11,143,116,.09);
+  --grid:rgba(40,60,120,.06); --glow1:rgba(90,120,255,.16); --glow2:rgba(30,180,200,.10);
+  color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#eef2f9; --bg2:#ffffff; --panel:rgba(255,255,255,.85); --panel2:rgba(230,236,250,.9);
+  --ink:#121a2e; --ink2:#34405c; --muted:#5d6985; --line:rgba(40,60,120,.14); --line2:rgba(40,60,120,.26);
+  --p1:#6b4fe0; --p2:#0b8f74; --p3:#1f6fd1; --p4:#b36b00;
+  --bad:#c8304b; --badS:rgba(200,48,75,.08); --good:#0b8f74; --goodS:rgba(11,143,116,.09);
+  --grid:rgba(40,60,120,.06); --glow1:rgba(90,120,255,.16); --glow2:rgba(30,180,200,.10);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--kr);font-size:15.5px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+  background-image:radial-gradient(900px 500px at 85% -10%,var(--glow1),transparent 70%),radial-gradient(700px 500px at -10% 40%,var(--glow2),transparent 70%),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:auto,auto,48px 48px,48px 48px;background-attachment:fixed,fixed,scroll,scroll}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3{text-wrap:balance;line-height:1.3}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+.tech{font-family:var(--tech);letter-spacing:.08em}
+:focus-visible{outline:2px solid var(--p3);outline-offset:3px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(10px)}
+.c1{--c:var(--p1);--cd:var(--d1)} .c2{--c:var(--p2);--cd:var(--d2)} .c3{--c:var(--p3);--cd:var(--d3)} .c4{--c:var(--p4);--cd:var(--d4)}
+
+/* HUD */
+.hud{border-bottom:1px solid var(--line)}
+.hud .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;padding-block:12px;font-family:var(--tech);font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.live{display:inline-flex;align-items:center;gap:8px;color:var(--good)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 10px var(--good)}
+
+/* HERO */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:36px;align-items:center;padding-block:48px 40px}
+.kicker{font-family:var(--tech);font-size:12.5px;letter-spacing:.22em;color:var(--p3);text-transform:uppercase}
+.hero h1{margin-top:14px;font-size:clamp(30px,5vw,52px);font-weight:900;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;background:linear-gradient(95deg,var(--p3),var(--p1) 55%,var(--p2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{margin-top:16px;color:var(--ink2);font-size:clamp(15px,1.7vw,17px);max-width:56ch}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:28px}
+.kpi{padding:14px 16px;position:relative}
+.kpi::before{content:"";position:absolute;left:-1px;top:-1px;width:12px;height:12px;border-left:2px solid var(--p3);border-top:2px solid var(--p3);border-top-left-radius:6px}
+.kpi small{display:block;font-family:var(--tech);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+.kpi b{font-family:var(--tech);font-size:clamp(22px,3vw,30px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.kpi b span{font-size:.55em;color:var(--muted);margin-left:2px}
+.radar{padding:14px;max-width:440px;width:100%;justify-self:center}
+.radar svg{display:block;width:100%;height:auto}
+.r-ring{fill:none;stroke:var(--line2)}
+.r-dash{fill:none;stroke:var(--line2);stroke-dasharray:2 8}
+.r-arc{fill:none;stroke:var(--ink2);stroke-width:1.5;opacity:.55}
+.r-head{fill:var(--ink2);opacity:.7}
+.r-node{fill:var(--bg2);stroke:var(--c);stroke-width:2}
+.r-halo{fill:var(--c);opacity:.12}
+.r-num{fill:var(--c);font-family:var(--tech);font-weight:800;font-size:20px}
+.r-lbl{fill:var(--ink);font-family:var(--kr);font-weight:700;font-size:12px}
+.r-core{fill:var(--panel2);stroke:var(--line2)}
+.r-t1{fill:var(--muted);font-family:var(--tech);font-size:9.5px;letter-spacing:3px}
+.r-t2{fill:var(--ink);font-family:var(--kr);font-weight:900;font-size:17px}
+.r-t3{fill:var(--good);font-family:var(--tech);font-size:9px;letter-spacing:2px}
+.r-node-g{cursor:pointer}
+.r-node-g:hover .r-halo{opacity:.3}
+@media (prefers-reduced-motion:no-preference){
+  .spin{transform-box:fill-box;transform-origin:center;animation:spin 48s linear infinite}
+  .spin.rev{animation-duration:30s;animation-direction:reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  html{scroll-behavior:smooth}
+}
+
+/* NAV */
+nav.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;padding-block:10px;background:linear-gradient(var(--bg) 60%,transparent)}
+nav.bar .in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:5px;border:1px solid var(--line2);border-radius:12px;background:var(--panel2);backdrop-filter:blur(14px)}
+nav.bar a{flex:1 0 auto;text-align:center;text-decoration:none;color:var(--ink2);font-size:14px;font-weight:700;padding:9px 14px;border-radius:8px;white-space:nowrap}
+nav.bar a span{font-family:var(--tech);font-size:11px;color:var(--muted);margin-right:6px}
+nav.bar a:hover{background:var(--panel);color:var(--ink)}
+
+section{padding-block:48px}
+.sh{margin-bottom:24px}
+.sh .no{font-family:var(--tech);font-size:12px;letter-spacing:.2em;color:var(--p3)}
+.sh h2{margin-top:6px;font-size:clamp(22px,3vw,30px);font-weight:900;letter-spacing:-.025em}
+.sh p{margin-top:6px;color:var(--muted);max-width:70ch}
+
+/* WHY */
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.why .panel{padding:20px}
+.why h3{font-size:17px;font-weight:900;margin:6px 0}
+.why p{color:var(--ink2);font-size:14.5px}
+.why .tg{font-family:var(--tech);font-size:11px;letter-spacing:.16em;color:var(--muted)}
+.why .ans{border-color:var(--line2);background:linear-gradient(135deg,color-mix(in srgb,var(--p3) 16%,transparent),color-mix(in srgb,var(--p2) 10%,transparent))}
+.why .ans .tg{color:var(--p2)}
+
+/* TASKS */
+.task{margin-top:18px;overflow:hidden;position:relative}
+.task::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--c),transparent 80%)}
+.th{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line);background:radial-gradient(420px 140px at 0 0,color-mix(in srgb,var(--c) 14%,transparent),transparent 70%)}
+.th .big{font-family:var(--tech);font-weight:800;font-size:46px;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--c)}
+.th .k{font-family:var(--tech);font-size:11.5px;letter-spacing:.18em;color:var(--c);text-transform:uppercase}
+.th h3{font-size:clamp(19px,2.4vw,23px);font-weight:900;letter-spacing:-.02em}
+.th p{font-size:14.5px;color:var(--ink2);margin-top:4px}
+.th .kw{font-weight:700;font-size:13px;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 10%,transparent);border-radius:999px;padding:4px 12px;white-space:nowrap}
+/* 과제 헤더 강조: 과제 색 솔리드 배경 + 흰 글자 */
+.task::before{display:none}
+.task .th{position:relative;overflow:hidden;border-bottom:0;padding:26px 28px;color:var(--onSolid);
+  background:
+    radial-gradient(360px 200px at 100% 0,rgba(255,255,255,.22),transparent 70%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 2px,transparent 2px 14px),
+    linear-gradient(120deg,var(--cd),color-mix(in srgb,var(--cd) 70%,#000));
+  box-shadow:inset 0 -1px 0 rgba(0,0,0,.18)}
+.task .th .big{color:var(--onSolid);-webkit-text-stroke:0;font-size:56px;text-shadow:0 4px 18px rgba(0,0,0,.25)}
+.task .th .k{color:rgba(255,255,255,.82)}
+.task .th h3{color:var(--onSolid);font-size:clamp(21px,2.6vw,26px)}
+.task .th p{color:rgba(255,255,255,.9)}
+.task .th .kw{color:var(--cd);background:var(--onSolid);border:0;font-weight:900;font-size:14px;padding:7px 16px;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.task .th > div{border-left:2px solid rgba(255,255,255,.35);padding-left:18px}
+@media (max-width:600px){.task .th{padding:22px 20px}.task .th .big{font-size:40px}.task .th > div{border-left:0;padding-left:0}.task .th .kw{justify-self:start}}
+.tb{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.mod{padding:20px 24px;border-top:1px solid var(--line);min-width:0}
+.tb .mod{border-right:1px solid var(--line)}
+.mod h4{font-size:16px;font-weight:900;margin-bottom:10px;display:flex;gap:8px;align-items:baseline}
+.mod h4 .i{font-family:var(--tech);font-size:12px;color:var(--c);flex:none}
+.mod ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.mod li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:start;font-size:14.5px;line-height:1.6;color:var(--ink2)}
+.mod li b{color:var(--ink);font-weight:700}
+.st{font-family:var(--kr);font-size:12px;font-weight:900;line-height:1;padding:6px 9px;border-radius:6px;margin-top:1px;white-space:nowrap;color:var(--onSolid);background:var(--sc);box-shadow:0 2px 8px -2px var(--sc),inset 0 1px 0 rgba(255,255,255,.22);min-width:46px;text-align:center;letter-spacing:.02em}
+.s-done{--sc:var(--sDone)} .s-run{--sc:var(--sRun)} .s-plan{--sc:var(--sPlan)} .s-goal{--sc:var(--sGoal)} .s-push{--sc:var(--sPush)} .s-rev{--sc:var(--sRev)}
+.when{font-family:var(--tech);font-size:12px;color:var(--c);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;color:var(--muted)}
+.legend .st{margin:0}
+
+/* ROADMAP */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.fb{font:inherit;font-size:13.5px;font-weight:700;color:var(--ink2);background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:7px 14px;cursor:pointer;display:inline-flex;gap:7px;align-items:center}
+.fb i{width:8px;height:8px;border-radius:2px;background:var(--c,var(--ink2));transform:rotate(45deg)}
+.fb[aria-pressed="true"]{color:var(--onSolid);border-color:var(--cd,var(--sDone));background:var(--cd,var(--sDone))}
+.fb[aria-pressed="true"] i{background:var(--onSolid)}
+.yr{display:grid;grid-template-columns:130px minmax(0,1fr);gap:24px;position:relative;padding-bottom:30px}
+.yr:last-child{padding-bottom:0}
+.yr::before{content:"";position:absolute;left:142px;top:12px;bottom:-12px;width:1px;background:linear-gradient(var(--line2),var(--line))}
+.yr:last-child::before{display:none}
+.yr .dot{position:absolute;left:136px;top:8px;width:13px;height:13px;border-radius:50%;background:var(--bg);border:2px solid var(--p3);box-shadow:0 0 12px var(--p3)}
+.yr .y{text-align:right}
+.yr .y b{display:block;font-family:var(--tech);font-weight:800;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.yr .y small{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.lanes{display:grid;gap:10px;padding-left:12px;min-width:0}
+.lane{display:grid;grid-template-columns:128px minmax(0,1fr);border:1px solid color-mix(in srgb,var(--c) 45%,transparent);border-radius:12px;overflow:hidden;background:color-mix(in srgb,var(--c) 8%,var(--bg2))}
+.ln{background:var(--cd);color:var(--onSolid);padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.ln small{font-family:var(--tech);font-size:11px;letter-spacing:.14em;opacity:.85}
+.ln b{font-size:15px;font-weight:900;line-height:1.3}
+.lms{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:8px;padding:10px;min-width:0}
+.m{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--cd);border-radius:8px;padding:10px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;align-items:start}
+.m strong{font-size:14.5px;font-weight:700;line-height:1.5}
+.m .st{margin:0}
+
+/* QUOTE */
+.quote{padding:clamp(24px,4vw,44px);border-color:var(--line2);background:radial-gradient(600px 240px at 100% 0,color-mix(in srgb,var(--p1) 16%,transparent),transparent 70%),var(--panel)}
+.quote .tech{font-size:11.5px;color:var(--p3);letter-spacing:.2em}
+.quote blockquote{margin:16px 0 0;display:grid;gap:12px}
+.quote blockquote p{font-size:clamp(16px,2vw,20px);font-weight:500;line-height:1.75;max-width:62ch}
+.quote blockquote p strong{font-weight:900;color:var(--ink);box-shadow:inset 0 -8px 0 color-mix(in srgb,var(--p4) 28%,transparent)}
+.quote cite{display:block;margin-top:18px;font-style:normal;color:var(--muted);font-size:14px}
+.quote cite b{color:var(--ink)}
+
+footer{border-top:1px solid var(--line);padding-block:24px 40px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between}
+
+@media (max-width:900px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .why{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  .kpis{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:8px}
+  .kpi{padding:12px}
+  .th{grid-template-columns:minmax(0,1fr);gap:8px;padding:20px}
+  .th .big{font-size:34px}
+  .mod{padding:18px 20px}
+  .yr{grid-template-columns:minmax(0,1fr);gap:10px;padding-left:26px}
+  .yr::before{left:6px}
+  .yr .dot{left:0}
+  .yr .y{text-align:left;display:flex;align-items:baseline;gap:10px}
+  .yr .y small{margin:0}
+  .lanes{padding-left:0}
+  .lane{grid-template-columns:minmax(0,1fr)}
+  .ln{flex-direction:row;align-items:baseline;gap:10px;padding:9px 14px}
+  section{padding-block:38px}
+}
+</style>
+
+<div class="hud"><div class="wrap">
+  <span class="live"><i></i>D+100 · 정책 실행 단계 전환</span>
+  <span>JN-GJ Office of Education // Press 2026.10.07</span>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <p class="kicker">Vision · K-Education City</p>
+    <h1>배움을 정주로 잇는<br><em>4대 핵심과제</em></h1>
+    <p class="lead">대한민국 최초의 광역 교육행정 통합 모델인 전남광주통합특별시교육청이 출범 100일을 맞아 초기 조직 안정화를 마치고 ‘K-교육특별시’ 실행 단계로 들어섭니다.</p>
+    <div class="kpis">
+      <div class="panel kpi"><small>Since launch</small><b>100<span>일</span></b></div>
+      <div class="panel kpi"><small>Core tasks</small><b>4<span>대</span></b></div>
+      <div class="panel kpi"><small>Roadmap</small><b>’26–’30</b></div>
+    </div>
+  </div>
+  <div class="panel radar" aria-label="4대 과제 선순환 구조도">
+    <svg viewBox="0 0 360 360" role="img">
+      <title>기반 조성, 본질 회복, 미래 확장, 행정 혁신으로 이어지는 선순환 구조</title>
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="r-head" d="M0 0L10 5L0 10z"/></marker></defs>
+      <circle class="r-dash spin" cx="180" cy="180" r="166"/>
+      <circle class="r-ring" cx="180" cy="180" r="120"/>
+      <circle class="r-dash spin rev" cx="180" cy="180" r="88"/>
+      <path class="r-arc" d="M219 66 A120 120 0 0 1 294 141" marker-end="url(#ah)"/>
+      <path class="r-arc" d="M294 219 A120 120 0 0 1 219 294" marker-end="url(#ah)"/>
+      <path class="r-arc" d="M141 294 A120 120 0 0 1 66 219" marker-end="url(#ah)"/>
+      <path class="r-arc" d="M66 141 A120 120 0 0 1 141 66" marker-end="url(#ah)"/>
+      <circle class="r-core" cx="180" cy="180" r="66"/>
+      <text class="r-t1" x="180" y="166" text-anchor="middle">VISION</text>
+      <text class="r-t2" x="180" y="190" text-anchor="middle">K-교육특별시</text>
+      <text class="r-t3" x="180" y="208" text-anchor="middle">CYCLE</text>
+      <a href="#t1" class="r-node-g c1"><circle class="r-halo" cx="180" cy="60" r="44"/><circle class="r-node" cx="180" cy="60" r="36"/><text class="r-num" x="180" y="58" text-anchor="middle">01</text><text class="r-lbl" x="180" y="76" text-anchor="middle">기반 조성</text></a>
+      <a href="#t2" class="r-node-g c2"><circle class="r-halo" cx="300" cy="180" r="44"/><circle class="r-node" cx="300" cy="180" r="36"/><text class="r-num" x="300" y="178" text-anchor="middle">02</text><text class="r-lbl" x="300" y="196" text-anchor="middle">본질 회복</text></a>
+      <a href="#t3" class="r-node-g c3"><circle class="r-halo" cx="180" cy="300" r="44"/><circle class="r-node" cx="180" cy="300" r="36"/><text class="r-num" x="180" y="298" text-anchor="middle">03</text><text class="r-lbl" x="180" y="316" text-anchor="middle">미래 확장</text></a>
+      <a href="#t4" class="r-node-g c4"><circle class="r-halo" cx="60" cy="180" r="44"/><circle class="r-node" cx="60" cy="180" r="36"/><text class="r-num" x="60" y="178" text-anchor="middle">04</text><text class="r-lbl" x="60" y="196" text-anchor="middle">행정 혁신</text></a>
+    </svg>
+  </div>
+</div></header>
+
+<nav class="bar" aria-label="섹션 이동"><div class="wrap"><div class="in">
+  <a href="#why"><span>01</span>통합 배경</a>
+  <a href="#tasks"><span>02</span>4대 과제</a>
+  <a href="#roadmap"><span>03</span>로드맵</a>
+  <a href="#message"><span>04</span>교육감 발언</a>
+</div></div></nav>
+
+<main class="wrap">
+
+<!-- WHY -->
+<section id="why">
+  <div class="sh"><p class="no">[ 01 ] WHY INTEGRATION</p><h2>왜 전남과 광주는 하나가 되어야 했나</h2>
+  <p>행정 경계에 갇힌 각자도생 방식으로는 더 이상 교육의 지속가능성을 담보할 수 없다는 현실 인식에서 출발했습니다.</p></div>
+  <div class="why">
+    <div class="panel"><p class="tg">THREAT 01</p><h3>급격한 학령인구 감소</h3><p>지역 소멸의 구조적 위기가 교육 기반을 함께 약화시킵니다.</p></div>
+    <div class="panel"><p class="tg">THREAT 02</p><h3>청년 인재의 수도권 유출</h3><p>교육 때문에 고향을 떠나고, 지역 교육이 다시 침체되는 악순환이 이어집니다.</p></div>
+    <div class="panel ans"><p class="tg">RESPONSE</p><h3>교육자원을 하나로 결합</h3><p>광주와 전남의 교육자원을 합쳐 아이들에게 더 넓고 다양한 배움의 기회를 엽니다.</p></div>
+  </div>
+</section>
+
+<!-- TASKS -->
+<section id="tasks">
+  <div class="sh"><p class="no">[ 02 ] CORE TASKS</p><h2>4대 핵심과제 모듈</h2>
+  <p>각 항목 앞의 상태 표시는 보도자료의 서술어를 그대로 따랐습니다.</p></div>
+  <div class="legend">
+    <span class="st s-done">완료</span>이미 실시·운영 중
+    <span class="st s-run">가동</span>2026.10 운영·착수
+    <span class="st s-plan">예정</span>개원·개교 예정
+    <span class="st s-goal">목표</span>시점을 목표로 추진
+    <span class="st s-push">추진</span>추진 계획
+    <span class="st s-rev">검토</span>검토 단계
+  </div>
+
+  <article class="panel task c1" id="t1">
+    <div class="th"><span class="big">01</span><div><p class="k">Foundation</p><h3>K-민주주의 교육</h3><p>통합의 역사 자산을 바탕으로 스스로 질문하고 판단하는 실천적 시민성을 기릅니다.</p></div><span class="kw">기반 조성</span></div>
+    <div class="tb">
+      <div class="mod"><h4><span class="i">1-1</span>역사 잇기 프로젝트</h4><ul>
+        <li><span class="st s-push">추진</span><span>학생독립운동 100주년 학생 주도형 <b>‘1929 → 2029, 우리가 잇는다’</b> <span class="when">2029</span></span></li>
+        <li><span class="st s-push">추진</span><span>5·18 민주화운동 50주년 기념 프로젝트로 연계 <span class="when">2030</span></span></li>
+        <li><span class="st s-push">추진</span><span>민주주의·인권·공동체 현안 탐구, 지자체·시민사회와 연대</span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">1-2</span>K-민주주의 전당 · 헌법교육</h4><ul>
+        <li><span class="st s-push">추진</span><span>AI·디지털 기반 체험형 <b>글로벌 민주교육 거점</b> 건립</span></li>
+        <li><span class="st s-push">추진</span><span>타 시·도와 전 세계 청소년이 찾는 거점으로 육성</span></li>
+        <li><span class="st s-push">추진</span><span><b>헌법교과서</b> 제작·보급으로 맞춤형 헌법교육 강화</span></li>
+      </ul></div>
+    </div>
+  </article>
+
+  <article class="panel task c2" id="t2">
+    <div class="th"><span class="big">02</span><div><p class="k">Restoration</p><h3>꿈이 피어나는 교실 지원 강화</h3><p>교사는 안심하고 가르치고, 학생은 정답 대신 생각을 표현하는 배움 중심 교실을 만듭니다.</p></div><span class="kw">본질 회복</span></div>
+    <div class="tb">
+      <div class="mod"><h4><span class="i">2-1</span>교육활동 보호 강화</h4><ul>
+        <li><span class="st s-run">가동</span><span>교육감 직속 <b>교육활동보호 종합대책 추진단</b> <span class="when">2026.10~</span></span></li>
+        <li><span class="st s-push">추진</span><span>교육감 직속 전담기구·<b>권역별 교육활동보호센터</b> 신설 <span class="when">2027</span></span></li>
+        <li><span class="st s-push">추진</span><span><b>교권보호관</b>이 즉시 출동, 문제 해결 시까지 학교 상주하며 원스톱 지원</span></li>
+        <li><span class="st s-push">추진</span><span>구상권 청구·민사소송 비용 등 후속 법률 지원</span></li>
+        <li><span class="st s-push">추진</span><span>침해·민원 데이터로 선제 지원, <b>24시간 지원 창구</b></span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">2-2</span>생각을 표현하는 교실</h4><ul>
+        <li><span class="st s-done">완료</span><span>평가 전담조직 구성 <span class="when">2026.8</span></span></li>
+        <li><span class="st s-run">가동</span><span><b>‘200 선도교원’</b> 양성 <span class="when">2026.10~</span></span></li>
+        <li><span class="st s-push">추진</span><span><b>서·논술형 평가</b> 초5~6·중1부터 연차 확대, 의견수렴 반영 <span class="when">2027</span></span></li>
+        <li><span class="st s-plan">예정</span><span>교육과정개발평가원 개원, AI평가지원시스템 보급 <span class="when">2027.3</span></span></li>
+        <li><span class="st s-push">추진</span><span>조례 제정으로 평가 민원 대응·전문적 평가권 보호</span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">2-3</span>업무경감 체제 강화</h4><ul>
+        <li><span class="st s-push">추진</span><span>학교 행정업무를 <b>교육지원청이 직접 수행</b>, 시범 운영 후 확대 <span class="when">2027</span></span></li>
+        <li><span class="st s-push">추진</span><span><b>행정업무 통합 처리 플랫폼</b>·AI 행정비서 <span class="when">2027~2030</span></span></li>
+        <li><span class="st s-push">추진</span><span><b>교육정책 현장영향평가제</b>: TF가 경고지표(Red Flag)로 시행·개선·중단 결정</span></li>
+      </ul></div>
+    </div>
+  </article>
+
+  <article class="panel task c3" id="t3">
+    <div class="th"><span class="big">03</span><div><p class="k">Expansion</p><h3>3대 메가프로젝트 대응 인재양성</h3><p>지역에서 배운 인재가 지역 대학·기업으로 이어져 정착하는 ‘교육지산지소’ 선순환을 만듭니다.</p></div><span class="kw">미래 확장</span></div>
+    <div class="tb">
+      <div class="mod"><h4><span class="i">3-1</span>영재학교 3교 · 과학고 3교</h4><ul>
+        <li><span class="st s-done">운영</span><span>광주과학고(영재학교)</span></li>
+        <li><span class="st s-plan">예정</span><span>GIST 부설 영재학교 개교 <span class="when">2029</span></span></li>
+        <li><span class="st s-push">추진</span><span>KENTECH 부설 영재학교 설립 지원</span></li>
+        <li><span class="st s-push">추진</span><span>권역별 과학고: 전남과학고 + <b>신규 2교 공모·지정</b> <span class="when">2027</span></span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">3-2</span>전략산업 맞춤 직업교육</h4><ul>
+        <li><span class="st s-push">추진</span><span>목포공고·해남공고 반도체 마이스터고, 순천미래과학고 특화학교 <span class="when">2028 운영</span></span></li>
+        <li><span class="st s-goal">목표</span><span>(가칭)광주반도체마이스터고 개교 <span class="when">2029.3</span></span></li>
+        <li><span class="st s-push">추진</span><span>직업계고 재구조화: 순천효산고(K-컬처)·목포여상(AI 미래형서비스)부터 <span class="when">2027</span></span></li>
+        <li><span class="st s-goal">목표</span><span>교육용 <b>Mini-FAB</b> 반도체 공동실습센터 착공 <span class="when">2027</span></span></li>
+        <li><span class="st s-run">가동</span><span>앰코테크놀로지코리아(주) 업무협약 <span class="when">2026.10</span></span></li>
+        <li><span class="st s-plan">예정</span><span>미래전략산업인재원 개원 연계 <span class="when">2027.3</span></span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">3-3</span>교육이 정주를 만드는 지역</h4><ul>
+        <li><span class="st s-push">추진</span><span><b>교육국제화특구</b>: 국제학교·외국어전용마을, AI 교실·지능형 과학실</span></li>
+        <li><span class="st s-push">추진</span><span>이전기업 임직원 가족 <b>전·입학 및 고입 특례</b></span></li>
+        <li><span class="st s-push">추진</span><span><b>365일 안심돌봄망</b>, 복합커뮤니티센터</span></li>
+        <li><span class="st s-push">추진</span><span>전남광주형 <b>지역책임 대입전형</b>, 지역인재전형 확대</span></li>
+      </ul></div>
+    </div>
+  </article>
+
+  <article class="panel task c4" id="t4">
+    <div class="th"><span class="big">04</span><div><p class="k">Innovation</p><h3>통합과 조직 재구조화</h3><p>본청은 정책 기획 중심으로 슬림화하고, 집행 권한은 교육지원청과 현장으로 이관합니다.</p></div><span class="kw">행정 혁신</span></div>
+    <div class="tb">
+      <div class="mod"><h4><span class="i">4-1</span>교직원 생활 안정</h4><ul>
+        <li><span class="st s-push">추진</span><span>근무지 보장 대원칙, 원거리 발령 시 이주·주거(월세)·교통비 지원</span></li>
+        <li><span class="st s-rev">검토</span><span>인사상 인센티브 적극 검토</span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">4-2</span>학교 밀착형 조직</h4><ul>
+        <li><span class="st s-push">추진</span><span>본청 집행 기능을 직속기관·교육지원청으로 <b>전면 이관</b></span></li>
+        <li><span class="st s-run">가동</span><span>외부 전문기관 조직분석·진단, 의견수렴 착수 <span class="when">2026.10~</span></span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">4-3</span>교육장 공모제 시범</h4><ul>
+        <li><span class="st s-push">추진</span><span>광주 동부·서부교육지원청 대상 <b>상향식 교육자치</b></span></li>
+        <li><span class="st s-push">추진</span><span>성과 분석 후 단계적 확대</span></li>
+      </ul></div>
+      <div class="mod"><h4><span class="i">4-4</span>광주청사 이전</h4><ul>
+        <li><span class="st s-push">추진</span><span>1인당 업무면적이 전국 평균의 절반인 노후·협소 청사를 <b>광산구 신창동</b>으로 이전</span></li>
+        <li><span class="st s-push">추진</span><span>미래산업·대학·연구기관 연계 복합 지원 공간으로 운영</span></li>
+      </ul></div>
+    </div>
+  </article>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="sh"><p class="no">[ 03 ] ROADMAP</p><h2>2026–2030 실행 로드맵</h2>
+  <p>보도자료에 시점이 명시된 항목만 담았습니다. 연도마다 과제별 구획으로 나눴고, 위 버튼으로 특정 과제만 골라 볼 수 있습니다.</p></div>
+  <div class="filters" role="group" aria-label="과제 필터">
+    <button class="fb" id="f-all" data-f="all" aria-pressed="true"><i></i>전체</button>
+    <button class="fb c1" id="f-1" data-f="1" aria-pressed="false"><i></i>K-민주주의</button>
+    <button class="fb c2" id="f-2" data-f="2" aria-pressed="false"><i></i>교실</button>
+    <button class="fb c3" id="f-3" data-f="3" aria-pressed="false"><i></i>인재·정주</button>
+    <button class="fb c4" id="f-4" data-f="4" aria-pressed="false"><i></i>행정</button>
+  </div>
+  <div id="tl">
+    <div class="yr"><span class="dot"></span><div class="y"><b>2026</b><small>출범 100일 · 가동</small></div><div class="lanes">
+      <div class="lane c2" data-p="2"><div class="ln"><small>TASK 02</small><b>교실 지원</b></div><div class="lms">
+        <div class="m"><span class="st s-done">완료</span><strong>평가 전담조직 구성 (8월)</strong></div>
+        <div class="m"><span class="st s-run">가동</span><strong>교육활동보호 종합대책 추진단 (10월~)</strong></div>
+        <div class="m"><span class="st s-run">가동</span><strong>‘200 선도교원’ 양성 (10월~)</strong></div>
+      </div></div>
+      <div class="lane c3" data-p="3"><div class="ln"><small>TASK 03</small><b>인재·정주</b></div><div class="lms">
+        <div class="m"><span class="st s-run">가동</span><strong>앰코테크놀로지코리아 업무협약 (10월)</strong></div>
+      </div></div>
+      <div class="lane c4" data-p="4"><div class="ln"><small>TASK 04</small><b>행정 혁신</b></div><div class="lms">
+        <div class="m"><span class="st s-run">가동</span><strong>외부 전문기관 조직진단 착수 (10월~)</strong></div>
+      </div></div>
+    </div></div>
+    <div class="yr"><span class="dot"></span><div class="y"><b>2027</b><small>제도화 · 기관 개원</small></div><div class="lanes">
+      <div class="lane c2" data-p="2"><div class="ln"><small>TASK 02</small><b>교실 지원</b></div><div class="lms">
+        <div class="m"><span class="st s-plan">예정</span><strong>교육과정개발평가원 개원 (3월)</strong></div>
+        <div class="m"><span class="st s-push">추진</span><strong>교육활동보호 전담기구·권역별 센터 신설</strong></div>
+        <div class="m"><span class="st s-push">추진</span><strong>서·논술형 평가 초5~6·중1부터 확대</strong></div>
+        <div class="m"><span class="st s-push">추진</span><strong>학교업무 교육지원청 이관 시범 운영</strong></div>
+        <div class="m"><span class="st s-push">추진</span><strong>행정업무 통합 처리 플랫폼 구축 시작</strong></div>
+      </div></div>
+      <div class="lane c3" data-p="3"><div class="ln"><small>TASK 03</small><b>인재·정주</b></div><div class="lms">
+        <div class="m"><span class="st s-plan">예정</span><strong>미래전략산업인재원 개원 (3월)</strong></div>
+        <div class="m"><span class="st s-push">추진</span><strong>권역별 과학고 2교 공모·지정</strong></div>
+        <div class="m"><span class="st s-push">추진</span><strong>직업계고 재구조화 시작 (순천효산고·목포여상)</strong></div>
+        <div class="m"><span class="st s-goal">목표</span><strong>Mini-FAB 반도체 공동실습센터 착공</strong></div>
+      </div></div>
+    </div></div>
+    <div class="yr"><span class="dot"></span><div class="y"><b>2028</b><small>본격 운영</small></div><div class="lanes">
+      <div class="lane c3" data-p="3"><div class="ln"><small>TASK 03</small><b>인재·정주</b></div><div class="lms">
+        <div class="m"><span class="st s-push">추진</span><strong>반도체 특화 마이스터고·특화학교 본격 운영</strong></div>
+      </div></div>
+    </div></div>
+    <div class="yr"><span class="dot"></span><div class="y"><b>2029</b><small>100주년 · 개교</small></div><div class="lanes">
+      <div class="lane c1" data-p="1"><div class="ln"><small>TASK 01</small><b>K-민주주의</b></div><div class="lms">
+        <div class="m"><span class="st s-push">추진</span><strong>‘1929 → 2029, 우리가 잇는다’ 프로젝트 가동</strong></div>
+      </div></div>
+      <div class="lane c3" data-p="3"><div class="ln"><small>TASK 03</small><b>인재·정주</b></div><div class="lms">
+        <div class="m"><span class="st s-plan">예정</span><strong>GIST 부설 영재학교 개교</strong></div>
+        <div class="m"><span class="st s-goal">목표</span><strong>(가칭)광주반도체마이스터고 개교 (3월)</strong></div>
+      </div></div>
+    </div></div>
+    <div class="yr"><span class="dot"></span><div class="y"><b>2030</b><small>50주년 · 고도화</small></div><div class="lanes">
+      <div class="lane c1" data-p="1"><div class="ln"><small>TASK 01</small><b>K-민주주의</b></div><div class="lms">
+        <div class="m"><span class="st s-push">추진</span><strong>5·18 민주화운동 50주년 기념 프로젝트</strong></div>
+      </div></div>
+      <div class="lane c2" data-p="2"><div class="ln"><small>TASK 02</small><b>교실 지원</b></div><div class="lms">
+        <div class="m"><span class="st s-push">추진</span><strong>행정업무 통합 플랫폼 단계적 고도화</strong></div>
+      </div></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- MESSAGE -->
+<section id="message">
+  <div class="panel quote">
+    <p class="tech">// SUPERINTENDENT MESSAGE</p>
+    <blockquote>
+      <p>“지난 100일은 두 교육청의 행정조직을 안정적으로 안착시키는 집중 적응 기간이었다.”</p>
+      <p>“통합의 본질적인 목적은 행정기구를 합치는 데 있는 것이 아니라, <strong>우리 아이들의 교육 기회를 넓히고 지역을 살리는 데</strong> 있다.”</p>
+      <p>“이제 통합의 시너지를 바탕으로 교실과 지역을 함께 살리는 정책을 본격 추진해, 아이들이 지역에서 배우고 자라 세계로 나아가는 <strong>‘K-교육특별시’</strong>를 실현하겠다.”</p>
+    </blockquote>
+    <cite><b>김대중</b> 전남광주통합특별시교육감 · 보도자료(2026.10.7.) 인용</cite>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <span>출처: 전남광주통합특별시교육청 보도자료 「출범 100일 맞아 4대 핵심과제 발표」(2026.10.7.)</span>
+</div></footer>
+
+<script>
+(function(){
+  var btns=document.querySelectorAll('.fb');
+  var items=document.querySelectorAll('#tl .lane');
+  var years=document.querySelectorAll('#tl .yr');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=b.getAttribute('data-f');
+      btns.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      items.forEach(function(m){m.hidden=!(f==='all'||m.getAttribute('data-p')===f);});
+      years.forEach(function(y){y.hidden=!y.querySelector('.lane:not([hidden])');});
+      var vis=[].filter.call(years,function(y){return !y.hidden;});
+      years.forEach(function(y){y.style.paddingBottom='';});
+      if(vis.length){vis[vis.length-1].style.paddingBottom='0';}
+    });
+  });
+})();
+</script>
+
+</body></html>
