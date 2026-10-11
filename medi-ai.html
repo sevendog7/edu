@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 기본의료 전략 요약 대시보드 | 관계부처 합동</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome (Icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            },
+            tealAccent: {
+              500: '#0d9488',
+              600: '#0f766e',
+            }
+          },
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    
+    body {
+      font-family: 'Pretendard', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    .badge-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .tab-active {
+      border-bottom: 2px solid #2563eb;
+      color: #1d4ed8;
+      font-weight: 700;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="p-2 bg-blue-600 text-white rounded-lg flex items-center justify-center shadow-sm">
+          <i class="fa-solid fa-heart-pulse text-lg"></i>
+        </span>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800">국가정책조정회의</span>
+            <span class="text-xs text-slate-400">2026. 8. 6</span>
+          </div>
+          <h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">AI 기본의료 전략 핵심 요약</h1>
+        </div>
+      </div>
+      
+      <div class="flex items-center space-x-2">
+        <button onclick="copySummaryText()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors">
+          <i class="fa-regular fa-copy"></i>
+          <span class="hidden sm:inline">핵심요약 복사</span>
+        </button>
+        <a href="#roadmap" class="inline-flex items-center space-x-1 px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm">
+          <span>추진 로드맵</span>
+          <i class="fa-solid fa-arrow-down text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <!-- Hero / Vision Section -->
+    <section class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white p-6 sm:p-10 shadow-xl">
+      <div class="relative z-10 max-w-4xl space-y-4">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-medium">
+          <i class="fa-solid fa-sparkles"></i>
+          <span>관계부처 합동 종합대책</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+          "생명을 지키는 AI, 모두가 누리는 의료혁신"
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          초고령사회 이행에 따른 의료수요 급증과 지역·필수·공공의료의 구조적 위기를 타개하기 위해,
+          보편성·신뢰성·효율성을 갖춘 <strong>의료 AX(AI Transformation)</strong>를 통해 새로운 미래 의료 패러다임으로 전환합니다.
+        </p>
+
+        <!-- 3대 핵심 목표 Card Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-4">
+          <div class="bg-white/10 hover:bg-white/15 backdrop-blur border border-white/10 p-4 rounded-xl transition duration-200">
+            <div class="text-blue-400 font-bold text-xs mb-1">핵심 목표 ①</div>
+            <div class="font-semibold text-sm sm:text-base">일상 속 AI 의료혁신 체감</div>
+            <div class="text-xs text-slate-300 mt-1">AI를 일상에 전면화시킨 첫 번째 국가 구현</div>
+          </div>
+          <div class="bg-white/10 hover:bg-white/15 backdrop-blur border border-white/10 p-4 rounded-xl transition duration-200">
+            <div class="text-emerald-400 font-bold text-xs mb-1">핵심 목표 ②</div>
+            <div class="font-semibold text-sm sm:text-base">전국 어디서나 AI 첨단의료</div>
+            <div class="text-xs text-slate-300 mt-1">정부 임기 내 전국 어디서나 누리는 디지털 기반(AX) 구축</div>
+          </div>
+          <div class="bg-white/10 hover:bg-white/15 backdrop-blur border border-white/10 p-4 rounded-xl transition duration-200">
+            <div class="text-purple-400 font-bold text-xs mb-1">핵심 목표 ③</div>
+            <div class="font-semibold text-sm sm:text-base">지속 가능한 제도적 기틀</div>
+            <div class="text-xs text-slate-300 mt-1">안전하고 유용한 의료 AI 윤리·보안 및 보상 생태계 조성</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative subtle glow -->
+      <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- 3대 구조적 위기 -->
+      <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">현 체계의 문제점</span>
+            <i class="fa-solid fa-triangle-exclamation text-rose-400"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">現 보건의료 3대 구조적 위기</h3>
+          <ul class="text-xs sm:text-sm text-slate-600 space-y-2.5">
+            <li class="flex items-start">
+              <i class="fa-solid fa-xmark text-rose-500 mt-0.5 mr-2"></i>
+              <div><strong>건강 형평성 악화:</strong> 수도권 쏠림 및 지역 필수·응급의료 공백 가속화</div>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-xmark text-rose-500 mt-0.5 mr-2"></i>
+              <div><strong>지속가능성 위협:</strong> 의료전달체계 왜곡, 중복 검사 및 의료비 팽창</div>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-xmark text-rose-500 mt-0.5 mr-2"></i>
+              <div><strong>바이오헬스 혁신 침체:</strong> 데이터 분절, 폐쇄적 규제로 혁신 생태계 제약</div>
+            </li>
+          </ul>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
+          지방의료원 3년 연속 적자 및 응급실 미수용 사태 반복
+        </div>
+      </div>
+
+      <!-- 돌파구로서의 AI 대전환 (AX) -->
+      <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">해결의 돌파구</span>
+            <i class="fa-solid fa-wand-magic-sparkles text-blue-500"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">의료 AI(AX)의 핵심 역할</h3>
+          <ul class="text-xs sm:text-sm text-slate-600 space-y-2.5">
+            <li class="flex items-start">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5 mr-2"></i>
+              <div><strong>보편성:</strong> 공간 제약을 넘어 취약지 및 일차의료에 대학병원급 진료 지원</div>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5 mr-2"></i>
+              <div><strong>신뢰성:</strong> 이송-진료-회송 全 과정 실시간 데이터 연계로 골든타임 사수</div>
+            </li>
+            <li class="flex items-start">
+              <i class="fa-solid fa-check text-blue-600 mt-0.5 mr-2"></i>
+              <div><strong>효율성:</strong> PHR 및 KR Core 표준화로 중복 검사 방지, 신약 개발 가속</div>
+            </li>
+          </ul>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
+          형평성·지속가능성·혁신성을 동시 달성하는 종합 솔루션
+        </div>
+      </div>
+
+      <!-- 핵심 추진 지표 카드 -->
+      <div class="bg-gradient-to-br from-blue-50 via-indigo-50 to-white rounded-xl p-5 border border-blue-100 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-indigo-700 bg-indigo-100/70 px-2.5 py-1 rounded-md">추진 목표 지표</span>
+            <i class="fa-solid fa-chart-line text-indigo-500"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-3">2029년까지의 주요 전환 목표</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-3 rounded-lg border border-indigo-100">
+              <div class="text-[11px] text-slate-500">공공병원 AI 고속도로</div>
+              <div class="text-xl font-bold text-blue-600">72개소 <span class="text-xs font-normal text-slate-500">전면연결</span></div>
+              <div class="text-[10px] text-slate-400 mt-0.5">권역 17 + 지역 55</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-indigo-100">
+              <div class="text-[11px] text-slate-500">국가 바이오 빅데이터</div>
+              <div class="text-xl font-bold text-indigo-600">100만 명 <span class="text-xs font-normal text-slate-500">구축</span></div>
+              <div class="text-[10px] text-slate-400 mt-0.5">'26년 12만명 선개방</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-indigo-100">
+              <div class="text-[11px] text-slate-500">데이터 제공 기간</div>
+              <div class="text-xl font-bold text-emerald-600">90일 <span class="text-xs font-normal text-slate-500">이내 단축</span></div>
+              <div class="text-[10px] text-slate-400 mt-0.5">기존 180일 대비 50%↓</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-indigo-100">
+              <div class="text-[11px] text-slate-500">권역별 AI 특화병원</div>
+              <div class="text-xl font-bold text-purple-600">5대 권역 <span class="text-xs font-normal text-slate-500">구축</span></div>
+              <div class="text-[10px] text-slate-400 mt-0.5">전국 거점망 확산</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-blue-100/70 text-xs text-indigo-800 font-medium">
+          <i class="fa-solid fa-circle-check text-indigo-600 mr-1"></i> 범정부 거버넌스 및 디지털헬스케어법 제정 병행
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">3대 전략 & 12대 핵심 추진 과제</h2>
+          <p class="text-xs text-slate-500 mt-0.5">원하는 전략 영역을 선택하거나 키워드로 검색해 세부 실행 방안을 확인하세요.</p>
+        </div>
+
+        <!-- Strategy Tabs -->
+        <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl text-xs overflow-x-auto">
+          <button onclick="filterStrategy('all')" id="tab-all" class="strategy-tab px-3 py-1.5 rounded-lg font-medium text-slate-700 bg-white shadow-sm transition">
+            전체 과제 (12)
+          </button>
+          <button onclick="filterStrategy('strat1')" id="tab-strat1" class="strategy-tab px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition">
+            전략 1. 일상 체감
+          </button>
+          <button onclick="filterStrategy('strat2')" id="tab-strat2" class="strategy-tab px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition">
+            전략 2. 전국 AX 기반
+          </button>
+          <button onclick="filterStrategy('strat3')" id="tab-strat3" class="strategy-tab px-3 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition">
+            전략 3. 혁신 생태계
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+        <input 
+          type="text" 
+          id="taskSearch" 
+          oninput="handleSearch()"
+          placeholder="과제명, 핵심 키워드(예: GPU, 소버린 AI, 응급실, PHR, 지방의료원 등)를 검색하세요..." 
+          class="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+        >
+      </div>
+
+      <div id="tasksContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
+
+        <!-- [전략 1] 과제 1 -->
+        <div class="task-card strat1 bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-blue-50 text-blue-700">전략 1 · 일차의료 AX</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 1-1</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-stethoscope text-blue-600 mr-2"></i>
+              우리 동네 대학병원급 AI 진료
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              의료진이 부족한 취약지역부터 AI 의료혁신을 구현하여 공중보건 공백 최소화 및 미래 수요 예측
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>보건소 AI 패키지:</strong> 진료형(영상판독/의무기록 자동화), 건강관리형(만성질환/악화예측) 공급</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>취약지 전문의원 바우처:</strong> 필수과목 의원에 과목별 특화 AI(초음파, X-ray 등) 지원</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>비대면 재택 협진:</strong> 방문간호사 모바일 측정 + 이상징후 시 원격 전문의 비대면 협진</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>수요예측(ABM):</strong> AI Agent 기반 재난·기후·인구변화 시뮬레이션 및 의료자원 배분</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 보건복지부</span>
+            <span class="font-semibold text-blue-600">'27년 본격 착수</span>
+          </div>
+        </div>
+
+        <!-- [전략 1] 과제 2 -->
+        <div class="task-card strat1 bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-blue-50 text-blue-700">전략 1 · 응급의료 AX</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 1-2</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-truck-medical text-rose-600 mr-2"></i>
+              AI가 지키는 응급 골든타임
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              구급 이송부터 최종 치료까지 실시간 AI 연계로 불필요한 이송 지연(미수용) 차단 및 적기 치료
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-rose-500 mr-1.5">•</span>
+                <span><strong>통합 응급 AI 플랫폼:</strong> 구급대-병원 간 환자상태 및 배후진료역량 실시간 매칭·수락</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-rose-500 mr-1.5">•</span>
+                <span><strong>응급 PHR 예외 열람:</strong> 의식 불명 환자 시 주민번호 기반 동의 없이도 과거 병력 열람</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-rose-500 mr-1.5">•</span>
+                <span><strong>K-스마트 응급실(CDSS):</strong> 급성 악화 예측 모니터링, AI 패혈증·뇌졸중 조기 선별</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-rose-500 mr-1.5">•</span>
+                <span><strong>중앙 관제 고도화:</strong> 119구급-중앙응급-응급실 간 실시간 병상/장비 전산망 통합</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 복지부 · 소방청</span>
+            <span class="font-semibold text-rose-600">'26.下 대구 시범적용</span>
+          </div>
+        </div>
+
+        <!-- [전략 1] 과제 3 -->
+        <div class="task-card strat1 bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-blue-50 text-blue-700">전략 1 · 환자 중심 AX</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 1-3</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-address-card text-emerald-600 mr-2"></i>
+              내 건강기록과 함께하는 진료
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              개인 건강기록을 AI가 요약·분석하여 병원이 바뀌어도 끊김없는 맞춤 진료와 중복 검사 방지
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>국민 AI 건강비서:</strong> 어려운 처방전·진료기록을 일상어로 요약 해석해주는 챗봇</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>PHR 영상 연동:</strong> CT·MRI 등 영상 데이터를 스마트폰 QR 인증으로 타 병원과 즉시 공유</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>KR Core 표준화:</strong> 비정형 임상데이터를 국가 표준 규격으로 자동 변환해 AI 환각 예방</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>AI 환자 의뢰·회송:</strong> 누적 기록 요약 의뢰서 자동 작성 및 영상 공유 병원 보상</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 보건복지부</span>
+            <span class="font-semibold text-emerald-600">'27년 제공 시작</span>
+          </div>
+        </div>
+
+        <!-- [전략 1] 과제 4 -->
+        <div class="task-card strat1 bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-blue-50 text-blue-700">전략 1 · 바이오헬스 AX</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 1-4</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-dna text-purple-600 mr-2"></i>
+              희귀·난치 환자 새 치료의 길
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              국가 GPU 기반 제약 AI 플랫폼과 바이오 빅데이터를 결합해 혁신 신약 및 치료제 개발 가속
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-1.5">•</span>
+                <span><strong>K-AI 신약 플랫폼:</strong> 단백질 구조 예측, 분자 생성 등 격리형 보안 GPU 클라우드 제공</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-1.5">•</span>
+                <span><strong>100만 바이오 빅데이터:</strong> 희귀암 등 유전체·검체 데이터 순차 개방 ('26년 12만명)</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-1.5">•</span>
+                <span><strong>바이오 파운데이션 모델(Bio-FM):</strong> 유전체·단백질 통합 범용 바이오 AI 파운데이션 모델 개발</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-purple-500 mr-1.5">•</span>
+                <span><strong>AI 수술로봇 및 가상 임상:</strong> 임상의-수술로봇-AI 기업 공동 R&D 랩 운영</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 과기부 · 복지부 · 산업부</span>
+            <span class="font-semibold text-purple-600">'26.11 1차 데이터 개방</span>
+          </div>
+        </div>
+
+        <!-- [전략 2] 과제 5 -->
+        <div class="task-card strat2 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-emerald-50 text-emerald-700">전략 2 · 공공의료 AX</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 2-1</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-network-wired text-emerald-600 mr-2"></i>
+              전국 공공병원 AI 고속도로
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              권역(17개)-지역(55개) 공공병원을 고대역 전용망 및 국가 GPU 허브로 연결해 지역의료 Level-up
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>중앙 추론 플랫폼:</strong> 영상판독 보조, 음성 EMR 자동화 등 고성능 AI를 중앙에서 연산 지원</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>국가 GPU 인프라:</strong> 초기 80장 배정 시작으로 '28년 800장 이상 규모 확대 지원</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>지방의료원 전산 교체:</strong> 35개 지방의료원 클라우드 HIS 도입 및 전산 현대화 ('27~'31)</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>데이터 표준화 바우처:</strong> 노후 데이터의 SNOMED CT, LOINC 등 국제 표준 매핑 지원</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 복지부 · 과기부</span>
+            <span class="font-semibold text-emerald-600">'26.下 9개소 시범 개통</span>
+          </div>
+        </div>
+
+        <!-- [전략 2] 과제 6 -->
+        <div class="task-card strat2 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-emerald-50 text-emerald-700">전략 2 · AI Native Hospital</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 2-2</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-hospital text-blue-600 mr-2"></i>
+              AI Native HIS 및 AI 특화병원
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              진료 보조를 넘어 접수부터 퇴원까지 병원 전체 워크플로우를 AI로 설계하는 차세대 병원 구축
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>Agentic AI HIS 개발:</strong> 행정, 판독, 약제, 간호, 청구 등 도메인별 AI 에이전트 간 상호 소통</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>5대 권역 AI 특화병원:</strong> 수도권, 충청, 호남, 대경·강원, 동남권 거점병원 구축</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>AX-Ready 3대 패키지:</strong> ①의료AI 10종, ②지역협진(자동의뢰), ③업무효율화(병실모니터링)</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>글로벌 표준화:</strong> 국립대병원 공동 모듈 표준화 및 해외 병원 수출 모델 패키지화</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 복지부 · 과기부</span>
+            <span class="font-semibold text-blue-600">'26.下 한국형 ARPA-H 연계</span>
+          </div>
+        </div>
+
+        <!-- [전략 2] 과제 7 -->
+        <div class="task-card strat2 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-emerald-50 text-emerald-700">전략 2 · 소버린 의료 AI</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 2-3</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-server text-cyan-600 mr-2"></i>
+              한국형 데이터 기반 소버린 AI
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              국내 보건의료 빅데이터를 결합·개방하여 독자적 한국형 특화 의료 파운데이션 모델 개발
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-cyan-500 mr-1.5">•</span>
+                <span><strong>중앙 보건의료 데이터 허브:</strong> 건보공단, 심평원, 암센터 + 전국 국립대병원 CDW 결합</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-cyan-500 mr-1.5">•</span>
+                <span><strong>One-Stop 컨설팅 센터:</strong> 데이터 지도 공시 및 데이터 심의·제공 기간 90일로 단축</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-cyan-500 mr-1.5">•</span>
+                <span><strong>가명 데이터 규제 혁신:</strong> 비식별 연구 IRB 면제, 위험도별 차등 심의, 공용 DRB 신설</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-cyan-500 mr-1.5">•</span>
+                <span><strong>안전 장치 강화:</strong> 상업적 오남용(보험·대출 불이익, 마케팅) 차단 및 징벌적 과징금</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 복지부 · 개보위</span>
+            <span class="font-semibold text-cyan-600">「디지털헬스케어법」 제정 추진</span>
+          </div>
+        </div>
+
+        <!-- [전략 3] 과제 8 -->
+        <div class="task-card strat3 bg-white rounded-xl border border-slate-200 hover:border-purple-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-purple-50 text-purple-700">전략 3 · 보상 체계</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 3-1</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-coins text-amber-600 mr-2"></i>
+              의료 AI 서비스 가치 기반 적정 보상
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              단순 행위별 수가를 넘어 환자 편익 증진과 진료 협력 성과를 종합 평가해 차등 보상하는 유인 구조
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-amber-500 mr-1.5">•</span>
+                <span><strong>AX 적정 보상 체계:</strong> 임상적 우수성 정식 등재 + 기관별 AI 도입 종합 성과 보상 결합</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-amber-500 mr-1.5">•</span>
+                <span><strong>종합 평가 지표:</strong> 환자 편익, 병원 간 진료 협력도, 데이터 상호운용성, AI 안전 거버넌스</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-amber-500 mr-1.5">•</span>
+                <span><strong>다양화된 지불 방식:</strong> 행위별 수가와 기관별 혁신 성과금 연계 (상급종합병원 구조전환 등)</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 보건복지부</span>
+            <span class="font-semibold text-amber-600">'27년 보상체계 수립</span>
+          </div>
+        </div>
+
+        <!-- [전략 3] 과제 9 -->
+        <div class="task-card strat3 bg-white rounded-xl border border-slate-200 hover:border-purple-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-purple-50 text-purple-700">전략 3 · 지역 상생</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 3-2</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-seedling text-emerald-600 mr-2"></i>
+              지역과 함께 크는 AI·바이오헬스
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              지역 임상데이터를 고유 성장 자원으로 활용하고 국립대병원 중심 정책 펀드와 R&D 대폭 확충
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>국립대병원 R&D 2.3배 확대:</strong> ('21) 437억 → ('26) 1,004억원 투입 집중</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>지역의료 혁신 R&D:</strong> 강원·경북·전남·제주·충남 등 5개소 연구장비 및 특화 지원</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-emerald-500 mr-1.5">•</span>
+                <span><strong>지역 거점 AX 클러스터:</strong> 지역 바이오헬스·로봇 산업과 연계한 표준 공정 AX 모델 개발</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 복지부 · 과기부 · 산업부</span>
+            <span class="font-semibold text-emerald-600">'26~'30년 거점 구축</span>
+          </div>
+        </div>
+
+        <!-- [전략 3] 과제 10 -->
+        <div class="task-card strat3 bg-white rounded-xl border border-slate-200 hover:border-purple-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-purple-50 text-purple-700">전략 3 · 안전 & 윤리</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 3-3</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-shield-halved text-blue-600 mr-2"></i>
+              의료 AI 윤리·보안 및 유해정보 차단
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              AI 환각, 오진 및 가짜 의학 정보 범람으로부터 국민과 의료진을 보호하기 위한 기준 정립
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>대상별 윤리 가이드:</strong> 일반인용(비검증 정보 경고) 및 의료진용(환각·오류 탐지) 가이드</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>가짜 의학 영상 탐지:</strong> 유튜브·SNS 딥페이크 의사 광고, 허위 건강식품 자동 모니터링 기술</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-blue-500 mr-1.5">•</span>
+                <span><strong>보건의료 보안 기준(N2SF):</strong> 민감정보(S) 특성을 반영한 논리적 망분리 및 민간 클라우드 허용</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 보건복지부</span>
+            <span class="font-semibold text-blue-600">'26.下 가이드 연구 착수</span>
+          </div>
+        </div>
+
+        <!-- [전략 3] 과제 11 -->
+        <div class="task-card strat3 bg-white rounded-xl border border-slate-200 hover:border-purple-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-purple-50 text-purple-700">전략 3 · 인재 양성</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 3-4</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-user-graduate text-indigo-600 mr-2"></i>
+              우수 의료 AI 인재 유치 및 양성
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              글로벌 최고급 연구자 유치부터 의학×공학 융합 인재, 실험 자동화(SDL) 전문가 양성
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-indigo-500 mr-1.5">•</span>
+                <span><strong>Top-tier 해외 인재 유치:</strong> 해외 CTO·연구소장급 국내 유치 시 2.5년간 인건비·연구비 지원</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-indigo-500 mr-1.5">•</span>
+                <span><strong>박사급(Post-Doc) 채용 지원:</strong> AI·빅데이터 박사 기업 채용 시 2년간 인건비 보조</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-indigo-500 mr-1.5">•</span>
+                <span><strong>다학제 융합 트랙:</strong> 공대(AI) × 의·약학 다학제 협업 및 실무 프로젝트 중심 학위 과정</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-indigo-500 mr-1.5">•</span>
+                <span><strong>자율실험실(SDL):</strong> AI+로봇이 수천 가지 화합물 실험을 자동 수행하는 실습 공간 구축</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 보건복지부</span>
+            <span class="font-semibold text-indigo-600">'25~'26 인프라 가동</span>
+          </div>
+        </div>
+
+        <!-- [전략 3] 과제 12 -->
+        <div class="task-card strat3 bg-white rounded-xl border border-slate-200 hover:border-purple-400 hover:shadow-md transition p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="badge-chip bg-purple-50 text-purple-700">전략 3 · 글로벌 리더십</span>
+              <span class="text-[11px] text-slate-400 font-mono">과제 3-5</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 mb-1.5 flex items-center">
+              <i class="fa-solid fa-earth-americas text-tealAccent-500 mr-2"></i>
+              글로벌 의료 AI 리더십 구축
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              WHO AI 허브 국내 유치, K-의료 AI 수출 패키지 지원 및 중저소득국 보편적 건강보장(UHC) 기여
+            </p>
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+              <div class="flex items-start">
+                <span class="text-teal-500 mr-1.5">•</span>
+                <span><strong>WHO AI 글로벌 허브 유치:</strong> 9개 국제기구와 협력 체결, "AI Health for ALL" 선포</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-teal-500 mr-1.5">•</span>
+                <span><strong>세계 바이오 서밋:</strong> 'AI 헬스케어 서울선언문' 발표를 통한 국제 보건 거버넌스 주도</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-teal-500 mr-1.5">•</span>
+                <span><strong>K-의료 AI 원스톱 수출:</strong> 기술 R&D - 현지 임상 - 규제 컨설팅 - 해외마케팅 동반 패키지</span>
+              </div>
+              <div class="flex items-start">
+                <span class="text-teal-500 mr-1.5">•</span>
+                <span><strong>K-AI 기본의료 펠로우십:</strong> 개도국 의료진·정책가 초청 연수 및 청년 보건인재 사다리</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+            <span>주관: 과기부 · 복지부</span>
+            <span class="font-semibold text-teal-600">'26.10 세계 바이오 서밋</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="badge-chip bg-emerald-100 text-emerald-800 mb-1">체감 변화</span>
+          <h3 class="text-lg font-bold text-slate-900">국민과 의료현장의 체감 기대효과 (AS-IS ➔ TO-BE)</h3>
+        </div>
+        <div class="text-xs text-slate-400">의료 소비자·공급자·지역사회 전반의 획기적 개선</div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-slate-700 font-semibold border-y border-slate-200">
+              <th class="py-3 px-3 w-1/5">구분</th>
+              <th class="py-3 px-3 w-2/5 text-rose-700 bg-rose-50/50">현재 의료현실 (AS-IS)</th>
+              <th class="py-3 px-3 w-2/5 text-blue-700 bg-blue-50/50">달라지는 미래 (TO-BE)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="hover:bg-slate-50/70 transition">
+              <td class="py-3 px-3 font-semibold text-slate-900 bg-slate-50/30">
+                <i class="fa-solid fa-user text-blue-500 mr-1.5"></i> 환자 중심 진료<br>
+                <span class="text-[11px] font-normal text-slate-500">(소비자)</span>
+              </td>
+              <td class="py-3 px-3 text-slate-600 bg-rose-50/20">
+                • 병원 옮길 때마다 영상 CD 복사 지참<br>
+                • 진료기록 의학용어가 어려워 건강 이해 한계<br>
+                • 불필요한 중복 혈액·영상 검사 반복
+              </td>
+              <td class="py-3 px-3 text-blue-900 bg-blue-50/20 font-medium">
+                • 내 스마트폰(PHR) 클릭으로 영상·진료기록 즉시 공유<br>
+                • '국민 AI 건강비서'가 알기 쉬운 일상어로 요약 설명<br>
+                • 중복 검사 차단 및 과거 이력 연계 맞춤 진료
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition">
+              <td class="py-3 px-3 font-semibold text-slate-900 bg-slate-50/30">
+                <i class="fa-solid fa-user-doctor text-emerald-500 mr-1.5"></i> 업무 혁신<br>
+                <span class="text-[11px] font-normal text-slate-500">(공급자/의료진)</span>
+              </td>
+              <td class="py-3 px-3 text-slate-600 bg-rose-50/20">
+                • 단순 행정·기록 업무 과중으로 의료진 번아웃<br>
+                • 응급 발생 시 수용 가능 병원에 일일이 전화 문의<br>
+                • 지방 필수과목 의료 인력 이탈 심화
+              </td>
+              <td class="py-3 px-3 text-blue-900 bg-blue-50/20 font-medium">
+                • 음성인식 EMR·영상판독 AI로 차팅 부담 대폭 경감<br>
+                • 응급 AI 플랫폼이 상태 분석 후 최적 병원 실시간 자동 매칭<br>
+                • 의료진의 진료 집중도 향상 및 오진 가능성 감소
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition">
+              <td class="py-3 px-3 font-semibold text-slate-900 bg-slate-50/30">
+                <i class="fa-solid fa-hospital-user text-purple-500 mr-1.5"></i> 지역·필수의료<br>
+                <span class="text-[11px] font-normal text-slate-500">(지역 주민)</span>
+              </td>
+              <td class="py-3 px-3 text-slate-600 bg-rose-50/20">
+                • 전문의 부족으로 취약지 건강관리 공백 발생<br>
+                • 노후된 지방의료원 및 수도권 대형병원 원정 진료<br>
+                • 지역 병상 간 공조 불가로 골든타임 소실
+              </td>
+              <td class="py-3 px-3 text-blue-900 bg-blue-50/20 font-medium">
+                • 동네 보건소·의원에서도 대학병원급 AI 진단 솔루션 제공<br>
+                • 전국 공공병원 72개소 최첨단 AI 고속도로 완비<br>
+                • 방문간호사 + 원격 전문의 AI 재택 협진 체계 구축
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-50/70 transition">
+              <td class="py-3 px-3 font-semibold text-slate-900 bg-slate-50/30">
+                <i class="fa-solid fa-database text-amber-500 mr-1.5"></i> 데이터 & 산업<br>
+                <span class="text-[11px] font-normal text-slate-500">(연구/기업)</span>
+              </td>
+              <td class="py-3 px-3 text-slate-600 bg-rose-50/20">
+                • 기관별 데이터 파편화, 심의에만 180일 소요<br>
+                • 글로벌 외산 AI 모델 의존에 따른 의료 주권 우려<br>
+                • 수도권 중심 바이오헬스 편중
+              </td>
+              <td class="py-3 px-3 text-blue-900 bg-blue-50/20 font-medium">
+                • 원스톱 데이터 허브 구축 및 제공 기간 90일 내 단축<br>
+                • 한국인 임상·유전체 기반 독자적 '소버린 의료 AI' 확보<br>
+                • 지역 국립대병원 특화 R&D 1,000억 이상 확대
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="roadmap" class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+        <div>
+          <span class="badge-chip bg-blue-100 text-blue-800 mb-1">연차별 로드맵</span>
+          <h3 class="text-xl font-bold text-slate-900">핵심 추진 계획 타임라인 (2026 ~ 2029+)</h3>
+        </div>
+        <div class="text-xs text-slate-500">단계적 실증 후 전국 단위 전면 확산</div>
+      </div>
+
+      <div class="relative border-l-2 border-blue-200 ml-4 sm:ml-6 space-y-8 py-2">
+
+        <!-- 2026 하반기 -->
+        <div class="relative pl-6 sm:pl-8">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-600 border-4 border-white shadow"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-600 text-white">2026. 下</span>
+            <span class="text-sm font-bold text-slate-900">도입 시범사업 및 법제화 착수</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+            <div>• <strong>공공의료 AI 고속도로 시범 개통:</strong> 9개 공공병원(서울, 강원 등) GPU 80장 배정 시작</div>
+            <div>• <strong>응급 통합 AI 플랫폼 실증:</strong> 대구 지역 구급차-병원 간 시범 적용</div>
+            <div>• <strong>국가 바이오 빅데이터 개방:</strong> 12만 명 규모 유전체 데이터 선제적 개방</div>
+            <div>• <strong>제도 기반:</strong> 「디지털헬스케어법」(안) 제정 추진 및 의료 AI 윤리 가이드라인 연구 착수</div>
+          </div>
+        </div>
+
+        <!-- 2027 상·하반기 -->
+        <div class="relative pl-6 sm:pl-8">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-emerald-600 border-4 border-white shadow"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-600 text-white">2027</span>
+            <span class="text-sm font-bold text-slate-900">일차의료 AX 도입 및 1단계 본격 확장</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+            <div>• <strong>공공의료 AI 고속도로 1단계:</strong> 공공병원 30~35개소로 확대 (GPU 320장 추정)</div>
+            <div>• <strong>일차의료 AX 본격 지원:</strong> 취약지 의원 바우처 지급, AI 비대면 재택 협진 시범사업 가동</div>
+            <div>• <strong>환자 중심 서비스:</strong> PHR 기반 의료정보 공유 및 ‘국민 AI 건강비서’ 시범 개시</div>
+            <div>• <strong>규제 합리화 및 보상:</strong> 비식별 연구 IRB 면제 검토, AI 의료서비스 AX 적정 보상 수가 체계 정립</div>
+            <div>• <strong>응급 이송 확대:</strong> 대구에서 경북 지역으로 응급 AI 플랫폼 확장 적용</div>
+          </div>
+        </div>
+
+        <!-- 2028 -->
+        <div class="relative pl-6 sm:pl-8">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-600 text-white">2028</span>
+            <span class="text-sm font-bold text-slate-900">국가 데이터 허브 가동 & AI Native 병원 실증</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+            <div>• <strong>공공의료 AI 고속도로 2단계:</strong> 공공병원 45~50개소 연계 (GPU 800장 규모)</div>
+            <div>• <strong>국가보건의료 데이터 허브 본격 가동:</strong> 범부처 통합 거버넌스 및 One-stop 컨설팅 체계 구축</div>
+            <div>• <strong>차세대 AI 지능형 HIS(병원정보시스템):</strong> 국립대병원 핵심 모듈 공동 개발 및 필수의료 Agent AI 검증</div>
+            <div>• <strong>중앙 응급관제 고도화:</strong> 응급실 특화 CDSS 개발 완료 및 실시간 병상 정보망 완성</div>
+          </div>
+        </div>
+
+        <!-- 2029+ -->
+        <div class="relative pl-6 sm:pl-8">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-purple-600 border-4 border-white shadow"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-600 text-white">2029 ~</span>
+            <span class="text-sm font-bold text-slate-900">전국 72개 공공병원 전면 개통 및 한국형 소버린 AI 완성</span>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 text-xs sm:text-sm text-slate-700 space-y-2">
+            <div>• <strong>AI 고속도로 완성:</strong> 권역 17개소, 지역 55개소 총 72개 책임의료기관 전면 연결</div>
+            <div>• <strong>소버린 의료 AI 안착:</strong> 국립대병원 임상 데이터로 학습된 한국형 독자 모델 전국 보급</div>
+            <div>• <strong>글로벌 확산:</strong> WHO AI 허브 기반 K-의료 AI 표준 패키지 해외 진출 본격화</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+      <div>
+        <p class="font-semibold text-slate-700">관계부처 합동 「AI 기본의료 전략」 요약 분석 보고서</p>
+        <p class="text-slate-400 mt-0.5">보건복지부 · 과학기술정보통신부 · 산업통상자원부 · 질병관리청 · 소방청 · 개인정보보호위원회</p>
+      </div>
+      <div class="text-slate-400">
+        최종 정책 발표: 2026년 8월 6일
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Box (alert 대체용 모달) -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs sm:text-sm px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2.5 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+    <span id="toastMessage">요약 내용이 클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    // Tab Filter Logic
+    function filterStrategy(type) {
+      const cards = document.querySelectorAll('.task-card');
+      const tabs = document.querySelectorAll('.strategy-tab');
+
+      // Update button styling
+      tabs.forEach(tab => {
+        tab.classList.remove('bg-white', 'text-slate-900', 'shadow-sm');
+        tab.classList.add('text-slate-600');
+      });
+
+      const currentTab = document.getElementById(`tab-${type}`);
+      if (currentTab) {
+        currentTab.classList.add('bg-white', 'text-slate-900', 'shadow-sm');
+        currentTab.classList.remove('text-slate-600');
+      }
+
+      // Filter cards
+      cards.forEach(card => {
+        if (type === 'all' || card.classList.contains(type)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Keyword Search Logic
+    function handleSearch() {
+      const query = document.getElementById('taskSearch').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.task-card');
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // Toast Notification helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    // Summary Text Clipboard Copy
+    function copySummaryText() {
+      const summaryContent = `[AI 기본의료 전략 요약 (2026.8.6 관계부처 합동)]
+■ 비전: 생명을 지키는 AI, 모두가 누리는 의료혁신
+■ 3대 핵심 전략:
+1. 일상에서 체감하는 AI 의료혁신
+ - 일차의료 AX: 보건소/취약지 의원 AI 패키지 지원, 비대면 재택 협진
+ - 응급의료 AX: 통합 응급 AI 플랫폼 구축, 의식불명 시 PHR 예외 열람 허용
+ - 환자 중심 AX: 국민 AI 건강비서(처방전 요약), KR Core 표준화 및 중복검사 방지
+ - 바이오헬스 AX: 국가 GPU 제약 AI 플랫폼, 100만 바이오 빅데이터 개방
+2. 전국 어디서나 누리는 디지털 기반(AX) 구축
+ - 공공의료 AI 고속도로: 72개 공공병원 고대역망 & 국가 GPU 연결
+ - AI Native 병원: Agentic AI 병원정보시스템(HIS) 개발 및 5대 권역 AI 특화병원
+ - 소버린 AI: 국립대병원 데이터 기반 한국형 특화 의료 AI 독자 개발, 90일 심의 단축
+3. 지속 가능한 AI 의료생태계 마련
+ - 가치 기반 AX 적정 보상 수가 체계 신설
+ - 지역 국립대병원 R&D 2.3배 확대 (1,004억원)
+ - 의료 AI 윤리·보안 기준 수립 및 딥페이크 가짜 의학정보 탐지
+ - 글로벌 WHO AI 허브 국내 설립 및 K-의료 AI 수출 지원`;
+
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = summaryContent;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('핵심 정책 요약이 클립보드에 복사되었습니다.');
+      } catch (err) {
+        showToast('복사에 실패했습니다. 권한을 확인해주세요.');
+      }
+      document.body.removeChild(tempTextArea);
+    }
+  </script>
+</body>
+</html>
