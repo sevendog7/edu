@@ -14,7 +14,7 @@
   --ink:#0f172a; --ink2:#334155; --muted:#64748b; --line:#cbd5e1; --soft:#f1f5f9; --accent:#2563eb;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif;color:var(--ink);background:#fff}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif;color:var(--ink);background:#fff}
 #app{display:flex;height:100vh;width:100vw}
 
 /* 사이드바 */
@@ -23,6 +23,7 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 .sb-head h1{font-size:1.08rem;font-weight:700}
 .sb-head p{font-size:.78rem;color:#94a3b8;margin-top:3px}
 .sb-head .meta{font-size:.72rem;color:#cbd5e1;margin-top:6px;line-height:1.45;word-break:keep-all}
+.sheet-hint{display:none}
 .toolbar{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:#f8fafc}
 .btn{font:inherit;font-size:.76rem;font-weight:600;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:4px}
 .btn:hover{background:var(--soft)}
@@ -133,8 +134,16 @@ a.tel:hover,a.tel:focus-visible{background:#047857;outline:2px solid #047857;out
   #mapWrap{height:42vh;flex:none;order:1}
   /* 휴대전화: 목록 영역 전체를 스크롤하고, 검색창은 맨 위에 고정 */
   #sidebar{width:100%;min-width:0;flex:1;order:2;border-right:none;border-top:1px solid var(--line);min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
-  .sb-head{order:0;padding:10px 14px} .sb-head h1{font-size:.98rem} .sb-head p,.sb-head .meta{display:none}
-  .search{order:1;position:sticky;top:0;z-index:5;background:#fff;padding:8px 12px;border-bottom:1px solid var(--line)}
+  .sb-head{order:0;padding:6px 14px 8px;position:sticky;top:0;z-index:6;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+  .sb-head::before{content:'';display:block;width:42px;height:5px;border-radius:3px;background:#64748b;margin:0 auto 6px}
+  .sb-head h1{font-size:.98rem;text-align:center} .sb-head p,.sb-head .meta{display:none}
+  .sheet-hint{display:block;text-align:center;font-size:.72rem;color:#94a3b8;margin-top:3px}
+  /* 지도만 보기: 아래 패널을 제목 막대만 남기고 접음 */
+  #app.map-only #mapWrap{height:auto;flex:1 1 auto}
+  #app.map-only #sidebar{flex:none;overflow:hidden}
+  #app.map-only #sidebar > :not(.sb-head){display:none}
+  #app.map-only .sb-head{padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+  .search{order:1;position:sticky;top:var(--headH,0px);z-index:5;background:#fff;padding:8px 12px;border-bottom:1px solid var(--line)}
   .search input{font-size:16px;padding:9px 10px}
   .search button{padding:0 12px;font-size:.85rem}
   .legend{order:2;padding:8px 12px 2px} .levels{order:3;padding:6px 12px 8px} .dist-box{order:4;padding:8px 12px}
@@ -152,6 +161,7 @@ a.tel:hover,a.tel:focus-visible{background:#047857;outline:2px solid #047857;out
       <h1>전남광주통합특별시 학교 현황 지도</h1>
       <p>공립유치원 · 국·공·사립 초·중·고·특수학교</p>
       <div class="meta" id="dataMeta">불러온 자료 없음</div>
+      <div class="sheet-hint" id="sheetHint">▼ 아래로 밀면 지도만 크게 보기</div>
     </div>
 
 
@@ -655,7 +665,7 @@ function initMap(){
   badgeLayer = L.layerGroup().addTo(map);
   markerLayer = L.layerGroup().addTo(map);
   setTimeout(() => map.invalidateSize(), 250);
-  window.addEventListener('resize', () => map.invalidateSize());
+  window.addEventListener('resize', () => { if (!isMobile()) setSheet(false); updateHeadH(); map.invalidateSize(); });
 }
 function fitAll(){
   if (!map) return;
@@ -761,7 +771,7 @@ function renderList(scope){
     const el = document.createElement('div'); el.className = 'card';
     el.innerHTML = `<div class="nm">${badge(s.level, TYPE_CLASS[s.type])}<span>${esc(s.name)}</span></div>
       <div class="sub">[${esc(s.type)} · ${esc(s.level)}] ${esc(s.district)}${s.lat == null ? ' · <span class="warn">위치정보 없음</span>' : ''}</div>`;
-    el.addEventListener('click', () => openSchool(s));
+    el.addEventListener('click', () => { if (isMobile()) setSheet(true); openSchool(s); });
     frag.appendChild(el);
   }
   box.appendChild(frag);
@@ -833,6 +843,36 @@ function bindUI(){
   $('toast').addEventListener('click', () => $('toast').classList.remove('on'));
 }
 
+/* ================= 휴대전화: 지도/검색 패널 전환(밀기) ================= */
+const isMobile = () => window.matchMedia('(max-width:820px)').matches;
+function updateHeadH(){
+  const h = document.querySelector('.sb-head');
+  $('sidebar').style.setProperty('--headH', (isMobile() && h ? h.offsetHeight : 0) + 'px');
+}
+function setSheet(collapsed){
+  if (collapsed && !isMobile()) return;
+  const app = $('app');
+  if (app.classList.contains('map-only') === collapsed) return;
+  app.classList.toggle('map-only', collapsed);
+  $('sheetHint').textContent = collapsed ? '▲ 위로 밀거나 누르면 검색·목록 열기' : '▼ 아래로 밀면 지도만 크게 보기';
+  if (!collapsed) $('sidebar').scrollTop = 0;
+  if (map){ map.invalidateSize(); setTimeout(() => map.invalidateSize(), 300); }
+}
+function bindSheet(){
+  const head = document.querySelector('.sb-head');
+  let y0 = null, t0 = 0;
+  head.addEventListener('touchstart', e => { y0 = e.touches[0].clientY; t0 = Date.now(); }, {passive:true});
+  head.addEventListener('touchmove', e => { if (y0 != null) e.preventDefault(); }, {passive:false});
+  head.addEventListener('touchend', e => {
+    if (y0 == null || !isMobile()) { y0 = null; return; }
+    const dy = e.changedTouches[0].clientY - y0; y0 = null;
+    const collapsed = $('app').classList.contains('map-only');
+    if (dy > 40) setSheet(true);                       /* 아래로 밀기 → 지도만 */
+    else if (dy < -40) setSheet(false);                /* 위로 밀기 → 검색 열기 */
+    else if (Math.abs(dy) < 10 && Date.now() - t0 < 500) setSheet(!collapsed); /* 가볍게 누르면 전환 */
+  });
+}
+
 function boot(){
   if (window.L) initMap();
   else $('map').innerHTML = '<div class="maperr">지도 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인하십시오.</div>';
@@ -840,7 +880,7 @@ function boot(){
   try { const t = $('embedded-data').textContent.trim(); if (t && t !== 'null') payload = JSON.parse(t); } catch(e){}
   if (!payload){ try { const t = localStorage.getItem(STORE_KEY); if (t) payload = JSON.parse(t); } catch(e){} }
   if (payload) setData(payload, false);
-  bindUI(); render(); fitAll();
+  bindUI(); bindSheet(); render(); fitAll(); updateHeadH();
 }
 window.addEventListener('load', boot);
 </script>
