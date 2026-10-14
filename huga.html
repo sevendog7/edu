@@ -8,802 +8,452 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         /* ============================================================
-           SOFT UI DESIGN SYSTEM — Blue-Gray Palette
-           Inspired by: Planner / Todo Dashboard UI
-           Background: #E2E9F2 · Card: #F4F7FA · Accent: #2C3A5C
+           CLINICAL DASHBOARD UI — Warm Gray · Charcoal · Lime
+           Bg #E4E2DC · Card #F5F4F0 · Band #5B5A56 · Accent #E3EC3A
         ============================================================ */
         :root {
-            /* ── Surface colors ── */
-            --bg:          #E2E9F2;   /* 페이지 전체 배경 */
-            --bg-card:     #EBF0F7;   /* 섹션/패널 배경 */
-            --bg-light:    #F4F7FA;   /* 카드·위젯 배경 */
-            --bg-select:   #EEF2F8;   /* 선택된 아이템 배경 */
+            /* surfaces */
+            --bg:          #E4E2DC;
+            --bg-card:     #ECEBE6;
+            --bg-light:    #F6F5F1;
+            --bg-select:   #EAE9E4;
+            --white:       #FFFFFF;
+            --band:        #5B5A56;
+            --band-dark:   #45443F;
+            --line:        #D3D1CA;
 
-            /* ── Shadow colors (blue-gray toned) ── */
-            --shadow-dark:  rgba(160, 180, 210, 0.55);   /* 우하 음영 */
-            --shadow-light: rgba(255, 255, 255, 0.92);   /* 좌상 하이라이트 */
+            /* accent */
+            --lime:        #E3EC3A;
+            --lime-soft:   #F2F5C9;
+            --lime-ink:    #5B6112;
+            --accent:      #3A3935;   /* 잉크 차콜 — 선택/강조 */
+            --accent-soft: #EAE9E4;
+            --accent-dark: #2A2926;
+            --accent-mid:  #8B8984;
 
-            /* ── Accent ── */
-            --accent:      #2C3A5C;   /* 다크 네이비 — 강조/액션 */
-            --accent-soft: #EEF2F8;   /* 액센트 배경 (badge, 선택) */
-            --accent-dark: #1A2233;   /* 가장 진한 네이비 */
-            --accent-mid:  #8B9EC7;   /* 미드 블루-그레이 */
+            /* text */
+            --text-primary:   #1F1E1C;
+            --text-secondary: #55534E;
+            --text-muted:     #8F8D87;
 
-            /* ── Typography ── */
-            --text-primary:   #1A2233;   /* 제목, 강조 텍스트 */
-            --text-secondary: #4A5A7A;   /* 본문·레이블 */
-            --text-muted:     #8B9EC7;   /* 힌트·캡션 */
+            /* semantic */
+            --danger:       #B8442F;
+            --danger-soft:  #F3E0D9;
+            --success:      #4C7650;
+            --success-soft: #E5ECDC;
+            --warning:      #A86A1C;
+            --warning-soft: #F3E8D3;
 
-            /* ── Semantic ── */
-            --danger:       #c0392b;
-            --danger-soft:  #fdecea;
-            --success:      #1e7e5a;
-            --success-soft: #e3f5ed;
-            --warning:      #b06a10;
-            --warning-soft: #fef3e2;
+            /* (호환용) 평면형 그림자 */
+            --shadow-dark:  rgba(0,0,0,0.06);
+            --shadow-light: rgba(255,255,255,0.8);
+            --nm-out:    0 1px 2px rgba(30,30,28,0.04), 0 8px 24px rgba(30,30,28,0.04);
+            --nm-out-sm: 0 1px 2px rgba(30,30,28,0.05);
+            --nm-in:     inset 0 0 0 1px rgba(30,30,28,0.06);
+            --nm-in-sm:  inset 0 0 0 1px rgba(30,30,28,0.05);
 
-            /* ── Neumorphic shadows ── */
-            --nm-out:    5px 5px 12px var(--shadow-dark), -4px -4px 10px var(--shadow-light);
-            --nm-out-sm: 3px 3px 8px  var(--shadow-dark), -2px -2px 6px  var(--shadow-light);
-            --nm-in:     inset 3px 3px 8px  var(--shadow-dark), inset -3px -3px 8px  var(--shadow-light);
-            --nm-in-sm:  inset 2px 2px 5px  var(--shadow-dark), inset -2px -2px 5px  var(--shadow-light);
-
-            /* ── Border Radius ── */
-            --radius:     16px;
-            --radius-sm:  10px;
-            --radius-lg:  20px;
+            --radius:      20px;
+            --radius-sm:   14px;
+            --radius-lg:   28px;
             --radius-pill: 999px;
         }
 
         * { box-sizing: border-box; }
-
         body {
-            font-family: 'Noto Sans KR', 'Pretendard', sans-serif;
-            background-color: var(--bg);
+            font-family: 'Manrope', 'Noto Sans KR', sans-serif;
+            background: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
-            font-weight: 400;
             letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
         }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::selection { background: var(--lime); color: var(--text-primary); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-mid); border-radius: 99px; opacity: 0.5; }
+        ::-webkit-scrollbar-thumb { background: #B9B7B0; border-radius: 99px; }
 
         /* ============================================================
-           HEADER
+           HEADER — 차콜 밴드 + 곡선 하단
         ============================================================ */
-        header {
-            background: var(--bg-card) !important;
-            box-shadow: 0 2px 12px rgba(160,180,210,0.25) !important;
-            border-bottom: none !important;
+        body > header {
+            background: var(--band) !important;
+            box-shadow: none !important;
+            border: none !important;
         }
-        .header-inner {
-            background: var(--bg-card);
-            padding: 20px 24px 0;
+        body > header::after {
+            content: '';
+            display: block;
+            height: 30px;
+            background: var(--bg);
+            border-radius: 30px 30px 0 0;
         }
-        .header-title-row {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
+        body > header > div > div.sticky {
+            background: var(--band) !important;
+            border: none !important;
+            box-shadow: none !important;
         }
-        @media (min-width: 768px) {
-            .header-title-row { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+        body > header h1, body > header h1[class] {
+            color: #F4F3EF !important;
+            font-weight: 400 !important;
+            font-size: 26px !important;
+            letter-spacing: -0.02em;
         }
+        body > header p, body > header p[class] { color: #B7B5AE !important; }
 
         .brand-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-sm);
-            background: var(--accent);
-            box-shadow: var(--nm-out-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 18px;
-            flex-shrink: 0;
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: var(--lime);
+            color: var(--text-primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; flex-shrink: 0;
         }
 
-        /* Law links */
+        /* 법령 링크 — 반투명 칩 */
         .law-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: var(--bg-light) !important;
-            box-shadow: var(--nm-out-sm) !important;
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.10) !important;
+            border: 1px solid rgba(255,255,255,0.16) !important;
+            border-radius: var(--radius-pill) !important;
+            color: #E7E6E1 !important;
+            padding: 5px 12px !important;
+            font-size: 12px !important; font-weight: 500;
+            transition: background .2s, color .2s;
+        }
+        .law-link i { color: #B7B5AE !important; }
+        .law-link:hover { background: var(--lime) !important; color: var(--text-primary) !important; border-color: var(--lime) !important; opacity: 1; }
+        .law-link:hover i { color: var(--text-primary) !important; }
+
+        /* 바로가기 — 흰 알약 버튼 */
+        .action-link, button.hidden.md\:inline-flex {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--white) !important;
             border: none !important;
             border-radius: var(--radius-pill) !important;
-            color: var(--text-secondary) !important;
-            padding: 5px 12px !important;
-            font-size: 12px !important;
-            font-weight: 500;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-        .law-link:hover {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-        }
-        .law-link i { color: var(--accent) !important; }
-
-        /* Action links (right side buttons) */
-        .action-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--bg-light) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            border-radius: var(--radius-sm) !important;
-            color: var(--text-secondary) !important;
-            padding: 8px 14px !important;
-            font-size: 13px !important;
-            font-weight: 500;
-            transition: all 0.2s;
-            text-decoration: none;
+            color: var(--text-primary) !important;
+            padding: 8px 16px 8px 8px !important;
+            font-size: 13px !important; font-weight: 500;
+            transition: background .2s;
             cursor: pointer;
         }
-        .action-link:hover {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
+        .action-link i, button.hidden.md\:inline-flex i {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: var(--bg-select);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 11px; color: var(--text-secondary) !important;
         }
-        .action-link i { color: var(--accent) !important; }
-        .action-link strong { color: inherit; }
+        .action-link strong { color: inherit !important; font-weight: 700; }
+        .action-link:hover, button.hidden.md\:inline-flex:hover { background: var(--lime) !important; opacity: 1; }
+        .action-link:hover i, button.hidden.md\:inline-flex:hover i { background: rgba(255,255,255,.6); }
 
-        /* Search bar */
-        .search-wrap {
-            position: relative;
-            margin-bottom: 16px;
-        }
-        .search-wrap i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 14px;
-            z-index: 1;
-        }
-        #searchInput {
-            width: 100%;
-            padding: 14px 18px 14px 46px;
-            border: none !important;
-            border-radius: var(--radius-pill);
-            background: var(--bg-light);
-            box-shadow: var(--nm-in);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-family: inherit;
-            outline: none;
-            transition: all 0.2s;
-        }
-        #searchInput::placeholder { color: var(--text-muted); }
-        #searchInput:focus {
-            box-shadow: var(--nm-in), 0 0 0 2px rgba(44,58,92,0.15);
-        }
-
-        /* Main tab bar */
+        /* 메인 탭 — 밴드 위 알약 */
         .main-tab-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            padding: 4px;
-            background: var(--bg-card);
-            border: none !important;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+            margin-top: 18px;
         }
         .main-tab-btn {
             border: none !important;
-            border-bottom: none !important;
-            border-radius: var(--radius-sm) !important;
-            background: var(--bg-light);
-            box-shadow: var(--nm-out-sm);
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            font-size: 13px;
-            padding: 11px 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .main-tab-btn:hover {
-            color: var(--accent) !important;
-        }
-        .main-tab-active,
-        .main-tab-btn.main-tab-active {
-            box-shadow: var(--nm-in) !important;
-            color: var(--accent) !important;
-            font-weight: 700 !important;
-            background: var(--bg-select) !important;
-            border-bottom: none !important;
-        }
-
-        /* ============================================================
-           MAIN CONTENT
-        ============================================================ */
-        main {
-            padding: 24px 16px;
-        }
-
-        /* ============================================================
-           CARDS / SECTIONS
-        ============================================================ */
-        .nm-card {
-            background: var(--bg-light);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--nm-out);
-            padding: 24px;
-            border: none !important;
-            transition: box-shadow 0.2s;
-        }
-        .nm-card:hover {
-            box-shadow: 7px 7px 16px var(--shadow-dark), -5px -5px 14px var(--shadow-light);
-        }
-        .nm-card-sm {
-            background: var(--bg-light);
-            border-radius: var(--radius);
-            box-shadow: var(--nm-out-sm);
-            padding: 18px;
-            border: none !important;
-        }
-
-        /* Override section-card and bg-white cards */
-        .section-card,
-        .bg-white {
-            background: var(--bg-light) !important;
-            box-shadow: var(--nm-out) !important;
-            border: none !important;
-            border-radius: var(--radius-lg) !important;
-        }
-        .section-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 8px 8px 18px var(--shadow-dark), -6px -6px 16px var(--shadow-light) !important;
-        }
-
-        /* ============================================================
-           HUGA TABS (inner)
-        ============================================================ */
-        .huga-tab-wrap {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            overflow-x: auto;
-            padding: 4px;
-            background: none;
-            border-bottom: none !important;
-        }
-        .huga-tab-btn {
-            flex-shrink: 0;
-            border: none !important;
-            border-radius: var(--radius-sm) !important;
-            background: var(--bg-light);
-            box-shadow: var(--nm-out-sm);
-            color: var(--text-secondary) !important;
-            font-weight: 500;
-            font-size: 13px;
-            padding: 9px 18px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .huga-tab-btn:hover { color: var(--accent) !important; }
-        .huga-tab-active {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-            font-weight: 700 !important;
-            background: var(--bg-select) !important;
-        }
-
-        /* Sub tabs (special category sidebar) */
-        .sub-tab-active {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-            font-weight: 600 !important;
-            border-left: 3px solid var(--accent) !important;
-            border-radius: var(--radius-sm) !important;
-        }
-
-        /* ============================================================
-           BOKMU INTERNAL TABS
-        ============================================================ */
-        nav.bg-white.shadow.rounded-lg {
-            background: var(--bg-card) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius) !important;
-            padding: 6px;
-            display: flex;
-            gap: 6px;
-        }
-        .bokmu-tab-btn {
-            background: var(--bg-light) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border-radius: var(--radius-sm) !important;
-            color: var(--text-secondary) !important;
-            border: none !important;
-            transition: all 0.2s;
-            font-size: 14px;
-            padding: 12px 8px;
-        }
-        .bokmu-tab-btn:hover { color: var(--accent) !important; }
-        .bokmu-tab-btn.active {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-            font-weight: 700 !important;
-            background: var(--bg-select) !important;
-        }
-
-        /* ============================================================
-           HEADER BANNERS (bokmu & choga)
-        ============================================================ */
-        .bg-blue-900 {
-            background: var(--accent) !important;
-            box-shadow: var(--nm-out) !important;
-            border-radius: var(--radius-lg) !important;
-            color: #ffffff !important;
-        }
-        .bg-blue-900 h1 { color: #ffffff !important; }
-        .bg-blue-900 p { color: rgba(255,255,255,0.8) !important; }
-        .bg-blue-900 a { color: rgba(255,255,255,0.9) !important; }
-        .bg-blue-900 .text-blue-200, .bg-blue-900 .text-blue-200 a { color: rgba(255,255,255,0.75) !important; }
-
-        .bg-edu-blue {
-            background: var(--accent) !important;
-            box-shadow: var(--nm-out) !important;
-            border-radius: var(--radius-lg) !important;
-            color: #ffffff !important;
-        }
-        .bg-edu-blue h1 { color: #ffffff !important; }
-        .bg-edu-blue .text-blue-100 { color: rgba(255,255,255,0.8) !important; }
-        .bg-edu-blue a { color: rgba(255,255,255,0.9) !important; }
-
-        /* ============================================================
-           INFO / HIGHLIGHT BOXES
-        ============================================================ */
-        .highlight-box {
-            background: var(--bg-select) !important;
-            border: none !important;
-            border-left: 3px solid var(--accent) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
-        }
-        .highlight-box p { color: var(--text-primary) !important; }
-
-        .warning-box {
-            background: var(--danger-soft) !important;
-            border: none !important;
-            border-left: 3px solid var(--danger) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
-        }
-        .warning-box p, .warning-box .text-red-900 { color: var(--danger) !important; }
-
-        .check-box {
-            background: var(--success-soft) !important;
-            border: none !important;
-            border-left: 3px solid var(--success) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
-        }
-        .check-box h3, .check-box li { color: var(--success) !important; }
-
-        .calc-box {
-            background: var(--bg-select) !important;
-            border: none !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius-sm) !important;
-        }
-
-        /* ============================================================
-           COLORED BACKGROUNDS → Soft inset on bg-light
-        ============================================================ */
-        .bg-blue-50, .bg-indigo-50, .bg-green-50,
-        .bg-orange-50, .bg-purple-50, .bg-yellow-50,
-        .bg-red-50, .bg-gray-50, .bg-slate-50,
-        .bg-teal-50, .bg-red-100 {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border: none !important;
-            border-radius: var(--radius-sm) !important;
-        }
-        .bg-blue-50 *, .bg-indigo-50 *, .bg-green-50 * { color: inherit; }
-
-        /* Score badges */
-        .score-badge {
             border-radius: var(--radius-pill) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            font-weight: 700;
-            font-size: 11px;
-            padding: 3px 10px !important;
+            background: rgba(255,255,255,0.12);
+            color: #E7E6E1 !important;
+            font-weight: 500; font-size: 14px;
+            padding: 8px 10px 8px 8px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: background .2s, color .2s;
         }
-        .bg-score-0 { background: var(--bg) !important; color: var(--success) !important; box-shadow: var(--nm-out-sm), inset 0 0 0 2px rgba(61,186,122,0.3) !important; }
-        .bg-score-1 { background: var(--bg) !important; color: var(--warning) !important; box-shadow: var(--nm-out-sm), inset 0 0 0 2px rgba(224,158,64,0.3) !important; }
-        .bg-score-2 { background: var(--bg) !important; color: #c0621e !important; box-shadow: var(--nm-out-sm), inset 0 0 0 2px rgba(192,98,30,0.3) !important; }
-        .bg-score-3 { background: var(--bg) !important; color: var(--danger) !important; box-shadow: var(--nm-out-sm), inset 0 0 0 2px rgba(224,85,85,0.3) !important; }
-        .bg-score-4 { background: var(--danger) !important; color: #fff !important; box-shadow: 2px 2px 6px rgba(224,85,85,0.4), -2px -2px 4px rgba(255,255,255,0.3) !important; }
+        .main-tab-btn i {
+            width: 30px; height: 30px; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.12); font-size: 12px;
+        }
+        .main-tab-btn:hover { background: rgba(255,255,255,0.2); }
+        .main-tab-btn.main-tab-active, .main-tab-active {
+            background: var(--white) !important;
+            color: var(--text-primary) !important;
+            font-weight: 600 !important;
+        }
+        .main-tab-active i { background: var(--lime) !important; color: var(--text-primary) !important; }
 
         /* ============================================================
-           TABLES
+           MAIN — 상단 타임라인 라인 + 라임 점
         ============================================================ */
-        table {
-            border-collapse: separate !important;
-            border-spacing: 0 !important;
-            border: none !important;
-            background: var(--bg-light) !important;
-            border-radius: var(--radius) !important;
-            overflow: hidden;
-            box-shadow: var(--nm-in-sm) !important;
+        main { position: relative; padding-top: 44px !important; }
+        main::before {
+            content: ''; position: absolute; left: 16px; right: 16px; top: 16px; height: 1px;
+            background: linear-gradient(90deg, rgba(184,68,47,0.0), rgba(184,68,47,0.55) 30%, #C9D12A 50%, rgba(76,118,80,0.55) 70%, rgba(76,118,80,0));
         }
-        table thead tr {
-            background: var(--bg-card) !important;
-        }
-        table thead th {
-            background: var(--bg-card) !important;
-            color: var(--text-secondary) !important;
-            font-weight: 600;
-            font-size: 12px;
-            letter-spacing: 0.03em;
-            border-bottom: 1px solid rgba(44,58,92,0.08) !important;
-            padding: 12px 14px;
-        }
-        table tbody tr {
-            background: var(--bg-light) !important;
-            transition: background 0.15s;
-        }
-        table tbody tr:hover { background: var(--bg-select) !important; }
-        table tbody td {
-            border-bottom: 1px solid rgba(44,58,92,0.05) !important;
-            border-right: none !important;
-            padding: 12px 14px;
-            color: var(--text-primary) !important;
-            background: transparent !important;
-        }
-        table tbody tr:last-child td { border-bottom: none !important; }
-
-        .table-header { background: var(--bg-card) !important; }
-        .process-table th {
-            background: var(--bg-card) !important;
-            border-bottom: 2px solid rgba(44,58,92,0.08) !important;
-        }
-        .table-container {
-            border-radius: var(--radius) !important;
-            border: none !important;
-            box-shadow: var(--nm-in-sm) !important;
-            overflow: hidden;
+        main::after {
+            content: ''; position: absolute; left: 50%; top: 7px; width: 18px; height: 18px; margin-left: -9px;
+            border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 6px var(--bg);
         }
 
         /* ============================================================
            TYPOGRAPHY
         ============================================================ */
-        h1, h2, h3, h4 { color: var(--text-primary) !important; }
-        h1 { font-weight: 700; }
-        h2.text-xl, h2.text-2xl { font-weight: 700; }
-        h3 { font-weight: 500; }
-        p { color: var(--text-secondary) !important; }
-        li { color: var(--text-secondary) !important; }
-        strong { color: var(--text-primary) !important; }
-        a { color: var(--accent) !important; text-decoration: none; transition: opacity 0.15s; }
-        a:hover { opacity: 0.7; }
+        h1, h2, h3, h4 { color: var(--text-primary) !important; letter-spacing: -0.02em; }
+        main h1 { font-weight: 500; }
+        main h2.text-xl, main h2.text-2xl, #huga-content-area h2 { font-weight: 500 !important; }
+        #huga-content-area > div > h2 { font-size: 34px !important; font-weight: 400 !important; }
+        h3 { font-weight: 600; }
+        p, li { color: var(--text-secondary) !important; }
+        strong { color: var(--text-primary) !important; font-weight: 700; }
+        a { color: var(--text-primary) !important; text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 3px; text-underline-offset: 3px; transition: opacity .15s; }
+        body > header a { text-decoration: none; }
+        a:hover { opacity: .75; }
 
-        .text-blue-600, .text-blue-700, .text-blue-800, .text-indigo-700 { color: var(--accent) !important; }
-        .text-red-600, .text-red-700, .text-red-800 { color: var(--danger) !important; }
-        .text-green-500, .text-green-600, .text-green-700, .text-green-800 { color: var(--success) !important; }
-        .text-orange-500, .text-orange-600, .text-orange-800 { color: var(--warning) !important; }
+        .text-blue-600, .text-blue-700, .text-blue-800, .text-indigo-700, .text-indigo-800, .text-edu-blue,
+        .text-purple-700, .text-blue-500 { color: var(--text-primary) !important; }
+        .text-red-500, .text-red-600, .text-red-700, .text-red-800, .text-red-900 { color: var(--danger) !important; }
+        .text-green-500, .text-green-600, .text-green-700, .text-green-800, .text-green-900 { color: var(--success) !important; }
+        .text-orange-500, .text-orange-600, .text-orange-800, .text-yellow-600, .text-yellow-800 { color: var(--warning) !important; }
         .text-gray-600, .text-gray-700, .text-slate-600, .text-slate-700 { color: var(--text-secondary) !important; }
-        .text-gray-500, .text-slate-500, .text-slate-400 { color: var(--text-muted) !important; }
-        .text-gray-800, .text-slate-800 { color: var(--text-primary) !important; }
-        .text-edu-blue { color: var(--accent) !important; }
-
-        /* Icon colored backgrounds */
-        .bg-blue-100, .bg-blue-600 { background: var(--bg-select) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-red-100 { background: var(--danger-soft) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-green-100 { background: var(--success-soft) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-orange-100 { background: var(--warning-soft) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-purple-100 { background: var(--bg-select) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-indigo-100 { background: var(--bg-select) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-teal-100 { background: var(--success-soft) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-emerald-100 { background: var(--success-soft) !important; box-shadow: var(--nm-in-sm) !important; }
-        .bg-blue-600 { box-shadow: var(--nm-out-sm) !important; }
-
-        span[class*="bg-"][class*="-100"] {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-        }
+        .text-gray-500, .text-gray-400, .text-slate-500, .text-slate-400 { color: var(--text-muted) !important; }
+        .text-gray-800, .text-gray-900, .text-slate-800, .text-slate-900 { color: var(--text-primary) !important; }
 
         /* ============================================================
-           SPECIFIC COMPONENTS
+           CARDS
         ============================================================ */
-
-        /* Intro card (you.html) */
-        .border-l-4.border-blue-500 {
-            border: none !important;
-            border-left: 3px solid var(--accent) !important;
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-        }
-        .border-l-4.border-indigo-500 { border-left: 3px solid #4a6fa5 !important; }
-
-        /* Cards grid items */
-        .card-hover {
-            background: var(--bg-light) !important;
-            border-radius: var(--radius) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            transition: all 0.2s;
-        }
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 5px 5px 12px var(--shadow-dark), -4px -4px 10px var(--shadow-light) !important;
-        }
-
-        /* Grid boxes (공휴일 등) */
-        .bg-gray-50.p-3.rounded.border,
-        div.bg-gray-50.p-3.rounded {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border: none !important;
-            border-radius: var(--radius-sm) !important;
-        }
-
-        /* Process cards in you.html */
-        .bg-white.border.border-slate-200.rounded-lg {
+        main .section-card, main .bg-white, .nm-card, .card-hover {
             background: var(--bg-light) !important;
             border: none !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border-radius: var(--radius) !important;
-        }
-        .bg-white.border.border-slate-200.rounded-lg:hover {
-            box-shadow: 5px 5px 14px var(--shadow-dark), -4px -4px 12px var(--shadow-light) !important;
-        }
-
-        /* Inline code/formula boxes */
-        .calc-box.p-4 {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius-sm) !important;
-            border: 1px dashed rgba(44,58,92,0.2) !important;
-        }
-
-        /* bg-slate-800 summary section */
-        .bg-slate-800 {
-            background: var(--accent-dark) !important;
             border-radius: var(--radius-lg) !important;
-            box-shadow: 6px 6px 16px rgba(26,34,51,0.35), -3px -3px 10px rgba(255,255,255,0.06) !important;
+            box-shadow: none !important;
+            transition: background .2s;
         }
-        .bg-slate-800 * { color: rgba(255,255,255,0.9) !important; }
-        .bg-slate-800 strong { color: #ffffff !important; }
-        .bg-slate-800 span.bg-blue-500 {
-            background: var(--accent-mid) !important;
-            box-shadow: 2px 2px 6px rgba(44,58,92,0.4) !important;
-        }
+        .section-card:hover, .card-hover:hover, .nm-card:hover { background: var(--white) !important; transform: none !important; }
+        .nm-card { padding: 24px; }
 
-        /* Q&A answer boxes */
-        .bg-gray-100.p-2.rounded {
+        /* 내부 박스 (톤 다운 회색 블록) */
+        .bg-blue-50, .bg-indigo-50, .bg-orange-50, .bg-purple-50, .bg-gray-50, .bg-slate-50,
+        .bg-teal-50, .bg-gray-100, .bg-yellow-50, .calc-box {
             background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius-sm) !important;
-        }
-
-        /* orange info cards in bokmu */
-        li.flex.items-start.bg-orange-50 {
-            background: var(--warning-soft) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius-sm) !important;
-        }
-
-        /* indigo cards */
-        .bg-indigo-50.p-4 {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-        }
-
-        /* green check intro box */
-        .bg-green-50 {
-            background: var(--success-soft) !important;
-            box-shadow: var(--nm-in-sm) !important;
             border: none !important;
             border-radius: var(--radius-sm) !important;
+            box-shadow: none !important;
         }
+        .bg-red-50, .bg-red-100 { background: var(--danger-soft) !important; border: none !important; border-radius: var(--radius-sm) !important; box-shadow: none !important; }
+        .bg-green-50 { background: var(--success-soft) !important; border: none !important; border-radius: var(--radius-sm) !important; box-shadow: none !important; }
+        .bg-yellow-50 { background: var(--lime-soft) !important; }
+        .calc-box { border: 1px dashed #BDBBB4 !important; font-family: 'Manrope','Noto Sans KR',sans-serif !important; font-weight: 500 !important; }
 
-        /* Section icons */
+        .highlight-box {
+            background: var(--lime-soft) !important; border: none !important;
+            border-left: 4px solid var(--lime) !important;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; box-shadow: none !important;
+        }
+        .warning-box {
+            background: var(--danger-soft) !important; border: none !important;
+            border-left: 4px solid var(--danger) !important;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; box-shadow: none !important;
+        }
+        .check-box {
+            background: var(--success-soft) !important; border: none !important;
+            border-left: 4px solid var(--success) !important;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important; box-shadow: none !important;
+        }
+        [class*="border-l-4"].border-blue-400, [class*="border-l-4"].border-blue-500,
+        [class*="border-l-4"].border-red-500, [class*="border-l-4"].border-indigo-500 { border-left-width: 4px !important; }
+        .border-blue-400, .border-blue-500 { border-left-color: var(--lime) !important; }
+        .border-indigo-500 { border-left-color: var(--accent-mid) !important; }
+        .border-red-500 { border-left-color: var(--danger) !important; }
+
+        /* 아이콘 원형 배지 */
         section h2 span[class*="p-2 rounded-lg"] {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius-sm) !important;
+            width: 40px; height: 40px; padding: 0 !important;
+            display: inline-flex !important; align-items: center; justify-content: center;
+            border-radius: 50% !important;
+            background: var(--white) !important; color: var(--text-primary) !important;
         }
-
-        /* huga content cards */
-        #huga-content-area .bg-white {
-            background: var(--bg-light) !important;
-            border: none !important;
-            box-shadow: var(--nm-out) !important;
-            border-radius: var(--radius-lg) !important;
+        span.bg-gray-200.text-gray-700 {
+            background: var(--lime) !important; color: var(--text-primary) !important; font-weight: 700;
         }
-
-        /* Death table inner */
-        .overflow-hidden.rounded-lg.border.border-slate-200 {
-            border: none !important;
-            border-radius: var(--radius-sm) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            overflow: hidden;
+        div[class*="p-3"][class*="bg-indigo-100"], div[class*="p-3"][class*="bg-emerald-100"] {
+            background: var(--lime) !important; color: var(--text-primary) !important; border-radius: 50% !important;
         }
-
-        /* print button */
-        button.hidden.md\:inline-flex {
-            background: var(--bg-light) !important;
-            border-radius: var(--radius-pill) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            color: var(--text-secondary) !important;
-            padding: 7px 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        button.hidden.md\:inline-flex:hover {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-        }
-
-        /* scroll to top button */
-        footer button {
-            background: var(--bg-light) !important;
-            border-radius: var(--radius-pill) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            color: var(--text-secondary) !important;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        footer button:hover {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-        }
+        .nm-card .w-10.h-10 { background: var(--lime) !important; box-shadow: none !important; color: var(--text-primary) !important; }
+        span[class*="bg-"][class*="-100"]:not(.score-badge) { background: var(--bg-select) !important; box-shadow: none !important; }
+        span.bg-slate-100 { background: var(--white) !important; border-radius: var(--radius-pill) !important; }
 
         /* ============================================================
-           SEARCH RESULTS
+           DARK BANNERS (복무·유연근무·시간외근무 상단)
         ============================================================ */
-        #search-results-area > div.grid > div {
-            background: var(--bg-light) !important;
+        main .bg-blue-900, main .bg-edu-blue {
+            background: var(--band) !important;
+            border-radius: var(--radius-lg) !important;
+            box-shadow: none !important;
+            color: #F4F3EF !important;
+        }
+        main .bg-blue-900 h1[class], main .bg-edu-blue h1[class], main .bg-blue-900 h1, main .bg-edu-blue h1 { color: #F4F3EF !important; font-weight: 400 !important; font-size: 24px !important; }
+        main .bg-blue-900 p, main .bg-edu-blue p { color: #C9C7C0 !important; }
+        main .bg-blue-900 a, main .bg-edu-blue a { color: #F4F3EF !important; }
+        main .bg-edu-blue span.bg-white {
+            background: var(--lime) !important; color: var(--text-primary) !important;
+            border-radius: var(--radius-pill) !important; padding: 4px 10px !important;
+        }
+
+        .bg-slate-800 {
+            background: var(--band-dark) !important;
+            border-radius: var(--radius-lg) !important; box-shadow: none !important;
+        }
+        .bg-slate-800 * { color: #E7E6E1 !important; }
+        .bg-slate-800 h3, .bg-slate-800 strong { color: #FFFFFF !important; }
+        .bg-slate-800 span.bg-blue-500 { background: var(--lime) !important; color: var(--text-primary) !important; }
+
+        /* ============================================================
+           TABS — 휴가 하위 / 복무 하위 / 특별휴가 사이드
+        ============================================================ */
+        .huga-tab-wrap {
+            display: flex; gap: 8px; margin-bottom: 28px; padding: 0;
+            border: none !important; overflow-x: auto;
+        }
+        .huga-tab-btn {
+            flex-shrink: 0;
             border: none !important;
-            border-radius: var(--radius) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        #search-results-area > div.grid > div:hover {
-            box-shadow: var(--nm-in-sm) !important;
-        }
-        #search-results-area span.text-xs.font-bold.text-blue-600.bg-blue-50 {
-            background: var(--accent-soft) !important;
-            color: var(--accent) !important;
-            box-shadow: var(--nm-in-sm) !important;
             border-radius: var(--radius-pill) !important;
-            padding: 3px 10px;
+            background: var(--white);
+            color: var(--text-primary) !important;
+            font-weight: 500; font-size: 14px;
+            padding: 10px 22px !important;
+            cursor: pointer; transition: background .2s, color .2s;
+        }
+        .huga-tab-btn:hover { background: var(--lime); }
+        .huga-tab-active, .huga-tab-btn.huga-tab-active {
+            background: var(--accent) !important; color: #FFFFFF !important; font-weight: 600 !important;
+        }
+
+        nav.bg-white.shadow.rounded-lg {
+            background: transparent !important; box-shadow: none !important;
+            display: flex; gap: 8px; padding: 0; overflow: visible !important;
+        }
+        .bokmu-tab-btn {
+            background: var(--white) !important; border: none !important;
+            border-radius: var(--radius-pill) !important;
+            color: var(--text-primary) !important; font-size: 14px; font-weight: 500;
+            padding: 12px 10px !important; transition: background .2s;
+        }
+        .bokmu-tab-btn:hover { background: var(--lime) !important; }
+        .bokmu-tab-btn.active { background: var(--accent) !important; color: #FFFFFF !important; font-weight: 600 !important; }
+
+        #huga-content-area button {
+            background: transparent; border: none !important;
+            border-radius: var(--radius-pill) !important; box-shadow: none !important;
+            color: var(--text-secondary) !important;
+            padding: 11px 18px; font-size: 14px; text-align: left; cursor: pointer;
+            transition: background .2s;
+        }
+        #huga-content-area button:hover { background: var(--white) !important; color: var(--text-primary) !important; }
+        #huga-content-area button.sub-tab-active, .sub-tab-active {
+            background: var(--accent) !important; color: #FFFFFF !important;
+            font-weight: 600 !important; border-left: none !important;
         }
 
         /* ============================================================
-           FOOTER
+           TABLES — 얇은 구분선, 둥근 컨테이너
+        ============================================================ */
+        table {
+            border-collapse: separate !important; border-spacing: 0 !important;
+            border: none !important; background: var(--white) !important;
+            border-radius: var(--radius) !important; overflow: hidden; box-shadow: none !important;
+        }
+        table thead tr, table thead th, .table-header, .process-table th {
+            background: var(--bg-card) !important;
+        }
+        table thead th {
+            color: var(--text-muted) !important; font-weight: 600; font-size: 12px;
+            text-transform: none; letter-spacing: .02em;
+            border: none !important; border-bottom: 1px solid var(--line) !important;
+            padding: 12px 14px;
+        }
+        table tbody tr { background: transparent !important; transition: background .15s; }
+        table tbody tr:hover { background: #FBFBF8 !important; }
+        table tbody td {
+            border: none !important; border-bottom: 1px solid #ECEAE4 !important;
+            padding: 12px 14px; color: var(--text-primary) !important; background: transparent !important;
+        }
+        table tbody tr:last-child td { border-bottom: none !important; }
+        table tbody td.bg-gray-50 { background: var(--bg-light) !important; border-radius: 0 !important; }
+        td[class*="bg-"][class*="-50"] { border-radius: 0 !important; box-shadow: none !important; }
+        .table-container, .overflow-hidden.rounded-lg.border.border-slate-200 {
+            border: none !important; border-radius: var(--radius) !important; box-shadow: none !important; overflow: hidden;
+        }
+
+        /* 지급액 등 강조 수치 */
+        td.font-bold.text-blue-600, td .font-bold.text-blue-600, td.text-blue-600 {
+            font-size: 16px; font-weight: 600 !important; letter-spacing: -0.01em;
+        }
+
+        /* ============================================================
+           SCORE BADGES & PILLS
+        ============================================================ */
+        .score-badge {
+            border-radius: var(--radius-pill) !important; border: none !important; box-shadow: none !important;
+            font-weight: 600; font-size: 11px; padding: 4px 11px !important; white-space: nowrap;
+        }
+        .bg-score-0 { background: var(--lime-soft) !important; color: var(--lime-ink) !important; }
+        .bg-score-1 { background: var(--warning-soft) !important; color: var(--warning) !important; }
+        .bg-score-2 { background: #F1DDCD !important; color: #A9542A !important; }
+        .bg-score-3 { background: var(--danger-soft) !important; color: var(--danger) !important; }
+        .bg-score-4 { background: var(--danger) !important; color: #FFFFFF !important; }
+        .cat-count-pill { background: #8B8984 !important; color: #fff !important; border-radius: var(--radius-pill) !important; font-size: 11px; padding: 2px 10px; }
+
+        /* 질의응답 답변 박스 */
+        .bg-gray-100.p-2.rounded { background: var(--bg-select) !important; border-radius: var(--radius-sm) !important; }
+        li.flex.items-start.bg-orange-50 { background: var(--bg-select) !important; border-radius: var(--radius) !important; padding: 14px 16px !important; }
+        li.flex.items-start.bg-orange-50 i { color: var(--text-primary) !important; background: var(--lime); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+
+        /* 상황 카드 (유연근무 해설) */
+        .bg-white.border.border-slate-200.rounded-lg { background: var(--bg-light) !important; border-radius: var(--radius-lg) !important; }
+        .bg-white.border.border-slate-200.rounded-lg:hover { background: var(--white) !important; }
+        span.bg-slate-100.text-slate-600 { background: #8B8984 !important; color: #fff !important; border-radius: var(--radius-pill) !important; padding: 3px 10px !important; }
+        .border-l-2.border-indigo-200, .border-l-2.border-emerald-200 { border-left: 2px solid var(--lime) !important; }
+
+        /* ============================================================
+           SEARCH RESULTS / HIGHLIGHT
+        ============================================================ */
+        #search-results-area > div.grid > div { background: var(--bg-light) !important; border-radius: var(--radius) !important; box-shadow: none !important; }
+        #search-results-area > div.grid > div:hover { background: var(--white) !important; }
+        @keyframes highlight-pulse { 0% { box-shadow: 0 0 0 0 rgba(227,236,58,.9); } 100% { box-shadow: 0 0 0 14px rgba(227,236,58,0); } }
+        .highlight-target { animation: highlight-pulse 1.6s ease-out !important; outline: 2px solid var(--lime) !important; }
+
+        /* ============================================================
+           FOOTER — 차콜 밴드
         ============================================================ */
         footer {
-            background: var(--bg-card) !important;
-            border-top: none !important;
-            margin-top: 32px;
+            background: var(--band) !important; border: none !important;
+            margin-top: 40px; border-radius: 30px 30px 0 0;
         }
+        footer p { color: #C9C7C0 !important; }
+        footer button {
+            background: var(--lime) !important; color: var(--text-primary) !important;
+            border: none !important; border-radius: var(--radius-pill) !important;
+            font-weight: 600; padding: 9px 18px !important; cursor: pointer;
+        }
+        footer button:hover { background: #F0F57A !important; }
 
         /* ============================================================
-           HIGHLIGHT PULSE ANIMATION (search)
+           CLEANUP / UTIL
         ============================================================ */
-        @keyframes highlight-pulse {
-            0% { box-shadow: var(--nm-out), 0 0 0 0 rgba(44,58,92,0.4) !important; }
-            70% { box-shadow: var(--nm-out), 0 0 0 8px rgba(44,58,92,0) !important; }
-            100% { box-shadow: var(--nm-out) !important; }
-        }
-        .highlight-target {
-            animation: highlight-pulse 2s ease-out !important;
-            border: 2px solid var(--accent) !important;
-        }
-
-        /* keep-all */
+        .border, .border-b, .border-t, .border-gray-100, .border-gray-200, .border-slate-200,
+        .border-green-200, .border-indigo-200, .border-yellow-200, [class*="border-b-2"] { border-color: transparent !important; }
+        .shadow-md, .shadow, .shadow-sm, .shadow-lg { box-shadow: none !important; }
         .keep-all { word-break: keep-all; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* ============================================================
-           BORDER OVERRIDES (clean up stray borders)
-        ============================================================ */
-        .border, .border-b, .border-t, .border-l,
-        .border-gray-100, .border-gray-200, .border-slate-200,
-        .border-collapse, [class*="border-b-2"] {
-            border-color: transparent !important;
-        }
-        /* Keep meaningful colored left borders */
-        [class*="border-l-4"], [class*="border-l-"] { border-color: inherit !important; }
-
-        /* ============================================================
-           MISC OVERRIDES
-        ============================================================ */
-        .shadow-md, .shadow, .shadow-sm, .shadow-lg { box-shadow: var(--nm-out) !important; }
-
-        /* Huga sub-sidebar buttons */
-        #huga-content-area button {
-            background: var(--bg-light);
-            border-radius: var(--radius-sm) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            color: var(--text-secondary) !important;
-            padding: 10px 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            font-size: 13px;
-        }
-        #huga-content-area button:hover { color: var(--accent) !important; }
-        #huga-content-area button.sub-tab-active {
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--accent) !important;
-            font-weight: 600 !important;
-            background: var(--bg-select) !important;
-        }
-
-        /* Responsive mobile adjustments */
         @media (max-width: 767px) {
-            .main-tab-btn { font-size: 11px; padding: 9px 4px; gap: 3px; }
+            .main-tab-bar { gap: 6px; }
+            .main-tab-btn { font-size: 12px; padding: 9px 4px; gap: 4px; }
             .main-tab-btn i { display: none; }
+            #huga-content-area > div > h2 { font-size: 28px !important; }
+            main::after { display: none; }
         }
-
-        /* Lucide icon containers */
-        div[class*="p-3"][class*="bg-indigo-100"],
-        div[class*="p-3"][class*="bg-emerald-100"] {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            border-radius: var(--radius-sm) !important;
-        }
-
-        /* number circles */
-        span.bg-gray-200.text-gray-700 {
-            background: var(--bg-select) !important;
-            box-shadow: var(--nm-in-sm) !important;
-            color: var(--text-secondary) !important;
-        }
-
-        /* Process table row separators */
-        .process-table td { border-bottom: 1px solid rgba(44,58,92,0.05) !important; }
-
-        /* ============================================================
-           SCORE BADGES — 분석 이미지 스타일에 맞게 카운트 pill 스타일 적용
-        ============================================================ */
-        .score-badge {
-            border-radius: var(--radius-pill) !important;
-            box-shadow: var(--nm-out-sm) !important;
-            border: none !important;
-            font-weight: 700;
-            font-size: 11px;
-            padding: 3px 10px !important;
-        }
-        .bg-score-0 { background: var(--success-soft) !important; color: var(--success) !important; }
-        .bg-score-1 { background: var(--warning-soft) !important; color: var(--warning) !important; }
-        .bg-score-2 { background: var(--warning-soft) !important; color: #b06a10 !important; }
-        .bg-score-3 { background: var(--danger-soft) !important; color: var(--danger) !important; }
-        .bg-score-4 { background: var(--danger) !important; color: #fff !important; box-shadow: 2px 2px 6px rgba(192,57,43,0.35) !important; }
-
-        /* ============================================================
-           CATEGORY COUNT PILL — 이미지 스타일 (다크 네이비 pill)
-        ============================================================ */
-        .cat-count-pill {
-            background: var(--accent) !important;
-            color: #ffffff !important;
-            border-radius: var(--radius-pill) !important;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 2px 10px;
+        @media print {
+            body > header, footer { background: #fff !important; }
+            body > header::after, main::before, main::after { display: none; }
         }
     </style>
 </head>
@@ -1396,7 +1046,7 @@
                     
                     <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-blue-500 mb-8">
                         <h2 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
-                            <i data-lucide="info" class="text-blue-500"></i> 먼저 알아두세요!
+                            <svg class="text-blue-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> 먼저 알아두세요!
                         </h2>
                         <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-600 leading-relaxed">
                             <div>
@@ -1421,7 +1071,7 @@
                     <div id="attendance" class="mb-12">
                         <div class="flex items-center gap-2 mb-6 border-b pb-4 border-slate-200">
                             <div class="p-3 bg-indigo-100 rounded-xl text-indigo-700">
-                                <i data-lucide="sun" size="24"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                             </div>
                             <div>
                                 <h2 class="text-2xl font-bold text-slate-800">Part 1. 출근 (Start)</h2>
@@ -1431,7 +1081,7 @@
                         
                         <div class="mb-10">
                             <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
-                                <i data-lucide="list-checks" class="text-indigo-600"></i> 출근 위반점수 부과 기준표
+                                <svg class="text-indigo-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg> 출근 위반점수 부과 기준표
                             </h3>
                             <div class="table-container bg-white shadow-sm">
                                 <table class="w-full text-left process-table" style="min-width: 700px;">
@@ -1533,7 +1183,7 @@
 
                         <div class="space-y-6">
                             <h3 class="text-lg font-bold text-slate-700 flex items-center gap-2">
-                                <i data-lucide="book-open" class="text-indigo-600"></i> 상황별 상세 해설
+                                <svg class="text-indigo-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 상황별 상세 해설
                             </h3>
 
                             <div class="bg-white border border-slate-200 rounded-lg p-5 hover:border-indigo-300 transition">
@@ -1606,7 +1256,7 @@
                     <div id="leaving" class="mb-12">
                         <div class="flex items-center gap-2 mb-6 border-b pb-4 border-slate-200 pt-8">
                             <div class="p-3 bg-emerald-100 rounded-xl text-emerald-700">
-                                <i data-lucide="moon" size="24"></i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                             </div>
                             <div>
                                 <h2 class="text-2xl font-bold text-slate-800">Part 2. 퇴근 (End)</h2>
@@ -1616,7 +1266,7 @@
 
                         <div class="mb-10">
                             <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
-                                <i data-lucide="list-checks" class="text-emerald-600"></i> 퇴근 위반점수 부과 기준표
+                                <svg class="text-emerald-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg> 퇴근 위반점수 부과 기준표
                             </h3>
                             <div class="table-container bg-white shadow-sm">
                                 <table class="w-full text-left process-table" style="min-width: 700px;">
@@ -1706,7 +1356,7 @@
 
                         <div class="space-y-6">
                             <h3 class="text-lg font-bold text-slate-700 flex items-center gap-2">
-                                <i data-lucide="book-open" class="text-emerald-600"></i> 상황별 상세 해설
+                                <svg class="text-emerald-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;flex-shrink:0;vertical-align:middle" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 상황별 상세 해설
                             </h3>
 
                             <div class="bg-white border border-slate-200 rounded-lg p-5 hover:border-emerald-300 transition">
@@ -2352,7 +2002,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderHugaContent();
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
                         
             document.getElementById('searchInput').addEventListener('input', (e) => {
                 const keyword = e.target.value.toLowerCase().trim();
@@ -2538,8 +2188,8 @@
             results.forEach((res, index) => {
                 html += `
                     <div style="background:var(--bg-light);border-radius:var(--radius);box-shadow:var(--nm-out-sm);padding:16px;cursor:pointer;transition:all 0.2s;" id="search-res-${index}"
-                         onmouseover="this.style.boxShadow='inset 2px 2px 5px var(--shadow-dark),inset -2px -2px 5px var(--shadow-light)'"
-                         onmouseout="this.style.boxShadow='3px 3px 8px rgba(160,180,210,0.55),-2px -2px 6px rgba(255,255,255,0.92)'">
+                         onmouseover="this.style.background='#FFFFFF'"
+                         onmouseout="this.style.background='var(--bg-light)'">
                         <div class="flex justify-between">
                             <span style="font-size:11px;font-weight:500;background:var(--accent);color:#fff;border-radius:var(--radius-pill);padding:3px 10px;">${res.type}</span>
                             <span style="font-size:12px;color:var(--text-muted);">이동하기 →</span>
