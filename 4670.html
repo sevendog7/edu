@@ -127,30 +127,32 @@
     letter-spacing:.02em;
     margin-right:4px;
   }
-  a.quick{
+    a.quick{
     display:inline-flex; align-items:center; gap:10px;
     padding:11px 18px 11px 14px;
     font-size: clamp(13px, 1.4vw, 14.5px);
-    font-weight:700;
-    color:var(--ink);
+    font-weight:900;                 /* 텍스트 강조: 700 → 900 */
+    letter-spacing:-.01em;
+    color:var(--ink);                /* 진한 글자색 유지 */
     text-decoration:none;
-    background:var(--surface);
+    background:var(--primary);       /* 반전: 버튼 배경 = 기존 동그라미 색 */
     border-radius:var(--r-pill);
     box-shadow:var(--raise-1);
     transition: box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
   }
+  a.quick.gx{ background:var(--primary-soft); }   /* gx 버튼은 연한 민트 배경 */
+
   a.quick .dot{
     display:grid; place-items:center;
     width:26px; height:26px; border-radius:50%;
     font-size:11px; font-weight:900;
     color:var(--primary-deep);
-    background:var(--primary);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
+    background:var(--surface);       /* 반전: 동그라미 = 기존 버튼 배경색 */
+    box-shadow: 0 1px 3px rgba(47,143,108,.28), inset 0 1px 0 rgba(255,255,255,.9);
   }
-  a.quick.gx .dot{ background:var(--primary-soft); }
-  a.quick .arrow{ font-size:12px; color:var(--ink-faint); transition: color .25s ease; }
+  a.quick .arrow{ font-size:12px; color:var(--primary-deep); transition: color .25s ease; }
   a.quick:hover{ transform:translateY(-2px); box-shadow:var(--raise-2); }
-  a.quick:hover .arrow{ color:var(--primary-deep); }
+  a.quick:hover .arrow{ color:var(--ink); }
   a.quick:active{ transform:none; box-shadow:var(--inset-2); }
   a.quick:focus-visible{ outline:none; box-shadow:var(--raise-1), var(--ring); }
 
@@ -345,7 +347,7 @@
         <a class="quick" href="https://sevendog7.github.io/edu/junbi.html" target="_blank" rel="noopener">
           <span class="dot">K</span>준비위원회<span class="arrow">↗</span>
         </a>        
-        <a class="quick" href="https://sevendog7.github.io/edu/election.html" target="_blank" rel="noopener">
+        <a class="quick gx" href="https://sevendog7.github.io/edu/election.html" target="_blank" rel="noopener">
           <span class="dot">선거</span>정치관계법<span class="arrow">↗</span>
         </a>                
         <a class="quick" href="https://sevendog7.github.io/edu/sungeo.html" target="_blank" rel="noopener">
@@ -354,10 +356,10 @@
         <a class="quick gx" href="https://sevendog7.github.io/edu/moe.html" target="_blank" rel="noopener">
           <span class="dot">교육</span>교육부업무<span class="arrow">↗</span>
         </a>            
-        <a class="quick gx" href="https://sevendog7.github.io/edu/K-GX.html" target="_blank" rel="noopener">
+        <a class="quick" href="https://sevendog7.github.io/edu/K-GX.html" target="_blank" rel="noopener">
           <span class="dot">GX</span>K-GX<span class="arrow">↗</span>
         </a>
-        <a class="quick" href="https://sevendog7.github.io/edu/medi-ai.html" target="_blank" rel="noopener">
+        <a class="quick gx" href="https://sevendog7.github.io/edu/medi-ai.html" target="_blank" rel="noopener">
           <span class="dot">의료</span>AI기본의료<span class="arrow">↗</span>
         </a>        
       </nav>
