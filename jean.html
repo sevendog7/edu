@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전남교육현장네트워크 85대 정책제안서 요약 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+                        tech: ['Orbitron', 'Pretendard', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            950: '#060b19',
+                            900: '#0b1329',
+                            800: '#131f3d',
+                            cyan: '#38bdf8',
+                            emerald: '#34d399',
+                            purple: '#c084fc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            word-break: keep-all;
+            background-color: #070d1f;
+            color: #f8fafc;
+            letter-spacing: -0.015em;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(circle at 12% 12%, rgba(56, 189, 248, 0.14) 0%, transparent 38%),
+                radial-gradient(circle at 88% 22%, rgba(52, 211, 153, 0.12) 0%, transparent 42%),
+                radial-gradient(circle at 50% 88%, rgba(129, 140, 248, 0.12) 0%, transparent 48%),
+                linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+            background-attachment: fixed;
+        }
+        .tech-font {
+            font-family: 'Orbitron', 'Pretendard', sans-serif;
+        }
+        .cyber-glass {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 12px 36px -6px rgba(0, 0, 0, 0.55), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+        }
+        .card-hover {
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            border-color: rgba(56, 189, 248, 0.55);
+            box-shadow: 0 20px 40px -12px rgba(6, 182, 212, 0.25), 0 0 20px rgba(16, 185, 129, 0.12);
+        }
+        .neon-text {
+            text-shadow: 0 2px 24px rgba(56, 189, 248, 0.35);
+        }
+        /* 핵심 키워드 강조 배지 스타일 */
+        .kw-bracket {
+            display: inline-block;
+            padding: 0.1rem 0.55rem;
+            margin-right: 0.3rem;
+            border-radius: 0.45rem;
+            font-weight: 800;
+            font-size: 0.92em;
+            background: rgba(52, 211, 153, 0.18);
+            color: #6ee7b7;
+            border: 1px solid rgba(52, 211, 153, 0.45);
+            box-shadow: 0 1px 6px rgba(16, 185, 129, 0.15);
+        }
+        .kw-quote-title {
+            color: #fef08a;
+            font-weight: 800;
+            background: linear-gradient(transparent 62%, rgba(250, 204, 21, 0.28) 62%);
+            padding: 0 2px;
+        }
+        .kw-quote-body {
+            color: #ffffff;
+            font-weight: 700;
+            background: rgba(56, 189, 248, 0.18);
+            border-bottom: 2px solid rgba(56, 189, 248, 0.65);
+            padding: 0.05rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+        .kw-step {
+            display: inline-block;
+            padding: 0.08rem 0.45rem;
+            border-radius: 0.35rem;
+            font-weight: 800;
+            font-size: 0.9em;
+            background: rgba(56, 189, 248, 0.2);
+            color: #7dd3fc;
+            border: 1px solid rgba(56, 189, 248, 0.45);
+        }
+        .content-box {
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.82));
+            border: 1px solid rgba(148, 163, 184, 0.24);
+        }
+        .policy-box-1 {
+            background: linear-gradient(145deg, rgba(6, 78, 59, 0.42), rgba(15, 23, 42, 0.92));
+            border: 1px solid rgba(52, 211, 153, 0.4);
+        }
+        .policy-box-2 {
+            background: linear-gradient(145deg, rgba(12, 74, 110, 0.45), rgba(15, 23, 42, 0.92));
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+        .policy-box-3 {
+            background: linear-gradient(145deg, rgba(120, 53, 15, 0.42), rgba(15, 23, 42, 0.92));
+            border: 1px solid rgba(251, 191, 36, 0.4);
+        }
+        .policy-box-4 {
+            background: linear-gradient(145deg, rgba(88, 28, 135, 0.42), rgba(15, 23, 42, 0.92));
+            border: 1px solid rgba(192, 132, 252, 0.4);
+        }
+        .policy-box-5 {
+            background: linear-gradient(145deg, rgba(136, 19, 55, 0.42), rgba(15, 23, 42, 0.92));
+            border: 1px solid rgba(251, 113, 133, 0.4);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060b19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.06); }
+        }
+        .animate-glow {
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #0f172a !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-break {
+                page-break-inside: avoid;
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyan-400 selection:text-slate-950">
+
+    <!-- 상단 헤더 영역 -->
+    <header class="relative overflow-hidden border-b border-slate-700/80 bg-slate-950/90 backdrop-blur-xl">
+        <!-- 네온 오로라 배경 효과 -->
+        <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-cyan-500/15 blur-3xl pointer-events-none animate-glow"></div>
+        <div class="absolute -bottom-24 right-10 w-96 h-96 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none animate-glow"></div>
+        <div class="absolute inset-0 opacity-15 pointer-events-none" style="background-image: radial-gradient(rgba(56,189,248,0.4) 1px, transparent 1px); background-size: 28px 28px;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9 md:py-12 relative z-10">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                <div>
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-400/40 text-cyan-200 text-xs sm:text-sm font-bold mb-4 shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                        <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span class="tech-font tracking-wider text-xs text-cyan-300">JEONNAM EDU POLICY MATRIX 2026.08</span>
+                        <span class="text-slate-500">|</span>
+                        <span class="text-white">전남교육현장네트워크 85대 정책제안 완역본</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white neon-text leading-tight">
+                        K-교육표준, <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-teal-200 to-emerald-300">전남에서 만들겠습니다</span>
+                    </h1>
+                    <p class="mt-3.5 text-slate-200 text-base sm:text-lg max-w-2xl leading-relaxed font-normal">
+                        총 271쪽 분량의 85개 현장 정책제안을 연번순(01~85번)으로 재구성하여, 각 과제의 <span class="px-2 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/50 text-cyan-200 font-bold">핵심 제안내용</span>과 <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 font-bold">구체적 정책제언</span>을 가장 선명하고 직관적으로 비교·검토할 수 있도록 설계했습니다.
+                    </p>
+                </div>
+
+                <!-- 고가독성 부별 통계 패널 -->
+                <div class="grid grid-cols-3 sm:grid-cols-5 gap-3 text-center cyber-glass p-4 rounded-2xl shrink-0">
+                    <div onclick="setPartFilter(1)" class="cursor-pointer px-3.5 py-3 rounded-xl bg-emerald-500/15 border border-emerald-400/40 hover:bg-emerald-500/25 hover:border-emerald-300 transition-all group">
+                        <div class="text-xs text-emerald-200 font-bold">1부 교실·학생</div>
+                        <div class="text-2xl font-black text-white tech-font mt-1 group-hover:text-emerald-300">29<span class="text-xs font-semibold ml-0.5 text-emerald-200">건</span></div>
+                        <div class="text-[11px] text-slate-300 font-semibold tech-font mt-0.5">#01~29</div>
+                    </div>
+                    <div onclick="setPartFilter(2)" class="cursor-pointer px-3.5 py-3 rounded-xl bg-cyan-500/15 border border-cyan-400/40 hover:bg-cyan-500/25 hover:border-cyan-300 transition-all group">
+                        <div class="text-xs text-cyan-200 font-bold">2부 교사·수업</div>
+                        <div class="text-2xl font-black text-white tech-font mt-1 group-hover:text-cyan-300">12<span class="text-xs font-semibold ml-0.5 text-cyan-200">건</span></div>
+                        <div class="text-[11px] text-slate-300 font-semibold tech-font mt-0.5">#30~41</div>
+                    </div>
+                    <div onclick="setPartFilter(3)" class="cursor-pointer px-3.5 py-3 rounded-xl bg-amber-500/15 border border-amber-400/40 hover:bg-amber-500/25 hover:border-amber-300 transition-all group">
+                        <div class="text-xs text-amber-200 font-bold">3부 행정·정책</div>
+                        <div class="text-2xl font-black text-white tech-font mt-1 group-hover:text-amber-300">29<span class="text-xs font-semibold ml-0.5 text-amber-200">건</span></div>
+                        <div class="text-[11px] text-slate-300 font-semibold tech-font mt-0.5">#42~70</div>
+                    </div>
+                    <div onclick="setPartFilter(4)" class="cursor-pointer px-3.5 py-3 rounded-xl bg-purple-500/15 border border-purple-400/40 hover:bg-purple-500/25 hover:border-purple-300 transition-all group">
+                        <div class="text-xs text-purple-200 font-bold">4부 교육생태계</div>
+                        <div class="text-2xl font-black text-white tech-font mt-1 group-hover:text-purple-300">09<span class="text-xs font-semibold ml-0.5 text-purple-200">건</span></div>
+                        <div class="text-[11px] text-slate-300 font-semibold tech-font mt-0.5">#71~79</div>
+                    </div>
+                    <div onclick="setPartFilter(5)" class="cursor-pointer px-3.5 py-3 rounded-xl bg-rose-500/15 border border-rose-400/40 hover:bg-rose-500/25 hover:border-rose-300 transition-all col-span-3 sm:col-span-1 group">
+                        <div class="text-xs text-rose-200 font-bold">5부 글로컬미래</div>
+                        <div class="text-2xl font-black text-white tech-font mt-1 group-hover:text-rose-300">06<span class="text-xs font-semibold ml-0.5 text-rose-200">건</span></div>
+                        <div class="text-[11px] text-slate-300 font-semibold tech-font mt-0.5">#80~85</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 상단 고정 필터 및 검색 컨트롤 바 -->
+    <div class="sticky top-0 z-30 bg-slate-950/95 backdrop-blur-xl border-b border-slate-700/80 shadow-[0_12px_32px_-8px_rgba(0,0,0,0.75)] no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                <!-- 부별 카테고리 필터 탭 -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0" id="partTabs">
+                    <button onclick="setPartFilter('all')" data-part="all" class="part-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 shadow-[0_0_16px_rgba(56,189,248,0.4)]">
+                        전체보기 (85)
+                    </button>
+                    <button onclick="setPartFilter(1)" data-part="1" class="part-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap bg-slate-900 text-slate-200 border border-slate-700 hover:border-emerald-400 hover:text-emerald-200">
+                        1부. 교실·아이들 (1~29)
+                    </button>
+                    <button onclick="setPartFilter(2)" data-part="2" class="part-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap bg-slate-900 text-slate-200 border border-slate-700 hover:border-cyan-400 hover:text-cyan-200">
+                        2부. 교사의 성장 (30~41)
+                    </button>
+                    <button onclick="setPartFilter(3)" data-part="3" class="part-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap bg-slate-900 text-slate-200 border border-slate-700 hover:border-amber-400 hover:text-amber-200">
+                        3부. 학교 행정·현장 (42~70)
+                    </button>
+                    <button onclick="setPartFilter(4)" data-part="4" class="part-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap bg-slate-900 text-slate-200 border border-slate-700 hover:border-purple-400 hover:text-purple-200">
+                        4부. 교육생태계 (71~79)
+                    </button>
+                    <button onclick="setPartFilter(5)" data-part="5" class="part-tab px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap bg-slate-900 text-slate-200 border border-slate-700 hover:border-rose-400 hover:text-rose-200">
+                        5부. 글로컬 전남 (80~85)
+                    </button>
+                </div>
+
+                <!-- 검색창 및 보기 모드 스위치 -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <div class="relative flex-1 sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-cyan-300 text-sm"></i>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            oninput="handleSearch(this.value)"
+                            placeholder="연번, 주제, 연구회, 키워드 검색..."
+                            class="w-full pl-9 pr-8 py-2.5 bg-slate-900 border border-slate-600 rounded-xl text-sm font-medium text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all"
+                        >
+                        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-cyan-300">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- 연번 바로가기 드롭다운 -->
+                    <select id="jumpSelect" onchange="jumpToProposal(this.value)" class="px-3.5 py-2.5 bg-slate-900 border border-slate-600 rounded-xl text-xs sm:text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                        <option value="">연번 바로가기 (01~85)</option>
+                    </select>
+
+                    <!-- 보기 방식 전환 -->
+                    <div class="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-700">
+                        <button onclick="setViewMode('card')" id="viewCardBtn" class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold bg-cyan-500/25 text-cyan-200 border border-cyan-400/50 shadow-sm transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-grip"></i> 카드형
+                        </button>
+                        <button onclick="setViewMode('table')" id="viewTableBtn" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-table-list"></i> 한눈에 표 보기
+                        </button>
+                    </div>
+
+                    <!-- 인쇄/저장 버튼 -->
+                    <button onclick="window.print()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-300 hover:to-teal-300 text-slate-950 rounded-xl text-xs sm:text-sm font-black shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i> 인쇄/PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- 빠른 키워드 태그 바 -->
+            <div class="flex items-center gap-2 mt-3 pt-2.5 border-t border-slate-800 overflow-x-auto text-xs sm:text-sm">
+                <span class="text-cyan-300 font-extrabold shrink-0 mr-1"><i class="fa-solid fa-bolt mr-1"></i>핵심 키워드:</span>
+                <button onclick="quickKeyword('AI')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#AI·에듀테크</button>
+                <button onclick="quickKeyword('유아')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#유아·유치원</button>
+                <button onclick="quickKeyword('작은학교')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#작은학교·통합</button>
+                <button onclick="quickKeyword('독서')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#독서·문해력</button>
+                <button onclick="quickKeyword('다문화')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#이주배경·다문화</button>
+                <button onclick="quickKeyword('마음')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#상담·마음건강</button>
+                <button onclick="quickKeyword('민원')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#교권·민원보호</button>
+                <button onclick="quickKeyword('교육발전특구')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#교육발전특구</button>
+                <button onclick="quickKeyword('생태')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#생태·지속가능</button>
+                <button onclick="quickKeyword('글로컬')" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-500/20 hover:text-white text-slate-200 font-semibold transition-all shrink-0">#글로컬·유학</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <!-- 검색 결과 상태 표시줄 -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-7 cyber-glass px-6 py-4 rounded-2xl">
+            <div class="flex items-center gap-3 text-base">
+                <span class="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_12px_#38bdf8]"></span>
+                <span id="statusTitle" class="font-extrabold text-white text-base sm:text-lg">전체 정책제안 목록</span>
+                <span class="text-slate-600">|</span>
+                <span class="text-slate-200 font-medium">총 <strong id="resultCount" class="text-cyan-300 font-black tech-font text-lg mx-1">85</strong>건의 제안</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-200 font-semibold">
+                <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded bg-cyan-400/30 border-2 border-cyan-400 inline-block"></span> 제안내용 (배경·현황·핵심분석)</span>
+                <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded bg-emerald-400/30 border-2 border-emerald-400 inline-block"></span> 정책제언 (실행방안·제도개선)</span>
+            </div>
+        </div>
+
+        <!-- 제안서 리스트 렌더링 컨테이너 -->
+        <div id="proposalsContainer" class="space-y-12"></div>
+
+        <!-- 검색 결과 없음 상태 표시 -->
+        <div id="emptyState" class="hidden cyber-glass rounded-3xl p-12 text-center my-8">
+            <div class="w-16 h-16 rounded-2xl bg-cyan-500/15 border border-cyan-400/40 flex items-center justify-center mx-auto mb-4 text-cyan-300 text-2xl">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h3 class="text-xl font-black text-white mb-2">일치하는 정책제안이 없습니다</h3>
+            <p class="text-slate-300 text-sm sm:text-base mb-6">다른 검색어를 입력하시거나 필터를 초기화해 주세요.</p>
+            <button onclick="resetAllFilters()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg hover:opacity-90 transition-all">
+                <i class="fa-solid fa-rotate-left mr-1.5"></i> 전체 목록 다시 보기
+            </button>
+        </div>
+    </main>
+
+    <!-- 상세 보기 모달 -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md no-print" onclick="if(event.target === this) closeModal()">
+        <div class="cyber-glass rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-cyan-400/40 shadow-[0_0_50px_rgba(6,182,212,0.25)]">
+            <!-- 모달 헤더 -->
+            <div class="p-6 sm:p-7 border-b border-slate-700/80 bg-slate-900/90 flex items-start justify-between gap-4">
+                <div>
+                    <div id="modalBadges" class="flex flex-wrap items-center gap-2 mb-3"></div>
+                    <h3 id="modalTitle" class="text-xl sm:text-2xl font-black text-white leading-snug"></h3>
+                </div>
+                <button onclick="closeModal()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-600 flex items-center justify-center shrink-0 transition-all">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- 모달 본문 -->
+            <div id="modalBody" class="p-6 sm:p-7 overflow-y-auto space-y-5 flex-1"></div>
+
+            <!-- 모달 하단 네비게이션 및 액션 바 -->
+            <div class="px-6 py-4 bg-slate-900/95 border-t border-slate-700/80 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <button id="prevModalBtn" class="px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:border-cyan-400 text-xs sm:text-sm font-semibold text-slate-200 flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-chevron-left"></i> 이전 연번
+                    </button>
+                    <button id="nextModalBtn" class="px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:border-cyan-400 text-xs sm:text-sm font-semibold text-slate-200 flex items-center gap-1.5 transition-all">
+                        다음 연번 <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="copyModalContent()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 text-xs sm:text-sm font-extrabold flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                        <i class="fa-regular fa-copy"></i> 요약 복사
+                    </button>
+                    <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs sm:text-sm font-bold">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 복사 알림 토스트 -->
+    <div id="toastMsg" class="fixed bottom-6 right-6 z-50 hidden bg-slate-900 border border-cyan-400/50 text-white px-4 py-3 rounded-2xl shadow-[0_0_25px_rgba(6,182,212,0.35)] text-sm font-semibold flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-cyan-400"></i>
+        <span id="toastText">클립보드에 복사되었습니다.</span>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="bg-slate-950/90 border-t border-cyan-500/20 py-6 mt-12 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <strong class="text-slate-200">전남교육현장네트워크 정책제안서 (2026. 8.)</strong> | 총 5부 85개 정책제안 홀로그램 아카이브
+            </div>
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/30 font-semibold flex items-center gap-1.5 transition-all">
+                <i class="fa-solid fa-arrow-up"></i> 상단으로 이동
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        const partMetadata = {
+            1: {
+                id: 1,
+                title: "1부. 교실의 하루, 아이들의 세계",
+                range: "PART 01 · #01~#29 (p.9~p.89)",
+                desc: "유아·초·중·고·특수·다문화 학생의 배움과 기초학력, 학생자치, 마음건강, 진로·체육 혁신을 다루는 29개 제안",
+                badgeBg: "bg-emerald-500/20 text-emerald-200 border-emerald-400/50",
+                numBg: "from-emerald-500 to-teal-600 text-slate-950",
+                accentBorder: "border-l-emerald-400",
+                policyBox: "policy-box-1",
+                headerGradient: "from-emerald-900/95 via-teal-900/90 to-slate-900/95 border border-emerald-400/40"
+            },
+            2: {
+                id: 2,
+                title: "2부. 교사의 성장과 배움의 길",
+                range: "PART 02 · #30~#41 (p.91~p.124)",
+                desc: "교권·민원 보호, 공적 책임 체계, 교원의 교육과정·코칭·에듀테크 전문성 및 안전·기자재 지원을 다루는 12개 제안",
+                badgeBg: "bg-cyan-500/20 text-cyan-200 border-cyan-400/50",
+                numBg: "from-cyan-400 to-sky-500 text-slate-950",
+                accentBorder: "border-l-cyan-400",
+                policyBox: "policy-box-2",
+                headerGradient: "from-cyan-900/95 via-sky-900/90 to-slate-900/95 border border-cyan-400/40"
+            },
+            3: {
+                id: 3,
+                title: "3부. 학교 행정과 교육정책의 현장",
+                range: "PART 03 · #42~#70 (p.125~p.222)",
+                desc: "소규모학교 이동·통합, 미래형 도서관·수련원·데이터연구원, 교육발전특구, AI 행정 간소화 및 통학·관사 복지를 다루는 29개 제안",
+                badgeBg: "bg-amber-500/20 text-amber-200 border-amber-400/50",
+                numBg: "from-amber-400 to-orange-500 text-slate-950",
+                accentBorder: "border-l-amber-400",
+                policyBox: "policy-box-3",
+                headerGradient: "from-amber-900/95 via-orange-950/90 to-slate-900/95 border border-amber-400/40"
+            },
+            4: {
+                id: 4,
+                title: "4부. 함께 키우는 우리 아이들: 교육생태계",
+                range: "PART 04 · #71~#79 (p.223~p.252)",
+                desc: "지역사회 연계 돌봄·교육복지 통합, 시민과학, 시설 유지관리, 이주배경 학부모 강사, 생태감수성 및 마을교육 플랫폼을 다루는 9개 제안",
+                badgeBg: "bg-purple-500/20 text-purple-200 border-purple-400/50",
+                numBg: "from-purple-400 to-indigo-500 text-slate-950",
+                accentBorder: "border-l-purple-400",
+                policyBox: "policy-box-4",
+                headerGradient: "from-purple-900/95 via-indigo-950/90 to-slate-900/95 border border-purple-400/40"
+            },
+            5: {
+                id: 5,
+                title: "5부. 공생하는 글로컬 전남교육, 미래를 여는 길",
+                range: "PART 05 · #80~#85 (p.253~p.270)",
+                desc: "지역 캠퍼스화, 유학생 정착(전남온·인재트랙), 학교자치, 세계시민·국제교류(COIL), 브랜드 홍보, K-유학마을을 다루는 6개 제안",
+                badgeBg: "bg-rose-500/20 text-rose-200 border-rose-400/50",
+                numBg: "from-rose-400 to-pink-500 text-slate-950",
+                accentBorder: "border-l-rose-400",
+                policyBox: "policy-box-5",
+                headerGradient: "from-rose-900/95 via-pink-950/90 to-slate-900/95 border border-rose-400/40"
+            }
+        };
+
+        const proposalsData = [
+            // ==================== 1부 (연번 1 ~ 29) ====================
+            {
+                id: 1,
+                part: 1,
+                title: "소규모유치원 통폐합을 통한 '거점형 단설유치원' 설립",
+                group: "전남유아교육정책연구회",
+                page: 10,
+                content: "학령인구 급감으로 농산어촌 5명 이하 소규모 병설유치원 비율이 2026년 28.3%(218개원)까지 증가하며 1인 교사 업무 과중, 안전관리 한계, 또래 상호작용 부족 문제가 심화됨. 인적·물적 자원을 효율화하고 균형 있는 유아교육 기회를 보장하는 적정규모화 모델이 필요함.",
+                recommendation: "• 전남형 거점 단설유치원 설립 기본계획 및 공정한 통폐합 기준 수립(사전 설명회·학부모 의견 수렴)\n• 스쿨버스·통학 보조 인력 지원 확대 및 방과후 돌봄·지역 연계 프로그램 강화\n• 단설유치원 중심 교사연구회·공동수업 연수체계 구축 및 관련 조례·예산 지원 근거 마련"
+            },
+            {
+                id: 2,
+                part: 1,
+                title: "『아이누리 정책 나눔터』와 함께하는 전남 유아 미래교육 방향 탐색",
+                group: "전남형 유아 미래교육 연구회",
+                page: 13,
+                content: "AI·디지털 전환과 지역소멸 위기 속에서 농어촌·도서 지역의 유아교육 인프라 격차를 해소할 지역 맞춤형 유아 미래교육 프레임이 요구됨. 교원·학부모·지역사회·행정이 함께 참여하여 현장 의견을 정책으로 연결하는 거버넌스가 필요함.",
+                recommendation: "• 창의·공감·생태 감수성 중심 핵심역량 체계 및 지역 유형별(농어촌·도서·도시) 특화 교육과정 모델 개발\n• 『아이누리 정책 나눔터』 포럼 정례화 및 온라인 정책 제안·피드백 플랫폼 운영\n• '현장 의견 → 정책화 → 실행 → 평가'의 참여 프로세스 제도화 및 AI·생태 중심 교사 직무연수 확대"
+            },
+            {
+                id: 3,
+                part: 1,
+                title: "심리·정서 발달 지원 대상 유아를 위한 지원 대책 마련",
+                group: "영유아교육연구회",
+                page: 15,
+                content: "언어지체·정서불안 유아가 증가하고 있으나 현행 규정상 위(Wee)센터의 유아 지원이 어렵고 도서·서부권은 기관 접근성도 취약함. 다인수 학급 내 개별 지원이 필요한 유아와 다른 유아의 학습권·교사 교육권을 동시에 보호할 인력 지원이 시급함.",
+                recommendation: "• 유아 숲체험원(서부분원) 내 숲 치유 전문가·상담사를 배치하여 유아 심리·정서 치유 및 보호자 긍정 양육 프로그램 확대\n• 학급당 12명 이상 유치원 중 도움이 필요한 학급에 '공존교실 자원봉사자(1일 6~8시간)' 인건비 지원\n• 장기적으로 Wee센터 유아 상담 허용을 위한 규정 개정 및 유아상담 전문교사 양성"
+            },
+            {
+                id: 4,
+                part: 1,
+                title: "미래교육환경 변화에 대응하는 전남 영유아 교육환경 모델 마련",
+                group: "영유아교육연구회",
+                page: 18,
+                content: "유아교육기관 안전사고 예방을 위해 물리적 안전과 심리·정서 안전을 아우르는 시스템이 필요함. 또한 전남은 영유아 전용 공공 실내 놀이시설이 전국 최저 수준이고 민간 키즈카페 비용 부담이 커 놀 권리 보장을 위한 복합 놀이공간 조성이 절실함.",
+                recommendation: "• [안전유치원 지정 운영] 어린이집을 포함한 '전남형 통합 안전관리 기준 매뉴얼' 제정, 노후 시설 개선 및 심리 회복 프로그램·안전 컨설턴트 지원\n• [공공형 실내놀이터 조성] 지자체-교육청 공동 거버넌스를 통해 폐교·유휴공간 활용 권역별(서·중·동부) 복합 실내놀이터 구축 및 시·군 거점 확대"
+            },
+            {
+                id: 5,
+                part: 1,
+                title: "학생 수준과 흥미를 기본으로 하는 맞춤형 독서지원시스템 구축",
+                group: "학생맞춤형독서교육연구회",
+                page: 22,
+                content: "동일 학년 동일 도서 제공이나 과제 중심 독서활동은 개인의 읽기 수준과 흥미를 반영하지 못해 독서 자신감을 떨어뜨림. 학생 스스로 책을 선택하고 독서 이력을 데이터로 체계적 관리하여 성장을 지원하는 시스템이 필요함.",
+                recommendation: "• 학생 독서 이해력·읽기 수준 진단 도구 개발 및 학년·수준별 독서 역량 데이터 구축\n• 독서 이력과 선호 장르를 분석하는 'AI 기반 맞춤형 도서 추천 알고리즘' 구축\n• 독서 목표 설정·챌린지·인증 등 자기주도형 활동 기능과 교사·학부모 성장 공유 대시보드 연동"
+            },
+            {
+                id: 6,
+                part: 1,
+                title: "중도입국 첫날부터 혼자가 되지 않는 교실",
+                group: "다문화이해교육연구회",
+                page: 24,
+                content: "농어촌·도서 지역에 러시아어·중앙아시아어권 등 중도입국학생이 급증하나 학기 단위 한국어학급 운영으로 수시 입국 시 공백이 발생함. 한국어교육·기초학력·정서상담이 분절 운영되어 입국 직후부터 정착까지 시간 흐름에 따른 통합 지원이 부재함.",
+                recommendation: "• 「중도입국학생 언어·학습·정서 연계 4단계 적응 모델」 구축: 1단계(진단·진입: 통합진단·AI 번역기기 1인1대·전담교사 동행) → 2단계(몰입: AI 실시간 통번역 수업 연동·이중언어 정서상담) → 3단계(통합: 지역맞춤 교재·밀집학교 교과 재구성) → 4단계(자립: 강점 발휘 프로젝트)\n• 전 단계 누적 기록·공유 체계인 「학생 맞춤형 성장 프로파일」 운영"
+            },
+            {
+                id: 7,
+                part: 1,
+                title: "학생자치회를 통한 모두가 행복한 학교 만들기",
+                group: "학생자치회와 함께 하는 전남교육",
+                page: 27,
+                content: "학교폭력·교권침해·규칙 불이행 등을 민주적으로 해결하려면 학생자치회가 활성화되어야 하나, 활동 기간 제한과 지도교사 업무 과중, 교육지원청 차원의 프로그램 및 관련 부서 간 협업체계 미비로 연속성 있는 운영에 한계가 있음.",
+                recommendation: "• 교육지원청 단위 학생자치 지원 전담팀 운영, 학교별 자치회 운영비 확대 및 표준 매뉴얼(민주적 의사결정·학폭예방·교사존중) 보급\n• 학교규칙 워크숍·연합학생회 지역 간 교류·'학생제안 정책 공모전' 및 학생자치 페스티벌 개최\n• 담당 장학사 및 지도교사 역량강화 연수 정례화(학기당 1회 이상) 및 유공교원 인센티브 강화"
+            },
+            {
+                id: 8,
+                part: 1,
+                title: "전남형 학생 경제교육 교육과정 개발 및 전남학생교육수당 연계 강화 방안",
+                group: "전남금융교사연구회",
+                page: 29,
+                content: "전국 최초 도입 후 초·중·고로 확대되는 '전남학생교육수당'이 단순 현금성 지원을 넘어 자기주도적 성장 밑천이 되려면 실물 경제와 결합한 체계적 금융교육이 필수적임. 특히 경제 습관이 형성되는 초등 단계 맞춤형 디지털 금융 교육과정 개발이 시급함.",
+                recommendation: "• 초등 발달단계별 '학생교육수당 연계 디지털 금융 교육과정' 개발(저학년: 용돈기입장 앱·필요와 욕구 구분 / 고학년: 나만의 예산 세우기·우리 동네 착한 소비 프로젝트)\n• NH농협 등 금융기관·유관기관 협력 '찾아가는 금융교육' 및 교원 직무연수 확대\n• 수당 관리·학습·멘토링을 아우르는 '전남학생금융교육 통합 디지털 플랫폼' 및 중고등 심화 로드맵 구축"
+            },
+            {
+                id: 9,
+                part: 1,
+                title: "기초학력지원센터 협의체 운영 제안",
+                group: "기초탄탄",
+                page: 33,
+                content: "현재 기초학력지원센터가 정책 중심으로 운영되어 학교 현장의 요구 반영이 미흡하고 교육지원청별 지원 역량 편차가 큼. 난독·경계선지능 학생 증가에 대응하여 도교육청-지원청-학교-전문가가 참여하는 현장 밀착형 협의체가 필요함.",
+                recommendation: "• 현장 교사·연구자·전문가가 참여하는 '기초학력지원센터 협의체'를 구성하여 분기별 정책 자문 및 시행지침 개선안 도출\n• 학기별 단위학교 기초학력 현안 해결 컨설팅 및 학습부진 대응 가이드 제공\n• 문해·수해력·난독·경계선지능 관련 교원 연수 기획 및 연말 성과 점검·환류 체계 정착"
+            },
+            {
+                id: 10,
+                part: 1,
+                title: "도덕·범교과 융합 프로젝트 수업 설계 및 현장 적용·확산 방안",
+                group: "(서부권)도덕교과 연구회",
+                page: 36,
+                content: "2022 개정 교육과정과 전남교육이 지향하는 공생·성찰·학생 주도성을 구현하기 위해 기존 분절적 교과 운영을 넘어 도덕과 범교과 주제를 결합한 실천·경험 중심 융합 프로젝트 수업 모델과 행·재정적 지원 체계가 필요함.",
+                recommendation: "• 초등 3~6학년 융합형 도덕·범교과 프로젝트 수업 모델 및 수업자료 개발·보급\n• 희망 교사·학교 대상 맞춤형 컨설팅 및 현장 실천 교사단(연구회) 네트워크 활성화\n• 학생·교사·학교별 성장 기록 및 피드백을 공유하는 평가·환류 시스템 구축"
+            },
+            {
+                id: 11,
+                part: 1,
+                title: "디지털미디어리터러시 교육활동 연구",
+                group: "디지털미디어리터러시연구회",
+                page: 38,
+                content: "생성형 AI와 추천 알고리즘 확산으로 초등학생이 허위정보·감정조작·혐오표현 등 디지털 역기능에 노출되고 있으나 현장 교육은 도구 활용에 치우쳐 있음. 초등 발달 수준에 맞춘 '이해·분석·표현·윤리' 4대 영역 실천 교육이 요구됨.",
+                recommendation: "• 초등 교과·창체 및 학교자율시간 연계형 '전남형 디지털시민성·미디어리터러시 지도자료(서책·디지털 병행)' 개발·보급\n• 정보교육·디지털시민교육·AI교육을 연계한 교육청 '통합 디지털교육추진단' 구성 및 교육주간 운영\n• 전남교육 AI·빅데이터 플랫폼 내 미디어리터러시 학습자료 통합 탑재 및 교사 연구회 지원"
+            },
+            {
+                id: 12,
+                part: 1,
+                title: "에듀테크 및 AI를 활용한 다문화수업",
+                group: "유초등교육 송유승",
+                page: 41,
+                content: "일회성 체험 위주의 다문화 교육으로는 다문화 학생 소외와 거리감을 해소하기 어려움. 원격화상 이중언어, 메타버스(ZEP), 헬로메이플, 생성형 AI·번역 도구 등을 결합한 참여·제작 중심 수업으로 다문화 감수성을 내면화해야 함.",
+                recommendation: "• 4대 에듀테크 다문화 프로그램(원격화상 이중언어, 다문화 메타버스 탐방, 헬로메이플 다문화 맵 제작, AI 활용 세계여행·번역 프로젝트) 교육과정 체계화\n• 교육청 차원의 언어·문화권별 맞춤형 디지털 콘텐츠 뱅크 구축 및 모델학교·교사 연수 확대\n• AI 리터러시 기반 다문화 감수성 정량·정성 평가 체계 및 글로벌 온라인 공동 프로젝트 도입"
+            },
+            {
+                id: 13,
+                part: 1,
+                title: "공동교육과정 활성화 방안",
+                group: "공동교육과정",
+                page: 44,
+                content: "학령인구 감소로 소규모 학년의 정상적 교육과정 운영과 또래 사회성 발달에 한계가 발생함. 2022 개정 교육과정 학교자율시간 도입과 연계하여 인근 학교·학년 간 협력적 공동교육과정을 활성화할 현장 지원이 필요함.",
+                recommendation: "• 교육지원청 중심 새학년 집중기간 내 학년(교)별 네트워크 구축 및 정례 협의회(월 1회/격월) 운영\n• 학생 이동 불편 해소를 위한 에듀택시·통학차 공동이용 지원 및 교육지원청 단위 학교 간 급식비 송금 체계 일원화\n• 지역 교육자원 연계 체험형·학교자율시간 공동교육과정 운영 및 에듀테크 병행 수업 역량 강화"
+            },
+            {
+                id: 14,
+                part: 1,
+                title: "지속가능한 삶을 디자인하는 전남형 JB",
+                group: "전남형JB 연구회",
+                page: 46,
+                content: "농어촌 교육격차를 극복하고 자기주도성·창의성을 기르기 위해 IB 철학(탐구·개념·맥락·행동)을 전남의 생태·해양·문화 자원과 결합한 '전남형 JB(Jeonnam Baccalaureate) 탐구독서 교육과정'을 초등 단계부터 구현하고자 함.",
+                recommendation: "• 초등 학년별 초학문적 주제와 연계한 '전남형 JB 독서활동 교육과정' 및 맞춤형 커리큘럼 뱅크·AI 독서기록 관리 시스템 구축\n• 교육청 단위 'JB 실행 지원단' 구성, 정원외 원로교사 배정 등 인적 지원 및 교사 맞춤형 JB-독서 융합 연수 운영\n• 지자체 연계 '읽기에서 행동으로(Reading to Action)' 캠페인 및 JB 독서활동 인증제 도입"
+            },
+            {
+                id: 15,
+                part: 1,
+                title: "전남형 미래학교의 창의융합형 교실수업 활성화",
+                group: "전남유초등교육정책연구회",
+                page: 49,
+                content: "4차 산업혁명과 기후·생태 위기에 대응하는 창의융합형 프로젝트 수업(PBL)이 요구되나, 교과 간 협력 시간 부족, 학교별 스마트 인프라 유지관리 격차, 연수와 현장 적용 간 괴리로 확산에 어려움이 있음.",
+                recommendation: "• 교과 간 융합 수업 모형(AI+기후, 과학+SW, 수학+예술 등) 개발 연구비 지원 및 도교육청 플랫폼 공유\n• 권역별 거점학교 중심 수업 혁신 네트워크 및 '창의융합형 수업 컨설턴트단' 운영\n• 지역 대학·공공기관·산업체 MOU를 통한 실생활 지역문제 해결 프로젝트 확대 및 우수교원 인센티브(학습연구년·국외연수) 부여"
+            },
+            {
+                id: 16,
+                part: 1,
+                title: "중·고등학생 비만율과 저체력 개선 (PAPS 분석 기반 고강도 체육수업)",
+                group: "전남교육현장 네트워크 체육교육",
+                page: 52,
+                content: "청소년건강행태조사 결과 전남 청소년 비만율이 전국 1위, 체육활동 실천율은 최하위권이며 PAPS 기초체력 미달 학생이 다수임. 학생별 부족 체력 요소를 반영한 고강도 맞춤형 체육수업 모델 개발이 시급함.",
+                recommendation: "• PAPS 데이터(심폐지구력·근력·순발력 등) 분석 기반 종목별 고강도 운동 프로그램(농구 인터벌, 배구 점프력, 배드민턴 스텝 등) 지도안 개발·보급\n• 체육교사 대상 PAPS 데이터 해석 및 고강도 수업 설계 직무연수 신설\n• 교육청 단위 학생 건강 데이터 기반 체육 정책 통합관리 및 피드백 시스템 구축"
+            },
+            {
+                id: 17,
+                part: 1,
+                title: "청소년미래도전프로젝트 개선 방안",
+                group: "학교교육 교육과정 중심-동아리 활동",
+                page: 54,
+                content: "학생 스스로 팀을 꾸려 미래를 설계하는 전남 대표 학생 중심 활동인 '청소년미래도전프로젝트'의 지속가능성을 높이기 위해, 멘토 교직원의 행정·회계 부담을 줄이고 활동 시간과 지역 연계를 확충할 구조적 개선이 필요함.",
+                recommendation: "• 예산 집행 절차 간소화, 멘토링 체계 고도화 및 멘토 교원에 대한 실질적 인센티브 제공\n• 방학 기간을 적극 활용할 수 있도록 운영 기간 조정 및 온·오프라인 혼합형 학습 환경 지원\n• 지역사회 자원을 연계한 체험 기회 확대, 성과 발표회 활성화 및 정량·정성 정책 평가 도구 개발"
+            },
+            {
+                id: 18,
+                part: 1,
+                title: "디지털 영상콘텐츠 활용 융합교육 수업모델 개발 및 실행 방안",
+                group: "컬처링크(방송영상 교육과정 개발 연구회)",
+                page: 56,
+                content: "학생들에게 친숙한 웹툰·영상 등 디지털 미디어 환경을 반영하여 '웹툰 창작 → 시나리오/스토리보드 → 단편 영상 제작'으로 이어지는 프로젝트형 융합수업 모델을 개발하고 실습 기자재와 교사 협업 체계를 확충해야 함.",
+                recommendation: "• 전남교육청 '디지털 영상콘텐츠 융합교육 지원 정책' 신설 및 웹툰·영상미디어 융합교과 모델학교 지정 지원\n• 실습 기자재 확충 및 지자체·지역대학(순천시·순천대 등) 산학관 협력 미디어 교육 클러스터 구축\n• 학생 창작물 온라인 아카이브 및 교사 지도안 공유 플랫폼 구축, 정규 교육과정 융합교과 신설 추진"
+            },
+            {
+                id: 19,
+                part: 1,
+                title: "중학교 기초기본학력 제고 방안",
+                group: "중등교육 교육과정",
+                page: 58,
+                content: "중학교 학력 격차와 기초학력 저하가 지속되나 농어촌 소규모학교의 지도 여력 부족과 학생들의 낙인 효과·거부감으로 참여율이 저조함. 성취도 보정을 넘어 진로·흥미를 반영한 맞춤형 지원과 학교의 책무성 강화가 요구됨.",
+                recommendation: "• 기초기본학력 신장을 위한 학교(학교장) 책무성 강화 및 학교장 역량 평가 연계 방안 마련\n• AI 튜터·코스웨어 기반 학습 진단 및 진로·흥미를 반영한 '학생성장 종합 이력 관리 플랫폼' 구축\n• 권역별 거점청 및 자기주도학습센터 연계 프로그램 확대, 낙인 효과를 해소하는 온라인 튜터링 및 학습지원 담당교사 연수 강화"
+            },
+            {
+                id: 20,
+                part: 1,
+                title: "전남형 역량중심(JB) 교육과정 개발",
+                group: "중등교육과정정책동아리",
+                page: 61,
+                content: "지식 전달 위주 수업을 넘어 2022 개정 교육과정 및 학생부종합전형과 정합성이 높은 IB의 탐구·과정중심 평가 체제를 전남 현실(해양·생태·문화 자원)에 맞게 재구성한 중등 '전남형 역량중심(JB) 교육과정' 도입이 필요함.",
+                recommendation: "• 고등학교 단계 'JB 고시외 과목(지역과 세계를 잇는 프로젝트, JB형 통합 논술 등)' 및 '전남형 TOK/EE/CAS 창의적 체험활동' 개발·시범 운영\n• 전남의 교육가치를 결합한 'JB 학습자상', 평가 루브릭 및 대입 연계 포트폴리오 관리 시스템 개발\n• 단계적 교원 연수(기본·심화) 체계 확립 및 전남교육청 독자적 'JB 인증학교 지정제' 중장기 도입"
+            },
+            {
+                id: 21,
+                part: 1,
+                title: "전남 '의(義)' 교육, 글로컬 실천 모델 개발 방안",
+                group: "전남 학생 주도 의(義)교육 모델 연구회, 의(義)너지",
+                page: 65,
+                content: "여순사건·5·18 등 전남의 역사적 '의(義)' 정신을 평화·인권 등 세계 보편 가치와 연결하고, 수동적 학습에서 벗어나 학생 스스로 주제를 정해 행동하고 성찰하는 학생 주도형·디지털 기반 의(義)교육 모델이 필요함.",
+                recommendation: "• 지역 의(義) 정신과 세계적 이슈(평화·인권)를 연계한 글로컬 융합 교육과정 제도화 및 PBL 수업자료 보급\n• 독서인문교육 연계 학생 주도형 실천·성찰 모델 『나의 義, 나의 행동』 및 디지털 성찰 기록 플랫폼 도입\n• 지역 역사 자원 활용 'AI 기반 VR 가상 체험 시스템' 및 다문화 포용 콘텐츠 구축, 지역 전문가 컨설팅단 연계"
+            },
+            {
+                id: 22,
+                part: 1,
+                title: "학생 주도성을 기르는 자치활동",
+                group: "학생주도성·자치 연구회",
+                page: 68,
+                content: "다수 학교의 학생자치가 회장단 중심 행사 기획이나 교사 주도(2~3단계)에 머물러 있음. 학생과 교사가 동등한 파트너(5단계)로서 학교 운영과 지역사회 문제 해결에 참여하는 '배움 속의 자치' 체계를 확립해야 함.",
+                recommendation: "• 주 1회 학급 자치의 날 + 월 1회 전교생 자치의 날 확보 및 '의견 수렴 → 학생총회 → 토론 → 실행 → 평가' 의사결정 절차 표준화\n• 학생 발굴 의제를 학교 검토 후 지자체에 공식 건의·환류받는 '지자체 건의 시스템(지역 참여 민주주의)' 도입\n• 교사의 퍼실리테이터·코칭 연수 확대 및 '학생 전담 자치 코디네이터제'·AI 온라인 자치 플랫폼 운영"
+            },
+            {
+                id: 23,
+                part: 1,
+                title: "학생상담 활성화",
+                group: "전남전문상담연구회",
+                page: 71,
+                content: "위기학생 증가에도 소규모학교는 전문상담교사 미배치로 순회상담에 의존하며, Wee센터와 Wee클래스 간 역할 혼선 및 인사 이동에 따른 업무 단절, 과중한 행정업무로 인해 상담교사 소진과 사각지대가 발생하고 있음.",
+                recommendation: "• 도교육청 직속 'Wee프로젝트 지원센터' 설립(22개 지원청 Wee센터 총괄 지원, 운영지침 표준화 및 업무 일관성 확보)\n• 학교급·규모별 전문상담교사 정원 확충 및 채용·여비 등 행정업무 전담 지원인력 배치로 상담 시간 보장\n• 위기학생 조기 발굴 및 작은학교 예방 프로그램 강화, 상담 데이터 통합관리 및 슈퍼비전 제도화"
+            },
+            {
+                id: 24,
+                part: 1,
+                title: "학업중단 예방 정책 연구",
+                group: "학업중단 예방 연구회(중등)",
+                page: 74,
+                content: "2025년 설문 결과 학생은 '공부 흥미 부족·진로 고민, 성적 부담'을, 교사는 '친구 관계, 흥미 부족, 우울·불안'을 주된 학업중단 원인으로 꼽아 인식 차이가 존재함. 원인별 맞춤형 개입과 상급학교 진학 시 정보 단절 해소가 필요함.",
+                recommendation: "• [보편적 예방] 매년 3월 위기학생 전수조사, 학업중단 예방의 날 신설 및 현장 지원단 컨설팅 강화\n• [선별적 예방] 요인별 집중 지원(친구관계: 샘품·친품지원단·회복적 대화 / 우울·흥미부족: 전남형 대안교실 LINK-S, 학업중단숙려캠프 신설)\n• [연계·대안] 학생맞춤통합지원과 연계한 초·중·고 학업중단 위기 정보 연계망 구축 및 대안교육 위탁기관·학교 밖 청소년 학력취득 지원 강화"
+            },
+            {
+                id: 25,
+                part: 1,
+                title: "미래 교육을 위한 전남 특수교육 지원 방안",
+                group: "특수교육 연구회",
+                page: 77,
+                content: "특수교육 현장실습이 장애인 의무고용률(3.4%) 달성 위주로 운영되어 정규 수업권 침해, 중증장애인 편중 선발, 근로계약 체결에 따른 훈련생 법적 지위 혼란(직업교육훈련 촉진법 위반 우려) 등 구조적 개선이 시급함.",
+                recommendation: "• 학교-기관-고용이 유기적으로 이어지는 3단계 장애인 일자리 모델 구축: 1단계(특수학교 고교·전공과 대상 '현장실습형 학교 내 직무훈련') → 2단계(만 19~34세 장애청년 대상 교육지원청·도서관·직속기관 '인턴십형 일자리 2년') → 3단계(인턴십 이수자 중 선발하는 무기계약 '고용안정형' 및 통합특별시청·산하기관 '취업연계형 일자리')\n• 장애인고용공단·발달장애인훈련센터·직업능력개발원 및 통합특별시청 MOU 체결로 지속가능한 고용 생태계 조성"
+            },
+            {
+                id: 26,
+                part: 1,
+                title: "직업교육과정 개선 방안(글로컬 교육과정, 학과 개편)",
+                group: "중등분과 전남교육현장네트워크",
+                page: 79,
+                content: "전남 직업계고는 학령인구 감소와 산업구조 변화 속에서 교육과정 경직성, 학과 쏠림, 교원 재교육 부족 등의 한계를 겪고 있음. 전남 주력 산업(해양·농생명·에너지·관광)과 글로벌 역량을 결합한 재구조화가 필요함.",
+                recommendation: "• 해양ICT·스마트농생명 등 지역 핵심 산업과 국제 표준·외국어·데이터 교육을 결합한 '모듈형 글로컬 교육과정' 도입 및 융합트랙 학과 개편\n• 권역별 '거점학교 공유 허브' 구축(예: 목포공고 공업AI, 목포여상 비즈니스, 목포중앙고 K-영상, 목포성신고 K-푸드 등 고가 장비·전문교원·원격실습 공유)\n• 교원 산업체 연수·복수분야 지도 인증 트랙 신설 및 다문화·유학생 연계 제2외국어 학습 확대"
+            },
+            {
+                id: 27,
+                part: 1,
+                title: "전남광주통합특별시 지역연계형 광역 진로교육 체계 구축",
+                group: "2030전남교육정책연구회",
+                page: 81,
+                content: "전남·광주에 우주항공·AI·반도체·에너지·해양 등 우수한 미래산업 인프라가 있으나 기관 간 칸막이 운영과 단편적 견학 위주 진로체험으로 청년 인재 유출이 지속됨. 초광역 통합에 맞춘 상시 산학연계 진로 생태계가 필요함.",
+                recommendation: "• 3대 권역별 「통합형 거점 진로융합센터」 구축(동부권: 우주항공·생태 / 서부권: 에너지·해양 / 광주권: AI·반도체·문화예술) 및 통합 온라인 진로 플랫폼·진로코치 인력풀 가동\n• 고교-대학-기업 연계 「미래인재 매칭 링크(Link)」 운영(대학 실험실·기업 현장 개방 고교학점제, 대학생·연구원 '꿈이음 멘토단' 1:1 매칭, 진학-인턴-지역취업 프리패스 MOU)\n• 「온(On)동네 미래 배움터(펼쳐드림 상설 체험존)」 지정, 학교급별 PBL 프로그램 개발 및 원거리 학생용 '펼쳐드림 버스' 운행"
+            },
+            {
+                id: 28,
+                part: 1,
+                title: "학생 마음건강 통합 지원 체계 구축",
+                group: "2030전남미래교육연구회",
+                page: 84,
+                content: "연 1~2회 일제식 정서·행동특성검사만으로는 공백기 위기 신호를 상시 포착하기 어렵고, 대도시 집약형(광주)과 도서벽지 분산형(전남, 60명 이하 작은학교 50%·상담교사 배치율 35%)의 여건 차이를 반영한 통합 모델이 필요함.",
+                recommendation: "• [예방] 전남·광주 공동 모듈형(1·5·10·17차시) 사회정서교육 교육과정 개발·보급\n• [상시 발견] 매일 디지털 등교 체크인('마음날씨') 도입으로 정서 급락·무응답 패턴 조기 포착 및 학맞통 연계 '마음이음 통합 창구'·검사 서식 표준화\n• [치유·회복] 도서벽지 순회·비대면 1:1 밀착케어 '마음건강 챙기미(주 1회 상담)' 운영, 5개 생활권 정신건강전문가 긴급지원단·마음바우처 표준화 및 AI 기반 초·중·고 종단 상담 DB 구축"
+            },
+            {
+                id: 29,
+                part: 1,
+                title: "지역 자원을 활용한 체험 중심 체육수업 혁신 모델 확산",
+                group: "전남교육현장네트워크 체육분과",
+                page: 87,
+                content: "학교 체육수업이 운동장·체육관 내 기능 위주로 운영되어 전남의 풍부한 해양·산림·생태 자원 및 지역 공공체육시설 활용이 미흡함. 학교 밖 체험형 체육활동을 가로막는 이동·행정·안전 부담을 해소해야 함.",
+                recommendation: "• 해양스포츠·생태걷기·전통놀이·지역 공공체육시설 연계 체험형 체육수업 모델 개발 및 학교별 운영비·이동 차량 예산 확대\n• 지자체·체육회 협력 네트워크 및 학교 체육수업 연계 '지역 체육시설 정보 플랫폼' 구축\n• 학교 밖 체육활동 표준 안전 매뉴얼·지원 인력 배치 및 현장 체험형 교원학습공동체 연수 확대"
+            },
+
+            // ==================== 2부 (연번 30 ~ 41) ====================
+            {
+                id: 30,
+                part: 2,
+                title: "마음의 상처를 보호해 주세요 (예방 중심 교육활동 보호 지원관 도입)",
+                group: "함께 만드는 교육발전특구현장연구회",
+                page: 92,
+                content: "현행 교권보호 정책은 교권침해 발생 이후 소송·치유 등 사후 대응에 치우쳐 있어, 교육활동 침해 소지가 있는 반복·악성 민원을 사전에 필터링하고 학교-학부모 갈등을 초기에 중재하는 예방 체계가 부족함.",
+                recommendation: "• 교육지원청 단위 전담 인력인 '교육활동 보호 지원관'을 배치하여 학교 민원 우선 접수·분류(교육활동/행정/갈등민원) 및 초기 갈등 중재 수행\n• 반복·악성 민원 처리 이력 데이터베이스화 및 학교별 편차 해소를 위한 유형별 표준 대응 매뉴얼 보급\n• 신입생 학부모 대상 학교 이해·민원 절차 교육 정례화 및 피해 교원 심리·법률·복귀 원스톱 지원"
+            },
+            {
+                id: 31,
+                part: 2,
+                title: "책임의 무게를 다시 묻습니다 (교사 보호 공적 책임 시스템 구축)",
+                group: "전남초등도덕교육연구회",
+                page: 95,
+                content: "담임교사 1인이 수업·상담뿐 아니라 현장체험학습 계약·안전관리·악성 민원·법적 위험까지 홀로 감당하는 '1인 전가형 구조'로 인해 교육활동이 위축됨. 학교·교육청·지역사회가 함께 책임지는 공적 시스템 전환이 시급함.",
+                recommendation: "• [학교] 반복·악성 민원은 교사 개인이 아닌 학교 관리자와 전담부서가 공식 대응하고, 수련회·수학여행 등 현장체험학습 시 행정실·관리자·안전담당자 역할 분담 시스템 확립\n• [교육청] 무분별한 아동학대 신고·안전사고 발생 시 교육청 법률·심리·중재 전담 조직이 즉각 공동 개입\n• [지역사회] 지자체·경찰·청소년상담기관과 연계하여 학폭 예방·위기학생 상담·안전교육 분담 운영"
+            },
+            {
+                id: 32,
+                part: 2,
+                title: "작은 명함 한 장이 주는 힘 (교원 공식 명함 보급)",
+                group: "함께ON_전남교육",
+                page: 98,
+                content: "학부모 상담이나 외부 기관 협의 시 교사의 소속과 역할을 공식적으로 소개할 수단이 부족하고 개인 휴대전화 노출에 따른 사생활 침해 우려가 큼. 공적 위상과 신뢰를 높이는 공식 소통 도구가 필요함.",
+                recommendation: "• 전남형 교사 명함 표준 디자인 보급(학교명·성명·직위·담당 학년/과목/업무 기본 표기, 전문분야 선택 표기)\n• 개인 휴대전화 대신 학교 대표번호·부서번호·안심번호를 기재하고 학교 누리집·상담 예약 채널로 연결되는 QR코드 탑재\n• 신규 임용·전보·보직 변경 시 업무포털에서 원클릭으로 신청·재발급하는 간편 지원 체계 및 모바일 명함 연계"
+            },
+            {
+                id: 33,
+                part: 2,
+                title: "전남 미래학교 구현을 위한 초등수업 실행 지원 방안",
+                group: "미래수업연구회",
+                page: 101,
+                content: "학령인구 감소와 디지털 전환 속에서 초등교사가 미래교육의 주체로 수업 실행력을 발휘하려면 AI 기반 교수학습 플랫폼, 유연한 공간 재구조화, 체계적인 수업 전문성 인증 및 지역 협력 생태계가 뒷받침되어야 함.",
+                recommendation: "• AI 학습분석·수업자료 자동화·디지털 포트폴리오를 지원하는 'AI 기반 수업 실행 지원 플랫폼' 구축\n• '미래학교 수업전문교사 인증제' 법제화, 2030교실 실습랩 및 AI·에듀테크 수업디자인 아카데미 운영\n• 2030교실형 유연교실 공간 재구조화, 수업연구공동체 예산 지원 및 대학·기업 연계 '미래수업 실습센터'·마을 학습 플랫폼 구축"
+            },
+            {
+                id: 34,
+                part: 2,
+                title: "교원의 교육과정 문해력 신장 방안",
+                group: "무안성장교육과정연구회",
+                page: 104,
+                content: "2022 개정 교육과정은 교원이 '교육과정 설계자'로서 성취기준을 해석·재구성할 것을 요구하나, 설문 결과 교원의 70%가 성취기준 적용에 어려움을 겪고 60% 이상이 재구성 경험이 부족하여 체계적 역량 강화가 시급함.",
+                recommendation: "• 교원 생애주기별 교육과정 문해력 연수 의무화 및 인사평가 반영(신규·저경력: 성취기준·이해 중심 / 중견·고경력: 재구성 및 학교자율과정 설계 중심 차등화)\n• '자기 진단 → 맞춤형 연수 → 학교 간 공유 → 환류'의 순환형 지원 시스템 및 상시 컨설팅 구축\n• 학교 안팎 전문적 학습공동체(PLC) 내실화 및 성과 나눔을 통한 협력적 교육과정 설계 문화 정착"
+            },
+            {
+                id: 35,
+                part: 2,
+                title: "교원 코칭 역량 강화 및 참여형 교육과정 운영 방안",
+                group: "Co-EDU 초등 코칭·교육과정 연구회",
+                page: 106,
+                content: "학생의 내적 동기와 자기 성찰을 이끄는 핵심 열쇠는 교사의 '코칭 질문과 대화 역량'임. 프로젝트 학습 및 주제통합 수업에서 학생 주도성을 극대화하기 위해 교원 코칭 역량 체계화와 공동 설계 시간 확보가 필요함.",
+                recommendation: "• 신규 교사 및 승진 예정자 대상 단계별 코칭 직무연수(코칭 질문·교육과정 코칭·생활지도 코칭) 의무 과정 개설\n• 현장 교사를 '코칭 티처(전문가 인력풀)'로 양성하여 단위학교 맞춤형 연수·컨설팅에 투입\n• 코칭 기반 수업 선도학교 지정 지원 및 교원 업무 경감을 통한 '수업 분석·교육과정 공동 설계 시간' 확보"
+            },
+            {
+                id: 36,
+                part: 2,
+                title: "교원 안전을 지원하는 드론 기반 동행 체계 구축 방안",
+                group: "안심동행 연구회",
+                page: 108,
+                content: "도서·벽지 학교에서 관사로 이어지는 퇴근길은 가로등과 인적이 드물어 야간 자율학습·상담 후 퇴근하는 교직원의 치안 공백과 불안감이 큼. 고정형 CCTV 설치 한계를 넘어선 첨단 이동형 안심 동행 체계가 필요함.",
+                recommendation: "• 복합형 '스마트 안전 동행' 디바이스 구축: 평시에는 앱 호출로 교사 보행 속도에 맞춰 자율 비행·조명하는 '안전 드론(스카이 가드)', 강풍·우천 시에는 '사족보행 로봇개(그라운드 가드)'가 관사까지 동행 후 스테이션 자율 복귀\n• AI 센서(비명·이상 움직임 감지) 및 스마트폰 비상버튼 연동으로 위급 시 경고음 발생 및 관할 파출소·관리자에게 실시간 현장 영상 전송\n• 영상 30일 후 자동 파기 및 열람 제한 등 철저한 프라이버시 보호 지침 수립, 향후 학생 안심 귀가·마을 방범으로 확장"
+            },
+            {
+                id: 37,
+                part: 2,
+                title: "학교 소규모 기자재 효율적 활용 방안",
+                group: "기지개(기자재 활용 지금부터 개선)",
+                page: 110,
+                content: "소규모 교육 기자재가 일회성·중복 구매되거나 인사 이동 후 방치·분실되는 비효율이 발생하며, 도서 지역은 통합예약시스템 접근성도 낮음. 사용자 중심 이력 관리와 지역 단위 물품 공유 체계 구축이 필요함.",
+                recommendation: "• '소규모 기자재 개인 등록제' 도입: 단가 10만~500만 원 기자재를 실사용 교직원 명의로 RFID 태그 등록·관리하고, 교사 전출 시 1,000만 원 이하 물품은 에듀파인 자체 승인으로 이동 후 학교로 간편 관리전환(조례 시행규칙 개정)\n• 22개 시·군 교육지원청 내 '교육물품 공유지원센터' 및 지역별 통합예약시스템 구축으로 미사용 기자재를 인근 학교·마을학교·학부모회와 공유(보증제·반납 알람 도입)"
+            },
+            {
+                id: 38,
+                part: 2,
+                title: "문해력 향상 방안 연구 (국어과 독서·모둠·말하기 중심 수업)",
+                group: "중등문해력향상연구회",
+                page: 114,
+                content: "스마트폰·영상 매체 익숙화로 중학생들의 자발적 독서 경험과 문해력이 급격히 저하됨. 형식적인 아침 독서 대신 정규 수업 시간 내 책 읽기와 모둠 기반 말하기·수행평가를 결합한 실천적 독서 수업이 효과적임.",
+                recommendation: "• 교과서 진도 위주에서 벗어나 성취기준에 맞춘 '수업 시간 내 독서 시간 확보' 및 모둠 협력 독후 활동(게임·토론·음성언어 발표) 전개\n• 수업 중 독서·말하기 활동을 수행평가(비중 60% 확대) 및 지필평가 서·논술형 문항과 연계하여 문해력 과정 평가 강화\n• 독서 지도 우수 수업 참관 기회 확대, 교사 연수 지원 및 전 교과 연계 절대적 독서 시간 확보"
+            },
+            {
+                id: 39,
+                part: 2,
+                title: "「자연탐구활동 지도자료개발」 정책 제안",
+                group: "여수초등과학연구회",
+                page: 116,
+                content: "자연관찰탐구대회 참가와 과학 탐구활동에 대한 교사들의 관심은 높으나, 체계적인 관찰·탐구 지도 매뉴얼이 없어 담당 교사 개인 역량에 의존하고 있음. 학생의 과학적 탐구 기본기를 기르는 표준 지도자료가 시급함.",
+                recommendation: "• 대회 대비용을 넘어 초·중 학년별 과학교육 목표에 맞춘 '자연탐구활동 기본기 지도 매뉴얼·관찰 기록지·평가 기준' 개발(초기 1~2개 영역 우선 개발 후 식물·동물·환경 전 영역으로 단계적 확장)\n• 전문 교사로 구성된 '자연탐구활동지도 지원단' 지정 및 교사 연수 운영으로 학교 간 지도 격차 해소\n• 지도자료·우수 보고서 아카이브 및 실시간 피드백을 제공하는 온라인 '탐구 활동 지원 플랫폼' 구축"
+            },
+            {
+                id: 40,
+                part: 2,
+                title: "전남형 에듀테크 디딤돌 지원 체계 구축",
+                group: "전남중등정보교과연구회 셈틀지기",
+                page: 119,
+                content: "중등 교원의 에듀테크 역량이 기초·중급·심화 3집단으로 뚜렷이 나뉘나 평균 수준의 일회성 강의식 연수가 주를 이루고, 도서·산간 교원은 거리·대체 인력 부족으로 참여조차 어려워 교실 간 디지털 수업 격차가 발생함.",
+                recommendation: "• 자가진단 기반 맞춤형 3단계 연수 트랙 운영: 기초 '디딤'(디바이스·수업도구 1개 완전 습득, 8~15h) → 중급 '이음'(교과 수업설계·평가 연계, 15~30h) → 심화 '높임'(AI·데이터 수업 및 마스터교원 양성, 30h+)\n• 학교 단위로 찾아가는 컨설팅·운영비·컨퍼런스를 패키지 지원하는 '디지털 교실 디딤돌 학교' 시범 운영 및 권역별 거점센터 지정"
+            },
+            {
+                id: 41,
+                part: 2,
+                title: "전남광주형 학교교육과정 특성화 지원 체제 구축",
+                group: "2030전남교육정책연구회",
+                page: 122,
+                content: "전남·광주 통합 이후 서부권(작은학교·원거리), 동부권(중소규모·지역산업·생태), 광주권(대규모·과밀학급·다양한 선택 수요)은 교육 여건이 상이하여 본청 중심 일괄 지원에서 권역별 전문 지원 체제로 전환해야 함.",
+                recommendation: "• 총괄 연구·개발·평가를 담당하는 '(가칭)전남광주교육과정개발평가원' 설립 및 3개 권역별(서부권·동부권·광주권) 교육과정 센터 연계 구축(장학관·연구사·수석교사 등 전담 배치)\n• 권역별 중점 기능 차별화(서부권: 작은학교·공동·원격교육과정 / 동부권: 지역산업·생태·전환기 연계 / 광주권: 학생 선택형·학교자율시간 다양화)\n• 학교교육과정 프레임워크·평가 준거 보급, 상시 컨설팅 및 권역별 교육-산업 포럼 정례화"
+            },
+
+            // ==================== 3부 (연번 42 ~ 70) ====================
+            {
+                id: 42,
+                part: 3,
+                title: "선생님 차에서 교육택시·콜밴으로 (소규모 이동학습 지원)",
+                group: "작은학교활성화 연구회",
+                page: 126,
+                content: "농산어촌 소규모학교가 체험학습·공동교육과정을 운영할 때 소수 인원이라 전세버스 임차는 비효율적이고, 교사 개인 차량 이용은 사고 시 법적 책임·보험 문제로 위험 부담이 커 공적 소규모 이동수단 지원이 절실함.",
+                recommendation: "• 소규모학교 현장체험학습·공동교육과정·지역 연계 활동 대상 '교육택시·콜밴 이용 지원사업' 신설\n• 개별 학교 계약 부담 해소를 위해 교육지원청이 지역 택시·콜밴 업체를 사전 파악하고 신청·배차·계약·정산을 일괄 지원\n• 차량 보험·운전자 자격·동승자 배치 등 학생 이동 안전관리 기준 수립 및 교사 개인 차량 동원 원칙적 금지"
+            },
+            {
+                id: 43,
+                part: 3,
+                title: "학교가 안전한 공간이길 (Vision AI 및 정서 안심 AI 안전망)",
+                group: "전남중등영상교과연구회 함께ON",
+                page: 129,
+                content: "학교폭력, 교내 외진 곳 안전사고, 학생의 우울·자해 등 정서적 위기가 다각화되고 있으나 교사의 육안 순찰과 인지 자원만으로는 상시 모니터링에 한계가 있어 AI 기술을 결합한 선제적 예방 안전망이 필요함.",
+                recommendation: "• [물리적 안전망] 도교육청 일괄 계약으로 기존 교내외 사각지대 CCTV에 'Vision AI 이상 행동 감지(밀치기·쓰러짐·외부인 침입 실시간 알림, 모자이크 비식별화 적용)' 솔루션 연동\n• [심리적 안전망] 시공간 제약 없이 고민을 나누는 'AI 심리상담 어시스턴트 챗봇' 도입 및 자해·우울 고위험 키워드 감지 시 위기관리위원회·상담교사 즉각 알림(1차 필터링)\n• 방송·영상 교과와 연계하여 학생들이 직접 행동심리 기반 안전 숏폼·다큐멘터리를 제작·캠페인화"
+            },
+            {
+                id: 44,
+                part: 3,
+                title: "학부모 상담실 출입·녹화시스템 구축",
+                group: "교권보호연구회",
+                page: 131,
+                content: "학부모 상담 과정에서 폭언·협박·무단 녹음이나 상담 내용 왜곡이 발생해 교원의 교육활동이 위축되고 사실관계 확인에 어려움을 겪음. 교권 보호와 학부모 신뢰를 동시에 담보하는 객관적·공정한 상담 환경이 필요함.",
+                recommendation: "• 학부모 상담실 입구 '출입 키오스크(본인 확인·방문 목적·출입 시간 자동 기록)' 및 내부 '영상·음성 녹화 시스템' 표준 모델 구축\n• 상담 예약 단계부터 문자·홈페이지로 녹화 목적·보관 기간·열람 제한을 사전 고지하고 동의 절차를 표준화\n• 분쟁 조정 및 교권침해 확인 등 제한된 목적 외 열람을 엄격히 통제하는 관리 책임자 지정 및 교직원 갈등 응대 연수 병행"
+            },
+            {
+                id: 45,
+                part: 3,
+                title: "작은학교 이야기 (전남농산어촌유학 시행 지침 현장성 보완)",
+                group: "작은학교 연구회",
+                page: 136,
+                content: "전남농산어촌유학이 대표 브랜드로 정착했으나, 현행 지침은 진입 절차 위주여서 중도 종료 시 복잡한 다원화 정산(도교육청·지자체·원적교), 필수 정보(학폭·질환) 미고지 및 마찰 시 학교장 단독 결정 부담, 농가 안전 점검 주체 모호 등 현장 애로가 큼.",
+                recommendation: "• [지침 Ⅳ항 개정] 전출입 날짜만 입력하면 기관별 반환액이 자동 산출되는 '유학경비 통합 표준 일할 정산 엑셀 프로그램' 개발·부록 의무화\n• [지침 Ⅲ항 1,2 개정] 신청 시 원적교 생활기록부 사전 검증을 명시하고, 갈등 시 '1단계 학교 협의 → 2단계 지원청 상생협의체 중재 → 3단계 도교육청 최종 판정·중도종료 고시'의 3단계 중재 절차 명문화\n• [지침 Ⅲ항 3 개정] 교육지원청-지자체 합동 '유학 안전 패트롤(연 2회 소방·위생 전수 점검)' 의무화 및 행복택시 통학 연계"
+            },
+            {
+                id: 46,
+                part: 3,
+                title: "미래 전남형 글로컬 도서관 기능 수행",
+                group: "그래(G&LE)",
+                page: 139,
+                content: "인구감소지역이 전국 최다(18곳)인 전남에서 공공도서관과 학교도서관은 지방소멸 위기를 극복할 핵심 교육·문화 거점임. 그러나 사서교사 배치율(16.14%)이 전국 최저이고 본청 도서관 정책 부서가 이원화되어 있음.",
+                recommendation: "• [콘텐츠·서비스·공간] AI 도서 추천·VR·전자책 확충, 다문화 이중언어 및 고령층 디지털 문해 교육, 도서관 미설치 지역(강진·완도) 건립 및 노후 도서관 리모델링·신축 이전\n• [학교도서관 지원] 학교도서관지원센터를 3개 권역에서 22개 전 교육지원청으로 확대하고, 사서교사 미배치교에 일반직 사서 공무원 충원 배치\n• [조직 일원화] 본청 내 이원화된 공공·학교도서관 업무(글로컬미래교육과·행정과)를 통합한 '도서관 정책 전담부서' 신설 및 전문 사서직 배치"
+            },
+            {
+                id: 47,
+                part: 3,
+                title: "전남형 'K-미래도서관' 완성 (허브 앤 스포크 생태계 구축)",
+                group: "비전디자인 Lab",
+                page: 142,
+                content: "현재 3권역 학교도서관지원센터는 관할 범위가 너무 넓어 촘촘한 현장 지원에 제약이 있으며, 독서인문교육과 평생교육 기능이 분리되어 있고 지역 문화·관광 자원과의 결합도 부족함.",
+                recommendation: "• 본청 독서인문교육팀과 평생교육팀을 통합한 '(가칭)도서관정책팀' 신설\n• 장성도서관에 학교도서관지원센터를 추가 설치하여 4대 권역 허브(목포·나주·학생교육문화회관·장성, 사서·연구사 증원) - 시·군 도서관 - 단위 학교도서관을 잇는 '허브 앤 스포크(Hub & Spoke)' 지원망 완성\n• 지역 정체성을 반영한 도서관 브랜드 네이밍(예: 고흥미래별·신안바다책향기·보성다향문화도서관) 및 몰입 체험존·관광 동선 연계"
+            },
+            {
+                id: 48,
+                part: 3,
+                title: "미활용 공간(휴·폐교) 재생 활용 방안",
+                group: "미(美)공간 재생 활용 방안 연구회",
+                page: 145,
+                content: "전남 폐교(118교) 및 휴교(13교)가 지속 증가하며 지역 공동체 붕괴를 가속화하고 있으나, 노후 건물이 감정평가액에 반영되어 매각을 저해하고 휴교는 방치되어 관리비만 소모되는 수동적 관리에 머물러 있음.",
+                recommendation: "• 폐교 전 단계인 '휴교' 시기부터 지자체와 MOU를 맺어 무상 대부·공동 관리함으로써 유지관리비를 절감하고 지역 주민 복지·귀농귀촌·문화 공간으로 선제 활용\n• 매각을 저해하는 안전등급 하위 노후 건물은 예산을 반영해 과감히 선(先)철거하고 주민 동의 요건 완화·지자체 수의계약 활성화\n• 휴·폐교 실시간 정보를 제공하는 통합 매칭 플랫폼 구축 및 재산 담당 공무원 직위공모제·승진 가산점·외부 전문가(LH 퇴직자 등) 채용"
+            },
+            {
+                id: 49,
+                part: 3,
+                title: "다산학생수련원 중심 학생수련장 재편",
+                group: "비전디자인 Lab",
+                page: 149,
+                content: "2030년 개원 예정인 다산학생수련원(강진) 설립에 발맞춰 기존 학생교육원 산하 6개 학생수련장의 기능 중복과 시설 노후화, 지원 인력 부족에 따른 이용 기피 현상을 해소할 일원화된 운영 체계가 필요함.",
+                recommendation: "• 다산학생수련원을 본원(4급 상당 컨트롤타워: 인성독서+도전수련+글로컬 2030교실)으로, 6개 수련장(월출·유달·백운·송호·지리산·나로도)을 권역 특화 분원으로 조직 일원화\n• 사계절 실내 스포츠·모험 테마파크형 시설(클라이밍·AR/VR 모션 스포츠 등) 도입 및 분원별 특화 테마(월출 캠핑, 유달 도시문화, 백운 숲치유, 송호 해양, 지리산 트레킹, 나로도 우주항공) 주말 가족 캠프 상설화\n• 예약·강사풀·안전관리·학생 이력을 원스톱 처리하는 단일 통합 플랫폼 구축"
+            },
+            {
+                id: 50,
+                part: 3,
+                title: "'클라우드데이터정책연구원' 설립 (교육연구정보원 확대·이전)",
+                group: "비전디자인 Lab",
+                page: 152,
+                content: "디지털 대전환 시대에 단순 전산·정보 관리를 넘어 교육 빅데이터 분석에 기반한 정책 예측·미래 교육모델 개발을 총괄할 전문 연구기관이 필요하며, 해남 AI데이터센터 등 지역 인프라와의 연계 및 본청 공간 부족 해소도 요구됨.",
+                recommendation: "• 현 교육연구정보원을 '(가칭)클라우드데이터정책연구원'으로 확대 개편(원장 3급 상당 격상, 산하에 교육정책연구소·개방형 클라우드데이터센터·교육미래전략부·행정정보부 편제)\n• 목포여고 이설 예정 부지 등 미활용 재산을 활용해 연구원을 확대 이전하고, 기존 정보원 건물은 회의·협업 공간이 부족한 본청 시설로 전환하여 공간 최적화\n• 클라우드 기반 스마트오피스 구축 및 학력 격차·교원 수급·통학 환경 등 빅데이터 기반 정책 시뮬레이션·현장 매뉴얼 제공"
+            },
+            {
+                id: 51,
+                part: 3,
+                title: "「다문화·지역인재 채용 가산점」 도입 정책 제안",
+                group: "별빛인사Lab",
+                page: 155,
+                content: "전남 다문화 학생 비율이 약 6%로 꾸준히 증가하고 청년 인구 유출이 심화되는 상황에서, 다문화 학생(대학 미진학률 38.1%)과 지역 고교·대학 졸업 인재가 전남 공직에 진입·정착할 수 있는 채용 연계 제도가 미비함.",
+                recommendation: "• 교육청 내 법·제도 검토 전담팀을 구성하여 '포용형 지역인재 채용제도' 단계적 도입\n• [교육공무직] 전남 고교 졸업자 및 다문화 인재 대상 채용 가산점 신설(급식·돌봄·행정보조 등 시범직군 우선 적용) 및 직무적응 멘토링 운영\n• [지방공무원] 지방공무원법·다문화가족지원법에 근거한 구분모집제도 법적 검토 및 임기제 공무원 중심 다문화·지역인재 우대채용 시행"
+            },
+            {
+                id: 52,
+                part: 3,
+                title: "작은학교 적정규모 통합 및 지역 활성화 방안",
+                group: "전남형 적정규모학교 연구회",
+                page: 158,
+                content: "학령인구 감소로 소규모학교가 2029년 448교까지 늘어날 전망이며 복식학급·순회교사 증가와 사회성 발달 저해 등 교육격차가 우려됨. 단순 폐교가 아닌 지역 정체성과 결합한 '교육력 강화형 통합학교' 모델이 필요함.",
+                recommendation: "• 지역 여건에 맞춘 탄력적 적정규모 운영모델(거점형·기숙사 결합 개편형·권역 공동캠퍼스형·지역복합시설형) 개발 및 K-문화예술·지역산업·글로컬 테마 접목\n• 교육지원청·지자체·주민·학부모가 참여하는 '(가칭)지역별 적정규모학교 육성 협의체' 운영으로 사회적 합의 도출\n• 초·중등 교직과정 통합 운영 및 농어촌교육발전특별법 제정 건의, 통합학교 신증축·순환형 통학버스·학교복합시설 국비 연계 지원 확대"
+            },
+            {
+                id: 53,
+                part: 3,
+                title: "학교 행정 업무의 디지털 전환과 업무 간소화 방안 연구",
+                group: "교실로 시간을〈전남 스마트 학교업무 경감 연구회〉",
+                page: 162,
+                content: "한국 교원의 주당 행정업무 시간(8.0시간)은 OECD 평균(4.7시간)의 1.7배에 달하며, 교원(4.35점)과 행정직(1.80점) 간 업무 부담 인식 격차와 모호한 업무 분장, 중복 보고·수작업 서식으로 수업 전념이 저해되고 있음.",
+                recommendation: "• 교육청 주도 '고도화 AI 교육 행정 비서(공문·보고서 자동작성·챗봇)' 및 '업무 공유 커먼즈(표준서식·전자결재 연동 워크플로우)' 표준 플랫폼 도입\n• 교육청 단위 'AI·디지털 행정 지원센터(Help Desk)' 운영, 학교 업무 코디네이터 지정 및 교원-행정직 간 업무 경계 명확화(정보화 기기·CCTV·시설 관리 외부/전담 이관)\n• 불필요한 보고·중복 결재 폐지, 교육데이터 표준화 규정 제정 및 업무 로그 기반 피로도 모니터링·환류"
+            },
+            {
+                id: 54,
+                part: 3,
+                title: "학생 정신건강지원센터 설립 및 운영",
+                group: "지역 맞춤형 학생정신건강 모델 연구회",
+                page: 167,
+                content: "단기 상담 위주인 기존 Wee센터만으로는 장기간 누적된 학습 무기력·우울·자살 고위험군 학생을 예방부터 치유·병원 연계·사후관리까지 통합 지원하기 어려우며, 농산어촌은 전문기관 접근성도 극히 취약함.",
+                recommendation: "• 「학생정신건강지원센터 운영 조례」 제정 및 시·군 단위 거점 센터 설립(임상심리사·상담사·순회 전문상담교사 등 다학제 인력 배치, 농산어촌 순회상담 강화)\n• 위기학생 발생 시 학교 상담교사가 센터 전담 담당관에게 의뢰하면 '48시간 내 초기 개입'하는 원스톱 시스템 가동\n• 지역 대학·의료기관·학생맞춤통합지원과 협약하여 '예방교육(학기 1회) → 상담 → 병원 진료·치료 → 학업 멘토링·사회복지 사후관리' 통합 제공"
+            },
+            {
+                id: 55,
+                part: 3,
+                title: "학교와 학부모 간 권한 균형 확보를 위한 법률 제정 정책 제안",
+                group: "학교-가정 협력과 교육권 균형 연구회",
+                page: 172,
+                content: "교권침해의 47.3%가 학부모 민원에서 비롯되나 현행 법령은 학부모의 참여권만 폭넓게 규정하고 책무와 권한 경계, 사전 갈등조정 절차를 명시한 법적 장치가 미비하여 교원의 교육활동 자율성이 심각하게 위축됨.",
+                recommendation: "• 「학교-가정 협력 및 교육권 균형에 관한 법률(가칭)」 제정 추진(교원과 학부모의 권한·책임 경계 명문화 및 갈등조정 절차 법제화)\n• [단위학교] 생활지도·평가·교육활동 관련 사전 협의·조정 기구인 '학교교육협력위원회' 신설\n• [교육지원청] 법률·상담·갈등 중재를 전담하는 '교육권균형지원센터' 운영 의무화 및 교사·학부모 공동 공감 워크숍 정례화"
+            },
+            {
+                id: 56,
+                part: 3,
+                title: "시·군별 특화교육센터 설립 및 운영",
+                group: "전남 현장중심 글로컬 허브 연구회",
+                page: 175,
+                content: "전남 각 시·군의 고유한 산업·문화·생태 자원을 학교 교육과정(고교학점제·창체·진로체험)과 상시 연결할 실행 거점이 부족함. 교육지원청은 '행정 지원', 특화교육센터는 '교육 실행 허브'로 이원화하여 지역 인재 정주를 유도해야 함.",
+                recommendation: "• 「시·군별 특화교육센터 운영 조례」 제정 및 교육발전특구와 연계한 유형별 센터 설립(곡성·강진 농생명·푸드형, 완도·여수 해양·관광형, 순천·담양 문화·콘텐츠형, 고흥 우주항공 등)\n• 고교학점제 선택과목·지역문제 해결 프로젝트 개발, 대학·산업체 인턴십·청년 창업 연계 및 취업·정착 실적에 따른 지자체·교사 성과 인센티브제 도입\n• 지도 위에서 클릭 한 번으로 전남 전역의 특화 프로그램을 검색·예약하는 '전남형 글로컬 교육 플랫폼' 구축"
+            },
+            {
+                id: 57,
+                part: 3,
+                title: "지역 특화 교육발전특구 활성화 방안 연구회 (우수사례를 중심으로)",
+                group: "지역 특화 교육발전특구 활성화 방안 연구회",
+                page: 180,
+                content: "전남 21개 시·군이 교육발전특구로 지정(해양관광·에너지·미래농생명·K첨단산업 등)되었으나, 광양시를 제외하면 전국 우수사례 선정이 부족하고 단발성 체험에 그치는 한계가 있어 포항·정선·세종 등 선진 사례처럼 '교육-취업-정주' 선순환 구조가 필요함.",
+                recommendation: "• 교육청-지자체-대학-산업체 상설협의체 정례화 및 권역별 지자체 협력 거버넌스 구축\n• 단발성 행사를 지양하고 지역 특화 산업과 직결된 고교 학과 개편, 프로젝트 기반 학습(PBL), 지역 공기업·산단 취업 연계 트랙 신설\n• 교육발전특구 자체 통합 평가(진학률·취업률·정주율·만족도 KPI) 및 성과 공유 플랫폼 구축, 조례 제정을 통한 장기 재원 확보"
+            },
+            {
+                id: 58,
+                part: 3,
+                title: "교육발전특구의 지속가능운영을 위한 정책 방안",
+                group: "교육발전특구 연구회",
+                page: 183,
+                content: "돌봄·방과후·특구 사업이 모두 단위학교에 집중되면 학교 행정 부담만 가중되고 지역 산업·복지 정책과의 연결성이 떨어짐. 경상북도 등 우수 사례처럼 '지자체(컨트롤타워) - 교육청(전문성 지원) - 학교(수업 실행)'의 삼각 구조로 재편해야 함.",
+                recommendation: "• [지자체 주도] 지자체 통합 돌봄센터 운영 및 지역아동센터 방과후·토요 프로그램 위탁으로 학교의 돌봄 행정 부담 해소\n• [교육청 지원] 지자체-교육청 월 1회 상설 정책협의체 가동, 지역 산업 기반 특구형 교육과정 가이드라인·교사 컨설팅단 운영 및 교사-전문가 팀티칭 제도화\n• [학교 실행] '바이오-치유-생태-문화' 테마 중심 지역 연계 프로젝트 수업 상시화 및 학교 단위 특구 예산·시간 자율성 보장"
+            },
+            {
+                id: 59,
+                part: 3,
+                title: "교육발전특구 정책의 현장 적용 타당성 확보를 위한 개선 방안",
+                group: "전남교육발전특구 연구회",
+                page: 186,
+                content: "초등 교원 설문·면담 결과 교육발전특구가 상위 기관 주도의 하향식(Top-down) 성과지표 중심으로 추진되어, 특히 중소규모·농어촌 학교에서 취지 공감에도 불구하고 과중한 행정·보고 부담과 기피 현상이 발생하고 있음.",
+                recommendation: "• 교육지원청 내 중간 지원 조직인 '교육특구 실행지원팀'을 설치하여 실무 컨설팅·매뉴얼 안내 및 행정 부담 흡수\n• 학교 규모·유형별 차등화된 과제 적용(농어촌 소규모학교는 선택형 과제 부여 및 자율 운영 범위 대폭 확대)\n• 정책 수립 전 현장 교사·관리자·지자체가 참여하는 사전 협의체 및 실행 후 피드백 환류 시스템 제도화"
+            },
+            {
+                id: 60,
+                part: 3,
+                title: "AI기반 유-초-중-고 전환기 학교 적응 교육 강화 모델 개발",
+                group: "2030전남미래교육연구회",
+                page: 188,
+                content: "유-초, 초-중, 중-고 진학 전환기마다 심리적 불안과 학습 격차, 부적응이 증가하나 유-초 이음교육 외에는 일회성 행사에 그치고 전환기 적응을 진단·예측할 표준 지수와 학교 간 연계 데이터가 부재함.",
+                recommendation: "• 정서·심리·학력·관계·적응을 포괄하는 '전남형 전환기 학생 적응 지수' 개발 및 AI 기반 빅데이터 진단·학생맞춤통합지원 연동 플랫폼 구축\n• 전환기별 맞춤 교육과정 운영(유-초: 놀이·기초학습 / 초-중: 공동 주제중심 협력수업·진로탐색 / 중-고: 진로설계·고교학점제 연계) 및 새학기 적응 캠프 정례화\n• 교육지원청 전환기 통합지원팀·전담 상담인력 배치, 또래·선후배 멘토링 및 전환기 학부모 코칭 연수·지원 조례 제정"
+            },
+            {
+                id: 61,
+                part: 3,
+                title: "AI 맞춤형 멘토링 시스템 구축으로 일반고 교육력 제고",
+                group: "전남 일반고 에듀 UP",
+                page: 192,
+                content: "전남 일반고는 농어촌 소규모 학급 증가와 학생 유출로 교육과정 다양화와 대입 경쟁력 확보에 어려움을 겪고 있음. 고교학점제 안착과 학력 격차 해소를 위해 AI 학습분석·진로 멘토링과 수업·평가 고도화가 필요함.",
+                recommendation: "• [교실수업·평가 혁신] 수능형·과정중심 평가 문항 제작 연수 확대, AI 수업 분석 및 수능형 평가문항 AI 추천 서비스·에듀테크 융합교실 도입\n• [AI 맞춤형 멘토링] 학생별 학습이력·강약점 진단 모듈, 대학 전공·지역 산업 수요 연계 진로추천 알고리즘, 교사-학생-학부모 실시간 공유 대시보드 구축\n• [지원체계] '(가칭)AI 기반 일반고 교육력지원센터' 설립, 일반고 대입 현장지원단 운영 및 소규모학교 연합 온라인 공동교육과정·대학·기업 심화탐구 활성화"
+            },
+            {
+                id: 62,
+                part: 3,
+                title: "학교교육활동중심 교육행정체계 구축 (연간 행정사이클 재설계)",
+                group: "미래교육행정연구회",
+                page: 195,
+                content: "도교육청·지원청의 주요업무계획과 각종 교육주간·수요조사·표창 공문이 12월~학사 일정 중에 산발적으로 시달되어 단위학교가 2월 새학년 집중준비기간과 3월 학기 초에 교육과정 중심 운영을 하는 데 큰 차질을 빚음.",
+                recommendation: "• 학교 교육과정 편성 주기에 맞춘 '연간 행정사이클 전면 앞당김': 본예산 수요조사(8월말→7월 중순 방학 전), 도교육청 주요업무계획(12월→10월), 지원청 주요업무계획 및 교육감 표창·조례 목록 안내(11월), 찾아가는 교육활동·교육주간 통합 안내(12월), 학교운영위원회 구성 및 학교교육계획 제출(3~4월→2월말), 연구학교 실행단계 착수(4월→3월 즉시)\n• 교육과정 반영이 곤란한 과다 조례·내규 전수 정비(통합 조례 개정) 및 부서별 '학교 업무경감 지수(행정강도 분석)' 도입"
+            },
+            {
+                id: 63,
+                part: 3,
+                title: "교사를 위한 AI 활용 수업 혁신 방안",
+                group: "AI활용수업혁신연구회",
+                page: 197,
+                content: "현장 교사들은 AI 도구를 수업에 써보고 싶어도 어떻게 시작할지 막막해하며, 복잡한 이론 연수보다 교과별 구체적인 수업 예시와 짧은 실습, 그리고 학생들이 정답만 베끼지 않도록 하는 과정중심 평가 가이드를 원함.",
+                recommendation: "• 교과별(국어 글쓰기 피드백, 사회 패들릿 토의, 과학 실험 예측 이미지 생성 등) 수업 예시와 주의사항을 담은 소책자·PDF 'AI 도구 활용 가이드북' 및 짧은 사용법 영상 보급\n• 학교 단위로 찾아가는 '1시간 실습형 워크숍(ChatGPT 학습지 제작 등)' 운영 및 온라인 수업 아이디어 공유 게시판 마련\n• 초등학생 눈높이에 맞춘 'AI 윤리·올바른 활용법' 영상·카드뉴스 보급 및 교육지원청 단위 AI 수업 콘퍼런스 개최"
+            },
+            {
+                id: 64,
+                part: 3,
+                title: "독서인문교육을 기반으로 한 쓰기 역량 강화 방안",
+                group: "새로운 학교문화 연구회",
+                page: 200,
+                content: "전남 독서인문교육이 활발히 추진되고 있으나 현장에서는 여전히 읽기나 개인적 독서감상문·일기 쓰기에 머무는 경우가 많음. '읽기 → 쓰기(성찰) → 질문 → 다시 읽기'가 순환되고 타인과 사유를 공유하는 플랫폼이 필요함.",
+                recommendation: "• 단순 게시판을 넘어 읽기와 쓰기, 질문과 성찰이 순환·공유되는 '독서인문 온라인 쓰기 활동 지원 플랫폼' 개발\n• 학교급·학년별 교육과정 내 실제적·문학적 글쓰기 형식과 수준별 인문 담론 주제를 체계적으로 탑재하고 학생 삶의 포트폴리오(배움과 성찰 아카이브)로 누적 관리\n• 향후 학부모·지역민까지 참여 범위를 확장하여 시민 독자가 '시민 작가'로 성장하는 지역 인문 생태계 구축"
+            },
+            {
+                id: 65,
+                part: 3,
+                title: "전남형 디지털 교육 생태계 전환 프로젝트 지원 방안",
+                group: "전남중등정보교과 셈틀지기",
+                page: 203,
+                content: "스마트기기가 전 학교에 보급되었으나 신청 기반 장시간 집합연수와 두꺼운 가이드북은 바쁜 교사들의 접근 비용을 높여 실사용으로 이어지지 못함. 신청하지 않아도, 읽지 않아도 바로 쓸 수 있는 '디폴트온(Default-On) 현장 지원'이 핵심임.",
+                recommendation: "• [온사이트 연수·코칭] 권역 순회 코칭단(20교당 1명)이 월 1회 학교를 방문하는 '교실로 찾아가는 틈새 15~30분 마이크로러닝' 및 실시간 수업 동행 코칭(Teach-With-Me, 모바일 장비 키트 지참, 요청 시 7영업일·긴급 48시간 내 대응 SLA 적용)\n• [초간편 자료] 기기 위젯으로 자동 배포되는 '1쪽 수업·업무 카드 50종' 및 교실·교무실 부착 '3분 튜토리얼 QR 스티커', 전 교원 90분 기기 클리닉 온보딩\n• [업무감축 패키지] 공문·가정통신문·회의록 자동 병합 템플릿 및 교무·행정 AI 어시스턴트, 학생 디지털 리더(EDU-LEAD) 운영"
+            },
+            {
+                id: 66,
+                part: 3,
+                title: "교육활동 중단 예방 및 미래 공직 정서 안전망 구축 통합 정책 및 자치 법규 개정 제안",
+                group: "금융경제교사_함께ON_전남교육현장네트워크",
+                page: 206,
+                content: "교직원의 정서 소진 경험률이 76.1%에 달하나 동료에게 업무가 전가될까 봐 붕괴 직전까지 버티는 악순환이 반복되고 신청주의 지원망은 한계가 뚜렷함. 싱가포르 웰니스 모델을 벤치마킹한 능동적 푸시(Push) 예방과 즉각적 대체 인력 투입, 6대 자치법규 개정이 필요함.",
+                recommendation: "• [능동적 예방 SOS-Push] 정서 건강검진 의무화(5·10년차 집중) 및 위기 시그널 감지 시 장학사·상담사·변호사 직통 연결 자동 발송, 분기별 회복탄력성 12개월 프로젝트 정규화\n• [동료 부담 제로 이중 안전망] 1단계 '수업 소생(Class CPR: 교사 공황 시 수석교사 즉각 임시 대행)' + 2단계 '원스톱 보결 전담 강사풀(사안 접수 1시간 내 즉시 파견)'\n• [통합 자치법규 6대 개정] ①입학·새학기 초 학부모 교권존중 교육 전산(NEIS/e알리미) 의무 이수제 ②효행·인성교육 계획 수립 시기 새학년 준비기간(1~2월) 일원화 ③공익제보자 구조금 감액 조항 삭제(100% 보장) 및 심리상담 연 15회 무상 지원 ④직장 내 괴롭힘 가해자 범위에 학운위·학부모회 외부 위원 포함(폭언 시 즉시 해촉·출입제한·고발 의무화) ⑤교직원 직무 안전(대피·녹취) 필수 연수화 ⑥위기 동료 구조 공직자 적극행정 인사 가점 신설"
+            },
+            {
+                id: 67,
+                part: 3,
+                title: "학교보건 행정 효율화 (업무 표준화 및 나이스 통합관리)",
+                group: "전남보건연구회",
+                page: 209,
+                content: "단위학교 보건교사가 학생 건강검진 병원 계약·예약과 교직원 잠복결핵 검진 수합을 개별 처리하느라 본연의 보건교육과 건강상담이 위축됨. 또한 만 12세 이상 중도입국 다문화·해외 유학생의 예방접종 이력 누락과 비용 부담으로 감염병 사각지대가 존재함.",
+                recommendation: "• 학생 건강검진 병원 배정·일정 조율 및 반복 보건행정을 교육지원청 중심으로 일원화하고 '학교보건 행정표준 매뉴얼' 배포(필요 시 교육청 공동 행정보조단 운영)\n• 교직원 잠복결핵 검진 실시 여부 및 최종 검사 연도를 나이스(NEIS) 인사기록 시스템에 통합 연계하여 인사이동 시 중복 확인 해소\n• 중도입국 다문화 학생 및 해외 유학생 예방접종비 지원, 보건소·다문화가족지원센터 연계 보완 접종 및 질병관리청(NIP) 해외접종 이력 연동"
+            },
+            {
+                id: 68,
+                part: 3,
+                title: "학생 통학복지 구현을 위한 지자체 협력 방안 (여수 웅천지구 중심)",
+                group: "학생통학복지연구회",
+                page: 213,
+                content: "인구 밀집 택지개발지구(여수 웅천지구 등) 학생들이 구도심 중학교(여선중·여천중·무선중)에 배정되면서 시내버스로 33~55분이 소요되고 44%가 학부모 차량·사설 임차차량에 의존하는 등 원거리 통학 불편과 안전 문제가 심각함.",
+                recommendation: "• 교육청과 지자체(여수시)가 50:50 공동 재원 분담 및 업무협약을 맺어 「여객자동차 운수사업법」상 '한정면허' 기반 학생 전용 통학 순환버스 도입\n• [시범사업: 웅천-무선 학생 전용 통학 순환버스] 45인승 대형버스 6대(2개 노선, 1일 등교 1회·하교 2회 직통 운행, 100원 버스 요금 적용) 운영으로 통학시간 30분 이내 단축\n• 운영 성과 분석 후 도내 원거리 통학 밀집 신도심·구도심 지역으로 표준 모델 단계적 확대"
+            },
+            {
+                id: 69,
+                part: 3,
+                title: "'전남 학교 공공요금 통합관리' 체제 구축",
+                group: "ECF-ON",
+                page: 217,
+                content: "학교 규모와 무관하게 매월 전기·수도·가스 고지서 확인, 품의, 지출결의를 모든 학교가 개별 반복 처리하여 특히 행정인력 1인 소규모학교의 부담과 연체 위험이 크며, 에너지 데이터가 분산되어 절감 정책 연계도 불가능함.",
+                recommendation: "• 도내 전 학교 공공요금 고객번호·계약전력을 전수 DB화하고, 한전·상수도사업소와 협약하여 학교별 개별 납부를 '교육지원청 명의 일괄 청구·통합 예산 편성·K-에듀파인 CMS 원클릭 대량 이체'로 전면 전환(종이 고지서 폐지)\n• '공공요금 통합 관리 시스템'을 구축하여 학교별 사용량 자동 집계, 누수·누전 등 급증 이상 징후 모바일 실시간 알림 및 한국에너지공단 연간 보고 자동 일괄 제출\n• 사용량 빅데이터 분석을 통해 에너지 효율 하위 학교에 LED·노후 냉난방기 교체 등 시설 개선 예산 우선 배정"
+            },
+            {
+                id: 70,
+                part: 3,
+                title: "교직원 맞춤형 '스마트 전남 관사 통합 시스템' 구축",
+                group: "ECF-ON",
+                page: 220,
+                content: "22개 시·군으로 인사 이동 범위가 넓은 전남 특성상 관사 의존도가 매우 높으나, 방 개수·내부 사진·노후도·옵션·대기자 현황 등 실거주 정보가 제공되지 않아 발령 때마다 주거 불안이 반복되고 단위학교별 관사 관리도 비효율적임.",
+                recommendation: "• 교직원 인증서(EPKI) 기반 폐쇄형 보안 웹/모바일 '스마트 전남 관사 통합 정보 시스템' 구축(관사 위치·내부 사진·평면도·난방방식·가전 옵션·준공/리모델링 연도·주변 인프라 시각화 및 실시간 퇴거·입주 매칭·원스톱 신청)\n• 구축 초기 학교 행정 부담 완화를 위해 교육지원청 '관사 정비지원단'이 사진 촬영·초기 등록을 대행하고 보수 이력(도배·누수 등) 디지털 누적 관리\n• 단위학교별 관사 관리를 '인근 행정구역 간 공동 관사 관리제'로 전환하고 객관적 배정 기준(가족 수·거리 등) 공개 및 LH 임대주택 정보 연계"
+            },
+
+            // ==================== 4부 (연번 71 ~ 79) ====================
+            {
+                id: 71,
+                part: 4,
+                title: "지역사회 연계형 정책 및 프로그램 개발 (행복마을 배움터 및 학생복지 통합지원)",
+                group: "전남 학생 행복 증진 교육 복지 정책 연구회",
+                page: 224,
+                content: "늘봄학교와 지역아동센터 간 돌봄 기능 중복, 기관별 취약계층 사례관리 데이터 분절, 농어촌·도서벽지의 학생교육수당 사용처 제약 및 전문상담 접근성 부족을 해결할 지역사회 연계형 통합 복지 모델이 필요함.",
+                recommendation: "• '1학교-1마을' 협약 및 공동운영위원회 기반 「전남형 행복마을 배움터」 운영(은퇴교사·대학생 1:1 학습멘토링, 지역 예술·체육인 체험, 미술·원예 심리치유, 방과후 돌봄 통합 제공)\n• 본청 직속 본부(1개소) 및 22개 교육지원청 분소 체제의 '학생복지 통합지원센터' 및 통합 데이터 플랫폼 구축\n• 농어촌·도서벽지를 순회하는 '찾아가는 상담버스(상담사·복지코디·진로상담사 탑승)' 및 폐교·도서관 유휴공간 활용 공유학습 플랫폼 운영"
+            },
+            {
+                id: 72,
+                part: 4,
+                title: "전남교육복지사업 통합 운영을 통한 효율성 제고 방안",
+                group: "전남교육복지사업연구회",
+                page: 228,
+                content: "유사 대상에게 복수의 현금성 복지 사업이 분절·중복 집행되어 학교 행정 부담이 가중되고 사각지대와 예산 비효율이 발생함. 일회성 현금 지원 위주에서 학생의 성장·회복 중심 통합 체계로 전환해야 함.",
+                recommendation: "• 「전남교육복지통합관리조례」 제정 및 전담 조직 '(가칭)전남교육복지통합지원단' 설치로 사업을 3대 유형(학생생활안정지원 / 학습역량강화지원 / 회복·성장지원)으로 통폐합\n• 현금성 지원 비중을 단계적으로 축소(60%→40%)하고 진로·사회참여 등 프로그램 참여형 지원 확대(40%→60%)\n• 교육급여·학생교육수당·다자녀교육비를 하나로 묶은 「꿈실현 공생카드」 및 원스톱 신청·조회 앱 개발, AI 기반 위기신호(출결·성적·상담) 예측 시스템 구축"
+            },
+            {
+                id: 73,
+                part: 4,
+                title: "세계와 함께 성장하는 지역시민(대중) 과학 교육환경 조성",
+                group: "전남형 글로컬 과학 교육 연구회",
+                page: 232,
+                content: "지역에서 지구적으로 생각하고 행동하는 역량을 기르고 도서벽지·소외계층을 포함한 모든 학생과 학부모·지역민이 과학을 향유할 수 있도록, 해외 과학교원 네트워크와 연계한 시민(대중)과학 프로그램이 필요함.",
+                recommendation: "• 전남과 해외 과학교원 네트워크 교류회 구축(시범 5단체 → 확대 20단체) 및 공동 연구 활성화\n• 학생·학부모·지역민이 함께 지역사회 문제를 과학적으로 발굴·해결하는 「글로컬 지역시민(대중)과학교육 프로그램(시범 5주제 → 20주제)」 개발·운영\n• 조성된 대중 과학 인프라를 기반으로 과학교육 소외지역 학생 대상 맞춤형 과학진로 캠프 및 과학문화 체험 대중화 확대"
+            },
+            {
+                id: 74,
+                part: 4,
+                title: "현대화 교육시설에 대한 유지관리 효율화 방안",
+                group: "지속 가능한 교육환경 구축 연구회",
+                page: 234,
+                content: "공간재구조화·스마트교실·신재생에너지 등 현대화된 학교 시설은 첨단·복잡 설비를 갖추고 있으나, 학교 내 전문 관리 인력이 없어 고장 대응이 늦고 하자보수 및 법정 안전점검이 학교 행정과 혼재되어 시설 열화와 부담이 가중됨.",
+                recommendation: "• 교육청 차원의 별도 '현대화 교육시설 유지관리 전담 조직' 신설 및 전기·기계·소방·신재생 분야 전문 기술인력 배치\n• 각급 학교 및 직속기관 현대화 시설 정기 순회 점검, 본청 특화 사업(공간재구조화·과학실 현대화 등) 통합 사후관리 및 법정 시설물(소방·전기·정화조·승강기) 안전점검 기술 지원\n• 시설공사 체계적 하자 검사·관리 및 사전 예방 정비를 통해 시설 수명 연장과 긴급 수리 예산 절감 달성"
+            },
+            {
+                id: 75,
+                part: 4,
+                title: "이주배경 학부모 지역형 원어민 보조강사 운영",
+                group: "전남이주배경학생교육연구회",
+                page: 236,
+                content: "해외 원어민 강사 초빙은 예산 부담과 농어촌 수급 편차가 크나, 전남 지역 내에는 중국어·일본어·영어·베트남어·러시아어 등 이중언어 역량과 학교 이해도를 갖춘 이주배경 학부모 자원이 풍부하여 이를 교육생태계로 연결해야 함.",
+                recommendation: "• 교육지원청 단위 '전남형 이주배경 학부모 원어민 보조강사 인력풀(등록·심사·학교 매칭)' 구축 및 농어촌 소규모교·원어민 미배치교 우선 지원\n• 교수법 기초·아동학대 예방·학교 안전 필수 연수 및 표준 수업안·교사 협업 체크리스트 보급(단독 수업이 아닌 교사 협력 보조강사로 역할 명확화)\n• 정규 외국어 말하기 보조, 창체 세계문화 수업, 방과후 이중언어교실, 학부모 상담 통번역 등 다각적 활용 및 시간당 수당·교통비·배상책임보험 지원"
+            },
+            {
+                id: 76,
+                part: 4,
+                title: "생태감수성 교육 활성화 방안 (지역 생태문학 기반 온책읽기)",
+                group: "생태온책읽기 연구회",
+                page: 241,
+                content: "단편적·일회성 환경 행사를 넘어 학생들이 일상에서 자연과 생명의 가치를 내면화하려면 내가 사는 지역의 자연을 다룬 '지역 작가 생태문학'을 매개로 온책읽기-토론-실천을 연결하는 체계적 교육 모델이 필요함.",
+                recommendation: "• 지역 작가·출판사·문화기관이 참여하는 '지역문학 생태교육 협력위원회' 구성 및 '전국/지역 생태문학 디지털 아카이브(DB)'·온라인 플랫폼 구축\n• 지역 생태문학 '온책읽기 → 인물·생태 가치 토론 → 작가 초청 북토크·생태탐방·실천 캠페인' 순환 수업 모델 및 교사용 지도자료집 보급\n• 생태문학 온책읽기를 창체·학교자율과정 공식 교육과정으로 인정하고, 선도교사단 컨설팅 및 강연비·체험비 정규 예산 편성"
+            },
+            {
+                id: 77,
+                part: 4,
+                title: "지역사회와 연계한 생태시민교육 활성화 방안",
+                group: "지역사회와 연계한 생태시민교육 활성화 방안 연구회",
+                page: 245,
+                content: "전남은 해양·산림·습지 등 풍부한 생태자원을 보유하고 있으나 학교 단독 노력만으로는 지속적인 생태시민교육에 한계가 있으며, 지역 환경기관·전문가와의 연계 체계 및 교육과정 재구성 자료가 부족함.",
+                recommendation: "• 지자체·국립공원·해양센터·습지보호구역·환경단체·대학과 MOU를 체결하고 지역 환경 해설사 등 전문가 인력풀을 학교 수업에 매칭\n• 지역 특화 생태자원 기반 학생 참여형 프로젝트 수업 모델 개발 및 실천자료집·교사용 지도서 보급\n• 교육청-지역사회 공동 모니터링 위원회 및 온라인 자료 공유 플랫폼 운영으로 학교-마을 공동 생태 실천 문화 확산"
+            },
+            {
+                id: 78,
+                part: 4,
+                title: "전남 자연 환경을 활용한 지속가능 발전 교육 방안",
+                group: "유네스코 지구과학",
+                page: 247,
+                content: "교과서 속 추상적 기후위기 교육을 넘어, 다도해·갯벌·무등산 유네스코 세계지질공원·지리산·공룡화석지(해남 우항리·보성 비봉·여수 사도) 등 전남만의 독보적인 자연·지질 유산을 직접 탐구하는 로컬 기반 지속가능발전교육(ESD)이 필요함.",
+                recommendation: "• 창의융합교육원(순천만생태교육원·장성 자연탐구원) 및 대학 교수·과학 교사단이 협력하여 전남 전역의 해양·갯벌·수목 학습장을 망라한 '전남 생태환경 학습장 지도' 및 22개 지원청별 '로컬 생태 지도' 개발\n• 무등산 유네스코 지질공원 및 해남·보성·여수 공룡화석지, 지자체 환경센터(자원순환·업사이클링) 연계 현장 탐구 교재 개발\n• 지역 생태 가치를 보존·창출하는 '생태 로컬 크리에이터' 진로 연계 및 학생 주도 지역 환경문제 해결 프로젝트 대회 운영"
+            },
+            {
+                id: 79,
+                part: 4,
+                title: "마을교육 플랫폼 구축 방안",
+                group: "전남광주마을교육공동체연구회",
+                page: 250,
+                content: "다양한 마을 교육 자원(마을장인·체험처·은퇴교원 등)이 존재하나 정보 분절과 공모·정산 등 교사 행정업무 과중으로 인해 학교와 마을의 연결이 일회성에 그침. 전담 중간지원 인력과 디지털 매칭 플랫폼이 절실함.",
+                recommendation: "• 교육지원청(마을교육지원센터) 상주 또는 거점학교 순회 방식의 전문 '마을교육 코디네이터' 배치 제도화(학교-마을 프로그램 기획, 자원 발굴, 공모사업 행정·정산 전담 처리로 교사 업무 완전 경감)\n• 지역 내 마을학교·체험처·마을교사 인력풀을 한눈에 검색·원클릭 예약·자동 정산하고 학생회·학부모회·교직원회가 소통하는 AI 기반 '온·오프라인 통합 마을교육 플랫폼' 구축\n• 학교자치 조례 정비 및 학교 기본운영비 내 '마을교육 자율사업비' 확대 편성"
+            },
+
+            // ==================== 5부 (연번 80 ~ 85) ====================
+            {
+                id: 80,
+                part: 5,
+                title: "학교 울타리를 넘어 지역이 하나의 캠퍼스",
+                group: "맞춤형진학지원",
+                page: 254,
+                content: "공동교육과정, 마을교육공동체, 진로체험이 개별적으로 분절 운영되고 교사 개인의 섭외 노력에 의존하고 있음. 전남·광주 통합의 특색을 살려 지역 전체를 배움터로 연결하는 통합 캠퍼스 생태계 조성이 필요함.",
+                recommendation: "• 교육지원청·지자체·대학·기업·공공기관·마을교육공동체가 참여하는 전남광주형 「지역교육 캠퍼스 협의체」 구축 및 '지역교육 협력기관 인증제' 도입\n• 지역 체험처·전문가·프로그램 DB를 통합 관리하는 「전남광주 지역교육 플랫폼」 구축 및 전담 '지역교육 코디네이터' 운영\n• 학생 참여형 지역문제 해결 프로젝트 수업과 지역 기반 진로·직업교육을 초·중·고 정규 교육과정과 체계적 연계"
+            },
+            {
+                id: 81,
+                part: 5,
+                title: "'전남온(ON)' 앱 및 '전남 인재 트랙' 연계 방안 (유학생 정착 지원)",
+                group: "외국인 유학생, 전남의 미래 인재로! (유전인)",
+                page: 257,
+                content: "지방소멸과 산업 인력난 해소를 위해 유치한 해외 고교 유학생들이 외로움·스트레스 등 사회정서적(SEL) 어려움과 졸업 후 취업·비자 경로 부재로 정착에 어려움을 겪음. 정서 지원과 취업 보장을 결합한 원스톱 체계가 필요함.",
+                recommendation: "• 유학생 정착 지원 모바일 앱 「전남온(ON)」 고도화: ①'마음 챙김 & 심리 상담' 메뉴(전문상담사 비대면 연결·스트레스 자가진단·선배 멘토링) ②'미래 & 취업' 메뉴(전남 주력 기업 DB·인턴십/채용 실시간 알림·비자 가이드)\n• 산학관 협약 기반 「전남 인재 트랙」 신설: [전남 고교 졸업] → [전남 소재 대학 주력 산업 학과 특별전형·장학금] → [대학-기업 직무교육 및 SEL 이수] → [협약 우수기업 취업 보장] → [지역특화형 비자 취득 일괄 지원]"
+            },
+            {
+                id: 82,
+                part: 5,
+                title: "학교자치 현장 안착 방안",
+                group: "학교교육의 미래",
+                page: 260,
+                content: "학교자치 조례에 따라 학생회·학부모회·교직원회가 구성되었으나 각 기구가 분절되어 일부 역할만 수행하고 있으며, 교사 업무 과중과 관리자 중심 의사결정, 교육청의 규제로 인해 실질적인 학교자치 작동이 미흡함.",
+                recommendation: "• 도교육청 '(가칭)학교자치지원팀' - 교육지원청 '(가칭)학교자치지원센터' - 단위학교 '(가칭)학교자치통합추진협의회(학생·학부모·교직원 3주체 통합 숙의기구)'로 이어지는 유기적 지원 조직 구축\n• 학부모·지역사회와 연계한 지속 가능한 자치 경영을 위해 교장공모제 및 초빙교사제 확대\n• 학교자율사업선택제 및 학교기본운영비 대폭 확대로 단위학교 예산 편성·운영 자율성 보장"
+            },
+            {
+                id: 83,
+                part: 5,
+                title: "전남형 세계시민교육과 국제교류 활성화 방안 연구",
+                group: "전남형 세계시민·국제교류 연구회",
+                page: 262,
+                content: "전남은 소규모·도서벽지 학교 비중이 높아 대면 국제교류 접근성 격차가 크고, 세계시민교육이 단발성 행사에 머무는 경향이 있음. 지리적 한계를 넘어 모든 학교가 상시 참여하는 온·오프라인 결합 국제교류 모델이 필요함.",
+                recommendation: "• 온라인 공동수업 후 실제 교류국 상호 방문으로 이어지는 상시 국제교류 체계인 「전남형 COIL(Collaborative Online-Offline International Learning) 플랫폼」 및 국제 파트너 학교 매칭 시스템 구축\n• 범교과·교육과정 연계형 '글로컬 세계시민 프로젝트 꾸러미 라이브러리' 개발·배포(전남의 생태·다문화 특수성 반영)\n• 전남형 세계시민선도교사 및 2030국제교육교류단 확대 운영, 소규모학교 연합 COIL 공동교육과정 지원"
+            },
+            {
+                id: 84,
+                part: 5,
+                title: "전남교육 브랜드 강화를 위한 홍보 전략 연구",
+                group: "함께 온(ON)",
+                page: 265,
+                content: "기존 교육청 홍보는 일방적인 정책 안내나 캠페인 위주여서 비학부모·지역민의 관심도가 낮음. 유튜브 분석 결과 진로·직업 체험, 기술고 소개 등 현장감 있는 참여형·숏폼 콘텐츠가 높은 호응을 얻어 경험 중심 브랜딩 전환이 필요함.",
+                recommendation: "• '삶과 미래·지역경제를 여는 전남교육' 고유 브랜드 정체성(슬로건·로고·영상 톤앤매너 BI 시스템) 확립\n• 유튜브·릴스 맞춤형 콘텐츠 제작: '전남의 미래학교를 가다' 다큐 시리즈, '선배의 하루·고교생 진로체험 브이로그' 숏폼 시리즈, 지역 소규모 인플루언서 협업\n• 지역 주민·학부모 참여형 '우리 마을·학교 이야기 스토리 공모전', 중학생·학부모 체험단 운영, 지역 축제 연계 이동식 교육 홍보부스 및 시청 데이터·인식도 조사 기반 환류 체계 가동"
+            },
+            {
+                id: 85,
+                part: 5,
+                title: "해외 인재 대상 '전남광주통합특별시 K-유학마을' 구축",
+                group: "JEDI 2기",
+                page: 268,
+                content: "국내 학생 대상 농산어촌유학은 6개월~1년 단기 체험에 머무는 한계가 있으며, 전남 군 단위(약 40%)와 광주 원도심(약 5%) 작은학교의 폐교 위기를 근본적으로 타개하려면 초·중·고 해외 유학생과 그 가족이 함께 이주·정착하는 장기 모델이 필요함.",
+                recommendation: "• [글로벌 K-유학 가족 유치] 해외 교육청과 MOU를 체결하여 초·중·고 우수 유학생 및 동반 가족을 선발해 작은학교에 배정하고, [교육청-통합특별시청-법무부] 협력으로 '지역특화형 비자(F-2-R) + 주거 + 학부모 일자리' 패키지 제공\n• [단계별 K-유학 교육과정] 입국 직후 국제교육원 위탁 '한국어 집중 과정(3~6개월)' 및 방학 분기별 집중 교육 → 작은학교 배치 후 정규과정 내 '부모 모국어 이중언어 특성화 수업' → 고교 단계 '로컬 첨단산업(스마트농업·우주항공·해양바이오) 진로 트랙' 연계\n• 도시형(광주 원도심)·농촌형(전남 면단위) K-유학마을 표준 모델 개발 및 지원 조례 제정"
+            }
+        ];
+
+        // 상태 관리 변수
+        let currentPartFilter = 'all';
+        let currentSearchQuery = '';
+        let currentViewMode = 'card'; // 'card' | 'table'
+        let currentModalId = null;
+
+        // 초기화 함수
+        function initApp() {
+            populateJumpSelect();
+            renderProposals();
+        }
+
+        // 연번 바로가기 드롭다운 옵션 생성
+        function populateJumpSelect() {
+            const select = document.getElementById('jumpSelect');
+            proposalsData.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.id;
+                opt.textContent = `${item.id}번. ${item.title.length > 22 ? item.title.substring(0, 22) + '...' : item.title}`;
+                select.appendChild(opt);
+            });
+        }
+
+        // 필터링된 데이터 반환
+        function getFilteredProposals() {
+            return proposalsData.filter(item => {
+                const matchPart = currentPartFilter === 'all' || item.part === Number(currentPartFilter);
+                if (!matchPart) return false;
+
+                if (!currentSearchQuery.trim()) return true;
+                const q = currentSearchQuery.trim().toLowerCase();
+                const idMatch = String(item.id) === q || `${item.id}번` === q;
+                const textMatch =
+                    item.title.toLowerCase().includes(q) ||
+                    item.group.toLowerCase().includes(q) ||
+                    item.content.toLowerCase().includes(q) ||
+                    item.recommendation.toLowerCase().includes(q);
+                return idMatch || textMatch;
+            });
+        }
+
+        // 검색어 하이라이트 유틸리티
+        function highlightText(text, query) {
+            if (!query || !query.trim()) return text;
+            const safeQuery = query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${safeQuery})`, 'gi');
+            return text.replace(regex, '<mark class="bg-yellow-300 text-slate-950 rounded px-1.5 py-0.5 font-black shadow-[0_0_10px_#fde047]">$1</mark>');
+        }
+
+        // 제목 내 핵심 키워드 강조 포매터
+        function formatRichTitle(text, query) {
+            let formatted = text.replace(/('[^']+'|「[^」]+」|『[^』]+』)/g, '<span class="kw-quote-title">$1</span>');
+            return highlightText(formatted, query);
+        }
+
+        // 본문(제안내용·정책제언) 내 핵심 키워드·단계·법안 자동 강조 포매터
+        function formatRichBody(text, query) {
+            let formatted = text
+                // [카테고리] 또는 【카테고리】 태그 배지화
+                .replace(/(\[[^\]]+\]|【[^】]+】)/g, '<span class="kw-bracket">$1</span>')
+                // 1단계, 2단계 등 단계 강조
+                .replace(/([1-5]단계\([^)]+\)|[1-5]단계)/g, '<span class="kw-step">$1</span>')
+                // 작은따옴표·낫표·겹낫표로 묶인 핵심 정책명 강조
+                .replace(/('[^']{2,38}'|「[^」]+」|『[^』]+』)/g, '<span class="kw-quote-body">$1</span>')
+                // 원문자 번호 강조
+                .replace(/([①②③④⑤⑥])/g, '<strong class="text-cyan-300 font-black mr-0.5">$1</strong>');
+            return highlightText(formatted, query);
+        }
+
+        // 메인 렌더링 함수
+        function renderProposals() {
+            const container = document.getElementById('proposalsContainer');
+            const emptyState = document.getElementById('emptyState');
+            const resultCount = document.getElementById('resultCount');
+            const statusTitle = document.getElementById('statusTitle');
+
+            const filtered = getFilteredProposals();
+            resultCount.textContent = filtered.length;
+
+            if (currentPartFilter === 'all') {
+                statusTitle.textContent = currentSearchQuery ? `'${currentSearchQuery}' 검색 결과` : '전체 정책제안 목록 (연번 01~85)';
+            } else {
+                statusTitle.textContent = partMetadata[currentPartFilter].title;
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            // 부별로 그룹화하여 연번순 출력
+            const groupedByPart = {};
+            filtered.forEach(item => {
+                if (!groupedByPart[item.part]) groupedByPart[item.part] = [];
+                groupedByPart[item.part].push(item);
+            });
+
+            let html = '';
+
+            Object.keys(groupedByPart).sort((a, b) => Number(a) - Number(b)).forEach(partKey => {
+                const partInfo = partMetadata[partKey];
+                const items = groupedByPart[partKey];
+
+                html += `
+                <section class="space-y-5">
+                    <!-- 부별 섹션 헤더 -->
+                    <div class="bg-gradient-to-r ${partInfo.headerGradient} text-white rounded-2xl p-6 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-3 relative overflow-hidden">
+                        <div>
+                            <div class="flex items-center gap-2.5">
+                                <span class="px-3 py-1 rounded-full bg-white/15 border border-white/25 text-xs font-extrabold tech-font tracking-wider text-cyan-200">${partInfo.range}</span>
+                                <span class="px-2.5 py-1 rounded-full bg-slate-950/50 text-xs text-emerald-300 font-extrabold">총 ${items.length}건</span>
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-black mt-2 tracking-tight text-white">${partInfo.title}</h2>
+                        </div>
+                        <p class="text-sm sm:text-base text-slate-100/95 max-w-xl font-medium leading-relaxed">${partInfo.desc}</p>
+                    </div>
+                `;
+
+                if (currentViewMode === 'card') {
+                    html += `<div class="grid grid-cols-1 gap-6">`;
+                    items.forEach(item => {
+                        const formattedRec = item.recommendation
+                            .split('\n')
+                            .map(line => {
+                                const cleanLine = line.replace(/^[•·]\s*/, '');
+                                return `
+                                <li class="flex items-start gap-3 bg-slate-950/55 p-3.5 rounded-xl border border-white/10">
+                                    <span class="w-5 h-5 rounded-full bg-emerald-400/20 border border-emerald-400 text-emerald-300 flex items-center justify-center text-xs font-black shrink-0 mt-0.5">✓</span>
+                                    <span class="text-[15px] sm:text-base text-slate-50 leading-relaxed font-medium">${formatRichBody(cleanLine, currentSearchQuery)}</span>
+                                </li>`;
+                            })
+                            .join('');
+
+                        const numStr = String(item.id).padStart(2, '0');
+
+                        html += `
+                        <article id="proposal-${item.id}" class="cyber-glass rounded-2xl border-l-4 ${partInfo.accentBorder} card-hover p-6 sm:p-7 print-break">
+                            <!-- 카드 상단 타이틀 영역 -->
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 mb-5 border-b border-slate-700/80">
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-gradient-to-br ${partInfo.numBg} text-sm sm:text-base font-black tech-font tracking-wider shadow-md">
+                                        #${numStr}
+                                    </span>
+                                    <span class="px-3 py-1 rounded-lg text-xs sm:text-sm font-extrabold border ${partInfo.badgeBg}">
+                                        ${item.part}부
+                                    </span>
+                                    <h3 class="text-lg sm:text-xl lg:text-[22px] font-black text-white tracking-tight cursor-pointer hover:text-cyan-300 transition-colors leading-snug" onclick="openModal(${item.id})">
+                                        ${formatRichTitle(item.title, currentSearchQuery)}
+                                    </h3>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm shrink-0">
+                                    <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-600/90 text-slate-100 font-bold">
+                                        <i class="fa-solid fa-users-viewfinder mr-1.5 text-cyan-300"></i>${highlightText(item.group, currentSearchQuery)}
+                                    </span>
+                                    <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-600/90 text-amber-300 font-extrabold tech-font">
+                                        p.${item.page}
+                                    </span>
+                                    <button onclick="openModal(${item.id})" class="no-print px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-400 hover:text-slate-950 border border-cyan-400/50 text-cyan-200 font-extrabold transition-all" title="크게 보기">
+                                        <i class="fa-solid fa-expand mr-1"></i>크게 보기
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 제안내용 & 정책제언 2단 비교 영역 -->
+                            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                                <!-- 제안 내용 (배경 및 핵심 분석) -->
+                                <div class="lg:col-span-5 content-box rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-3.5 pb-2.5 border-b border-slate-700/80">
+                                            <span class="inline-flex items-center gap-2 text-sm sm:text-base font-black text-cyan-300 tracking-tight">
+                                                <span class="w-6 h-6 rounded-lg bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-xs text-cyan-300"><i class="fa-solid fa-magnifying-glass-chart"></i></span>
+                                                제안 내용 <span class="text-xs font-semibold text-slate-300">(배경·현황·핵심분석)</span>
+                                            </span>
+                                        </div>
+                                        <p class="text-[15px] sm:text-base text-slate-100 leading-[1.8] font-normal">
+                                            ${formatRichBody(item.content, currentSearchQuery)}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- 정책 제언 (구체적 실행 방안) -->
+                                <div class="lg:col-span-7 ${partInfo.policyBox} rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-3.5 pb-2.5 border-b border-white/15">
+                                            <span class="inline-flex items-center gap-2 text-sm sm:text-base font-black text-emerald-300 tracking-tight">
+                                                <span class="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-xs text-emerald-300"><i class="fa-solid fa-lightbulb"></i></span>
+                                                정책 제언 <span class="text-xs font-semibold text-emerald-100/80">(핵심 실행방안·제도개선)</span>
+                                            </span>
+                                        </div>
+                                        <ul class="space-y-2.5">
+                                            ${formattedRec}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        `;
+                    });
+                    html += `</div>`;
+                } else {
+                    // 표 목록형 뷰
+                    html += `
+                    <div class="cyber-glass rounded-2xl overflow-hidden border border-slate-700">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-900 border-b border-slate-700 text-xs sm:text-sm font-black text-cyan-300">
+                                        <th class="py-4 px-4 w-20 text-center tech-font">연번</th>
+                                        <th class="py-4 px-5 w-72">제안 주제 / 연구회 (쪽수)</th>
+                                        <th class="py-4 px-5 w-1/3">핵심 제안내용 (배경·현황)</th>
+                                        <th class="py-4 px-5">핵심 정책제언 (실행방안)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800 text-sm sm:text-base">
+                    `;
+                    items.forEach(item => {
+                        const formattedRec = item.recommendation
+                            .split('\n')
+                            .map(line => `<div class="mb-2 flex items-start gap-2"><span class="text-emerald-400 font-black">•</span><span>${formatRichBody(line.replace(/^[•·]\s*/, ''), currentSearchQuery)}</span></div>`)
+                            .join('');
+                        const numStr = String(item.id).padStart(2, '0');
+
+                        html += `
+                        <tr id="proposal-${item.id}" class="hover:bg-slate-800/60 transition-colors align-top print-break">
+                            <td class="py-5 px-4 text-center">
+                                <span class="inline-flex items-center justify-center px-2.5 py-1.5 rounded-xl bg-gradient-to-br ${partInfo.numBg} font-black tech-font text-xs sm:text-sm shadow">
+                                    #${numStr}
+                                </span>
+                            </td>
+                            <td class="py-5 px-5">
+                                <div class="font-black text-white text-base sm:text-lg leading-snug mb-2 cursor-pointer hover:text-cyan-300 transition-colors" onclick="openModal(${item.id})">
+                                    ${formatRichTitle(item.title, currentSearchQuery)}
+                                </div>
+                                <div class="text-xs sm:text-sm text-slate-200 flex flex-wrap gap-1.5">
+                                    <span class="px-2.5 py-0.5 bg-slate-900 border border-slate-600 rounded-lg font-bold">${highlightText(item.group, currentSearchQuery)}</span>
+                                    <span class="px-2.5 py-0.5 bg-slate-900 border border-slate-600 text-amber-300 rounded-lg font-extrabold tech-font">p.${item.page}</span>
+                                </div>
+                            </td>
+                            <td class="py-5 px-5 text-slate-100 leading-[1.75] text-sm sm:text-[15px]">
+                                ${formatRichBody(item.content, currentSearchQuery)}
+                            </td>
+                            <td class="py-5 px-5 text-slate-50 leading-[1.75] text-sm sm:text-[15px] font-medium bg-emerald-950/25">
+                                ${formattedRec}
+                            </td>
+                        </tr>
+                        `;
+                    });
+                    html += `
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    `;
+                }
+
+                html += `</section>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 부별 필터 변경
+        function setPartFilter(part) {
+            currentPartFilter = part;
+            document.querySelectorAll('.part-tab').forEach(btn => {
+                if (btn.dataset.part === String(part)) {
+                    btn.className = "part-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.4)]";
+                } else {
+                    btn.className = "part-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap bg-slate-900/90 text-slate-300 border border-slate-700/70 hover:border-cyan-400/50 hover:text-cyan-300";
+                }
+            });
+            renderProposals();
+        }
+
+        // 검색어 입력 핸들러
+        function handleSearch(val) {
+            currentSearchQuery = val;
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (val.trim().length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            renderProposals();
+        }
+
+        // 검색어 초기화
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            handleSearch('');
+        }
+
+        // 빠른 키워드 태그 클릭
+        function quickKeyword(keyword) {
+            const input = document.getElementById('searchInput');
+            input.value = keyword;
+            handleSearch(keyword);
+        }
+
+        // 모든 필터 초기화
+        function resetAllFilters() {
+            clearSearch();
+            setPartFilter('all');
+        }
+
+        // 보기 모드 전환 (카드형 vs 표 목록형)
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            const cardBtn = document.getElementById('viewCardBtn');
+            const tableBtn = document.getElementById('viewTableBtn');
+
+            if (mode === 'card') {
+                cardBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-sm transition-all flex items-center gap-1.5";
+                tableBtn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5";
+            } else {
+                tableBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-sm transition-all flex items-center gap-1.5";
+                cardBtn.className = "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-1.5";
+            }
+            renderProposals();
+        }
+
+        // 연번 바로가기
+        function jumpToProposal(id) {
+            if (!id) return;
+            const targetId = Number(id);
+            const targetEl = document.getElementById(`proposal-${targetId}`);
+
+            if (!targetEl) {
+                resetAllFilters();
+            }
+
+            setTimeout(() => {
+                const el = document.getElementById(`proposal-${targetId}`);
+                if (el) {
+                    const yOffset = -140;
+                    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                    el.classList.add('ring-2', 'ring-cyan-400');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-cyan-400'), 2200);
+                }
+            }, 80);
+        }
+
+        // 상세 모달 열기
+        function openModal(id) {
+            const item = proposalsData.find(p => p.id === Number(id));
+            if (!item) return;
+            currentModalId = item.id;
+            const partInfo = partMetadata[item.part];
+            const numStr = String(item.id).padStart(2, '0');
+
+            document.getElementById('modalBadges').innerHTML = `
+                <span class="px-3.5 py-1 rounded-xl bg-gradient-to-r ${partInfo.numBg} text-xs sm:text-sm font-black tech-font">연번 #${numStr}</span>
+                <span class="px-3 py-1 rounded-lg text-xs sm:text-sm font-bold border ${partInfo.badgeBg}">${partInfo.title}</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 text-xs sm:text-sm font-bold"><i class="fa-solid fa-users mr-1.5 text-cyan-300"></i>${item.group}</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-800 border border-slate-600 text-amber-300 text-xs sm:text-sm font-extrabold tech-font">p.${item.page}</span>
+            `;
+            document.getElementById('modalTitle').innerHTML = formatRichTitle(item.title, currentSearchQuery);
+
+            const recList = item.recommendation
+                .split('\n')
+                .map(line => `<li class="flex items-start gap-3 bg-slate-950/60 p-3.5 rounded-xl border border-emerald-500/25"><span class="w-5 h-5 rounded-full bg-emerald-500/25 border border-emerald-400 text-emerald-300 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">✓</span><span class="text-base text-white leading-relaxed">${formatRichBody(line.replace(/^[•·]\s*/, ''), currentSearchQuery)}</span></li>`)
+                .join('');
+
+            document.getElementById('modalBody').innerHTML = `
+                <div class="content-box rounded-2xl p-6">
+                    <h4 class="text-sm sm:text-base font-black text-cyan-300 mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass-chart text-cyan-400"></i> 제안 내용 (제안 배경 · 현황 진단 · 핵심 분석)
+                    </h4>
+                    <p class="text-slate-100 text-base leading-[1.8] font-normal">${formatRichBody(item.content, currentSearchQuery)}</p>
+                </div>
+                <div class="${partInfo.policyBox} rounded-2xl p-6">
+                    <h4 class="text-sm sm:text-base font-black text-emerald-300 mb-3.5 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-emerald-400"></i> 정책 제언 (구체적 실행 방안 · 제도화 · 기대효과)
+                    </h4>
+                    <ul class="space-y-2.5 font-medium">${recList}</ul>
+                </div>
+            `;
+
+            const prevBtn = document.getElementById('prevModalBtn');
+            const nextBtn = document.getElementById('nextModalBtn');
+            prevBtn.disabled = item.id <= 1;
+            nextBtn.disabled = item.id >= 85;
+            prevBtn.className = item.id <= 1
+                ? "px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900 text-xs sm:text-sm font-semibold text-slate-600 cursor-not-allowed flex items-center gap-1.5"
+                : "px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:border-cyan-400 text-xs sm:text-sm font-semibold text-slate-200 flex items-center gap-1.5 transition-all";
+            nextBtn.className = item.id >= 85
+                ? "px-3.5 py-2 rounded-xl border border-slate-800 bg-slate-900 text-xs sm:text-sm font-semibold text-slate-600 cursor-not-allowed flex items-center gap-1.5"
+                : "px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:border-cyan-400 text-xs sm:text-sm font-semibold text-slate-200 flex items-center gap-1.5 transition-all";
+
+            prevBtn.onclick = () => { if (item.id > 1) openModal(item.id - 1); };
+            nextBtn.onclick = () => { if (item.id < 85) openModal(item.id + 1); };
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            currentModalId = null;
+        }
+
+        // 모달 내용 클립보드 복사
+        function copyModalContent() {
+            if (!currentModalId) return;
+            const item = proposalsData.find(p => p.id === currentModalId);
+            if (!item) return;
+
+            const textToCopy = `[연번 ${item.id}] ${item.title} (${item.group}, p.${item.page})\n\n■ 제안내용:\n${item.content}\n\n■ 정책제언:\n${item.recommendation}`;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            showToast(`연번 ${item.id}번 요약 내용이 복사되었습니다.`);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            document.getElementById('toastText').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2500);
+        }
+
+        // ESC 키로 모달 닫기
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
