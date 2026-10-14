@@ -1,0 +1,332 @@
+<title>2026 교육통계 주요지표</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 관제실(control room) 콘솔 — 상단 고정 지역 스위치, 섹션별 패널 그리드, 모든 수치는 출처 페이지 태그 */
+:root{
+  --bg:#070b1a; --bg2:#0c1330; --panel:rgba(18,28,64,.62); --line:rgba(120,170,255,.16); --line2:rgba(120,170,255,.32);
+  --fg:#e7eeff; --mut:#8e9cc6; --dim:#5c6a94;
+  --cyan:#3fd8f7; --coral:#ff8a5c; --up:#59e3a7; --down:#ff6b8b;
+  --c-yu:#3fd8f7; --c-cho:#9b7bff; --c-jung:#8fe36b; --c-go:#1fc8a8; --c-teuk:#ff8a5c; --c-gak:#ff5fae;
+  --f-disp:"Chakra Petch","IBM Plex Sans KR",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  background-image:radial-gradient(1200px 600px at 85% -10%,rgba(63,216,247,.14),transparent 60%),radial-gradient(900px 500px at -10% 30%,rgba(155,123,255,.12),transparent 60%),linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:auto,auto,48px 48px,48px 48px;background-attachment:fixed;}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(7,11,26,.78);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.brand{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:pulse 2.4s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.seg{display:flex;border:1px solid var(--line2);border-radius:999px;padding:3px;gap:2px;background:rgba(12,19,48,.8)}
+.seg button{font:600 13px var(--f-body);color:var(--mut);background:none;border:0;padding:6px 14px;border-radius:999px;cursor:pointer;transition:.2s}
+.seg button[aria-pressed="true"]{color:#06101f;background:var(--cyan);box-shadow:0 0 18px rgba(63,216,247,.45)}
+.seg button:focus-visible,.tabs button:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+/* hero */
+.hero{padding-block:44px 28px;display:grid;gap:8px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}
+h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(30px,5.4vw,58px);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1 .yr{background:linear-gradient(90deg,var(--cyan),var(--c-cho));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);max-width:68ch;margin:4px 0 0}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:22px}
+.kpi{position:relative;padding:16px 16px 14px;border:1px solid var(--line2);border-radius:14px;background:linear-gradient(160deg,rgba(63,216,247,.08),rgba(18,28,64,.5));overflow:hidden}
+.kpi::after{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.7}
+.kpi .k{font-size:13px;color:var(--mut)}
+.kpi .v{font-family:var(--f-disp);font-weight:700;font-size:clamp(24px,2.6vw,34px);font-variant-numeric:tabular-nums;line-height:1.15;margin-top:4px}
+.kpi .v small{font-size:14px;color:var(--mut);font-weight:500;margin-left:3px}
+.kpi .d{font-family:var(--f-mono);font-size:12px;margin-top:6px}
+.up{color:var(--up)}.down{color:var(--down)}.flat{color:var(--mut)}
+/* sections */
+section{margin-top:44px}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+.sh h2{font-family:var(--f-disp);font-size:clamp(20px,2.4vw,26px);margin:0;display:flex;gap:12px;align-items:baseline}
+.sh h2 .no{font-family:var(--f-mono);font-size:13px;color:var(--cyan);letter-spacing:.1em}
+.src{font-family:var(--f-mono);font-size:11px;color:var(--dim);letter-spacing:.06em}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px;min-width:0}
+.ph{font-size:13px;color:var(--mut);margin:0 0 10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.ph b{color:var(--fg);font-weight:600}
+.cv{position:relative;height:320px}
+.cv.sm{height:250px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{font:500 13px var(--f-body);color:var(--mut);background:rgba(12,19,48,.7);border:1px solid var(--line);padding:6px 12px;border-radius:8px;cursor:pointer}
+.tabs button[aria-pressed="true"]{color:var(--fg);border-color:var(--cyan);box-shadow:inset 0 0 0 1px var(--cyan),0 0 14px rgba(63,216,247,.25)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+/* table */
+.tw{overflow-x:auto;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13px;min-width:560px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:500;color:var(--mut);font-size:12px}
+th:first-child,td:first-child{text-align:left}
+td .chip{font-family:var(--f-mono);font-size:11px;padding:2px 6px;border-radius:6px;margin-left:6px}
+.chip.up{background:rgba(89,227,167,.12)}.chip.down{background:rgba(255,107,139,.12)}.chip.flat{background:rgba(142,156,198,.1)}
+/* insight */
+.insight{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.ins{border-left:2px solid var(--coral);padding:4px 0 4px 12px}
+.ins .n{font-family:var(--f-disp);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.ins .t{font-size:13px;color:var(--mut)}
+/* map list */
+.region-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.rg{display:grid;grid-template-columns:58px minmax(0,1fr) 44px;gap:10px;align-items:center;font-size:13px;padding:6px 8px;border-radius:8px}
+.rg:hover{background:rgba(63,216,247,.06)}
+.rg .nm{font-weight:600}
+.rg .tot{font-family:var(--f-mono);text-align:right;color:var(--fg)}
+.stack{display:flex;height:12px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.04)}
+.stack span{height:100%}
+.rg .br{font-size:11px;color:var(--dim);grid-column:2/4;margin-top:-6px;font-family:var(--f-mono)}
+.zone{font-family:var(--f-mono);font-size:12px;color:var(--cyan);letter-spacing:.12em;margin:4px 0 8px}
+/* gauges */
+.gauge{display:grid;gap:10px;justify-items:center;text-align:center}
+.ring{position:relative;width:150px;max-width:100%;aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:grid;place-content:center}
+.ring .p{font-family:var(--f-disp);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
+.ring .s{font-size:12px;color:var(--mut)}
+.gauge h3{margin:0;font-size:15px}
+.gauge .crit{font-size:12px;color:var(--dim)}
+.mini{display:flex;gap:8px;font-family:var(--f-mono);font-size:12px;flex-wrap:wrap;justify-content:center}
+.mini span{padding:2px 8px;border:1px solid var(--line);border-radius:6px}
+.note{font-size:12px;color:var(--dim);margin-top:10px;line-height:1.7}
+footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--dim);display:grid;gap:4px}
+@media (max-width:1000px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.g2{grid-template-columns:minmax(0,1fr)}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.insight{grid-template-columns:minmax(0,1fr)}.cv{height:280px}.brand span.long{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span><span>EDU-STAT CONSOLE</span><span class="long">· 2026. 4. 1. 기준</span></div>
+  <div class="seg" role="group" aria-label="지역 선택">
+    <button type="button" id="r-all" data-r="all" aria-pressed="true">전남광주통합</button>
+    <button type="button" id="r-jn" data-r="jn" aria-pressed="false">전남</button>
+    <button type="button" id="r-gj" data-r="gj" aria-pressed="false">광주</button>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">전남광주통합특별시교육청 · K-교육특별시</div>
+    <h1><span class="yr">2026</span> 교육통계 주요지표</h1>
+    <p class="sub">2026 교육기본통계조사(2026. 4. 1. 기준) 결과를 지표별로 정리했습니다. 상단에서 지역을 바꾸면 모든 패널이 함께 전환됩니다.</p>
+    <div class="kpis" id="kpis"></div>
+  </header>
+
+  <section id="staff">
+    <div class="sh"><h2><span class="no">01</span>교직원 현황</h2><span class="src">SRC p.5 · 정원 기준(사립유치원 교원·교육공무직원은 현원)</span></div>
+    <div class="grid g2">
+      <div class="panel"><p class="ph"><b>기관별 직종 구성</b><span id="staffTot"></span></p><div class="cv"><canvas id="cStaffOrg"></canvas></div></div>
+      <div class="panel"><p class="ph"><b>직종별 비중</b><span>단위: 명</span></p><div class="cv"><canvas id="cStaffType"></canvas></div></div>
+    </div>
+  </section>
+
+  <section id="levels">
+    <div class="sh"><h2><span class="no">02</span>학교급별 전년 대비</h2><span class="src" id="lvSrc">SRC p.10</span></div>
+    <div class="panel">
+      <div class="ph" style="align-items:center">
+        <div class="tabs" role="group" aria-label="지표 선택" id="lvTabs">
+          <button type="button" id="m-sch" data-m="sch" aria-pressed="true">학교수</button>
+          <button type="button" id="m-cls" data-m="cls" aria-pressed="false">학급수</button>
+          <button type="button" id="m-stu" data-m="stu" aria-pressed="false">학생수</button>
+          <button type="button" id="m-tch" data-m="tch" aria-pressed="false">교원수</button>
+          <button type="button" id="m-spc" data-m="spc" aria-pressed="false">학급당 학생수</button>
+          <button type="button" id="m-spt" data-m="spt" aria-pressed="false">교원 1인당 학생수</button>
+        </div>
+        <span id="lvUnit">단위: 교</span>
+      </div>
+      <div class="cv"><canvas id="cLevel"></canvas></div>
+      <div class="legend"><span><i style="background:rgba(143,160,210,.45)"></i>2025</span><span><i style="background:var(--cyan)"></i>2026 (학교급 색상)</span></div>
+      <div class="tw"><table id="lvTable"></table></div>
+    </div>
+  </section>
+
+  <section id="trend">
+    <div class="sh"><h2><span class="no">03</span>10년 추이 2017–2026</h2><span class="src" id="trSrc">SRC p.16</span></div>
+    <div class="panel">
+      <div class="ph" style="align-items:center">
+        <div class="tabs" role="group" aria-label="추이 지표" id="trTabs">
+          <button type="button" id="t-stu" data-t="stu" aria-pressed="true">학생수</button>
+          <button type="button" id="t-sch" data-t="sch" aria-pressed="false">학교수</button>
+        </div>
+        <span>로그 축 아님 · 단위: <span id="trUnit">명</span></span>
+      </div>
+      <div class="cv"><canvas id="cTrend"></canvas></div>
+      <div class="legend" id="trLegend"></div>
+      <div class="insight" id="trIns"></div>
+    </div>
+  </section>
+
+  <section id="map">
+    <div class="sh"><h2><span class="no">04</span>시·군·구별 학교 분포</h2><span class="src">SRC p.8–9 · ( )는 분교장 수로 본교 수에 미포함</span></div>
+    <div class="panel">
+      <p class="ph"><b id="mapTitle">27개 시·군·구 학교 수</b><span>막대 길이 = 학교 수(유·초·중·고·특·각 합계)</span></p>
+      <div id="mapBody"></div>
+      <div class="legend" id="mapLegend"></div>
+    </div>
+  </section>
+
+  <section id="small">
+    <div class="sh"><h2><span class="no">05</span>초·중·고 학교 특성지표</h2><span class="src">SRC p.18–22 · 분교장 포함</span></div>
+    <p class="ph" style="margin-bottom:14px"><span>대상 초·중·고 학교수: <b id="smBase"></b></span></p>
+    <div class="grid g4" id="gauges"></div>
+    <p class="note" id="smNote"></p>
+  </section>
+
+  <footer>
+    <span>출처: 전남광주통합특별시교육청, 「2026 교육통계 주요지표」(발간등록번호 전남광주교육2026-7140000-001241-10). 2026 교육기본통계조사(2026. 4. 1. 기준) 기반.</span>
+    <span>통계 확정 전 각급학교(기관)의 오류 수정으로 공표자료와 다를 수 있으므로 대외 활용 시 유의하시기 바랍니다(원문 참고사항).</span>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const LV=['유치원','초등학교','중학교','고등학교','특수학교','각종학교'];
+const LVS=['유','초','중','고','특','각'];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const LC=['--c-yu','--c-cho','--c-jung','--c-go','--c-teuk','--c-gak'].map(css);
+const fmt=n=>n.toLocaleString('ko-KR');
+const RN={all:'전남광주통합',jn:'전남',gj:'광주'};
+
+/* ---------- DATA (책자 원문 수치) ---------- */
+const STAFF={ // [정무직, 교원, 교육전문직원, 일반직, 교육공무직원]  p.5
+ all:{본청:[1,27,256,776,95],직속기관:[0,0,124,680,336],교육지원청:[0,178,275,1385,341],학교:[0,32749,141,4766,12231]},
+ jn:{본청:[1,6,138,396,41],직속기관:[0,0,75,419,129],교육지원청:[0,137,221,1147,297],학교:[0,18957,63,3452,7334]},
+ gj:{본청:[0,21,118,380,54],직속기관:[0,0,49,261,207],교육지원청:[0,41,54,238,44],학교:[0,13792,78,1314,4897]}};
+const STAFF_T=['정무직','교원','교육전문직원','일반직','교육공무직원'];
+const LVD={ // [2025[], 2026[]] 유초중고특각  p.10-15
+ sch:{all:[[760,579,341,211,15,7],[748,581,342,211,15,8]],jn:[[494,424,250,143,9,4],[490,424,251,143,9,5]],gj:[[266,155,91,68,6,3],[258,157,91,68,6,3]],unit:'교',src:'p.10',dec:0},
+ cls:{all:[[2253,8956,4014,4056,520,44],[2209,8787,3973,4065,525,45]],jn:[[1168,5104,2207,2299,243,20],[1141,5032,2194,2306,246,21]],gj:[[1085,3852,1807,1757,277,24],[1068,3755,1779,1759,279,24]],unit:'학급',src:'p.11',dec:0},
+ stu:{all:[[32175,149055,90759,87226,2696,726],[30886,140079,87791,85454,2785,725]],jn:[[13990,76111,47547,45721,1278,165],[13406,71415,46021,45174,1316,186]],gj:[[18185,72944,43212,41505,1418,561],[17480,68664,41770,40280,1469,539]],unit:'명',src:'p.12',dec:0},
+ tch:{all:[[3147,12721,7657,8496,820,97],[3067,12724,7503,8510,827,118]],jn:[[1556,7719,4505,4923,415,46],[1499,7727,4360,4889,424,58]],gj:[[1591,5002,3152,3573,405,51],[1568,4997,3143,3621,403,60]],unit:'명',src:'p.13',dec:0},
+ spc:{all:[[14.3,16.6,22.6,21.5,5.2,16.5],[14.0,15.9,22.1,21.0,5.3,16.1]],jn:[[12.0,14.9,21.5,19.9,5.3,8.3],[11.7,14.2,21.0,19.6,5.3,8.9]],gj:[[16.8,18.9,23.9,23.6,5.1,23.4],[16.4,18.3,23.5,22.9,5.3,22.5]],unit:'명/학급',src:'p.14',dec:1},
+ spt:{all:[[9.3,10.9,11.3,9.9,2.8,6.7],[9.2,10.4,11.2,9.7,2.9,6.1]],jn:[[9.0,9.9,10.6,9.3,3.1,3.6],[8.9,9.2,10.6,9.2,3.1,3.2]],gj:[[9.6,12.3,12.1,10.7,2.7,9.0],[9.3,11.8,12.1,10.3,2.7,8.8]],unit:'명/교원',src:'p.15',dec:1}};
+const STAFF_TOT={all:54361,jn:32813,gj:21548};
+const YRS=[2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+const TR={ // 유초중고특각  p.16-17
+ sch:{all:[[871,865,854,828,818,804,800,773,760,748],[584,583,584,584,585,581,583,581,579,581],[339,338,338,340,341,342,341,342,341,342],[210,209,209,212,212,212,212,212,211,211],[13,13,13,13,13,14,14,15,15,15],[2,4,4,4,4,6,6,7,7,8]],
+  jn:[[553,551,542,530,524,516,514,500,494,490],[430,429,429,429,430,426,428,426,424,424],[249,248,248,249,250,250,250,251,250,251],[143,142,142,144,144,144,144,144,143,143],[8,8,8,8,8,9,9,9,9,9],[0,2,2,2,2,4,4,4,4,5]],
+  gj:[[318,314,312,298,294,288,286,273,266,258],[154,154,155,155,155,155,155,155,155,157],[90,90,90,91,91,92,91,91,91,91],[67,67,67,68,68,68,68,68,68,68],[5,5,5,5,5,5,5,6,6,6],[2,2,2,2,2,2,2,3,3,3]],unit:'교',src:'p.16'},
+ stu:{all:[[45364,44279,41934,41109,39474,37283,35369,33600,32175,30886],[181422,182756,183942,178824,176227,174167,168776,160245,149055,140079],[97542,92707,88731,89465,90913,90412,88655,88904,90759,87791],[122607,112140,101803,94724,90475,86606,87208,87923,87226,85454],[2042,2079,2137,2134,2157,2264,2366,2545,2696,2785],[610,695,715,779,763,782,780,743,726,725]],
+  jn:[[20710,19670,18682,17889,17276,16285,15458,14676,13990,13406],[93233,94134,94952,92405,91229,90238,87046,82138,76111,71415],[49642,47270,45663,46050,46971,46826,46050,46464,47547,46021],[63631,58249,52755,49112,46781,44913,45256,45734,45721,45174],[1074,1067,1110,1117,1121,1174,1196,1241,1278,1316],[0,106,122,186,181,194,188,172,165,186]],
+  gj:[[24654,24609,23252,23220,22198,20998,19911,18924,18185,17480],[88189,88622,88990,86419,84998,83929,81730,78107,72944,68664],[47900,45437,43068,43415,43942,43586,42605,42440,43212,41770],[58976,53891,49048,45612,43694,41693,41952,42189,41505,40280],[968,1012,1027,1017,1036,1090,1170,1304,1418,1469],[610,589,593,593,582,588,592,571,561,539]],unit:'명',src:'p.17'}};
+// 시군구: [유, 초, 초분교, 중, 중분교, 고, 특, 각]  p.8-9
+const JN={영광:[15,13,1,10,0,6,0,0],장성:[15,13,0,7,0,4,0,0],담양:[15,14,0,7,0,4,0,1],곡성:[8,8,0,3,0,4,0,0],구례:[11,10,0,5,0,2,0,0],함평:[11,11,0,7,0,4,1,1],광양:[34,29,0,15,0,9,1,1],나주:[29,24,0,16,1,12,1,0],화순:[19,16,1,10,0,4,0,0],순천:[52,41,1,22,0,15,1,0],무안:[22,20,1,12,0,5,0,0],목포:[44,33,1,16,0,15,1,1],영암:[15,16,0,11,0,6,2,0],장흥:[15,14,0,9,0,4,0,0],보성:[14,16,0,11,0,6,0,0],여수:[63,48,6,24,1,15,1,0],신안:[21,19,6,12,1,6,0,0],강진:[13,13,0,9,0,4,1,1],고흥:[18,17,2,15,0,4,0,0],해남:[20,19,2,11,0,4,0,0],진도:[13,10,7,7,0,4,0,0],완도:[23,20,2,12,2,6,0,0]};
+const GJ={북구:[83,47,1,28,0,21,2,0],광산구:[76,45,0,26,0,17,2,0],서구:[47,31,0,15,0,8,1,1],남구:[36,23,0,16,0,17,1,2],동구:[16,11,0,6,0,5,0,0]};
+// 특성지표 [해당, 초, 중, 고]  p.18-22
+const SM={base:{all:1170,jn:853,gj:317},
+ items:[
+  {k:'6학급 이하 소규모 학교',c:'6학급 이하',src:'p.19',all:[342,163,152,27],jn:[333,157,149,27],gj:[9,6,3,0]},
+  {k:'학생수 60명 이하 작은 학교',c:'학생 60명 이하',src:'p.20',all:[430,285,126,19],jn:[420,275,126,19],gj:[10,10,0,0]},
+  {k:'농어촌학교',c:'농어촌 소재',src:'p.21',all:[648,353,204,91],jn:[634,342,201,91],gj:[14,11,3,0]},
+  {k:'도서·벽지 학교',c:'도서·벽지 지정',src:'p.22',all:[107,66,31,10],jn:[107,66,31,10],gj:[0,0,0,0]}]};
+const SUMMARY={ // p.6-7 합계
+ all:{sch:1905,br:36,cls:19604,stu:347720,tch:32749},jn:{sch:1322,br:35,cls:10940,stu:177518,tch:18957},gj:{sch:583,br:1,cls:8664,stu:170202,tch:13792}};
+
+/* ---------- Chart defaults ---------- */
+Chart.defaults.color=css('--mut');Chart.defaults.font.family=css('--f-body');Chart.defaults.borderColor=css('--line');
+const grid={color:css('--line')};
+const alpha=(hex,a)=>{const h=hex.replace('#','');const n=parseInt(h,16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`};
+let R='all',M='sch',T='stu';const charts={};
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const pct=(a,b)=>((b-a)/a*100);
+const dcls=v=>v>0?'up':v<0?'down':'flat';
+const sign=(v,d=0)=>(v>0?'+':v<0?'−':'±')+Math.abs(v).toLocaleString('ko-KR',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ---------- KPI ---------- */
+function kpis(){
+ const S=SUMMARY[R],L=k=>LVD[k][R];
+ const d=k=>{const a=sum(L(k)[0]),b=sum(L(k)[1]);return [b-a,pct(a,b)]};
+ const items=[
+  ['학교수',S.sch,'교',d('sch'),`분교장 ${S.br}교 별도`],
+  ['학급수',S.cls,'학급',d('cls')],
+  ['학생수',S.stu,'명',d('stu')],
+  ['교원수(정원)',S.tch,'명',d('tch')],
+  ['교직원 총계',STAFF_TOT[R],'명',null,'본청·기관·학교 포함']];
+ document.getElementById('kpis').innerHTML=items.map(([k,v,u,dd,ex])=>`<div class="kpi"><div class="k">${k}</div><div class="v">${fmt(v)}<small>${u}</small></div><div class="d ${dd?dcls(dd[0]):'flat'}">${dd?`전년 대비 ${sign(dd[0])} (${sign(dd[1],1)}%)`:ex}</div>${dd&&ex?`<div class="d flat">${ex}</div>`:''}</div>`).join('');
+}
+
+/* ---------- 01 Staff ---------- */
+const SC=['#ffd166','#3fd8f7','#9b7bff','#1fc8a8','#ff8a5c'];
+function staff(){
+ const s=STAFF[R],orgs=Object.keys(s);
+ const ds=STAFF_T.map((t,i)=>({label:t,data:orgs.map(o=>s[o][i]),backgroundColor:SC[i],borderRadius:3,barThickness:22}));
+ document.getElementById('staffTot').textContent=`총 ${fmt(STAFF_TOT[R])}명`;
+ mk('cStaffOrg',{type:'bar',data:{labels:orgs,datasets:ds},options:{indexAxis:'y',maintainAspectRatio:false,scales:{x:{stacked:true,grid,ticks:{callback:v=>fmt(v)}},y:{stacked:true,grid:{display:false},ticks:{color:css('--fg')}}},plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.raw)}명`}}}}});
+ const tot=STAFF_T.map((t,i)=>sum(orgs.map(o=>s[o][i])));
+ const lab=STAFF_T.map((t,i)=>t),dat=tot;
+ mk('cStaffType',{type:'doughnut',data:{labels:lab,datasets:[{data:dat,backgroundColor:SC,borderColor:css('--bg'),borderWidth:2,hoverOffset:8}]},options:{maintainAspectRatio:false,cutout:'64%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,boxHeight:10,filter:it=>dat[it.index]>0}},tooltip:{callbacks:{label:c=>`${c.label}: ${fmt(c.raw)}명 (${(c.raw/sum(dat)*100).toFixed(1)}%)`}}}},plugins:[centerText(()=>[fmt(sum(dat)),'명'])]});
+}
+function centerText(fn){return{id:'ct',afterDraw(ch){const {ctx,chartArea:a}=ch;const [t,s]=fn();ctx.save();ctx.textAlign='center';ctx.fillStyle=css('--fg');ctx.font=`700 22px ${css('--f-disp')}`;const cx=(a.left+a.right)/2,cy=(a.top+a.bottom)/2;ctx.fillText(t,cx,cy+4);ctx.fillStyle=css('--mut');ctx.font=`12px ${css('--f-body')}`;ctx.fillText(s,cx,cy+22);ctx.restore()}}}
+
+/* ---------- 02 Levels ---------- */
+function levels(){
+ const D=LVD[M],[a,b]=D[R];
+ document.getElementById('lvUnit').textContent='단위: '+D.unit;
+ document.getElementById('lvSrc').textContent='SRC '+D.src;
+ mk('cLevel',{type:'bar',data:{labels:LV,datasets:[
+  {label:'2025',data:a,backgroundColor:'rgba(143,160,210,.38)',borderRadius:4,categoryPercentage:.7,barPercentage:.9},
+  {label:'2026',data:b,backgroundColor:LC.map(c=>alpha(c,.92)),borderRadius:4,categoryPercentage:.7,barPercentage:.9}]},
+  options:{maintainAspectRatio:false,scales:{y:{grid,beginAtZero:true,ticks:{callback:v=>fmt(v)}},x:{grid:{display:false},ticks:{color:css('--fg')}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw.toLocaleString('ko-KR',{minimumFractionDigits:D.dec})} ${D.unit}`}}}}});
+ const row=(lbl,arr)=>`<tr><td>${lbl}</td>${arr.map(v=>`<td>${v.toLocaleString('ko-KR',{minimumFractionDigits:D.dec,maximumFractionDigits:D.dec})}</td>`).join('')}</tr>`;
+ document.getElementById('lvTable').innerHTML=`<thead><tr><th>${RN[R]}</th>${LV.map(l=>`<th>${l}</th>`).join('')}</tr></thead><tbody>${row('2025',a)}${row('2026',b)}<tr><td>증감</td>${b.map((v,i)=>{const dv=+(v-a[i]).toFixed(D.dec);return `<td><span class="chip ${dcls(dv)}">${dv===0?'–':sign(dv,D.dec)}</span></td>`}).join('')}</tr></tbody>`;
+}
+
+/* ---------- 03 Trend ---------- */
+function trend(){
+ const D=TR[T],s=D[R];
+ document.getElementById('trUnit').textContent=D.unit;document.getElementById('trSrc').textContent='SRC '+D.src;
+ mk('cTrend',{type:'line',data:{labels:YRS,datasets:s.map((d,i)=>({label:LV[i],data:d,borderColor:LC[i],backgroundColor:alpha(LC[i],.12),fill:i===1?'origin':false,tension:.3,pointRadius:d.map((_,j)=>j===9?5:2),pointBackgroundColor:LC[i],borderWidth:2.2}))},
+  options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{grid,beginAtZero:true,ticks:{callback:v=>fmt(v)}},x:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.raw)}${D.unit}`}}}}});
+ document.getElementById('trLegend').innerHTML=LV.map((l,i)=>`<span><i style="background:${LC[i]}"></i>${l}</span>`).join('');
+ const tot=YRS.map((_,j)=>sum(s.map(r=>r[j])));
+ const ins=[];
+ ins.push([`${sign(pct(tot[0],tot[9]),1)}%`,`전체 ${T==='stu'?'학생':'학교'}수 2017→2026 (${fmt(tot[0])} → ${fmt(tot[9])})`]);
+ if(T==='stu'){ins.push([`${sign(pct(s[1][0],s[1][9]),1)}%`,`초등학생 2017→2026 (${fmt(s[1][0])} → ${fmt(s[1][9])})`]);ins.push([`${sign(pct(s[4][0],s[4][9]),1)}%`,`특수학교 학생 2017→2026 (${fmt(s[4][0])} → ${fmt(s[4][9])})`]);}
+ else{ins.push([`${sign(s[0][9]-s[0][0])}교`,`유치원 2017→2026 (${s[0][0]} → ${s[0][9]})`]);ins.push([`${sign(s[5][9]-s[5][0])}교`,`각종학교 2017→2026 (${s[5][0]} → ${s[5][9]})`]);}
+ document.getElementById('trIns').innerHTML=ins.map(([n,t])=>`<div class="ins"><div class="n">${n}</div><div class="t">${t}</div></div>`).join('');
+}
+
+/* ---------- 04 Map ---------- */
+function regionBlock(name,obj){
+ const rows=Object.entries(obj).map(([k,v])=>[k,v,v[0]+v[1]+v[3]+v[5]+v[6]+v[7]]).sort((x,y)=>y[2]-x[2]);
+ const max=Math.max(...rows.map(r=>r[2]));
+ return `<div class="zone">${name} · ${rows.length}개 · ${fmt(sum(rows.map(r=>r[2])))}교</div><div class="region-list">${rows.map(([k,v,t])=>{const parts=[v[0],v[1],v[3],v[5],v[6],v[7]];const br=v[2]+v[4];
+  return `<div class="rg" title="유 ${v[0]} · 초 ${v[1]}${v[2]?`(${v[2]})`:''} · 중 ${v[3]}${v[4]?`(${v[4]})`:''} · 고 ${v[5]} · 특 ${v[6]} · 각 ${v[7]}"><span class="nm">${k}</span><div class="stack" style="width:${(t/max*100).toFixed(1)}%">${parts.map((p,i)=>p?`<span style="width:${p/t*100}%;background:${LC[i]}"></span>`:'').join('')}</div><span class="tot">${t}</span><span class="br">유${v[0]} 초${v[1]}${v[2]?`(${v[2]})`:''} 중${v[3]}${v[4]?`(${v[4]})`:''} 고${v[5]}${v[6]?` 특${v[6]}`:''}${v[7]?` 각${v[7]}`:''}${br?` · 분교장 ${br}`:''}</span></div>`}).join('')}</div>`;
+}
+function mapv(){
+ const t=document.getElementById('mapTitle'),b=document.getElementById('mapBody');
+ if(R==='jn'){t.textContent='전남 22개 시·군 학교 수';b.innerHTML=regionBlock('전남 시·군',JN)}
+ else if(R==='gj'){t.textContent='광주 5개 자치구 학교 수';b.innerHTML=regionBlock('광주 자치구',GJ)}
+ else{t.textContent='27개 시·군·구 학교 수';b.innerHTML=regionBlock('광주 자치구',GJ)+'<div style="height:18px"></div>'+regionBlock('전남 시·군',JN)}
+ document.getElementById('mapLegend').innerHTML=LV.map((l,i)=>`<span><i style="background:${LC[i]}"></i>${l}</span>`).join('');
+}
+
+/* ---------- 05 Gauges ---------- */
+function gauges(){
+ const base=SM.base[R];document.getElementById('smBase').textContent=fmt(base)+'교';
+ const C=2*Math.PI*52;
+ document.getElementById('gauges').innerHTML=SM.items.map((it,ix)=>{const [n,e,m,h]=it[R];const p=n/base*100;const col=[css('--cyan'),'#9b7bff',css('--c-go'),css('--coral')][ix];
+  return `<div class="panel gauge"><div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(p/100*C).toFixed(1)} ${C.toFixed(1)}" style="filter:drop-shadow(0 0 6px ${col})"/></svg><div class="c"><div class="p">${p.toFixed(1)}%</div><div class="s">${fmt(n)}교 / ${fmt(base)}</div></div></div><h3>${it.k}</h3><div class="mini"><span>초 ${e}</span><span>중 ${m}</span><span>고 ${h}</span></div><div class="crit">${it.src}</div></div>`}).join('');
+ document.getElementById('smNote').textContent= R==='all'?'※ 원문 p.18 요약에는 통합 농어촌학교 비율이 75.4%로 표기되어 있으나, 648교 ÷ 1,170교 = 55.4%이며 p.21 도표도 55.4%로 표기되어 있어 55.4%로 표시했습니다. 추가 확인이 필요합니다.':
+  R==='jn'?'※ 원문 p.19 원그래프의 초·중 색상 표기와 표 수치가 엇갈려, 통합·광주 수치와 정합되는 표 기준(초 157교·중 149교)으로 표시했습니다.':'※ 광주는 도서·벽지 지정 학교가 없습니다(p.22).';
+}
+
+/* ---------- infra ---------- */
+function mk(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg)}
+function renderAll(){kpis();staff();levels();trend();mapv();gauges()}
+function bindSeg(sel,attr,set){document.querySelectorAll(sel+' button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll(sel+' button').forEach(x=>x.setAttribute('aria-pressed',x===b));set(b.dataset[attr])}))}
+bindSeg('.seg','r',v=>{R=v;try{localStorage.setItem('edu26-r',v)}catch(e){}renderAll()});
+bindSeg('#lvTabs','m',v=>{M=v;levels()});
+bindSeg('#trTabs','t',v=>{T=v;trend()});
+try{const s=localStorage.getItem('edu26-r');if(s&&RN[s]){R=s;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.r===s))}}catch(e){}
+renderAll();
+</script>
