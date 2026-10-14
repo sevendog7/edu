@@ -1,0 +1,521 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>K-교육특별시 추진과제 총람</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 데스크톱은 좌측 고정 목차 + 본문 한 단(최대 760px), 모바일은 한 단. 상단 검색 패널이 본문 위에 고정. 장 색상은 보고서의 청·주황·녹 */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#151c22; --text:#232c34; --muted:#4f5b66; --line:#d7dee3; --hl:#ffe58a; --hl-ink:#151c22;
+  --c1:#16799e; --c1-soft:#e2f0f6;
+  --c2:#b85a17; --c2-soft:#faeee4;
+  --c3:#46822a; --c3-soft:#e8f2e1;
+  --c4:#a53d61; --c4-soft:#f6e5eb;
+  --no:#b03636; --fs:17px;
+  --f-body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11171c; --surface:#192127; --ink:#eef2f4; --text:#dce3e7; --muted:#a7b3bc; --line:#2d3942; --hl:#7a5c00; --hl-ink:#fff6d6;
+  --c1:#62bfe2; --c1-soft:#173543; --c2:#f0a066; --c2-soft:#3b291b; --c3:#93cb72; --c3-soft:#22351a; --c4:#e892b0; --c4-soft:#3a202a; --no:#f08a8a;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11171c; --surface:#192127; --ink:#eef2f4; --text:#dce3e7; --muted:#a7b3bc; --line:#2d3942; --hl:#7a5c00; --hl-ink:#fff6d6;
+  --c1:#62bfe2; --c1-soft:#173543; --c2:#f0a066; --c2-soft:#3b291b; --c3:#93cb72; --c3-soft:#22351a; --c4:#e892b0; --c4-soft:#3a202a; --no:#f08a8a;
+  color-scheme:dark}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:var(--fs);line-height:1.8;word-break:keep-all;overflow-wrap:break-word;letter-spacing:-0.005em}
+body.large{--fs:19px}
+h1,h2,h3{text-wrap:balance;margin:0;color:var(--ink);letter-spacing:-0.02em}
+mark{background:var(--hl);color:var(--hl-ink);border-radius:3px;padding:0 1px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c1);outline-offset:2px}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Header */
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .in{max-width:1200px;margin:0 auto;padding-block:36px 26px}
+.eyebrow{font-size:.82em;color:var(--muted);font-weight:500}
+h1{font-size:clamp(1.75em,4vw,2.4em);font-weight:800;line-height:1.3;margin-top:6px}
+.vision{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--muted);font-size:.94em}
+.vision b{color:var(--ink);font-weight:700}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.stat{display:flex;align-items:baseline;gap:6px;padding:6px 14px;border:1px solid var(--line);border-radius:99px;font-size:.88em;color:var(--muted);background:var(--bg)}
+.stat b{font-family:var(--f-mono);font-size:1.15em;color:var(--ink)}
+
+/* Search panel */
+.searchbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 4px 14px -10px rgba(0,0,0,.25)}
+.searchbar .in{max-width:1200px;margin:0 auto;padding-block:12px;display:grid;gap:10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sbox{position:relative;flex:1 1 360px;min-width:0}
+.sbox svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted);pointer-events:none}
+#q{width:100%;box-sizing:border-box;font:inherit;font-size:1em;padding:11px 44px 11px 44px;border:2px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+#q:focus{border-color:var(--c1);outline:none;background:var(--surface)}
+#clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);font-size:1.2em;width:32px;height:32px;border-radius:6px;cursor:pointer}
+#clear:hover{background:var(--bg);color:var(--ink)}
+.result{font-size:.88em;color:var(--muted);white-space:nowrap}
+.result b{color:var(--ink);font-family:var(--f-mono)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.seg button{font:inherit;font-size:.82em;padding:6px 12px;border:0;background:transparent;color:var(--muted);cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);font-weight:700}
+.label{font-size:.8em;color:var(--muted);font-weight:500}
+.kw{font:inherit;font-size:.8em;padding:4px 11px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer}
+.kw:hover{border-color:var(--c1);color:var(--c1)}
+.opts{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+
+/* Body layout */
+.layout{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;padding-block:28px 60px}
+aside.toc{position:sticky;top:150px;align-self:start;max-height:calc(100vh - 170px);overflow:auto;font-size:.86em}
+.toc .pol{margin-top:16px;font-weight:700;color:var(--c);font-size:.9em}
+.toc .pol:first-child{margin-top:0}
+.toc a{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--text);line-height:1.5}
+.toc a:hover{background:var(--surface)}
+.toc a.dim{opacity:.4}
+.toc .n{font-family:var(--f-mono);color:var(--muted);font-size:.9em}
+main{min-width:0;max-width:780px}
+
+section.sub{scroll-margin-top:160px;margin-bottom:44px}
+.subhead{padding:16px 20px;border-radius:12px;background:var(--cs);margin-bottom:18px}
+.subhead .k{font-size:.8em;font-weight:700;color:var(--c)}
+.subhead h2{font-size:1.45em;font-weight:800;line-height:1.35;margin-top:2px}
+.subhead h2 .code{font-family:var(--f-mono);color:var(--c);margin-right:10px}
+.tasks{display:grid;gap:16px}
+article.task{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:22px 26px;scroll-margin-top:160px}
+.t-title{display:flex;gap:12px;align-items:baseline}
+.t-title .num{font-family:var(--f-mono);font-weight:600;color:var(--c);font-size:1.05em;flex:none}
+.t-title h3{font-size:1.2em;font-weight:700;line-height:1.5}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0;font-size:.78em}
+.meta span{padding:2px 10px;border-radius:5px;background:var(--bg);color:var(--muted);font-variant-numeric:tabular-nums}
+.meta .x{color:var(--no);font-weight:700}
+.meta .o{color:var(--c3);font-weight:700}
+.block{display:grid;grid-template-columns:5.2em minmax(0,1fr);gap:4px 16px;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line)}
+.block:first-of-type{border-top:0}
+.block .lb{font-size:.82em;font-weight:700;color:var(--c);padding-top:.2em}
+.block p{margin:0}
+.block ul{margin:0;padding-left:1.1em;display:grid;gap:8px}
+.block li::marker{color:var(--c)}
+.eff p{color:var(--ink);font-weight:500}
+body.compact .acts{display:none}
+.empty{display:none;padding:40px 24px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+
+section.dev{scroll-margin-top:160px}
+.devlist{display:grid;gap:12px}
+.dev-item{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c4);border-radius:10px;padding:16px 22px}
+.dev-item h3{font-size:1.06em;font-weight:700;line-height:1.5}
+.dev-item h3 .num{font-family:var(--f-mono);color:var(--c4);margin-right:10px}
+.dev-item p{margin:6px 0 0;color:var(--text)}
+.dev-item .pg{font-size:.78em;color:var(--muted)}
+.note{font-size:.84em;color:var(--muted);margin-top:12px}
+footer{border-top:1px solid var(--line);background:var(--surface)}
+footer .in{max-width:1200px;margin:0 auto;padding-block:22px 36px;font-size:.84em;color:var(--muted)}
+.hide{display:none!important}
+
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:0}
+  aside.toc{display:none}
+  main{max-width:none}
+}
+@media (max-width:560px){
+  article.task{padding:18px 18px}
+  .block{grid-template-columns:1fr;gap:4px}
+  .searchbar .opts .label{display:none}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="top"><div class="in gutter">
+  <div class="eyebrow">2026 K-교육특별시 준비위원회 활동보고서 · 2026. 7. 30. 발행</div>
+  <h1>K-교육특별시 추진과제 총람</h1>
+  <div class="vision"><span>비전 <b>미래를 여는 학교, 더 큰 대한민국을 만드는 전남광주교육</b></span><span>인재상 <b>서로 존중하고 함께 성장하는 학생</b></span><span>핵심가치 <b>공생 · 책임 · 성장</b></span></div>
+  <div class="stats"><span class="stat"><b>3</b>정책과제</span><span class="stat"><b>8</b>세부추진과제</span><span class="stat"><b>56</b>추진과제</span><span class="stat"><b>21</b>발전과제</span></div>
+</div></header>
+
+<div class="searchbar"><div class="in gutter">
+  <div class="row">
+    <div class="sbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="과제명·내용 검색 (띄어쓰기로 여러 단어 동시 검색)" autocomplete="off" aria-label="과제 검색">
+      <button id="clear" type="button" aria-label="검색어 지우기" hidden>×</button>
+    </div>
+    <div class="result" id="result" aria-live="polite"></div>
+  </div>
+  <div class="opts">
+    <span class="label">자주 찾는 말</span>
+    <span class="row" id="kws"></span>
+  </div>
+  <div class="opts">
+    <span class="label">정책과제</span>
+    <div class="seg" id="polf" role="group" aria-label="정책과제 필터"></div>
+    <span class="label">보기</span>
+    <div class="seg" id="viewf" role="group" aria-label="보기 방식">
+      <button type="button" data-v="full" aria-pressed="true">자세히</button>
+      <button type="button" data-v="compact" aria-pressed="false">요약만</button>
+    </div>
+    <span class="label">글자</span>
+    <div class="seg" id="sizef" role="group" aria-label="글자 크기">
+      <button type="button" data-s="n" aria-pressed="true">보통</button>
+      <button type="button" data-s="l" aria-pressed="false">크게</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="layout gutter">
+  <aside class="toc" id="toc" aria-label="목차"></aside>
+  <main id="main"></main>
+</div>
+
+<footer><div class="in gutter">
+  <p>출처: 전남광주통합특별시교육청 준비위원회, 「2026 K-교육특별시 준비위원회 활동보고서(이북)」(2026. 7. 30.). 각 과제의 쪽수는 보고서 원문 쪽수입니다.</p>
+  <p>과제별 ‘정책 목표 · 추진 과제 · 기대 효과’를 요약했고 ‘예상 문제점 및 대책’은 생략했습니다. ‘27년 예산’은 원문의 ‘27년 예산 필요’ 표기(○/×)입니다. 원문이 이미지 PDF여서 판독 후 정리했으므로, 수치를 인용할 때는 원문 해당 쪽을 함께 확인하시기 바랍니다.</p>
+</div></footer>
+
+<script>
+const POL=[
+ {k:"정책과제 Ⅰ",t:"학생 성장을 책임지는 교실",c:"c1"},
+ {k:"정책과제 Ⅱ",t:"지역이 키우고 세계를 주도하는 인재 양성",c:"c2"},
+ {k:"정책과제 Ⅲ",t:"자율과 분권의 교육자치",c:"c3"}
+];
+const SUBS=[
+{id:"s1-1",code:"1-1",name:"가능성을 여는 배움",p:0,tasks:[
+[1,"학생의 삶과 지역의 미래를 연결하는 전남광주교육과정 운영","2026~2030",1,26,
+ "지역 정체성·학교 자율성·학생 성장을 연계한 미래교육 표준 제시, 학교교육과정의 자율성·다양성 확대",
+ ["교육비전·인간상·핵심역량을 반영한 전남광주교육과정 개발(민주인권·역사·생태·농산어촌·미래산업 등 지역자원 반영)","설계–실행–평가·피드백–기록·환류 순환의 학교급별 실행 프레임워크 개발","학교·지역별 강점교육과정제: 단독형·학교연합형·지역특화형·지역연계·고교-대학·온오프라인 융합형","교원 인사 1월 실시로 새학년 준비기간 10일 이상 확보, 지역 교육협력 네트워크·상시 멘토링 지원단 운영"],
+ "질문·탐구와 진로·삶이 연계된 학습으로 미래 핵심역량 강화, 지역 교육생태계 조성"],
+[2,"기초학력 무한책임제 운영","2026~2030",1,29,
+ "학습지원전문교(강)사 다변화·적기 배치, 국가 기초학력지원포털 연계 데이터 기반 진단, 기초학력지원센터 중심 일원화",
+ ["초·중학교 학습지원전문교(강)사 배치 확대 및 유형 다양화, 역량 강화 연수","국가 포털 연계 진단·보정 지도, 학교급 전환기 학습이력 관리, AI 맞춤형 피드백","3단계 배움 안전망: 수업 속(담임) – 학교 안(두드림학교) – 학교 밖(학습종합클리닉센터)","기초학력지원센터 지정·조직·예산 정비, 기초학력지원팀 신설"],
+ "기초학력 책임 지도 강화, 상시 맞춤형 자기주도 학습, 교육 사각지대 해소"],
+[3,"수업 대전환을 이끄는 2030교실","2026~2030",1,31,
+ "수업 연구 문화와 AI 교육자원을 결합한 2030교실 모델 발굴, 실제 수업 변화로 이어지는 교실 생태계 실현",
+ ["모델 세분화: 모든교실(기본형)·과밀학교·글로컬학교·AI학교","신규 조성 매년 250개(4년간 총 1,000개), 기존 미래형 교실 100개 2030교실로 전환","2030수업교사 매년 250명(총 1,000명), 2030수업연구회 매년 1,250명(총 5,000명) 운영","학교별 1:1 온·오프라인 컨설팅, 2030교실 길라잡이·수업맛집지도 보급"],
+ "교사·AI·공간이 결합된 수업 대전환 생태계, 교육 지산지소 기반 마련"],
+[4,"서·논술형 평가 단계별 확대로 평가 체제 대전환","2026~2030",1,33,
+ "비판적 사고력·문제해결력을 키우는 평가로 전환, 교원 평가 전문성 강화, 출제·채점 부담 완화 시스템 도입",
+ ["2027학년도 초5~6 국·수·사·과 수행평가 지필영역 서·논술형 전환, 중1 2학기 정기시험 실시 → 2028 중2, 2029 중3 확대(고교는 대입 개편 고려 단계적 추진)","루브릭 기반 AI 서·논술형 평가 지원 시스템 연차 구축(2026 데이터 수집 → 2029~ 기능 고도화)","교사 평가 전문성·자율성 보장 조례 제정 추진","학교 – 교육지원청 – 교육과정개발평가원 3단계 평가 지원·이의제기 대응체계"],
+ "학습 환류 강화, 미래형 평가 체제 전환으로 공교육 평가 공신력 제고"],
+[5,"AI기반 교수학습 통합 플랫폼 구축·운영","2026~2030",1,36,
+ "광주 아이온·전남 아이모두 일원화, 국가 표준 연계 교육데이터 기반 조성, NEIS 학적 연계 생애주기 성장관리",
+ ["두 플랫폼을 통합한 단일 교수학습 플랫폼과 통합 관문 구현, 단계적 전환","국가 분석체계 호환 데이터 수집 규격, 데이터 레이크하우스 적재, 민감정보 가명·비식별 처리","NEIS 학적 식별체계 연동으로 진급·전출입·학교급 전환 시 성장 이력 연속 관리","독서·문해력 진단, 교육케어 대시보드, AI 지식검색·추천 서비스, 거점·선도학교 운영"],
+ "초·중·고 성장 데이터 연속 관리로 생애책임교육 실현, 중복투자 축소, 학부모 협력 강화"],
+[6,"학생의 교육과정 선택권 확대를 위한 온라인학교 기능 강화","2026~2030",1,39,
+ "모든 학생에게 실질적 과목 선택권 보장, 진로 맞춤 학업 설계로 지역·학교 간 격차 완화",
+ ["수업 아카이브형 플랫폼 재편(수강·출결·평가·학점 통합 관리), 전남·광주 과목 공동 개설·교차 이수","하이브리드 수업, 소인수·희소·심화 과목 확대, 수학·과학 수업 아카이브 공모, 대학·지역기관 공동 개발","온라인학교 교원 전문성 강화 및 수업 질 관리·성과 환류","학점 인정·학생부 기재 기준 정비, 학교 밖 청소년·학업중단학생의 공교육 재진입 지원"],
+ "시공간 제약 없는 공교육 인프라 완성, 학점 이수 기회 실질적 확대"],
+[7,"수업과 교실에 집중하는 지원, 전남광주교육과정개발평가원 신설","2026~2030",1,41,
+ "전남광주형 교육과정 연구·개발 체계, 교육과정–수업–평가–기록 데이터 통합, 전국 최고 수준 대입·진학 지원, 본청 업무를 직접 수행하는 거점",
+ ["교육과정·수업·평가·대입진학 업무를 인력과 함께 평가원으로 이관해 직접 수행(본청은 의결·고시·예산·조직 등 최소 거버넌스)","기초학력지원센터·진학지원센터·온라인학교총괄센터 3대 센터 기획·총괄","온라인학교·공유학교 운영, 창의융합교육원 이공계 프로그램(뉴턴스쿨) 연계, 이관 분야 교원연수","로드맵: 2026. 8. 설립운영추진단 → 2027. 1. 평가원 출범(4부 9팀+3센터) → 2028. 전면 운영·정착"],
+ "기초학력부터 대입·진학까지 책임지는 집행 전문기관 확립, 도서벽지·소규모학교 과목 선택권 보장"],
+[8,"대입 전문가 양성 및 1:1 진학상담365 운영","2026~2030",1,47,
+ "공교육 중심 대입 지원 인프라 구축, 지역 맞춤형 진학상담365로 학생·학부모 만족도 제고",
+ ["대입 전문 디렉터 기본–심화–전문 3단계 연수, 인증제 도입(3년 주기 갱신)","관내 모든 일반고 1교 1디렉터 단계적 배치, 학교 내 대입 지원 협의체","권역 거점 전문가·대입사정관 배치, 온라인 실시간 상담·챗봇 고도화로 365일 지원, 농산어촌 찾아가는 상담","AI 기반 통합 진학 분석 시스템, 표준 상담 매뉴얼, 학부모 진학 아카데미"],
+ "상향 평준화된 진학 서비스, 대입 정보 격차 해소와 교육기회 균등"],
+[9,"행동하는 K-민주시민교육 생태계 구축 및 헌법교과서 제작","2026~2030",1,49,
+ "통합형 K-민주주의 교육 인프라 완성, 글로컬 표준 민주시민교육 내실화, 행동하는 K-학생 시민 육성",
+ ["「K-민주주의 전당(가칭)」 건립(디지털 트윈 메타버스 센터 등), 한말의병·학생독립운동·여순10·19·5·18을 잇는 K-민주역사 체험 벨트","헌법교과서 제작·보급, 민주시민교육 협약 제정(강압적 주입 금지·논쟁성 원칙, 교원 보호), 혐오·차별·극단주의 예방교육","민주평화통일 배움길, 지역별 위탁형 민주교육 학교, 남북 청소년 교육 단계별 추진","학생자치회 운영비 확대, 전남광주학생의회 정책 제안 제도화, 학업을 중단한 선배 명예졸업장 추서"],
+ "통합특별시만의 K-민주주의 교육 브랜드 선점, 학생의 시민 효능감 제고"],
+[10,"학교의 경계를 넘어 배움을 확장하는 공유학교 운영","2026~2030",1,52,
+ "지역·학교 규모와 관계없이 심화·특성화 교육과정 경험 기회 제공, 교육자원의 학교-지역 간 공유",
+ ["분야별 모델(수학·과학, 독서인문, 예술, 디지털·AI, 진로직업)과 운영 유형(거점기관 직영·학교 연계·온라인 연계), 표준 운영지침","영재교육원 → 뉴턴스쿨, 도서관 → 독서인문학교 등 지역 교육기관의 공유학교 전환","인접 학구 학교 간 공동수업·소인수 선택·심화 탐구 수업 개설","통합 신청 플랫폼, 교육지원청·권역 거점센터 전담팀이 이동·안전·강사 등 행정 일괄 지원"],
+ "학생의 과목 선택권 확대, 지역·학교 간 교육격차 완화"],
+[11,"유아 마음 안전망 구축","2026~2030",1,54,
+ "유보통합 기반 유아 심리·정서 문제 예방·조기 발견 통합 지원체계, 분산 사업 일원화",
+ ["유아 심리·정서 지원 거점센터(컨트롤타워)와 전담팀, 상담 신청부터 사후 지원까지 원스톱","통합 서비스 누리집 구축, 보호자용 유아 마음건강 체크리스트, AI 음성안내·다국어 서비스","보호자 전문 상담·유아 집중 상담 회기 확대","도서·벽지 대상 방문형 유아 마음 성장지원단 운영"],
+ "조기 개입으로 생애주기별 사회적 비용 감소, 유보통합에 부합하는 마음건강 안전망"],
+[12,"지속가능한 영유아교육 생태계 구축","2026~2030",1,56,
+ "0~5세 ‘생애 첫 학교’ 국가책임교육 실현, 저출생 대응 지역 특화형 환경, 4개 권역 놀이체험원 조성",
+ ["0~5세 통합 ‘영유아처음학교’ 모델: 연구·시범학교, 인구감소지역 폐교·유휴부지 활용, 특별법 제74조 취지의 조례 제정","유아교육기관 재구조화: 생태·다문화 통합 단설, 5학급 이상 병설의 병설형 단설 전환, 소규모 병설 병합, 권역별 통학버스","4개 권역 영유아놀이체험원: 광주권·동부권(진흥원 활용), 서부권(목포, 2027년 개원), 중남권(접경지역 신설)"],
+ "어디서나 동일한 양질의 유아교육, 지역 정주 여건 개선"],
+[13,"다양화 및 특성화 특수학교(급) 신증설 추진","2026~2030",1,58,
+ "과대·과밀 해소, 거주지 근거리 학교 학습, 장애학생의 안전한 통학권 보장",
+ ["병설·소규모·특성화 특수학교 설립, 수요 집중 지역 거점형 신설, 노후 공립학교 이설, 공간 재구조화","1교 1특수학급: 모든 일반학교에 특수학급 전환 가능 교실 1실 확보","AI 스마트 통학지원 시스템, 저상·통학버스 확충, 특수학교 부재 지역 환승센터(지자체 지원)"],
+ "장애학생 교육 여건 개선, 통학시간 단축으로 교육격차 해소"],
+[14,"AI에듀테크 특수교육원 설립","2026~2030",1,60,
+ "AI 활용 특수교육·통합교육 컨트롤타워 조성, 장애학생 학습권·접근성 확대",
+ ["2027년 설립 타당성 연구, 2027년 본원·2028년 분원 순차 설립, 전남·광주 특수교육지원센터 총괄","AI 학습·행동분석 기반 개별화교육, 장애유형별 AI 코스웨어, 보조공학기기 연계 통합교육","문화·예술·체육 거점센터, 진로·직업 AI 콘텐츠와 원스톱 취업 지원, 국제교류·해외연수"],
+ "개별 특성 맞춤 AI 교육으로 학습 효과 향상, 특수교육 지원체계 강화"],
+[15,"이주배경학생 성장단계별 맞춤형 책임교육","2026~2030",1,62,
+ "언어 격차 없는 공교육 출발선 보장, 지역 정주형 다문화교육 전문인력 양성, 이중언어 글로컬 인재 육성",
+ ["한국어 집중 지원 학생 전용 학습기기 보급, 「모두의 한국어」 기반 진단–처방–자기주도 학습, AI 통번역 수업모형","다국어 공교육 진입 안내, 한국어 예비과정 시·군 확대, 밀집학교 학급 편성 기준 완화·전문인력 우선 배치","3단계 인력 양성(지자체 기초 – 교육청 심화 – 워크숍), 다문화교육 코디네이터 채용","이중언어 클래스랩, 지역 기업 연계 직무체험, 다국어 진로·진학 상담"],
+ "교육기회의 실질적 평등 확보, 밀집학교 집중 지원으로 학교 간 격차 완화"],
+[16,"학업중단 없는 학교, 성장하는 학생","2026~2030",1,64,
+ "학업중단 위기 학생 조기 발견·선제 대응, 대안교육 위탁기관 내실화",
+ ["교육지원청별 학업중단예방위원회(컨트롤타워)와 현장 컨설팅 지원단","새학기 적응·1:1 멘토링·학교 내 대안교실·Wee센터 연계 등 맞춤형 지원, 외부 멘토링 인력풀","위탁기관 예산·수용인원·만족도 분석 후 확대·집중투자 결정, 대안교육 전문 지원단과 평가·환류"],
+ "학기 초 학업중단 방지, 위기 학생 지원의 지역 격차 완화"],
+[17,"배움을 잇는 학교 밖 청소년 지원","2026~2030",1,66,
+ "온·오프라인 학력인정 경로 다양화, 경제적 장벽 완화, 진로·직업교육으로 지역 내 자립 촉진",
+ ["온라인학교·학점은행제 기반 학력인정 시스템, 의무교육단계 학력인정을 고교까지 확대(3년간 192학점 또는 2,560시간의 80% 이상 수료 시 인정)","「모두 같이 성장」 프로젝트: 운동회·수학여행비, 학습·자격증 지원","전남에서 2020년부터 지급한 교육 참여수당을 통합특별시로 확대, 자퇴·유예 즉시 안내 데이터 연계","자립형 인턴십 운영위원회, 교육청 직업교육 사업 대상에 학교 밖 청소년 포함"],
+ "다양한 학습경로 인정으로 학습 기회 균등화, 지역 내 자립 역량 강화"]
+]},
+{id:"s1-2",code:"1-2",name:"모든 학생 맞춤 복지",p:0,tasks:[
+[18,"전남광주학생교육기본수당 지급 확대","2026~2030",1,70,
+ "직·간접 교육비 지원으로 학부모 부담 완화, 통합에 따른 교육복지 형평성 제고",
+ ["조례 정비, 전남학생교육수당·광주꿈드리미의 통일된 복지 기준 정립","지원대상(3안): 2027년 초5~고3 → 2029년 중1~고3으로 완성(아동수당 대상 연령 제외)","초등 월 10만원·중고 월 5만원 기준, 2026~2030 소요 626,669백만원(전남 347,305·광주 279,364)","바우처 카드사 선정·시스템 구축, 오남용 모니터링"],
+ "교육의 공공성·공정성 강화, 바우처의 지역 내 사용으로 지역경제 활성화"],
+[19,"학생 교육활동 무상 지원(교복·체육복, 현장체험학습, 방과후)","2026~2030",1,72,
+ "교복·현장체험학습·방과후 무상 지원으로 교육비 부담 경감과 교육기회 균등",
+ ["교복(생활복)·체육복: 전남 현물·광주 현금 방식을 2028학년도 통합(현금 지원 검토), 취약계층 추가 지원 검토","현장체험학습비 통합안: 초 128천원, 중·고 200천원, 특수(전공과) 80천원, 수학여행비 추가 지원","방과후: 초1~2 무상 프로그램을 초5~6까지 단계적 확대 검토, 이용권 지원 통일, 문화·예술·체육·AI 등 질 제고"],
+ "교육격차 완화, 아이 키우기 좋은 교육환경과 인구 유입 기반 마련"],
+[20,"인재양성장학기금 운영","2027~",1,74,
+ "과정·노력 중심 ‘누적형’ 장학모델, 초·중·고에서 취·창업까지 종단 설계, 취약계층 사각지대 제로화",
+ ["정부 특별지원금(20조 원 규모) 중 1조 5,000억 원 규모 원금보존형 기금 조성, 인재육성장학재단 설립","성장마디(초6·중3·고3)마다 지급하는 성장형 누적 장학모델","기본트랙 6개 영역(독서인문·기초기본학력·동아리·예술·스포츠·자원봉사), 가산형 심화트랙, 배려형 트랙(이주배경·특수·학교밖)","조례·정관 제·개정, 출연 타당성 검토 및 지방의회 승인"],
+ "장기적·안정적 인재 육성 기반, 지역 미래인재 양성 생태계 조성"],
+[21,"유·초등 단계 맞춤형 책임 돌봄","2026~2030",1,76,
+ "맞춤형 돌봄 지원, 교육청·학교·지역사회 협력으로 돌봄 사각지대 해소, 디지털 통합돌봄 서비스",
+ ["과대·과밀학교 대응 거점형 돌봄센터, 아파트 유휴공간·작은도서관 돌봄교실 확대","「365 안심 돌봄」: 주말·공휴일 시간제·긴급 돌봄, 저녁 돌봄, ‘늘봄 하랑께 버스’, 특수·취약계층 우선 지원","‘전남광주 아이돌봄 통합 앱’ 개발","돌봄교실 운영 기준·지원 규모·돌봄전담사 처우 통합"],
+ "학부모 양육 부담 완화, 소외계층까지 닿는 맞춤 돌봄 체계"],
+[22,"학생 통학 안전 통합지원체계 구축","2026~2030",1,78,
+ "학생 이동권을 교육권의 핵심으로 정립, 통학–등하교 알림–학교 출입을 잇는 광역 통학 안전망",
+ ["등하교 자동 감지·알림: 광주 매년 1개 학년 확대로 2030년 초등 전체, 전남 신청제 → 보편 제공 전환, 이후 중학생 앱 연동 검토","학교 유형별 스마트안전출입 시스템, 배움터지킴이 역할 전환, 생체정보 최소 활용","통합 환승요금제·‘100원 버스’ 확산, 전국 최초 ‘학생 이동권 보장 조례’ 제정 추진"],
+ "집에서 교실까지 사각지대 없는 통학 안전망, 교통비 부담 완화"],
+[23,"권역별 학생마음치유센터 운영","2026~2030",1,80,
+ "정신건강 고위기 학생 치유를 위한 권역별 센터, 예방–상담–치유–교육–학교 복귀 통합 지원",
+ ["권역별 학생마음치유센터 직영·위탁 운영, 1개소를 중심센터로 지정","고위기 중·고생 단기(1~3개월)·중기(6개월) 집중 치유 과정, 대안교육 위탁기관 지정으로 출석 인정","AI 감정관리 앱 등 비대면 마음건강 서비스, 정신건강전문가 찾아가는 긴급지원팀 확대"],
+ "치료와 학업 병행으로 학습 단절 최소화"],
+[24,"글로컬 여권 프로젝트","2026~2030",1,82,
+ "모든 학생이 학령기 중 최소 1회 이상 국제교류를 경험하는 보편적 기회 보장",
+ ["초광역 글로벌 네트워크 전수조사·DB화, 국제교류 원스톱 스마트 플랫폼과 개인별 이력 관리","농어촌·도서벽지 ‘국제교류 우선 지원 학교’ 지정, 취약계층 참가비·여권·비자 비용 지원","온·오프라인 블렌디드 교류, 교육과정 기반 주제 중심 공동 프로젝트(PBL)"],
+ "글로벌 교육복지 실현, 교사 행정 부담 경감과 국제교류 문화 정착"]
+]},
+{id:"s1-3",code:"1-3",name:"교직원 맞춤 지원",p:0,tasks:[
+[25,"밀착 지원 교직원 안심 프로젝트 추진","2026~2030",1,86,
+ "사안 초기부터 법률 전문가 밀착 지원, 특이·악성 민원 처리 창구 일원화",
+ ["교육지원청 ‘학교민원바로지원팀’ 신설: 특이·악성 민원 접수·초기 개입·합동 대응","사건 발생 즉시 1:1 전담 변호사 배정·비용 지원, 상주 변호사, 권역별 교육활동보호센터 확대(전남 4·광주 3)","숏폼 등 예방 콘텐츠, 판례·분쟁 사례관리 시스템","교육공동체 권리·책임 조례 제정, 절차 준수 교원 면책 법률 개정 제안"],
+ "학교 민원 응대 부담 경감, 교원의 실질적 방어권 확보"],
+[26,"안심 교육상담실 구축","2026~2030",1,88,
+ "AI·데이터 기반 미래형 상담 인프라, 상담 기록의 공식 관리로 신뢰하는 소통 환경",
+ ["AI 지능형 상담 관리 플랫폼: 예약·일정 통합, 상담 전 과정 자동 기록·저장, 화상 상담","보안을 강화한 비대면 스마트 상담 공간 조성"],
+ "불필요한 소통 갈등 차단, 상담 행정 부담 경감"],
+[27,"공존교실 시스템 확대 운영","2026~2030",1,89,
+ "수업 방해 학생의 적응·성장 지원으로 학습권 보장, 교사의 생활지도 부담 경감",
+ ["공존교실 지원 강사 인력 안정화(전남 확대, 광주 신규 채용), 담임·교과전담과 상시 공유","교육지원청 단위 1개교 시범 공간 구축, 표준 모델 마련","교실 내 수업·생활 지원, 분리 학생은 지정 공간에서 심리·정서 안정·성찰·학습 지원"],
+ "수업 몰입도 향상, 교사와 학생 간 정서적 신뢰 회복"],
+[28,"현장체험학습 통합지원 및 안심동행 고도화","2026~2030",1,91,
+ "전문 안전인력과 예방 중심 관리로 안심 현장체험학습, 전 과정 AI 플랫폼 일원화로 업무 경감",
+ ["경찰청·소방본부 협약 전문 안전요원 인력풀 확대, 수당 현실화, 사전답사 지원, ‘현장체험학습 꾸러미’","부교육감 직속 사고 대응 지원팀(담당자·변호사·상담사), 유관기관 긴급 대응 협업","원클릭 AI 플랫폼: 체험처 검색·서류 자동 생성·안전요원 매칭·지자체 안전점검 결과 연계"],
+ "즉각적 사고 대응으로 학생 안전망 구축, 학교 업무 부담 해소"],
+[29,"교직원 주거 임차비(월세) 지원","2027~2030",1,93,
+ "통합에 따른 인사교류 교직원의 주거 안정과 근무여건 개선",
+ ["통합에 따른 인사이동 수요조사","한시적 이주지원비·주거지원비, 원거리 출퇴근 실비 수준 교통비 지원","특별법 제43조(근무지 변경 공무원 지원) 근거 조례·규칙 제정, 주택임차지원기금 출연금 확대 검토"],
+ "광역 인사이동 교직원 주거 불안 해소, 농산어촌 기피 완화"],
+[30,"학교 행정업무의 교육지원청 이관·직접수행","2026~2030",1,95,
+ "학교 행정업무 총량 감축, 책임과 처리주체가 명확한 업무체계, 지역·규모와 무관한 균등 지원",
+ ["본청·교육지원청의 학교 대상 공문·자료요구·사업·위원회와 업무분장표 전수 분석, 업무 재설계","교육지원청 학교업무지원센터 재구조화, 2027년 우선 이관·대행 시범 후 효과 확인 업무만 확대","공문·자료요구 사전심사제·사업총량제, 보유자료 재요구 금지, 학교업무 통합접수·처리 플랫폼","부서평가에 공문 감축률·직접처리율·처리기한 준수율·학교 만족도 반영"],
+ "수업 준비·상담·생활교육 시간 확대, 지역 간 지원 형평성 정착"]
+]},
+{id:"s2-1",code:"2-1",name:"교육 지산지소",p:1,tasks:[
+[31,"수학·과학 교육 기반 이공계 미래인재 양성","2026~2030",1,102,
+ "수학·과학 학습 격차 해소, 영재고·과학고 개방형 허브화와 권역별 특성화, 일반고 첨단교육 기회 확대",
+ ["AI 진단 도구로 학업 결손 조기 보정, 초6·중3 전환기 연계 프로그램","수학·과학 공유학교 ‘뉴턴스쿨’로 분산된 자원·프로그램 통합","‘영재학교 3교 체제’(광주과학고 + GIST·KENTECH 등 부설 AI영재학교·에너지영재학교 설립 협조), 권역별 과학고 특성화(광주권 AI·미래모빌리티, 서부권 에너지·반도체, 동부권 우주항공·신소재)","AI·과학 중점학교 20개교 이상 지정, ‘(가칭) 학생 성장교육특구’ 지정"],
+ "공교육 기반 이공계 미래인재 양성, 지역정주형 선순환 모델 완성"],
+[32,"정주형 지역 인재 양성·채용 선순환 생태계 구축","2026~2030",0,105,
+ "대학 지역인재전형 최대 30%, 지방공기업·전략산업 직업계고 졸업자 채용 확대, 교사 지역인재 채용 확대",
+ ["고교-지역대학 연계 교육, 전략산업 학과 중심 지역인재전형 비율 단계적 확대(20%→30%)","공공기관·기업·교육청·지자체 채용 거버넌스, 채용연계형 직무교육, 지역인재 채용 우수기업 인증제","교사 지역인재전형 조례·시행규칙 제정, 지역 근무·정착 인센티브"],
+ "배움–일자리–삶을 잇는 교육 지산지소 선순환 생태계"],
+[33,"K-교육밸리 연계 직업계고 전면 재구조화(학과개편)","2026~2030",1,107,
+ "지역전략산업 중심 직업계고 전면 재구조화(58교, 907학급), 산학연 공동교육과정, 창업교육, 지역인재 고용 촉진",
+ ["신규 마이스터고·협약형 특성화고는 반도체 분야를 중점과제로 추진","전남광주형 글로컬 마이스터고 연계 학교단위 재구조화, 창업고등학교 지정·운영","반도체·AI·에너지·스마트제조·바이오·뷰티테크·문화콘텐츠 학과 고도화, 반도체 분야 우선 개편","전략산업별 협의체, 반도체 공동실습센터, 채용연계형 교육과정·현장실습 확대"],
+ "현장실무형 고졸 기술인재 양성, 지역 맞춤형 직업교육 생태계"],
+[34,"미래전략산업인재원 설립","2026~2030",1,110,
+ "미래전략산업 인재양성 전담 실행기관 설립, 반도체 공동실습센터 중심 공동교육체계",
+ ["산업 인력수요 기반 학과개편·공동교육과정·현장실습 연계, 선도학교 육성","산업별 K-교육밸리 조성, 기업협약·취업매칭, 취업률·후학습 참여율 관리","반도체 공동실습센터: 학교(기초)–인재원(공동실습)–산업체(현장교육·채용) 3단계 체계","교원 연수(반도체 → AI·에너지·이차전지 등 확대), 후학습·지역정주 연계, 전략협의회"],
+ "미래전략산업 전반의 교육청 전담 실행체계, 지역인재 성장경로 구축"],
+[35,"교육특구 지정 및 운영","2026~2030",1,112,
+ "교육지원청·지자체·학교·지역사회 연계 지역별 특화교육모델, 교육발전특구 등 공모사업 연계",
+ ["지역교육 거버넌스(지역교육혁신 플랫폼) 구축","자율학교 지정, 공동교육센터·공유학교, 대학·기업의 실습·전문가 수업 지원","자율형공립고2.0, K-교육밸리, 지역대학 통합교육감 추천 전형·지역인재 우선 채용","학교복합시설, 폐교 활용 창업·평생교육 공간, 거점형 늘봄지원센터"],
+ "진학–취(창)업–정주로 이어지는 지역특화 교육생태계"]
+]},
+{id:"s2-2",code:"2-2",name:"AI교육",p:1,tasks:[
+[36,"K-교육특별시 AI 기본교육 운영","2026~2030",1,116,
+ "AI 대전환 시대 핵심 인재 육성, 학교 교육과정 내 AI 수업 시수 확보로 보편적 AI 교육",
+ ["학교급별 시수 확보(초 실과·창체·학교자율시간, 중 정보·자유학기, 고 진로선택·고교학점제), 편성 지침에 필수 시수 반영","AI 활용 1학생 1프로젝트, 학교급별 가이드라인, 교원 연수(기본–심화–전문)","AI 윤리 학생용 교재·교사용 지도서 개발","광주AI교육원을 허브로 서·동부권 거점센터 설립·운영"],
+ "성숙한 AI 리터러시와 디지털 시민성, AI교육 표준 선도"],
+[37,"AI 중점학교 확대","2026~2030",1,118,
+ "AI·정보교육 활성화를 위한 중점학교 운영체계, 권역별 AI 교육 허브 역할 강화",
+ ["학교급별 선도 모델, 학교 간 교육과정·기자재 공유 플랫폼, 연도별 확대 지정, 정보 교육과정 확대","데이터 과학·생성형 AI 심화, 대학·기업 연계 PBL, 1교 1 AI 융합 동아리·‘AI 교육의 날’","AI 에듀테크 선도교사 1교 1명 우선 배치, 정규 정보교사 적정 배치"],
+ "권역 내 AI 교육 혁신 허브, 지역 간 AI교육 격차 완화"],
+[38,"권역별 AI교육 거점센터 운영","2026~2030",1,120,
+ "도서·농산어촌 학생의 AI 교육 접근성 강화, 이해–활용–윤리를 잇는 성장 단계별 체계",
+ ["광주AI교육원 활용, 전남 서·동부권 각 1개소 설립(가변형·확장형 공간)","초등 체험·탐색, 중등 데이터 프로젝트, AI 영재, AI 윤리 교육","특성화고 실무형 AI교육, 진로·취창업 연계, 반도체·에너지·이차전지 연계 전시체험","교원 연수, 학부모·지역민 AI교육, 찾아가는 AI교육"],
+ "공동 AI교육 허브로 권역 간 격차 완화"],
+[39,"AI·디지털교육 전문교원 양성 및 배치","2026~2030",1,122,
+ "모든 학교에 AI·디지털 활용 전문교원 양성·지정, 전문교원 주도 멘토링 네트워크",
+ ["기본(60시간·실천가 뱃지) – 심화(100시간·멘토 뱃지) – 전문(전문가 뱃지) 단계별 연수, 디지털 뱃지 연동","AI·디지털교육 전문교원 2,000명 양성·지정","선도학교 공모·인센티브, 수업 연구회 예산, 수업 지원(시간강사 등)","지역 단위 네트워크, 우수사례 발굴·확산"],
+ "교사 주도형 자생적 교육문화 확산, 교육격차 해소와 상향 평준화"]
+]},
+{id:"s2-3",code:"2-3",name:"인문예술체육 및 생태전환 교육",p:1,tasks:[
+[40,"청소년 작가교실 확대 운영","2026~2030",1,128,
+ "독서 생활화와 평생독자 역량 함양, 지역 청소년 작가 발굴·출판 연계",
+ ["교육과정 연계 ‘1교 1작가교실’, ‘한 학기 한 권 쓰기’","웹소설·웹툰 콘티·시나리오 등 장르 다양화, 특성화고·학교 밖 청소년 확대","지역 작가·출판 전문가 인력풀, 청소년 문학 발표회·온라인 공유 플랫폼, 지역 출판사 연계 데뷔"],
+ "창의적 글쓰기·자기표현 역량, 청소년 문화콘텐츠 생태계 활성화"],
+[41,"평생성장 플랫폼으로서의 통합도서관 운영","2026~2030",1,129,
+ "AI·빅데이터 기반 통합도서관으로 도서관 격차 해소, 학교-지역 도서관 연계 평생성장 플랫폼",
+ ["광역 통합도서관 플랫폼(통합 검색·예약, 공동 회원 인증, 맞춤형 서비스)","통합독서관리위원회, 서비스 표준 매뉴얼","상호대차, 학교-공공도서관 연계, 농어촌·도서 책 배달","학교·지역·대학·작은도서관 네트워크, 생애 전환기별 평생성장 시스템"],
+ "학교·공공도서관·지역사회가 함께 성장하는 독서문화 생태계"],
+[42,"학생 1인 1평생 스포츠·1예술 성장교육","2027~2030",1,131,
+ "모든 학생의 1인 1평생 스포츠·예술 교육 기회 보장",
+ ["1학생 1종목 참여제, 학생스포츠종합지원센터 지원단, 소규모학교 연합 프로그램, 참여율 모니터링","학생 주도 체육 일상화 인증 플랫폼, 위기 학생 대상 스포츠 동행 프로그램","1학생 1예술 프로그램, 예술교육 조례 제정, 문화 소외지역 지원"],
+ "신체적 능력과 예술적 감수성을 겸비한 인재 성장 기반"],
+[43,"체육건강교육원 설립","2027~2030",1,133,
+ "체육·보건 통합 서비스로 학생 건강 안전망 확보, 체육 국제교류 전담 체계",
+ ["체육: 학교급별 체육 교육과정 가이드라인, 학생선수 훈련·인권 보호, 권역별 리그, 노후 시설 개선, 해외 스포츠 교류","보건: 성교육·흡연·약물 예방 콘텐츠, 공기질·수질·급식 위생, 감염병 예방 상시 가동","본청(정책)–교육원(집행) 정기 실무협의회"],
+ "학교와 지역을 잇는 체육·보건 허브, 예방 중심 선제 대응"],
+[44,"생태전환교육 강화 및 ESG교육센터 설립","2026~2030",1,135,
+ "생태전환교육의 지속성·전문성 확보, 환경·사회참여·교육협치를 잇는 생태 시민 양성",
+ ["시민협치진흥원 환경교육팀과 ESG교육지원센터의 조직·사업 통합","ESG교육센터 설립, 체험형 프로그램 운영","중장기 계획, 지역 맞춤 교재·프로그램, 교원 전문성 강화, 환경단체 협력"],
+ "기후위기 대응 역량을 갖춘 미래시민 양성"]
+]},
+{id:"s3-1",code:"3-1",name:"현장 중심 교육자치 분권",p:2,tasks:[
+[45,"기획과 책임 중심 본청으로의 기능 재구조화","2027~2030",1,140,
+ "본청 조직·인력·업무 슬림화, 집행 업무의 직속기관·교육지원청 이관, 정책기획·조정 중심 재구조화",
+ ["본청의 집행·중복·유사 사업 대폭 축소(통합·폐지), 기능·권한·인력 이관(예: 교육과정·수업·평가 업무는 기획조정실 1/5·평가원 2/5·교육지원청 2/5 내외)","기획조정실 개편(약 150~200명 내외), 구성원별 2~3개 이상 총괄업무 배정","조직구성원 의견수렴·로드맵 사전 공개, 실행 가능한 이관부터 순차 개편"],
+ "통합교육청의 전략기능·책임성 강화, 학교 가까운 곳의 지원 기능 강화"],
+[46,"학교지원 강화를 위한 직속기관 재구조화","2026~2030",1,144,
+ "분산된 직속기관을 기능 중심으로 통합해 중복 해소, 권역별 분원으로 접근성 격차 축소",
+ ["유사·중복 기관 통합·전환: 금호평생교육관→평생교육진흥원, 목포도서관→독서교육진흥원, 학생교육문화회관→문화예술교육원, 시민협치진흥원→민주시민교육원, 교육연구정보원→교육정책연구원 등","6개월 이내 신설: 교육과정개발평가원·체육건강교육원·교육정책연구원 / 1년 이내: 평생교육진흥원·독서교육진흥원·문화예술교육진흥원·미래전략산업인재원","신축 신설: 학생마음건강교육원(2년 이내), ESG환경교육센터·K-교육정보원(3년 이내), 특수교육원(추진 중)","신규 건축 최소화, 기존 여유 시설 최대 활용"],
+ "학교가 필요로 하는 전문지원의 질과 속도 향상"],
+[47,"교육지원청 재구조화 및 학교지원 기능 강화","2026~2030",1,147,
+ "24개 교육지원청을 3개 이상 권역 체제로 재편, 본청–권역–지역–학교 간 분권형 지원체계",
+ ["권역 교육지원청 지정, 예산 총괄·정원·대규모 계약·감사 등 전문업무 권역 집중","지역정원제(지방공무원 총정원 10~15% 자율 배정), 지역예산제(포괄사업비 확대), 교육과정 자율화","학교지원 전담기관으로 재설계, 학교 민원 전화의 교육지원청 우선 연결 검토, 학교폭력·교권·체험학습 밀착 지원","학교 내 행정업무 전담팀 확대"],
+ "권역 단위 교육자치 강화, 교원의 교육활동 전념"],
+[48,"공모교육장 임용 선발 운영","2026. 7.~2030. 6.",1,150,
+ "교육감 인사·행정 권한의 교육지원청 이양, 공모로 현장이 원하는 교육전문가 배치",
+ ["역량·성과 중심 공모 기준(지역 교육 비전, 학교 지원 역량, 청렴·공공성 지표화), 교육공동체 참여 공개 심사","「(가칭) 공모 교육장 임용 선발 운영 조례」 제정","권역 교육지원청 교육장 시범 공모(제안: 광주 서부교육지원청)","1단계 2026. 7.~12. 제도 설계 → 2단계 2027. 시범 운영 → 3단계 2028~2030 확대·정착"],
+ "교육장 책임경영으로 지역 중심 교육자치 실현"],
+[49,"전남 동부권역 교육청사 신설","2026~2030",1,152,
+ "동부권 교육행정 거점 청사 구축, 동·서부 균형 교육행정체계",
+ ["청사 체제: 동부청사(동부권역 교육지원청 기능), 남악청사(본청+서부권역), 광주청사(본청+광주권역)","기존 교육지원청 중 권역 교육지원청을 지정해 동부청사 기능 수행","학교지원·교원연수·지역연계·미래교육 정책지원 기능 배치, 기존 시설 기능 전환으로 조기 구축"],
+ "동부권 교육행정 접근성 향상과 균형발전"],
+[50,"광주권역 교육지원청 신설","2026~2030",1,154,
+ "광주권역 현장 밀착형 지원체제, 택지 개발·학령인구 이동에 따른 업무 불균형 해소",
+ ["동·서부 교육지원청 업무량·접근성 분석, 교육공동체 의견 수렴","과밀·개발 지역 중심 신설 추진(제안: 광산구교육지원청)","기구 설치 기준 완화 규정 개정 건의·조례 개정","청사 신축 지양, 폐교·유휴공간 리모델링 활용"],
+ "학교 지원·민원 처리 속도 제고, 생활권 중심 맞춤 서비스"],
+[51,"교육행정 안착 및 자율권 확보를 위한 「특별법」 개정","2026~2030",0,156,
+ "특별법 개정으로 재정·정원·교육과정 자율권 명문화, 교육행정 통합 안착",
+ ["통합재정 인센티브: 1안 통합특별교육교부금 특례(내국세 1,000분의 3, 연 1조 317억)를 대표안으로 확정(2안 연 1조 원, 3안 연 1조 5,023억)","정무직 부교육감 신설로 부교육감 총 3명 체제","특별법 제66조에 「초·중등교육법」 제23조제2항 특례 부여(교육과정 자율권)","관할구역 여건 반영 교원 정원, 소규모학교 기초정원제(초 6학급 이하 7명, 중·고 3학급 이하 9명), 이주배경학생 체류 특례 재추진"],
+ "통합교육청 정책 실행력 제고, 통합 선도 모델 제시"]
+]},
+{id:"s3-2",code:"3-2",name:"AI활용 교육행정업무 간소화",p:2,tasks:[
+[52,"K-교육정보원 설립","2026~2030",1,160,
+ "다양한 교육 데이터를 수용할 K-교육정보원 설립, AI 기반 학습서비스 제공 기반",
+ ["전남·광주 NEIS·K-에듀파인·정보보안 관제 등 정보시스템 통합","국가 데이터센터 또는 보안 인증(CSAP) 민간 클라우드 활용, 아이모두·아이온 등 AI 플랫폼 인프라 제공","AI 서비스 보안·개인정보 기준, 교육데이터 거버넌스·접근통제"],
+ "최신 AI 서비스 신속 도입, 안전한 AI 활용 환경"],
+[53,"클라우드 기반 업무환경 제공","2027~2029",1,162,
+ "클라우드 기반 통합 업무환경, 협업 중심 스마트 행정체계",
+ ["기관 간 공동 활용 클라우드 업무환경 모델, 업무용 1인 1노트북 보급","공통문서 작성·자료공유 협업 플랫폼, 원격근무 환경","데이터 백업·복구 체계, 클라우드 보안 기준"],
+ "언제 어디서나 가능한 업무 환경, 업무 연속성 보장"],
+[54,"행정업무 통합처리 플랫폼 구축","2026~2030",1,164,
+ "교수학습·업무·정책사업 자료를 축적·검색·분석하는 플랫폼, 교육데이터 거버넌스 마련",
+ ["파일서버·공유폴더·업무관리시스템에 분산된 자료를 모으는 교육자산 데이터 레이크하우스, 데이터 인벤토리","메타데이터 표준·등록 승인 체계(개인정보·저작권·초상권·AI 생성물 사전 점검)","벡터DB·RAG 기반 의미 검색·유사자료 탐색·정책자료 요약·업무 답변","품질관리 기준, 버전 관리로 공동 교육자산화"],
+ "교육 콘텐츠의 자산화, 학교·지역 간 교육력 격차 완화"],
+[55,"DNA(Data&AI) 기반 교직원 업무 경감 및 스마트 교육행정 구현","2026~2030",1,166,
+ "한 번만 제출하는 데이터 행정, 실시간 데이터 검증·표준화, AI 기반 반복업무 자동화",
+ ["학교 데이터 게이트웨이를 하나의 관문으로 통합, NEIS·K-에듀파인 등 기존 시스템 자동 연계","교육지원청 지역 데이터 허브: 학교에 요구하기 전 기존 보유자료 자동 조회","본청 통합 데이터 허브와 공통 식별체계(학교·기관코드, 사업 ID 등)","‘함께 ON-AI’ 행정비서·AI 업무 에이전트(법령·지침·FAQ·감사사례 RAG), 데이터 등급화·개인정보 마스킹"],
+ "중복 제출 감소, 교직원의 학생집중 시간 확대"],
+[56,"권역별 공용 스마트워크 센터 운영","2027~2030",1,168,
+ "광역 행정환경에 대응하는 권역별 스마트워크 기반, 유연근무·협업 문화 정착",
+ ["권역별 스마트회의실·공유오피스·집중업무 공간 조성","실시간 예약 시스템, 클라우드 기반 안전한 원격근무","이용 지침·성과관리, 정보보안·개인정보보호 대책"],
+ "기관 간 이동시간 감소, 협업 중심 업무문화 확산"]
+]}
+];
+const DEV=[
+["AI 기반 학생 성장 이력·대입 통합분석 시스템 구축","학생부·진로·상담·학업성취 통합관리, 전남·광주 통합 입시DB, 수능·내신·비교과를 통합 분석하는 AI 추천 리포트",172],
+["문제은행 시스템 구축과 전국연합학력평가 출제 기관 준비","성취기준별 클라우드 문항DB·출제 인센티브, 모의고사 2027 통합(고3) → 2028 확대(고1~3) → 2029 전국연합 주관",173],
+["IB프로그램 권역별 초·중·고 연계 체제 구축","운영학교 중심 권역 설정, 관심–후보–인증학교 단계 지원, 권역별 전문학습공동체·통합 IB 권역지원단",174],
+["작은학교 특성화 지원 확대","조례로 작은학교 기준 통합, 광역 공동학구제·자유학구제, 유형별 특화 교육과정, 도시 학생 농산어촌 교류학기제",175],
+["학생 주도 프로젝트 확대","1학생 1프로젝트·1교 1대표 프로젝트, 대학·기업·지역 연계 진로 프로젝트, 포트폴리오·학생부 기재 지원",176],
+["진로연계 꿈실현 장학금 확대","전남·광주 장학재단 통합 개편 검토, 지원 기준·선발 일원화, 지자체·기업·동문 참여 기금 조성",177],
+["지역 연계 개방형 학생선수 육성시스템 구축 ※","(원문 제목 표기. 본문은 장애학생 직업교육) 거점학교·전공과 직업교육 종목 개편, 현장 직무훈련·훈련지원인 배치, 문화·예술·체육 취업 연계",178],
+["독서인문 선도교사 양성·교과연계 필수 도서목록 이수제 확대","학교급 연계 독서(초등 매일 30분 등), 공동 필수 도서목록·개인 독서 이력, 선도교사 인증제",179],
+["기본교육 실현을 위한 학급당 학생 수 적정화","학급 규모 목표구간 관리제, 과밀학급 단계적 감축, 극소규모 학급 재편, 교원 기초정원제 추진",180],
+["학생 원거리 통학 최소화 프로젝트 추진","원거리 통학망 구축, 대중교통 소요시간을 반영한 고교 배정, 접경지역 공동학구·자유학구제 도입 추진",181],
+["급식실 환경 개선 및 급식비 합리적 기준 마련","통합 표준 급식비 단가(물가지수 반영), 노후 급식실 리모델링 로드맵, 종사자 건강 보호, 통합 식재료 공급망",182],
+["365일 공백없는 유아교육기관 급식 질 상향","유치원·어린이집 동일 단가 지원, 1인당 단가 상향, 방학 중 급식 지원체계 구축",183],
+["아침 간편식 운영 확대","제공 학교 연차 확대, 지원 조례 제정, 운영 매뉴얼·권역별 컨설팅, 지역 농산물 구매 확대",184],
+["남도예술교육원 건립 추진","전통·현대 예술 통합 교육 거점, 국립아시아문화전당 연계, 초광역 악기뱅크, 공연전시·교육·숙박·연구동",185],
+["전남광주 체육계열 학교 재편","무안·광주 체육중 현대화, 동부권 체육중 신설, 함평골프고·한국바둑고 종목 확대, 통합 체육고 신설 검토",186],
+["지역 연계 개방형 학생선수 육성시스템 구축","민·관·산·학 지원협의체, 종목별 거점 스포츠클럽, 선수등록·대회 행정 통합지원센터, 기초종목 집중 육성",187],
+["캠퍼스형 미래학교 모델 개발 운영","대학·기업·지자체 협력 거버넌스, 지역 특성별 유형 설계, 시범지구 공모와 교육과정·인사·예산 자율권",188],
+["지역교육자치협력위원회 구성","교육지원청별 주민·학부모·교직원 참여 위원회, 주민 생활 밀접 사업 심의·의결, 주민참여예산 배분",189],
+["사회연대경제 순환 생태계 구축","학교급별 교육과정 연계 모델, 사회적기업·협동조합 진로 일경험, 공공구매·계약회계 제도 정비",190],
+["지역별 학교안전환경진단 및 복구 원스톱지원체제 구축","재해취약시설 위험지도, 사전예방~사후관리 표준 절차, 긴급복구 범위를 전기·기계설비까지 확대",191],
+["제2회 대한민국 글로컬 미래교육박람회","1단계(2026. 9.~2027. 2.) 거버넌스·마스터플랜 → 2단계(2027. 3.~12.) 사전 실증 → 3단계(2028. 1.~) 리허설, 2030교실 시연·세계 교육 포럼",192]
+];
+
+
+const COL=["c1","c2","c3"];
+const KW=["AI","돌봄","특수","평가","진학","조례","직속기관","교육지원청","반도체","민원","플랫폼","국제교류"];
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+let terms=[],pol="all";
+function hl(text){
+  let h=esc(text);
+  if(!terms.length) return h;
+  const re=new RegExp("("+terms.map(t=>reEsc(esc(t))).join("|")+")","gi");
+  return h.replace(re,"<mark>$1</mark>");
+}
+const hay=t=>(t[0]+" "+t[1]+" "+t[2]+" "+t[5]+" "+t[6].join(" ")+" "+t[7]).toLowerCase();
+const match=s=>terms.every(t=>s.includes(t.toLowerCase()));
+
+// static controls
+document.getElementById("kws").innerHTML=KW.map(k=>`<button type="button" class="kw" data-k="${esc(k)}">${esc(k)}</button>`).join("");
+document.getElementById("polf").innerHTML=`<button type="button" data-p="all" aria-pressed="true">전체</button>`+POL.map((p,i)=>`<button type="button" data-p="${i}" aria-pressed="false" title="${esc(p.t)}">${["Ⅰ 교실","Ⅱ 인재","Ⅲ 자치"][i]}</button>`).join("")+`<button type="button" data-p="dev" aria-pressed="false">발전과제</button>`;
+
+function render(){
+  const main=document.getElementById("main");
+  let shown=0,devShown=0,toc="";
+  let html="";
+  POL.forEach((p,pi)=>{
+    toc+=`<div class="pol" style="--c:var(--${p.c})">${p.k} · ${esc(p.t)}</div>`;
+    SUBS.filter(s=>s.p===pi).forEach(s=>{
+      const c=COL[s.p];
+      const vis=(pol==="all"||pol==String(pi))?s.tasks.filter(t=>match(hay(t))):[];
+      shown+=vis.length;
+      toc+=`<a href="#${s.id}" class="${vis.length?"":"dim"}"><span>${s.code} ${esc(s.name)}</span><span class="n">${terms.length?vis.length+"/":""}${s.tasks.length}</span></a>`;
+      if(!vis.length) return;
+      html+=`<section class="sub" id="${s.id}" style="--c:var(--${c});--cs:var(--${c}-soft)">
+        <div class="subhead"><div class="k">${p.k} · ${esc(p.t)}</div><h2><span class="code">${s.code}</span>${esc(s.name)}</h2></div>
+        <div class="tasks">${vis.map(t=>{
+          const [n,title,per,bud,pg,goal,acts,eff]=t;
+          return `<article class="task" id="t${n}">
+            <div class="t-title"><span class="num">${String(n).padStart(2,"0")}</span><h3>${hl(title)}</h3></div>
+            <div class="meta"><span>사업기간 ${esc(per)}</span><span class="${bud?"o":"x"}">27년 예산 ${bud?"필요":"불필요"}</span><span>원문 ${pg}쪽</span></div>
+            <div class="block"><div class="lb">정책 목표</div><p>${hl(goal)}</p></div>
+            <div class="block acts"><div class="lb">추진 내용</div><ul>${acts.map(a=>`<li>${hl(a)}</li>`).join("")}</ul></div>
+            <div class="block eff"><div class="lb">기대 효과</div><p>${hl(eff)}</p></div>
+          </article>`}).join("")}</div></section>`;
+    });
+  });
+  const devVis=(pol==="all"||pol==="dev")?DEV.map((d,i)=>[i,d]).filter(([i,d])=>match((d[0]+" "+d[1]).toLowerCase())):[];
+  devShown=devVis.length;
+  toc+=`<div class="pol" style="--c:var(--c4)">중장기 발전과제</div><a href="#dev" class="${devShown?"":"dim"}"><span>발전과제 목록</span><span class="n">${terms.length?devShown+"/":""}21</span></a>`;
+  if(devShown){
+    html+=`<section class="dev" id="dev" style="--c:var(--c4);--cs:var(--c4-soft)">
+      <div class="subhead"><div class="k">당장의 실행에는 시차와 검토가 필요한 과제</div><h2><span class="code">+</span>중장기 발전과제</h2></div>
+      <div class="devlist">${devVis.map(([i,d])=>`<div class="dev-item"><h3><span class="num">${String(i+1).padStart(2,"0")}</span>${hl(d[0])}</h3><p>${hl(d[1])}</p><div class="pg">원문 ${d[2]}쪽</div></div>`).join("")}</div>
+      <p class="note">※ 발전과제 7은 원문에 16번과 같은 제목으로 표기되어 있으나, 본문은 특수교육 대상 학생의 직업교육 고도화 내용입니다.</p>
+    </section>`;
+  }
+  if(!shown&&!devShown) html=`<div class="empty" style="display:block">‘${esc(terms.join(" "))}’와 일치하는 과제가 없습니다. 단어를 줄이거나 다른 말로 검색해 보세요.</div>`;
+  main.innerHTML=html;
+  document.getElementById("toc").innerHTML=toc;
+  const r=document.getElementById("result");
+  r.innerHTML=terms.length||pol!=="all"?`추진과제 <b>${shown}</b> · 발전과제 <b>${devShown}</b>건`:`추진과제 <b>56</b> · 발전과제 <b>21</b>건`;
+}
+
+const q=document.getElementById("q"),clr=document.getElementById("clear");
+let tm;
+q.addEventListener("input",()=>{clearTimeout(tm);tm=setTimeout(()=>{terms=q.value.trim().split(/\s+/).filter(Boolean);clr.hidden=!q.value;render();},120)});
+clr.addEventListener("click",()=>{q.value="";terms=[];clr.hidden=true;render();q.focus()});
+document.getElementById("kws").addEventListener("click",e=>{const b=e.target.closest(".kw");if(!b)return;q.value=b.dataset.k;terms=[b.dataset.k];clr.hidden=false;render();window.scrollTo({top:0})});
+document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==q){e.preventDefault();q.focus()}if(e.key==="Escape"&&document.activeElement===q){clr.click()}});
+function seg(id,attr,fn){const g=document.getElementById(id);g.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));fn(b.dataset[attr])})}
+seg("polf","p",v=>{pol=v;render()});
+seg("viewf","v",v=>{document.body.classList.toggle("compact",v==="compact")});
+seg("sizef","s",v=>{document.body.classList.toggle("large",v==="l");try{localStorage.setItem("fs",v)}catch(e){}});
+try{if(localStorage.getItem("fs")==="l"){document.querySelector('#sizef [data-s="l"]').click()}}catch(e){}
+render();
+</script>
+
+</body></html>
