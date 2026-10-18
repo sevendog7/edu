@@ -1,0 +1,1983 @@
+<title>2027 예산편성 기준 검색</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: sticky search header + left chapter tree + right reading column (mirrors the 사무분장 검색 directory) */
+:root{
+  --bg:#0b1220; --panel:#0f1a2e; --panel-2:#13213a; --line:#1f3150; --line-2:#2a4068;
+  --fg:#e6edf7; --fg-2:#a9b8cf; --fg-3:#6f82a3;
+  --accent:#3ee0c0; --accent-ink:#04261f; --accent-soft:rgba(62,224,192,.12);
+  --warn:#ffcf6b; --mark:rgba(255,207,107,.32);
+  --th:#162845; --zebra:rgba(255,255,255,.018);
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f3f6fa; --panel:#ffffff; --panel-2:#eef3f9; --line:#d9e2ee; --line-2:#c3d0e2;
+  --fg:#0f1b2e; --fg-2:#3c4d68; --fg-3:#6b7c96;
+  --accent:#0a9b83; --accent-ink:#ffffff; --accent-soft:rgba(10,155,131,.10);
+  --warn:#9a6400; --mark:rgba(255,196,64,.45);
+  --th:#e8eef6; --zebra:rgba(15,27,46,.022);
+  color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#f3f6fa; --panel:#ffffff; --panel-2:#eef3f9; --line:#d9e2ee; --line-2:#c3d0e2;
+  --fg:#0f1b2e; --fg-2:#3c4d68; --fg-3:#6b7c96;
+  --accent:#0a9b83; --accent-ink:#ffffff; --accent-soft:rgba(10,155,131,.10);
+  --warn:#9a6400; --mark:rgba(255,196,64,.45);
+  --th:#e8eef6; --zebra:rgba(15,27,46,.022);
+  color-scheme:light;
+}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1360px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:14px;padding-block:16px 12px}
+.logo{width:42px;height:42px;border-radius:11px;border:1.5px solid var(--accent);display:grid;place-items:center;flex:none;box-shadow:0 0 0 4px var(--accent-soft)}
+.logo i{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--accent)}
+.brand h1{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.brand p{margin:2px 0 0;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--fg-3)}
+.search{position:relative;display:flex;align-items:center;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;transition:border-color .15s, box-shadow .15s}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search svg{position:absolute;left:18px;width:18px;height:18px;color:var(--accent);pointer-events:none}
+.search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--fg);font:inherit;font-size:16px;padding:15px 16px 15px 50px}
+.search input::placeholder{color:var(--fg-3)}
+.search input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.search .clear{border:0;background:transparent;color:var(--fg-3);font:inherit;font-size:13px;padding:0 16px;cursor:pointer;align-self:stretch}
+.search .clear:hover{color:var(--fg)}
+.chips{display:flex;align-items:center;gap:8px;padding-block:12px 14px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips .lab{font-size:11px;color:var(--fg-3);white-space:nowrap;letter-spacing:.08em}
+.chips .sep{width:1px;height:20px;background:var(--line-2);flex:none;margin:0 6px}
+.chip{flex:none;border:1px solid var(--line-2);background:transparent;color:var(--fg-2);font:inherit;font-size:13px;padding:5px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.chip:hover{border-color:var(--accent);color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.chip.kw{border-style:dashed}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- body grid ---------- */
+.grid{display:grid;grid-template-columns:290px minmax(0,1fr);gap:20px;padding-block:20px 60px;align-items:start}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--hh,170px) + 16px);max-height:calc(100vh - var(--hh,170px) - 40px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 8px;scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.tree details{border-radius:8px}
+.tree summary{list-style:none;display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;cursor:pointer;color:var(--fg);font-weight:600;font-size:14px}
+.tree summary::-webkit-details-marker{display:none}
+.tree summary::before{content:"";width:7px;height:7px;border-right:1.6px solid var(--fg-3);border-bottom:1.6px solid var(--fg-3);transform:rotate(-45deg);transition:transform .15s;flex:none;margin-right:2px}
+.tree details[open]>summary::before{transform:rotate(45deg)}
+.tree summary:hover{background:var(--panel-2)}
+.tree .cnt{margin-left:auto;font-family:var(--f-mono);font-size:11.5px;color:var(--fg-3);font-weight:400}
+.tree .lvl1>summary{font-size:15px}
+.tree .lvl1>summary .no{font-family:var(--f-mono);color:var(--accent);font-size:13px}
+.tree .lvl2{margin-left:14px;border-left:1px dashed var(--line-2);padding-left:6px}
+.tree .lvl2>summary{font-weight:500;font-size:13.5px;color:var(--fg-2)}
+.tree ul{list-style:none;margin:0 0 4px;padding:0 0 0 18px}
+.tree a{display:block;padding:4px 10px;border-radius:6px;font-size:13px;color:var(--fg-2);text-decoration:none;line-height:1.45}
+.tree a:hover{background:var(--panel-2);color:var(--fg)}
+.tree a.on{color:var(--accent);background:var(--accent-soft)}
+.tree a.dim, .tree summary.dim{opacity:.35}
+
+/* ---------- intro ---------- */
+.main{min-width:0;display:flex;flex-direction:column;gap:22px}
+.intro{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px 28px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.intro h2{margin:8px 0 10px;font-size:clamp(22px,3vw,30px);line-height:1.3;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.intro p{margin:0;color:var(--fg-2);max-width:64ch}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:20px}
+.stat{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat b{display:block;font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat span{font-size:12.5px;color:var(--fg-3)}
+.status{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--fg-2);min-height:22px}
+.status b{color:var(--accent);font-variant-numeric:tabular-nums}
+.empty{background:var(--panel);border:1px dashed var(--line-2);border-radius:14px;padding:30px;text-align:center;color:var(--fg-2)}
+
+/* ---------- chapter / section ---------- */
+.chap{display:flex;flex-direction:column;gap:18px}
+.chap-h{display:flex;align-items:center;gap:14px;padding:6px 2px 0}
+.chap-no{font-family:var(--f-mono);font-size:15px;font-weight:500;color:var(--accent-ink);background:var(--accent);border-radius:8px;padding:3px 11px}
+.chap-h h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.pg{font-family:var(--f-mono);font-size:11.5px;color:var(--fg-3);margin-left:auto}
+.sec{display:flex;flex-direction:column;gap:14px;scroll-margin-top:calc(var(--hh,170px) + 20px)}
+.sec>h2{display:flex;align-items:center;gap:12px;margin:10px 0 0;font-size:18px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.sn{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:var(--panel-2);border:1px solid var(--line-2);font-family:var(--f-mono);font-size:14px;color:var(--accent)}
+.item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 24px 22px;scroll-margin-top:calc(var(--hh,170px) + 20px);min-width:0;position:relative}
+.item.flash{animation:flash 1.4s ease}
+@keyframes flash{0%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+.item h3{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin:0 0 12px;font-size:16.5px;font-weight:700;line-height:1.45;padding-right:56px}
+.item h3 small{font-size:13.5px;font-weight:500;color:var(--fg-2)}
+.item::after{content:"p." attr(data-pg);position:absolute;top:20px;right:20px;font-family:var(--f-mono);font-size:11px;color:var(--fg-3);border:1px solid var(--line);border-radius:6px;padding:1px 7px}
+.bx{display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 5px;border:1.5px solid var(--fg-3);border-radius:4px;font-size:12.5px;font-family:var(--f-mono);color:var(--fg-2);transform:translateY(-1px)}
+.item h4{margin:18px 0 8px;font-size:15px;font-weight:700;color:var(--fg)}
+.item h4.bar{padding:6px 12px;background:var(--panel-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+
+/* lists */
+.item ul,.item ol{margin:6px 0;padding:0}
+ul.o,ul.c,ul.s{list-style:none}
+ul.o>li,ul.c>li,ul.s>li{position:relative;padding-left:22px;margin:7px 0}
+ul.o>li::before{content:"";position:absolute;left:2px;top:.55em;width:10px;height:10px;border:1.5px solid var(--fg-3);border-radius:50%}
+ul.c>li::before{content:"";position:absolute;left:2px;top:.5em;width:11px;height:11px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--fg) 0 25%,var(--fg-3) 30% 100%)}
+ul.s>li::before{content:"◦";position:absolute;left:6px;top:0;color:var(--fg-3)}
+ul.d{list-style:none;margin:4px 0}
+ul.d>li{position:relative;padding-left:16px;margin:5px 0;color:var(--fg)}
+ul.d>li::before{content:"-";position:absolute;left:2px;color:var(--fg-3)}
+ol.jn{padding-left:24px;margin:10px 0;color:var(--fg-2);font-size:14px}
+ol.jn li{margin:4px 0}
+ol.jn li::marker{font-family:var(--f-mono);color:var(--fg-3)}
+.note{margin:4px 0;color:var(--fg-2);font-size:14px}
+.fn{margin:4px 0;color:var(--fg-3);font-size:13.5px}
+.sub{margin:4px 0;color:var(--fg-2);font-size:14px}
+.sub-h{margin:18px 0 8px;font-weight:600}
+.sq{margin:12px 0 6px;position:relative;padding-left:20px}
+.sq::before{content:"";position:absolute;left:1px;top:.45em;width:11px;height:11px;border:1.5px solid var(--fg-2);border-radius:2px}
+.unit{font-family:var(--f-mono);font-size:11.5px;color:var(--fg-3);margin-left:6px}
+.arr{margin:2px 0 0;color:var(--accent);font-size:13.5px}
+.arr::before{content:"▸ ";}
+.hl{color:var(--accent);font-weight:600}
+.box{border:1px solid var(--line-2);background:var(--panel-2);border-radius:10px;padding:12px 16px;margin:10px 0}
+.box.dash{border-style:dashed;background:transparent}
+.box.sm{font-size:13.5px;line-height:1.75}
+.reason{border:1px solid var(--line-2);border-radius:12px;padding:14px 18px;background:var(--panel)}
+.reason span{display:block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;color:var(--accent);margin-bottom:4px}
+.tcap{margin:16px 0 8px;font-weight:700;text-align:center}
+.law{color:var(--fg-3);font-size:13px}
+
+/* flow */
+ol.flow{list-style:none;display:flex;flex-direction:column;gap:10px;margin:6px 0}
+ol.flow li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;position:relative}
+ol.flow li:not(:last-child)::after{content:"";position:absolute;left:75px;bottom:-11px;width:1.5px;height:11px;background:var(--accent)}
+ol.flow .who{display:grid;place-items:center;font-weight:700;border:1.5px solid var(--fg-2);border-radius:8px;padding:10px;text-align:center}
+ol.flow li>div{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 14px}
+ol.flow p{margin:0}
+
+/* vision */
+.vision{display:flex;flex-direction:column;gap:12px;border:1px dashed var(--line-2);border-radius:12px;padding:18px}
+.v-lab{display:block;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;color:var(--accent);margin-bottom:4px}
+.v-goal{text-align:center;padding:8px 0 14px;border-bottom:1px solid var(--line)}
+.v-goal strong{font-size:20px;letter-spacing:-.01em}
+.v-dir ul,.v-row ul{list-style:none;margin:0;padding:0}
+.v-dir li{padding:3px 0 3px 20px;position:relative;font-weight:600}
+.v-dir li::before{content:"□";position:absolute;left:0;color:var(--fg-3)}
+.v-row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px}
+.v-side{display:grid;place-items:center;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;font-weight:700;text-align:center;padding:8px}
+.v-row li{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:0 0 6px;font-weight:600}
+.v-row li:last-child{margin:0}
+
+/* tables */
+.tw{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:10px}
+table.t{width:100%;border-collapse:collapse;font-size:14px;line-height:1.55}
+table.t th,table.t td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px 11px;vertical-align:middle;text-align:left}
+table.t tr>*:last-child{border-right:0}
+table.t tbody tr:last-child>*{border-bottom:0}
+table.t thead th{background:var(--th);font-weight:600;text-align:center;font-size:13.5px;color:var(--fg);white-space:nowrap}
+table.t tbody th{background:var(--zebra);font-weight:600;text-align:center;color:var(--fg)}
+table.t.sm{font-size:13px}
+table.t .c{text-align:center}
+table.t .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.t .l{text-align:left}
+table.t .nw{white-space:nowrap}
+table.t .nm{font-weight:600;background:var(--zebra)}
+table.num td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.num tbody th{white-space:nowrap}
+table.num td.l{text-align:left;white-space:normal}
+table.veh td:nth-child(-n+3){text-align:center;white-space:nowrap}
+table.veh tr.ev td:nth-child(3){color:var(--accent);font-weight:600}
+table.veh .na{color:var(--fg-3)}
+table.t tr.strong>*{font-weight:700;color:var(--accent)}
+table.price td:last-child{width:110px}
+table.t tbody tr:hover>td{background:var(--accent-soft)}
+dl.terms{margin:6px 0;display:grid;grid-template-columns:180px minmax(0,1fr);gap:10px 16px}
+dl.terms dt{font-weight:700}
+dl.terms dd{margin:0;color:var(--fg-2)}
+a.law-a{color:var(--accent);text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:1px;text-underline-offset:3px;border-radius:3px}
+a.law-a:hover{text-decoration-style:solid;background:var(--accent-soft)}
+a.law-a:not(.art)::after{content:"↗";font-size:.72em;margin-left:1px;vertical-align:super;opacity:.75}
+.legend-law{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;color:var(--fg-3)}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+
+.foot{color:var(--fg-3);font-size:12.5px;border-top:1px solid var(--line);padding-top:16px;margin-top:10px}
+.totop{position:fixed;right:max(18px,calc(env(safe-area-inset-right,0px) + 18px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:var(--panel);color:var(--accent);font-size:18px;cursor:pointer;z-index:25}
+.navbtn{display:none}
+
+@media (max-width:980px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none;display:none}
+  .side.open{display:block}
+  .navbtn{display:inline-flex}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .top{position:static}
+  .sec,.item{scroll-margin-top:16px}
+  .brand h1{font-size:18px}
+  .brand p{font-size:10.5px}
+  .intro{padding:20px}
+  .item{padding:16px 16px 18px}
+  .item::after{top:16px;right:14px}
+  ol.flow li{grid-template-columns:96px minmax(0,1fr)}
+  ol.flow li:not(:last-child)::after{left:48px}
+  .v-row{grid-template-columns:1fr}
+  dl.terms{grid-template-columns:1fr;gap:2px}
+  dl.terms dd{margin-bottom:10px}
+  .search input{font-size:15px;padding-left:46px}
+}
+</style>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><i></i></div>
+      <div>
+        <h1>예산편성 기준 검색</h1>
+        <p>전남광주통합특별시교육청 · 2027년도 예산편성 기본지침 Ⅲ·Ⅳ장</p>
+      </div>
+    </div>
+    <label class="search" for="q">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="경비·항목·금액 검색 (예: 업무추진비, 강사수당, 전용, 191,396)">
+      <button class="clear" id="clear" type="button" hidden>지우기</button>
+    </label>
+    <div class="chips" role="toolbar" aria-label="검색 범위와 바로가기">
+      <span class="lab">범위</span>
+      <button class="chip" type="button" data-scope="all" aria-pressed="true">전체</button>
+      <button class="chip" type="button" data-scope="3" aria-pressed="false">Ⅲ 예산편성 기준</button>
+      <button class="chip" type="button" data-scope="4" aria-pressed="false">Ⅳ 예산편성 주요 경비</button>
+      <span class="sep"></span>
+      <span class="lab">자주 찾는</span>
+      <button class="chip kw" type="button" data-kw="업무추진비">업무추진비</button>
+      <button class="chip kw" type="button" data-kw="강사">강사수당</button>
+      <button class="chip kw" type="button" data-kw="차량운영비">차량운영비</button>
+      <button class="chip kw" type="button" data-kw="특정업무경비">특정업무경비</button>
+      <button class="chip kw" type="button" data-kw="전용">예산 전용</button>
+      <button class="chip kw" type="button" data-kw="이월">이월</button>
+      <button class="chip kw" type="button" data-kw="매식비">매식비</button>
+      <button class="chip kw" type="button" data-kw="시설단가">시설단가</button>
+      <button class="chip kw" type="button" data-kw="물품단가">물품단가</button>
+      <button class="chip navbtn" type="button" id="navbtn" aria-expanded="false">목차 열기</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <aside class="side" id="side" aria-label="목차"><nav class="tree" id="tree"></nav></aside>
+    <main class="main" id="main">
+      <section class="intro" id="intro">
+        <div class="eyebrow">Budget Guideline · FY2027 · Ch.Ⅲ–Ⅳ</div>
+        <h2>무엇을, 어떤 기준으로, 얼마까지 편성하는지</h2>
+        <p>2027년도 예산편성 기본지침 중 Ⅲ장(예산편성 기준)과 Ⅳ장(예산편성 주요 경비)을 한곳에 옮겼습니다. 경비 이름이나 금액으로 검색하거나 왼쪽 목차에서 항목을 누르면 해당 기준과 단가표로 이동합니다. 각 항목 오른쪽 위의 쪽수는 원문 PDF 쪽수입니다.</p>
+        <p class="legend-law">밑줄 친 <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener">「법령명」</a>과 조문 번호를 누르면 국가법령정보센터의 현행 법령·조문이 새 창으로 열립니다.</p>
+        <div class="stats">
+          <div class="stat"><b id="st-items">0</b><span>검색 항목</span></div>
+          <div class="stat"><b id="st-tables">0</b><span>기준·단가표</span></div>
+          <div class="stat"><b id="st-rows">0</b><span>표 안의 행</span></div>
+          <div class="stat"><b>63</b><span>원문 쪽수 (p.29~91)</span></div>
+        </div>
+      </section>
+      <div class="status" id="status" aria-live="polite"></div>
+      <div class="empty" id="empty" hidden>검색어와 일치하는 항목이 없습니다. 띄어쓰기를 줄이거나 다른 단어로 찾아보세요.</div>
+      <div id="content">
+<section class="chap" data-ch="3" id="ch3">
+<div class="chap-h"><span class="chap-no">Ⅲ</span><h1>2027년도 예산편성 기준</h1><span class="pg">p.29~54</span></div>
+
+<!-- ===================== 1. 예산편성 일반 ===================== -->
+<div class="sec" id="s3-1" data-title="1. 예산편성 일반">
+<h2><span class="sn">1</span>예산편성 일반</h2>
+
+<article class="item" id="i3-1-1" data-title="예산의 개념" data-pg="29">
+<h3><span class="bx">1</span>예산의 개념</h3>
+<ul class="o">
+<li>교육비특별회계<sup>*</sup>의 1회계연도 동안 모든 수입과 지출에 관한 계획
+<p class="fn">* <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%EC%9E%90%EC%B9%98%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0" target="_blank" rel="noopener" title="국가법령정보센터 · 지방교육자치에 관한 법률">「지방교육자치에 관한 법률」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%EC%9E%90%EC%B9%98%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0/%EC%A0%9C38%EC%A1%B0" target="_blank" rel="noopener" title="지방교육자치에 관한 법률 제38조 조문 보기">제38조</a>에 따라 시·도의 교육·학예에 관한 경비를 따로 경리하기 위하여 지방자치단체에 두는 회계</p></li>
+<li>시·도교육감이 시·도의 교육·학예에 관한 사무를 수행하기 위하여 매 회계연도마다 소요재원을 확보하고 수입·지출내역과 규모를 금전적 수치로 나타내어 지방의회의 심의·의결을 받아 확정</li>
+</ul>
+</article>
+
+<article class="item" id="i3-1-2" data-title="관련근거" data-pg="29">
+<h3><span class="bx">2</span>관련근거</h3>
+<ul class="o">
+<li><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치법">「지방자치법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95/%EC%A0%9C142%EC%A1%B0" target="_blank" rel="noopener" title="지방자치법 제142조 조문 보기">제142조</a>(예산의 편성 및 의결), 제145조(추가경정예산)</li>
+<li><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C36%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제36조 조문 보기">제36조</a>(예산의 편성), 제45조(추가경정예산의 편성 등) 및 같은 법 시행령 제42조(예산의 편성)</li>
+<li><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4%EA%B5%90%EC%9C%A1%EB%B9%84%ED%8A%B9%EB%B3%84%ED%9A%8C%EA%B3%84%EC%98%88%EC%82%B0%ED%8E%B8%EC%84%B1%EC%9A%B4%EC%9A%A9%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%B9%99" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치단체 교육비특별회계 예산편성 운용에 관한 규칙">「지방자치단체 교육비특별회계 예산편성 운용에 관한 규칙」</a>(교육부령)</li>
+</ul>
+</article>
+
+<article class="item" id="i3-1-3" data-title="예산의 주요 내용" data-pg="29">
+<h3><span class="bx">3</span>예산의 주요 내용</h3>
+<ul class="o">
+<li><b>(예산총칙)</b> 세입·세출 예산, 계속비, 채무부담행위 및 명시이월비에 관한 총괄적 규정, 지방채 및 일시차입금의 한도액 등을 규정</li>
+<li><b>(세입·세출예산)</b> 1회계연도 동안 수입과 지출에 관한 내역과 금액</li>
+<li><b>(계속비)</b> 완성에 수년을 요하는 사업의 사업비 총액과 연도별 금액에 대하여 지방의회 의결을 얻어 여러 해에 걸쳐 지출할 수 있는 경비</li>
+<li><b>(채무부담행위)</b> 지방자치단체에 채무부담의 원인이 될 계약의 체결이나 그 밖의 행위의 내역과 금액</li>
+<li><b>(명시이월비)</b> 경비의 성질상 회계연도에 지출을 마치지 못할 것으로 예상되어 미리 지방의회 의결을 얻어 다음 연도로 이월하는 사업비</li>
+</ul>
+</article>
+
+<article class="item" id="i3-1-4" data-title="일반원칙" data-pg="30">
+<h3><span class="bx">4</span>일반원칙</h3>
+<div class="box">안정적 재원확보와 유·초·중등교육 및 특수교육 증진 등에 노력하며, 재정수요와 재원조달의 한계성을 고려하여 경비지출의 효율성과 건전성을 높여 나갈 수 있도록 다음 각 호의 사항을 종합적으로 고려하여 예산을 편성하여야 한다.</div>
+<ul class="o">
+<li>유아교육 및 초·중등교육의 내실화</li>
+<li>교육복지의 증진</li>
+<li>평생교육의 진흥</li>
+<li>단위학교 재정운용의 자율화 및 효율화</li>
+<li>합리적인 세입을 고려한 재정지출과 건전재정 운용</li>
+</ul>
+</article>
+
+<article class="item" id="i3-1-5" data-title="교육부령 적용" data-pg="30">
+<h3><span class="bx">5</span>교육부령 적용</h3>
+<h4>가. 지방자치단체 교육비특별회계 예산편성 운용에 관한 규칙 제정</h4>
+<div class="box"><ul class="s">
+<li>교육부 예산편성 운용에 관한 규칙을 교육부령으로 제정
+<ul class="d"><li>법령규정 경비 및 교육부 훈령 기준경비를 제외한 경비는 자체적 기준을 정하여 자율 편성 가능</li></ul></li>
+<li>교육비특별회계 세입·세출예산 과목구분과 설정 규정을 교육부 훈령으로 제정</li>
+</ul></div>
+<h4>나. 주요내용</h4>
+<div class="box"><ul class="s">
+<li>법령에 따른 경비와 아래의 기준경비를 제외한 경비에 대하여는 교육청의 여건과 특성을 고려하여 합리적·객관적으로 세출예산을 편성하여야 한다.
+<ul class="d"><li>업무추진비</li><li>그 밖에 시·도 교육청의 재정여건과 특성을 고려하여 교육부장관이 필요하다고 인정하는 경비</li></ul></li>
+</ul></div>
+<p class="note">※ 자체적으로 정하는 경비</p>
+<ul class="o">
+<li>예비비, 일시차입금, 채무부담행위액, 지방채, 사립학교재정결함보조금</li>
+<li>특별교육재정수요경비, 강사수당, 위원회 참석수당 등</li>
+</ul>
+</article>
+
+<article class="item" id="i3-1-6" data-title="예산편성 절차" data-pg="31">
+<h3><span class="bx">6</span>예산편성 절차</h3>
+<ol class="flow">
+<li><span class="who">교육부</span><div><p>예산 편성기준 시달 통보(8월)</p><p class="law"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C38%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제38조 조문 보기">제38조</a></p></div></li>
+<li><span class="who">시·도교육청</span><div><p>예산안 편성(9월~10월)</p><p class="law"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C36%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제36조 조문 보기">제36조</a></p></div></li>
+<li><span class="who">시·도교육청</span><div><p>예산안 지방의회 제출(11.11.까지)</p><p class="law"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치법">「지방자치법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95/%EC%A0%9C42%EC%A1%B0" target="_blank" rel="noopener" title="지방자치법 제42조 조문 보기">제42조</a></p></div></li>
+<li><span class="who">지방의회</span><div><p>예산안 심의·의결(12. 6.까지)</p><p>예산 확정 이송(의결 후 3일 이내, 12. 19.까지)</p><p class="law"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제47조 조문 보기">제47조</a>, 제142조, 제149조</p></div></li>
+<li><span class="who">시·도교육청</span><div><p>교육부 예산확정 보고 및 고시 (지방의회로부터 이송받은 이후 지체없이)</p><p class="law"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치법">「지방자치법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%B2%95/%EC%A0%9C149%EC%A1%B0" target="_blank" rel="noopener" title="지방자치법 제149조 조문 보기">제149조</a></p></div></li>
+</ol>
+</article>
+</div>
+
+<!-- ===================== 2. 예산편성 방향 ===================== -->
+<div class="sec" id="s3-2" data-title="2. 2027년 예산편성 방향">
+<h2><span class="sn">2</span>2027년 예산편성 방향</h2>
+
+<article class="item" id="i3-2-1" data-title="기본방향" data-pg="32">
+<h3><span class="bx">1</span>기본방향</h3>
+<div class="vision">
+<div class="v-goal"><span class="v-lab">전남광주교육 재정운용 목표</span><strong>미래인재로 완성하는 K-교육특별시</strong></div>
+<div class="v-dir"><span class="v-lab">재정운용 기본방향</span>
+<ul><li>통합교육청의 안정적 운영 기반 구축</li><li>K-교육특별시 미래인재 양성</li><li>필수교육 수요 중심의 책임있는 재정운용</li></ul></div>
+<div class="v-row"><span class="v-side">재원배분 중점</span><ul><li>통합교육청의 안정적 운영과 균형있는 교육지원</li><li>AI·디지털 기반 미래교육 및 지역 연계 인재양성</li><li>필수교육 수요 우선 반영</li></ul></div>
+<div class="v-row"><span class="v-side">재정운용 전략</span><ul><li>통합에 따른 재정운용 체계 정립</li><li>재정운용의 책무성 및 계획성 제고</li></ul></div>
+</div>
+<p class="note">※ Ⅰ장에서 제시된 국가 차원의 지방교육재정 운용 방향을 전남광주 여건에 맞게 구체화한 것임</p>
+</article>
+
+<article class="item" id="i3-2-2" data-title="재원배분 중점" data-pg="33">
+<h3><span class="bx">2</span>재원배분 중점</h3>
+<h4 class="bar">통합교육청의 안정적 운영과 균형있는 교육지원</h4>
+<ul class="c">
+<li>전남·광주 통합에 따른 교육행정 및 교육재정의 안정적 운영 기반 구축
+<ul class="d"><li>통합에 따른 조직·시스템 구축 및 교육행정 운영 기반 마련</li><li>통합교육청 출범에 따른 필수적인 운영 소요 지원</li></ul></li>
+<li>학교 기본운영, 교육복지 등 교육의 기본적 수요에 대한 안정적 지원
+<ul class="d"><li>인건비 등 법정·의무적 경비 우선 편성</li><li>학교 기본운영비 및 교육복지 등 기본적인 교육수요 지원</li></ul></li>
+<li>지역별 교육여건과 특성을 고려한 균형 있는 교육지원
+<ul class="d"><li>학생 배치 및 지역별 교육수요를 고려한 교육환경 개선</li><li>지역 간 교육여건 차이를 고려한 균형 있는 재원 배분</li></ul></li>
+</ul>
+<h4 class="bar">AI·디지털 및 지역 연계 미래인재 양성</h4>
+<ul class="c">
+<li>AI·디지털 전환에 대응한 미래교육 강화
+<ul class="d"><li>AI·디지털 기반 교육환경 및 교수·학습 기반 조성</li><li>학생의 디지털 역량 등 미래사회 대응 역량 강화</li></ul></li>
+<li>미래산업 연계 인재양성 지원
+<ul class="d"><li>AI·반도체 등 전략산업 분야 인재양성을 위한 교육과정 지원</li><li>미래산업 분야 교육환경 및 실습 기반 강화</li></ul></li>
+<li>지역 연계 미래인재 양성 기반 강화
+<ul class="d"><li>교육지산지소 등 지역의 특성과 자원을 활용한 교육 활성화</li><li>지역사회·산업 등과 연계한 지역 인재양성 기반 강화</li></ul></li>
+</ul>
+<h4 class="bar">필수교육 수요 우선 반영</h4>
+<ul class="c">
+<li>법정·의무적 경비의 안정적 확보
+<ul class="d"><li>유아학비, 교과서, 무상급식 등 필수사업 안정적 지원</li><li>인건비 등 법정·의무적 경비의 우선 편성으로 안정적인 교육행정 기반 확보</li></ul></li>
+<li>필수사업 중심의 재정 우선순위 확립
+<ul class="d"><li>교육현장 운영 및 학생 배치에 직결되는 필수사업 우선 반영</li><li>기존 사업의 지속 가능성과 사업효과를 검토하여 재정여건에 맞게 재원 배분</li></ul></li>
+<li>신규사업의 선택적·단계적 추진
+<ul class="d"><li>신규사업은 필요성·시급성·효과성 및 재정여건 등을 고려하여 제한적 반영</li><li>교육감 공약사업은 재정여건을 고려하여 연차적 편성</li></ul></li>
+<li>학생 배치 및 교육여건 개선을 위한 시설투자 강화
+<ul class="d"><li>학생 수요에 따른 학교 신·증설 등 학생배치 관련 시설사업 우선 편성</li><li>재원 확보 사업 우선 반영 및 시설사업 추진 시기 조정</li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-2-3" data-title="재정운용 전략" data-pg="34">
+<h3><span class="bx">3</span>재정운용 전략</h3>
+<h4 class="bar">통합에 따른 재정운용 체계 정립</h4>
+<ul class="c">
+<li>전남·광주 재정운용 기준 및 제도의 통합·정비</li>
+<li>통합교육청에 적합한 재원배분 기준 및 예산편성 체계 마련</li>
+<li>재정 관련 업무 및 시스템의 연계를 통한 통합 재정운용 기반 구축</li>
+</ul>
+<h4 class="bar">재정운용의 책무성 및 계획성 제고</h4>
+<ul class="c">
+<li>재정사업의 필요성·타당성 등을 고려한 지속적인 사업 점검</li>
+<li>주요 재정사업 평가를 통한 사업성과 관리 및 재정운용의 책임성 강화</li>
+<li>중기지방교육재정계획과 예산편성의 연계를 통한 중장기 재정계획성 강화</li>
+<li>예산의 적기 집행을 통한 이월·불용 최소화</li>
+</ul>
+</article>
+</div>
+
+<!-- ===================== 3. 예산편성 기준 ===================== -->
+<div class="sec" id="s3-3" data-title="3. 예산편성 기준">
+<h2><span class="sn">3</span>예산편성 기준</h2>
+
+<article class="item" id="i3-3-1" data-title="세입예산 편성기준" data-pg="35~36">
+<h3><span class="bx">1</span>세입예산 편성기준</h3>
+<div class="box"><ul class="s"><li>2027년도에 발생하는 모든 수입을 세입으로 하고, 항목별로 예산에 반영
+<p class="note">※ 단, 특례 일몰, 법령 개정 등을 추진 중인 사항은 2026년을 기준으로 적시</p></li></ul></div>
+
+<h4>가. 중앙정부이전수입</h4>
+<ul class="o">
+<li><b>재원</b>
+<ul class="d">
+<li><b>보통교부금</b>: 지방교육재정교부금<sup>*</sup> 총액의 97%
+<p class="fn">* 전년도 교부금의 금액×(1+명목 국내총생산의 전전년도 이전 최근 3년간의 연평균 변화율)×[1+(학령인구의 전전년도 이전 최근 3년간의 연평균 변화율)×100분의 35]</p></li>
+<li><b>특별교부금</b>: 지방교육재정교부금 총액의 3%</li>
+<li><b>증액교부금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%EC%9E%AC%EC%A0%95%EA%B5%90%EB%B6%80%EA%B8%88%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방교육재정교부금법">「지방교육재정교부금법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%EC%9E%AC%EC%A0%95%EA%B5%90%EB%B6%80%EA%B8%88%EB%B2%95/%EC%A0%9C14%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방교육재정교부금법 제14조의2 조문 보기">제14조의2</a>제1항에 의해 통지된 금액</li>
+<li><b>국고보조금</b>: 국고보조사업으로 별도 통지된 금액</li>
+<li><b>특별회계전입금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%98%81%EC%9C%A0%EC%95%84%ED%8A%B9%EB%B3%84%ED%9A%8C%EA%B3%84%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 영유아특별회계법">「영유아특별회계법」</a>에 따른 전입금</li>
+<li><b>기금</b>: 중앙정부에서 관리하고 있는 각종 기금에서 지원되는 수입</li>
+</ul></li>
+<li><b>편성</b>: 국가에서 시도교육청으로 내시 또는 교부한 금액</li>
+</ul>
+
+<h4>나. 지방자치단체이전수입</h4>
+<ul class="o">
+<li><b>재원</b>
+<ul class="d">
+<li><b>지방교육세전입금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방세법">「지방세법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95/%EC%A0%9C151%EC%A1%B0" target="_blank" rel="noopener" title="지방세법 제151조 조문 보기">제151조</a>에 의한 지방교육세 전액
+<p class="note">※ 동법 제151조제1항제4호에 따른 담배소비세분 지방교육세는 '26.12.31. 일몰</p></li>
+<li><b>담배소비세전입금</b>: 담배소비세의 100분의 45에 해당하는 금액(도(道)는 제외)</li>
+<li><b>시·도세전입금</b>: 시·도세 총액의 일정비율
+<p class="note">※ (서울) 100분의 10, (광역시, 경기·제주도) 100분의 5, (세종, 도지역) 1,000분의 36</p></li>
+<li><b>학교용지부담금시도부담금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%ED%95%99%EA%B5%90%EC%9A%A9%EC%A7%80%ED%99%95%EB%B3%B4%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%ED%8A%B9%EB%A1%80%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 학교용지 확보 등에 관한 특례법">「학교용지 확보 등에 관한 특례법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%ED%95%99%EA%B5%90%EC%9A%A9%EC%A7%80%ED%99%95%EB%B3%B4%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%ED%8A%B9%EB%A1%80%EB%B2%95/%EC%A0%9C4%EC%A1%B0" target="_blank" rel="noopener" title="학교용지 확보 등에 관한 특례법 제4조 조문 보기">제4조</a>제4항 및 제6조제2항에 따른 금액</li>
+<li><b>지방교육재정교부금보전금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9" target="_blank" rel="noopener" title="국가법령정보센터 · 지방세법 시행령">「지방세법시행령」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%84%B8%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9/%EC%A0%9C75%EC%A1%B0" target="_blank" rel="noopener" title="지방세법 시행령 제75조 조문 보기">제75조</a>제2항제2호 '라' 목에 따라 산정한 금액</li>
+<li><b>교육급여보조금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B5%AD%EB%AF%BC%EA%B8%B0%EC%B4%88%EC%83%9D%ED%99%9C%EB%B3%B4%EC%9E%A5%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 국민기초생활 보장법">「국민기초생활보장법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B5%AD%EB%AF%BC%EA%B8%B0%EC%B4%88%EC%83%9D%ED%99%9C%EB%B3%B4%EC%9E%A5%EB%B2%95/%EC%A0%9C43%EC%A1%B0" target="_blank" rel="noopener" title="국민기초생활 보장법 제43조 조문 보기">제43조</a>, 제43조의2에 따라 자치단체가 부담하는 교육급여보조금</li>
+<li><b>무상교육경비전입금</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%EC%9E%AC%EC%A0%95%EA%B5%90%EB%B6%80%EA%B8%88%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방교육재정교부금법">「지방교육재정교부금법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%EC%9E%AC%EC%A0%95%EA%B5%90%EB%B6%80%EA%B8%88%EB%B2%95/%EC%A0%9C14%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방교육재정교부금법 제14조의2 조문 보기">제14조의2</a>제2항에 따라 자치단체가 부담하는 고등학교 등의 무상교육 경비</li>
+<li><b>비법정이전수입</b>: 교육·학예 진흥을 위한 기타 지방자치단체 전입금</li>
+</ul></li>
+<li><b>편성</b>: 지방자치단체와 협의한 금액으로 편성</li>
+</ul>
+
+<h4>다. 기타이전수입</h4>
+<ul class="o">
+<li><b>재원</b>: 민간이전수입과 자치단체간 이전수입</li>
+<li><b>편성</b>: 민간 또는 자치단체에서 시도교육청으로 기부 또는 지원하는 금액으로 편성
+<ul class="d"><li>민간 또는 자치단체로부터 이전이 확실하다고 추정할 수 있는 경우 본예산에 편성하고 그렇지 아니하는 경우 추경예산에 반영</li></ul></li>
+</ul>
+
+<h4>라. 자체수입</h4>
+<ul class="o">
+<li><b>재원</b>: 공유재산·물품 사용·임대료 및 매각대금, 이자수입 등</li>
+<li><b>편성</b>
+<ul class="d">
+<li>사용·임대료: 최근 수년간의 징수실적, 연간 사용수익허가(임대) 계획 등을 고려하여 반영</li>
+<li>자산매각수입: 연간 공유재산·물품 처분계획에 의거 대상자산에 대한 매각금액을 합리적인 추계기법을 사용하여 추정 반영</li>
+<li>이자수입 등: 최근 수년간의 징수실적, 특이요인 등을 종합적으로 검토 반영</li>
+</ul></li>
+</ul>
+
+<h4>마. 지방채</h4>
+<ul class="o"><li><b>편성</b>: 회계연도 내에 집행 가능한 만큼만 편성·발행
+<ul class="d"><li>매년 교육부장관이 통보하는 「지방채 발행계획 수립 기준」에서 정한 절차에 따라 추진</li></ul></li></ul>
+
+<h4>바. 순세계잉여금</h4>
+<ul class="o"><li><b>편성</b>: 최근 수년간의 추이와 재정집행 중간점검 결과 등 반영
+<ul class="d"><li>재정지출 과부족에 따라 임의로 과소 또는 과대 편성 지양</li></ul></li></ul>
+
+<h4>사. 내부거래</h4>
+<ul class="o"><li><b>편성</b>: 기금으로부터의 전입금 또는 교육비특별회계로부터의 전입금 반영</li></ul>
+</article>
+
+<article class="item" id="i3-3-2a" data-title="세출예산 편성기준 — 가. 경상사업비" data-pg="37~38">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>가. 경상사업비</small></h3>
+<div class="box"><ul class="s"><li>모든 사업을 원점(zero-base)에서 재검토하여 비효율적 지출 감축</li><li>집행을 고려한 예산편성 및 관리로 이·불용액 최소화</li></ul></div>
+<h4>가. 경상사업비</h4>
+<ul class="o">
+<li><b>기본운영비</b>: 시도교육청별 여건, 수년간 지출실적 등을 고려하여 편성
+<p class="note">※ 쾌적한 교실환경 조성을 위한 학교 전기요금이 우선 지원될 수 있도록 편성</p>
+<p class="note">※ 공적업무수행을 이유로 개인명의 휴대폰에 대한 사용비용 지원 지양 (부득이하게 지원할 경우 사용목적, 업무내용, 지원사유, 지원대상 및 월지급액 등에 대해 시도교육감 지침 마련 후 편성 - '22.4. 교육부감사결과)</p></li>
+<li><b>공무원 인건비</b>
+<ul class="d"><li>정·현원, 호봉승급, 처우개선율 및 부담금 인상률 등에 대한 예측도를 제고하여 불용액이 최소화되도록 예산 편성
+<p class="note">※ 지방공무원은 총액인건비 내에서 편성 노력</p></li>
+<li>명예퇴직수당을 적극 반영하여 인건비 절감 노력</li></ul></li>
+<li><b>계약제 교원 인건비</b>
+<ul class="d"><li>계약제 교원의 인건비는 지난 연도 채용실적 및 증가추세 등 정확한 기초자료를 바탕으로 적정 인원을 예측하여 예산 편성</li></ul></li>
+<li><b>교육공무직원 인건비</b>
+<ul class="d"><li>교육공무직원 인건비는 '교육공무직원 소관부서' 등 관련 공문에 근거하여 예산 편성
+<p class="sub">· 처우개선 계획 등에 근거하여 직종별 인건비 단가를 산출하되, 기본급·각종 수당 등 산출기초 작성 시 임의기준 적용 금지</p></li>
+<li>일상적인 행정보조원 일용직인건비는 예산 편성 지양</li></ul></li>
+<li><b>기관공통운영비</b>
+<ul class="d"><li>공공요금·시설장비유지비 등 기관 운영에 필요한 경비는 실소요액을 기준으로 물가인상분 및 기관 운영여건 등을 종합적으로 고려하여 산정</li>
+<li>편성범위
+<div class="box sm">가. 운영비(210목)<br>
+&nbsp;① 일반수용비(210-01) ② 공공요금및제세(210-02) ③ 피복비(210-03)<br>
+&nbsp;④ 운영수당(210-06) ⑤ 연료비(210-08) ⑥ 시설장비유지비(210-09)<br>
+&nbsp;⑦ 차량·선박비(210-10) ⑧ 용역사업비(210-13)<br>
+나. 업무추진비(230목) 중 기관운영업무추진비(230-01), 정원가산업무추진비(230-03)<br>
+다. 직무수행경비(250목) 중 직책급 업무수행경비(250-02)</div></li></ul></li>
+<li><b>부서운영비</b>: 일반수용비, 여비, 특근매식비
+<ul class="d"><li>1인당 편성 기준 단가를 적용하되, 각 기관(부서별) 운영 실적 등을 반영
+<p class="note">※ 다만, 통합에 따른 부서별 운영비 변동폭 완화를 위해 2027년도에 한하여 조정 할 수있음</p></li></ul></li>
+<li><b>업무추진비 및 특정업무경비<sup>*</sup></b>: <a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4%EA%B5%90%EC%9C%A1%EB%B9%84%ED%8A%B9%EB%B3%84%ED%9A%8C%EA%B3%84%EC%98%88%EC%82%B0%ED%8E%B8%EC%84%B1%EC%9A%B4%EC%98%81%EA%B8%B0%EC%A4%80" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치단체 교육비특별회계 예산편성 운영기준">「지방자치단체 교육비특별회계 예산편성 운영기준」</a> 제3조, 별표 1에서 정한 금액 이하로 편성
+<p class="fn">* 시도교육감이 자율 결정하되 과반이상의 외부전문가가 포함된 위원회 심의를 거쳐 2년 단위로 결정</p></li>
+<li><b>채무상환</b>: 2027년도에 상환해야 할 BTL원리금 편성</li>
+</ul>
+</article>
+
+<article class="item" id="i3-3-2b" data-title="세출예산 — 나. 교육사업비 · 다. 시설사업비" data-pg="38~39">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>나. 교육사업비 · 다. 시설사업비</small></h3>
+<h4>나. 교육사업비</h4>
+<ul class="o">
+<li><b>신규사업</b>: 2027년도 신규 사업은 필요성을 면밀히 검토하고 재원확보대책을 마련하여 추진</li>
+<li><b>계속사업</b>: 원점(zero-base)에서 개별사업의 타당성을 재검토하여 사업 우선순위를 점검하고 유사·중복사업은 통·폐합 추진
+<ul class="d"><li>총사업비가 확정되어 있는 계속사업은 집행률 점검 등을 통해 사업의 규모, 지속 여부, 투자시기 등을 재검토
+<p class="note">※ 교육사업과 무관한 목적 없는 현금성 예산 편성 및 지원 지양(<a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%82%AC%ED%9A%8C%EB%B3%B4%EC%9E%A5%EA%B8%B0%EB%B3%B8%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 사회보장기본법">「사회보장기본법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%82%AC%ED%9A%8C%EB%B3%B4%EC%9E%A5%EA%B8%B0%EB%B3%B8%EB%B2%95/%EC%A0%9C26%EC%A1%B0" target="_blank" rel="noopener" title="사회보장기본법 제26조 조문 보기">제26조</a>에 따라 사회보장제도 신설·변경시 보건복지부장관과 협의 절차 준수)</p></li></ul></li>
+</ul>
+<h4>다. 시설사업비</h4>
+<ul class="o">
+<li><b>계속비 편성</b>
+<ul class="d">
+<li>근거: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C42%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제42조 조문 보기">제42조</a></li>
+<li>의의: 공사나 제조, 그 밖의 사업으로서 그 완성에 수년을 요하는 것은 필요한 경비의 총액과 연도별 금액에 대하여 지방의회의 의결을 얻어 여러해에 걸쳐 계속비로 지출</li>
+<li>편성: 집행에 2회계연도 이상 걸리는 시설사업은 총사업비를 연차별로 구분, 해당연도에는 집행가능 금액만큼만 편성
+<p class="note">※ 계속비가 아닌 일반예산에 과다 편성하여 명시이월 관행 금지</p></li>
+</ul></li>
+<li><b>계속비 또는 장기계속계약</b>: 학교시설사업은 학교특성을 감안하여 공사기간 산정 후 해당연도에 집행가능액만큼만 편성하고 계속비 또는 장기계속계약을 활용하여 이월액 최소화</li>
+<li><b>설계 공모예산 및 사전 기획 비용</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%ED%96%89%EC%A0%95%EA%B8%B0%EA%B4%80%EC%9E%AC%EC%A0%95%ED%88%AC%EC%9E%90%EC%82%AC%EC%97%85%EC%8B%AC%EC%82%AC%EA%B7%9C%EC%B9%99" target="_blank" rel="noopener" title="국가법령정보센터 · 지방교육행정기관 재정투자사업 심사규칙">「지방교육행정기관 재정투자사업 심사규칙」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%ED%96%89%EC%A0%95%EA%B8%B0%EA%B4%80%EC%9E%AC%EC%A0%95%ED%88%AC%EC%9E%90%EC%82%AC%EC%97%85%EC%8B%AC%EC%82%AC%EA%B7%9C%EC%B9%99/%EC%A0%9C4%EC%A1%B0" target="_blank" rel="noopener" title="지방교육행정기관 재정투자사업 심사규칙 제4조 조문 보기">제4조</a>제1항에 따른 해당 사업계획 수립 후 기본설계 용역 예산 편성 전(기본설계를 생략하는 경우 실시설계를 말함) 투입 비용은 적정 사업 기간 확보 등 필요 시 투자심사 전 편성 가능
+<p class="note">※ <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B1%B4%EC%B6%95%EC%84%9C%EB%B9%84%EC%8A%A4%EC%82%B0%EC%97%85%EC%A7%84%ED%9D%A5%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 건축서비스산업 진흥법">「건축서비스산업 진흥법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B1%B4%EC%B6%95%EC%84%9C%EB%B9%84%EC%8A%A4%EC%82%B0%EC%97%85%EC%A7%84%ED%9D%A5%EB%B2%95/%EC%A0%9C21%EC%A1%B0" target="_blank" rel="noopener" title="건축서비스산업 진흥법 제21조 조문 보기">제21조</a>에 의한 설계 공모 비용으로 심사수당, 운영비, 공모 비용 보상금 등 편성</p>
+<p class="note">※ <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B5%90%EC%9C%A1%EC%8B%9C%EC%84%A4%EB%93%B1%EC%9D%98%EC%95%88%EC%A0%84%EB%B0%8F%EC%9C%A0%EC%A7%80%EA%B4%80%EB%A6%AC%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0" target="_blank" rel="noopener" title="국가법령정보센터 · 교육시설 등의 안전 및 유지관리 등에 관한 법률">「교육시설 등의 안전 및 유지관리 등에 관한 법률」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B5%90%EC%9C%A1%EC%8B%9C%EC%84%A4%EB%93%B1%EC%9D%98%EC%95%88%EC%A0%84%EB%B0%8F%EC%9C%A0%EC%A7%80%EA%B4%80%EB%A6%AC%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0/%EC%A0%9C26%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="교육시설 등의 안전 및 유지관리 등에 관한 법률 제26조의2 조문 보기">제26조의2</a> 규정에 따른 "사전 기획" 비용 편성(420-01목 기본조사설계비-사전조사비용 통계목)</p></li>
+<li>특별교부금 및 대응투자 시설사업은 부대공사까지 포함하여 집행해야 하나,
+<ul class="d"><li>그 외 일반시설 사업의 부대공사 집행 포함 여부는 해당 시설 사업의 목적, 방식 등을 종합적으로 고려하여 교육비특별회계 집행기관인 시·도교육청에서 판단</li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-3-2c" data-title="세출예산 — 라. 정보화사업비" data-pg="39~40">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>라. 정보화사업비</small></h3>
+<ul class="o">
+<li><b>대상</b>
+<ul class="d">
+<li>정보시스템을 기획·통합·구축·운영·유지관리하기 위한 사업
+<p class="note">※ 하드웨어(HW)·소프트웨어(SW) 구입비 및 임차료, 정보시스템 개발비 및 컨설팅 비용, 정보시스템 운영 및 유지관리 경비 등으로 구성</p></li>
+<li>공공·민간 정보화 지원 및 정보화 역기능 방지 사업
+<p class="note">※ 정보화 관련 표준화, 기술개발, 인력양성, 네트워크 구축, 전파 관리, ICT산업 기반조성, 정보격차 해소, 정보보호 강화 등</p></li>
+<li>기타 정보화 관련 법령에 따른 기본계획 및 시행계획 등에 포함된 사업
+<p class="note">※ <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%8A%A5%EC%A0%95%EB%B3%B4%ED%99%94%EA%B8%B0%EB%B3%B8%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지능정보화 기본법">「지능정보화기본법」</a>, <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A0%95%EB%B3%B4%ED%86%B5%EC%8B%A0%EC%A7%84%ED%9D%A5%EB%B0%8F%EC%9C%B5%ED%95%A9%ED%99%9C%EC%84%B1%ED%99%94%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%ED%8A%B9%EB%B3%84%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 정보통신 진흥 및 융합 활성화 등에 관한 특별법">「정보통신 진흥 및 융합 활성화 등에 관한 특별법」</a>, <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A0%84%EC%9E%90%EC%A0%95%EB%B6%80%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 전자정부법">「전자정부법」</a> 등</p></li>
+</ul></li>
+<li><b>편성</b>: 차년도 예산뿐만 아니라 연차별·목별 상세투자 총소요액을 파악할 수 있도록 관련 정보를 포함하여 예산 요구
+<p class="note">※ 총소요액: 시스템의 구축·운영 등에 소요되는 모든 경비로서 장비구입비, 임차료, 소프트웨어 개발비, 구축완료 후 3년간 운영유지관리비 및 추가구축비, 클라우드 컴퓨팅서비스 이용료 등으로 구성</p>
+<ul class="d">
+<li>신규사업: 시스템의 구축 등에 소요되는 모든 경비로서 장비구입비, 임차료, 소프트웨어 개발비, 구축 후 3년간 운영유지관리비 및 추가구축비, 클라우드 컴퓨팅서비스 이용료 등으로 구성
+<p class="note">※ 신규사업은 예산 요구 시 총소요비용 협의를 병행 추진</p></li>
+<li>계속사업: 사업시작연도(ISP포함)부터 당해연도까지의 기투자비용과 예산요구 연도부터 향후 3년까지의 투자소요를 모두 포함</li>
+<li>예산요구서에 계약방식(장기계속계약 추진여부)을 명시하고, 장기계속계약의 경우 사업기간과 총 소요비용을 포함하여 예산을 요구
+<p class="note">※ 다년간 추진되는 대규모 정보화사업의 총사업비 관리 철저 및 <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C42%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제42조 조문 보기">제42조</a>의 계속비 편성 제도 적극 활용('22. 7월, 국회 예결위 결산 지적사항)</p></li>
+<li>정보시스템 구축·운영 예산 요구시 클라우드컴퓨팅 도입·전환 가능성을 우선적으로 고려하고, 클라우드컴퓨팅 서비스 이용규모와 향후 변동규모 등을 종합적으로 검토하여 적정예산 요구</li>
+</ul></li>
+<li><b>검토사항</b>
+<ul class="d">
+<li>정보시스템을 신규 구축하거나 현재 운영 중인 정보시스템을 개선 시 국제표준을 준수하여 3종 이상의 웹브라우저 환경에서 정보접근이 가능하도록 추진하고 운영·유지관리 비용은 기존 운영·유지관리비용 절감액 내에서 충당 노력</li>
+<li>구축·운영 중인 정보시스템을 교육부 정보자원관리시스템(IRM)에 등록하고, 이를 활용하여 사업간 중복을 검토한 후 중복성이 없는 경우에 한해 예산 요구
+<p class="note">※ 예산요구 시 교육부 정보자원관리시스템(www.irm.go.kr)에 등록된 전산장비 및 정보시스템 운영·유지관리 등 관련자료 제출</p></li>
+<li>정보시스템 구축·운영 과정에서 필요한 정보보호 대책을 마련하여야 하고, 개인정보를 수집·활용하는 정보시스템은 관련 법*에 따른 안전조치 의무사항을 고려하여 예산 요구
+<p class="fn">* <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EB%B3%B4%ED%98%B8%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 개인정보 보호법">「개인정보보호법」</a>, <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A0%95%EB%B3%B4%ED%86%B5%EC%8B%A0%EB%A7%9D%EC%9D%B4%EC%9A%A9%EC%B4%89%EC%A7%84%EB%B0%8F%EC%A0%95%EB%B3%B4%EB%B3%B4%ED%98%B8%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0" target="_blank" rel="noopener" title="국가법령정보센터 · 정보통신망 이용촉진 및 정보보호 등에 관한 법률">「정보통신망 이용촉진 및 정보보호 등에 관한 법률」</a> 등</p></li>
+</ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-3-2d" data-title="세출예산 — 마. 지방보조금사업비" data-pg="40~41">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>마. 지방보조금사업비</small></h3>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4%EB%B3%B4%EC%A1%B0%EA%B8%88%EA%B4%80%EB%A6%AC%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치단체 보조금 관리에 관한 법률">「지방자치단체 보조금 관리에 관한 법률」</a> 및 같은 법 시행령</li>
+<li><b>의의</b>: 교육감 외의 자가 수행하는 사무(사업)에 대하여 필요에 따라 교육감이 지방자치단체, 법인·단체 또는 개인 등에 지원하는 보조금</li>
+<li><b>대상</b>
+<ul class="d">
+<li>민간경상보조·자본보조: 민간이 수행하는 사무 또는 사업에 대하여 교육감이 이를 조성하거나 재정상의 원조를 하기 위하여 교부하는 보조금
+<p class="note">※ 세출세목 320-01 민간경상보조, 320-14 민간자본보조</p></li>
+<li>자치단체경상·자본보조: 교육감이 정책상, 재정사정상 필요에 따라 지방자치단체에 교부하는 보조금
+<p class="note">※ 세출세목 330-01 자치단체경상보조, 330-02 자치단체자본보조</p></li>
+</ul></li>
+</ul>
+<div class="box dash"><b>【참고사항】</b> 사립학교 시설사업보조 : 교육감이 <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%82%AC%EB%A6%BD%ED%95%99%EA%B5%90%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 사립학교법">「사립학교법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%82%AC%EB%A6%BD%ED%95%99%EA%B5%90%EB%B2%95/%EC%A0%9C43%EC%A1%B0" target="_blank" rel="noopener" title="사립학교법 제43조 조문 보기">제43조</a>제1항, 각 시도교육청의 「사립학교 보조(재정지원) 조례」, 「사립학교 시설사업비 지원 및 집행지침」에 따라 관할 시도 내 사립학교의 교육환경 개선을 위해 보조하는 시설사업 지원금<br><small>(※ 620-11 세목에 편성하고, 시도교육청의 사립학교보조 조례 및 지침·절차에 따라 편성 및 지원)</small></div>
+<ul class="o">
+<li><b>원칙</b>
+<ul class="d">
+<li>법령 또는 조례에 따라 당해 시도교육청의 사무와 관련한 사업비를 예산으로 편성</li>
+<li>지방보조금 예산은 해당 보조사업의 성격, 보조사업자의 비용부담 능력 등을 고려하여 적정한 수준으로 편성하며, 동일한 사업이라도 예산 재원 별(국고보조금, 지방보조금, 자체재원 등)로 나누어 편성할 수 있음</li>
+<li>법령에 명시적 근거가 있는 경우 외에는 운영비로 교부할 수 없음</li>
+<li>지방보조금 예산은 '지방보조금관리위원회'의 심의(편성-집행-결산 전 단계)를 거친 범위 내에서 사업별로 편성*하는 등 위원회 심의 기능을 강화하며, 공모 등 사전 절차 준수 철저
+<p class="fn">* 관행적·반복적 사업 예산의 폐지·삭감 여부 등</p></li>
+<li>교육감은 사업자 선정 및 지원예산 규모 산정 시, 과거 불법행위로 벌금 이상 형을 선고받고 그 형이 확정되었는지 여부 등을 고려할 수 있음</li>
+<li>연례적으로 지원되는 행사성 민간보조사업은 지원 필요성을 전면 재검토하여 단계적으로 축소·폐지</li>
+<li>과거 목적 외 사용 등 부정수급이 적발된 사업, 유사중복 사업, 성과 평가 결과 '미흡' 사업과 함께, 일몰 도래사업, 수혜대상이 극히 부분적인 보조금사업, 수익자부담원칙 적용 가능 사업 등은 원칙적으로 폐지, 삭감 또는 통폐합 추진</li>
+<li>보조금 횡령 등 부정사업자는 5년의 범위 내 보조금 지원 제한</li>
+<li>지방보조금 결산 과정에서 부정수급 등 적발 시에는 환수조치·제재부가금 부과 등 법령상 제재조치를 철저히 하고 보완조사가 필요한 경우 감사를 추가적으로 시행하는 등 엄격한 사후관리를 통해 부적절한 보조금 사용 근절</li>
+<li>지방보조금관리시스템(교육청보탬e) 운영 등을 통해 보조금의 교부·집행 투명성과 효율성을 높이고, 부정수급 우려가 있는 이상 징후를 사전에 탐지하여 예방할 수 있도록 집중 관리 운영</li>
+</ul></li>
+</ul>
+<div class="box">※ 지방보조금 관리는 <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4%EB%B3%B4%EC%A1%B0%EA%B8%88%EA%B4%80%EB%A6%AC%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치단체 보조금 관리에 관한 법률">「지방보조금법」</a>, 시도교육청의 「보조금 관리조례」 등의 규정에 따르되, <a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%A7%80%EB%B0%A9%EB%B3%B4%EC%A1%B0%EA%B8%88%EA%B4%80%EB%A6%AC%EA%B8%B0%EC%A4%80" target="_blank" rel="noopener" title="국가법령정보센터 · 지방보조금 관리기준">「지방보조금 관리기준」</a>(행정안전부 예규), 「지방보조금 운영 매뉴얼」 등을 준용할 수 있음</div>
+</article>
+
+<article class="item" id="i3-3-2e" data-title="세출예산 — 바. 학교회계전출금 · 사. 의무지출" data-pg="42">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>바. 학교회계전출금 · 사. 의무지출</small></h3>
+<h4>바. 학교회계전출금</h4>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%B4%88%E3%86%8D%EC%A4%91%EB%93%B1%EA%B5%90%EC%9C%A1%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 초ㆍ중등교육법">「초중등교육법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%B4%88%E3%86%8D%EC%A4%91%EB%93%B1%EA%B5%90%EC%9C%A1%EB%B2%95/%EC%A0%9C30%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="초ㆍ중등교육법 제30조의2 조문 보기">제30조의2</a></li>
+<li><b>편성 방향</b>: 학교 재정운용 자율성 확대를 위해 학교회계전출금 중 목적사업비 최소화, 학교운영비 총액 지원 확대 등 편성 권고</li>
+<li><b>주기적 점검 및 정보공유 활성화</b>: 교육청별 목적사업비 비율 현황 등에 대한 지속 점검 및 분기별 학교회계 운용 우수 사례 발굴, 정보 교류를 통한 우수사례 확산</li>
+</ul>
+<h4>사. 의무지출</h4>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C33%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제33조 조문 보기">제33조</a>제3항제6호, 같은 법 시행령 제39조</li>
+<li><b>범위</b>: 법령 등에 따라 지출과 지출규모가 결정되는 지출 및 이자지출
+<ul class="d">
+<li>국고보조사업</li>
+<li>지방채 및 차입금 등에 대한 이자지출</li>
+<li><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%9C%A0%EC%95%84%EA%B5%90%EC%9C%A1%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 유아교육법">「유아교육법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%9C%A0%EC%95%84%EA%B5%90%EC%9C%A1%EB%B2%95/%EC%A0%9C24%EC%A1%B0" target="_blank" rel="noopener" title="유아교육법 제24조 조문 보기">제24조</a>와 같은 법 시행령 제29조 및 제34조제3항·제5항에 따른 공통의 교육·보육과정 지원비</li>
+<li>그 밖에 법령에 따라 지출과 지출규모가 결정되는 경비
+<p class="note">※ 재량지출: 법령상 지출의무가 없는 지출로서 의무지출 외의 지출</p></li>
+</ul></li>
+<li><b>편성</b>: 국고보조사업을 포함한 의무지출은 지출 및 지출규모가 의무화된 경비로서 최우선으로 재원 배분
+<ul class="d"><li>특별한 사유가 없는 한 본예산에 소요전액(시·도교육청 분담액 포함) 편성</li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-3-2f" data-title="세출예산 — 아. 특별교육재정수요지원비 · 자. 예비비" data-pg="42~43">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>아. 특별교육재정수요지원비 · 자. 예비비</small></h3>
+<h4>아. 특별교육재정수요지원비</h4>
+<ul class="o">
+<li><b>의의</b>: 회계연도 중 교육시책 추진과정에서 발생하는 특별한 재정수요에 탄력적으로 대처하기 위한 경비</li>
+<li><b>규모</b>: 본예산액의 0.1% 이하로 편성</li>
+<li><b>편성·집행</b>: 예산편성을 최소화하되 경상비, 시설비 외에 교육시책사업에도 집행 (경상비, 시설비, 교육시책사업비로 구분 집행)
+<ul class="d"><li>여비, 업무추진비, 교직원 복지지원 및 건당 1억 원을 초과하는 시설공사는 집행 불가, 경상비는 10% 초과 금지
+<p class="note">※ 건당 1억 원을 초과하는 시설공사는 반드시 해당사업에 예산편성 후 집행</p></li></ul></li>
+</ul>
+<div class="box dash">※ 감사원 지적사항: 예비비와 성격 중복, 경상비 및 시설비 집행 과다 등</div>
+<h4>자. 예비비</h4>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C43%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제43조 조문 보기">제43조</a>, 같은 법 시행령 제48조</li>
+<li><b>의의</b>: 지방자치단체가 예측할 수 없는 예산 외의 지출 또는 예산 초과 지출에 충당하기 위하여 편성하는 예산</li>
+<li><b>편성</b>
+<ul class="d">
+<li>예비비는 예산 총액의 100분의 1 이내에서 편성하여야 하며, 재해·재난관련 목적예비비는 별도로 예산을 계상할 수 있음</li>
+<li>연말 추가경정예산 편성 시 <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C43%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제43조 조문 보기">제43조</a>의 예비비 계상 한도를 준수하여 과도한 순세계잉여금 발생 방지</li>
+<li>예비비 지출 제한(업무추진비, 보조금 등)에 해당되지 않는 경우에는 자치단체가 예측할 수 없는 예산 외의 지출과 예산 초과 지출에 대하여 적극적으로 예비비를 충당하여 활용</li>
+<li>예비비로 충당한 예산의 집행 잔액이 발생한 경우 다시 예비비로 환원 사용할 수 없음</li>
+</ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-3-2g" data-title="세출예산 — 차. 성과계획서 · 카. 성인지 예산서" data-pg="43~45">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>차. 성과계획서 · 카. 성인지 예산서</small></h3>
+<h4>차. 성과계획서 작성</h4>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C5%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제5조 조문 보기">제5조</a>제2항 및 제44조의2제1항</li>
+<li><b>작성대상</b>: 교육비특별회계 모든 재정사업. 단, 아래사업은 제외 가능
+<ul class="d"><li>법령이나 업무특수성 등을 감안하여 대외공개가 곤란한 사항</li><li>인력운영비, 기본경비, 채무상환, 예비비 등 경상사업비</li></ul></li>
+<li><b>작성방법</b>: 재정사업에 대한 시도교육청의 임무, 비전, 전략목표, 성과목표, 단위과제, 성과지표 등을 설정
+<p class="note">※ 추경예산 등 예산변경시 성과계획서의 사업내용·사업비를 변경된 예산액과 일치되도록 노력해야 하며, 회계연도가 종료될 때까지 최종예산을 반영하여 당초예산에 첨부된 성과계획서를 변경하여야 함</p></li>
+</ul>
+<div class="box dash">※ 기타 자세한 내용은 「예산의 성과계획서 작성지침」을 참조</div>
+
+<h4>카. 성인지 예산서 작성</h4>
+<ul class="o">
+<li>근거: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C36%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제36조의2 조문 보기">제36조의2</a> 및 제44조의2제1항</li>
+<li>작성대상: 세부사업 기준으로 아래사업을 대상으로 작성</li>
+</ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구분</th><th>대상사업</th><th>비 고</th></tr></thead>
+<tbody>
+<tr><td rowspan="3" class="c">필수</td><td>① 양성평등정책 기본계획에 포함된 사업</td><td>▸ 제3차 양성평등정책 기본계획('23~'27)*에 따른 시·도교육청 연도별 시행계획 추진사업<br><small>* <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%96%91%EC%84%B1%ED%8F%89%EB%93%B1%EA%B8%B0%EB%B3%B8%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 양성평등기본법">「양성평등기본법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%96%91%EC%84%B1%ED%8F%89%EB%93%B1%EA%B8%B0%EB%B3%B8%EB%B2%95/%EC%A0%9C7%EC%A1%B0" target="_blank" rel="noopener" title="양성평등기본법 제7조 조문 보기">제7조</a>에 따라 여성가족부장관이 5년마다 수립</small><br>▸ 시·도교육청 자체 양성평등정책 관련 기본계획에 포함된 사업, 그 밖에 여성을 주 대상으로 하며 여성의 사회참여확대 및 권익증진 등을 도모하거나 여성의 돌봄부담 등 가족 내 성불평등을 개선 할 수 있는 사업</td></tr>
+<tr><td>② 성별영향평가 사업</td><td>▸ 최근 3년간 교육청에서 성별영향평가를 시행한 사업*<br><small>* <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%84%B1%EB%B3%84%EC%98%81%ED%96%A5%ED%8F%89%EA%B0%80%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9" target="_blank" rel="noopener" title="국가법령정보센터 · 성별영향평가법 시행령">「성별영향평가법시행령」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%84%B1%EB%B3%84%EC%98%81%ED%96%A5%ED%8F%89%EA%B0%80%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9/%EC%A0%9C2%EC%A1%B0" target="_blank" rel="noopener" title="성별영향평가법 시행령 제2조 조문 보기">제2조</a>에 따른 선정사업</small></td></tr>
+<tr><td>③ 매년 교육부장관이 여성가족부장관과 협의하여 정하는 사업</td><td>▸ 매년 「교육비특별회계 예산안 편성 및 기금운용 계획안 수립기준」에 포함 통보</td></tr>
+<tr><td class="c">선택</td><td>④ 시도교육청이 자체 선정하여 별도로 추진하는 사업</td><td>▸ 교육감 공약사업 등</td></tr>
+</tbody></table></div>
+
+<p class="sub-h">- 정책분야·정책과제별 세부사업 현황</p>
+<div class="tw"><table class="t sm">
+<thead><tr><th>정책분야</th><th>정책과제</th><th>부문</th><th>정책사업</th><th>단위사업</th><th>세부사업</th><th>대상사업</th></tr></thead>
+<tbody>
+<tr><td rowspan="2">모두를 위한 돌봄 안전망 구축</td><td rowspan="2">아동 돌봄 지원 강화</td><td rowspan="2">유아및초중등교육</td><td>교수학습활동지원</td><td>유아교육</td><td>유치원방과후과정</td><td class="c">③</td></tr>
+<tr><td>교육복지</td><td>방과후학교</td><td>방과후학교운영</td><td class="c">①,③</td></tr>
+<tr><td rowspan="3">폭력 피해 지원 및 성인지적 건강권 보장</td><td rowspan="2">성별 기반 폭력 대응 강화</td><td rowspan="2">유아및초중등교육</td><td rowspan="2">인적자원운용</td><td rowspan="2">교직원역량강화</td><td>교원연수운영</td><td class="c">③</td></tr>
+<tr><td>지방공무원연수운영</td><td class="c">③</td></tr>
+<tr><td>성인지적 건강정책 강화</td><td>유아및초중등교육</td><td>교수학습활동지원</td><td>교육과정운영</td><td>교육과정운영지원</td><td class="c">③</td></tr>
+<tr><td rowspan="17">남녀가 상생하는 양성평등 문화 확산</td><td rowspan="17">양성평등한 성장 환경 조성</td><td rowspan="16">유아및초중등교육</td><td rowspan="3">인적자원운용</td><td>교직원역량강화</td><td>교원연수운영</td><td class="c">③</td></tr>
+<tr><td rowspan="2">교직원인사</td><td>교원인사관리</td><td class="c">①</td></tr>
+<tr><td>지방공무원인사관리</td><td class="c">①</td></tr>
+<tr><td rowspan="12">교수학습활동지원</td><td rowspan="2">교육과정운영</td><td>교육과정운영지원</td><td class="c">③</td></tr>
+<tr><td>교육자료개발보급</td><td class="c">③</td></tr>
+<tr><td>유아교육</td><td>유아교육운영</td><td class="c">③</td></tr>
+<tr><td>특수교육</td><td>특수교육운영</td><td class="c">③</td></tr>
+<tr><td rowspan="2">직업교육</td><td>직업교육운영</td><td class="c">③</td></tr>
+<tr><td>취업역량강화</td><td class="c">③</td></tr>
+<tr><td rowspan="2">특별활동지원</td><td>각종체육활동</td><td class="c">③</td></tr>
+<tr><td>학생단체활동</td><td class="c">③</td></tr>
+<tr><td rowspan="3">학생생활지도</td><td>학생생활지도지원</td><td class="c">①,③</td></tr>
+<tr><td>성폭력예방교육등</td><td class="c">①,③</td></tr>
+<tr><td>학교폭력예방및교육</td><td class="c">①,③</td></tr>
+<tr><td>진로진학교육</td><td>진로진학교육운영</td><td class="c">③</td></tr>
+<tr><td>학교시설여건개선</td><td>학교시설개선</td><td>학교시설환경개선</td><td class="c">③</td></tr>
+<tr><td>평생교육</td><td>평생교육</td><td>평생교육운영</td><td>평생학습운영</td><td class="c">③</td></tr>
+</tbody></table></div>
+<p class="note">※ 양성평등정책 기본계획에 따른 성인지대상사업 ①번 항목 포함</p>
+<ul class="o"><li>작성방법: 성평등 목표, 성인지 예산의 규모, 성별 수혜분석 및 성과목표, 성평등 기대효과 등을 설정</li></ul>
+<div class="box dash">※ <a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4%EA%B5%90%EC%9C%A1%EB%B9%84%ED%8A%B9%EB%B3%84%ED%9A%8C%EA%B3%84%EC%98%88%EC%82%B0%ED%8E%B8%EC%84%B1%EC%9A%B4%EC%98%81%EA%B8%B0%EC%A4%80" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치단체 교육비특별회계 예산편성 운영기준">「지방자치단체 교육비특별회계 예산편성 운영기준」</a> [별표5] 서식1-14 작성서식 참조</div>
+</article>
+
+<article class="item" id="i3-3-2h" data-title="세출예산 — 타. 국고보조사업비 · 파. 적정규모학교 육성 지원금" data-pg="46">
+<h3><span class="bx">2</span>세출예산 편성기준 <small>타. 국고보조사업비 · 파. 적정규모학교 육성 지원금</small></h3>
+<h4>타. 국고보조사업비</h4>
+<ul class="o">
+<li>근거: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C23%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제23조 조문 보기">제23조</a>, 제45조</li>
+<li>교육부 등 중앙부처 국고보조사업은 시·도교육청의 세세부사업과 1:1(1개의 국고보조사업 : 1개의 세세부사업)로 맵핑하여 보조금 신청 및 관리
+<p class="note">※ 1. 국고보조시스템 상으로 교부신청 등 작업 및 국고보조 사업관리를 수행해야 함<br>&nbsp;&nbsp;&nbsp;2. 새로운 국고보조사업을 편성할 세세부사업이 없거나, 이미 세세부사업이 기존의 국고보조사업과 맵핑되어 있는 경우에는 신규로 세세부사업을 신설하여 새로운 국고보조사업과 맵핑</p></li>
+<li><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C45%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제45조 조문 보기">제45조</a>에 의거 용도가 지정되고 소요전액이 교부된 국고보조사업의 경우 성립 전 집행 가능</li>
+</ul>
+<h4>파. 적정규모학교 육성 지원금</h4>
+<ul class="o">
+<li>보통교부금 기준재정수요 중 자체노력 수요항목으로 '학교 통폐합, 분교장 개편 및 신설대체 이전' 지원금</li>
+<li>편성·집행: 「학교 통폐합 및 신설대체 이전 인센티브 재정지원 기준」('21.11.)에 따른 예산 편성 및 집행
+<ul class="d"><li>폐지학교 및 통합학교 등의 교육여건 개선사항 우선 검토 지원</li><li>교육과정, 학생복지비 지원 및 교육환경개선, 통학 지원 등
+<p class="note">※ 고액 국외 수학여행 지양, 특별한 교육적 목적이 있는 경우를 제외하고 국외 현장 체험학습 자제</p></li></ul></li>
+<li>집행점검: 지원금 교부 및 목적외 사용 여부 등 자체점검·관리</li>
+</ul>
+</article>
+</div>
+
+<!-- ===================== 4. 세출예산 운용기준 ===================== -->
+<div class="sec" id="s3-4" data-title="4. 세출예산 운용기준">
+<h2><span class="sn">4</span>세출예산 운용기준</h2>
+<div class="box"><ul class="s"><li>적정예산 편성 및 회계연도 내에 집행을 완료하여 이·불용액 최소화</li><li><a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%A7%80%EB%B0%A9%EC%9E%90%EC%B9%98%EB%8B%A8%EC%B2%B4%EA%B5%90%EC%9C%A1%EB%B9%84%ED%8A%B9%EB%B3%84%ED%9A%8C%EA%B3%84%EC%98%88%EC%82%B0%ED%8E%B8%EC%84%B1%EC%9A%B4%EC%98%81%EA%B8%B0%EC%A4%80" target="_blank" rel="noopener" title="국가법령정보센터 · 지방자치단체 교육비특별회계 예산편성 운영기준">「지방자치단체 교육비특별회계 예산편성 운영기준」</a>에 따른 적정한 예산편성</li></ul></div>
+
+<article class="item" id="i3-4-1" data-title="예산 배정" data-pg="47">
+<h3><span class="bx">1</span>예산 배정</h3>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법 시행령">「지방재정법 시행령」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9/%EC%A0%9C56%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 시행령 제56조 조문 보기">제56조</a>, 제57조</li>
+<li><b>의의</b>
+<ul class="d"><li>일정 기간(월별·분기별)에 걸쳐 지출원인행위를 할 수 있는 세출예산의 한도액을 통지하는 행위로서, 최종예산 집행권자의 지출원인행위를 허용하기 위한 통제수단</li><li>최종예산 집행권자는 이 배정액을 한도로 하여 계약체결 등 집행절차 수행</li></ul></li>
+<li><b>절차</b>: 세출예산월별집행계획 제출(사업부서) ⇒ 세출예산월별·분기별 배정계획 작성(예산부서) ⇒ 확정(자치단체장) ⇒ 사업부서 통지</li>
+<li><b>방법</b>: 예산부서는 세부사업별·목 단위로 예산을 배정하되, 회계처리 등을 고려하여 원가통계목까지 관리</li>
+</ul>
+</article>
+
+<article class="item" id="i3-4-2a" data-title="예산 변경 — 가. 예산의 이용" data-pg="47~48">
+<h3><span class="bx">2</span>예산 변경 <small>가. 예산의 이용</small></h3>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a>제1항</li>
+<li><b>의의</b>: 예산의 이용은 정책사업 간에 예산을 상호 융통하여 사용하는 것을 말함</li>
+<li><b>범위</b>: 예산의 이용은 정책사업 간에 예산을 변경하여 사용하는 것을 말함</li>
+<li><b>절차</b>: 이용요구(사업부서) ⇒ 검토(예산부서) ⇒ 의회 의결(지방의회) ⇒ 이용확정(교육감) ⇒ 사업부서 통지</li>
+<li><b>방법</b>: 사업부서가 정책사업간 목 단위로 이용을 요구하고 예산부서는 원가통계목까지 확정</li>
+<li><b>운용기준</b>
+<ul class="d">
+<li>정책사업은 입법과목으로 예산의 이용은 집행부의 재량사항이 아니고 지방의회의 승인을 얻어야 함</li>
+<li>지방자치단체장은 세출예산에 정한 목적 외에 경비를 사용하거나 세출 예산이 정한 각 정책사업 간에 상호 이용할 수 없음. 다만, 예산 집행에 필요하여 미리 예산으로서 지방의회의 의결을 얻었을 때에는 이용 가능
+<p class="note">※ <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a>제1항의 단서 규정에 의거, 예산총칙에 이용이 필요한 예산은 상호 이용 할 수 있도록 사전에 의회의 승인을 얻어 집행토록 하는 것이 예산집행에 효율적이며, 의회 승인된 예산비목은 특별한 결격사유가 없는 한 예산의 범위 내에서 이용 가능</p></li>
+<li>예산집행에 있어서 이용이 필요한 경우에는 지방자치단체장이 이용을 필요로 하는 과목·금액·사유 등을 명시한 서류를 지방의회에 제출하여 지방의회의 의결을 받아야 함</li>
+</ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-4-2b" data-title="예산 변경 — 나. 예산의 전용" data-pg="48~49">
+<h3><span class="bx">2</span>예산 변경 <small>나. 예산의 전용</small></h3>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C49%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제49조 조문 보기">제49조</a>, 같은 법 시행령 제55조</li>
+<li><b>개념</b>: 예산집행에 있어서 전용이란 정책사업 내 단위사업 간 예산을 변경하여 사용하는 것</li>
+<li><b>범위</b>: 동일 정책사업 내 단위사업 간 목의 금액을 동일 목이나 다른 목에 전용할 수 있음</li>
+<li><b>절차</b>: 전용요구(사업부서) ⇒ 협조·심사(예산부서) ⇒ 결정(자치단체장) ⇒ 관계부서 통지 ⇒ 지방의회 제출
+<p class="note">※ 지방의회 제출(<a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C49%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제49조 조문 보기">제49조</a>제3항): 분기별로 분기만료일이 속하는 달의 다음 달 말일까지 전용내역 제출</p></li>
+<li><b>방법</b>: 목단위로 요구·확정하나, 회계처리 등을 고려하여 원가통계목까지 관리</li>
+<li><b>전용제한</b>
+<ul class="d">
+<li>예산에 계상되지 아니한 사업을 추진하는 경우</li>
+<li>지방의회가 의결한 취지와 다르게 사업 예산을 집행하는 경우</li>
+<li>그 밖에 대통령령으로 정하는 경우
+<p class="sub">· 인건비(총액인건비 포함), 상환금*(510)은 다른 목으로 전용할 수 없음 <small>* 다만, 원금과 이자는 상호 전용할 수 있음</small></p>
+<p class="sub">· 업무추진비에 충당하기 위하여 다른 목에서의 전용을 할 수 없음</p>
+<p class="sub">· 회계연도 경과 후에는 전용을 할 수 없음</p></li>
+</ul></li>
+<li><b>운용기준</b>
+<ul class="d"><li>전용 후 재전용 또는 변경사용 할 수 없음</li><li>전용받고자 하는 단위사업 내에 세부사업이 없는 경우는 전용 불가</li></ul></li>
+<li><b>참고</b>
+<ul class="d"><li>동일 정책사업 내 단위사업 간 목간 전용(편성목=목) — 정책사업 아래 단위사업 A·B의 각 세부사업(A1·A2·B1·B2) 편성목 사이에서 상호 전용 가능 <small>(원문 도식 참조)</small></li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-4-2c" data-title="예산 변경 — 다. 예산의 변경사용" data-pg="49~50">
+<h3><span class="bx">2</span>예산 변경 <small>다. 예산의 변경사용</small></h3>
+<ul class="o">
+<li><b>개념</b>: 동일 단위사업 내 세부사업 간 또는 동일 세부사업 내 목(세목 포함) 간 예산을 해당 실·국장 책임하에 상호 융통하여 사용하는 것을 말함
+<p class="note">※ 동일 세부사업 내 목의 변경이 목그룹을 달리 할 경우는 전용에 해당됨</p>
+<ul class="d"><li>사업담당자는 변경내역서를 작성, 실·국장이 결정하여 변경사용 할 수 있으며, 변경내역을 예산부서 및 회계부서에 반드시 통보</li></ul></li>
+<li><b>범위</b>: 단위 사업 내 세부사업·목 간</li>
+<li><b>절차</b>: 변경사용요구(사업부서) ⇒ 협의<sup>*</sup>(예산부서) ⇒ 결정(실·국장) ⇒ 예산부서 및 회계부서에 통지</li>
+<li><b>방법</b>: 세목과 원가통계목까지 관리</li>
+<li><b>변경제한</b>: 변경 후 재변경 사용은 불가하고, 전용제한 목은 변경도 제한됨</li>
+<li><b>운용기준</b>
+<ul class="d"><li>기관별로 동일 단위사업 내 세부사업 간 목그룹 내 목을 변경하여 사용할 수 있으나, 목그룹이 변경될 경우 전용에 해당됨</li></ul></li>
+<li><b>참고</b>
+<ul class="d"><li>동일 단위사업 내 세부사업 간 목간 전용(편성목=목) — 같은 단위사업(A 또는 B) 안의 세부사업 편성목 사이에서만 상호 융통 <small>(원문 도식 참조)</small></li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-4-2d" data-title="예산 변경 — 라. 예산의 이체 (이용·전용·변경사용·이체 구분표)" data-pg="50~51">
+<h3><span class="bx">2</span>예산 변경 <small>라. 예산의 이체</small></h3>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a></li>
+<li><b>의의</b>: 예산의 이체는 회계연도 중에 예산편성 시 고려하지 못한 기구·직제 또는 정원에 관한 법령이나 조례의 제·개정 또는 폐지로 인하여 관계기관 사이에 직무권한 기타의 변동이 있을 때, 그 예산을 이체하여 사용하는 것을 말함</li>
+<li><b>절차</b>: 이체요구(사업부서) ⇒ 심사(예산부서) ⇒ 결정(자치단체장) ⇒ 관계부서 통지(예산부서) ⇒ 지방의회에 제출
+<p class="note">※ 지방의회 제출(<a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a>): 분기별로 분기만료일이 속하는 달의 다음 달 말일까지 이체내역 제출</p></li>
+<li><b>방법</b>: 이체의 단위는 세부사업으로, 이체로 인한 세부사업의 분할·합병은 불가하며, <u><b>예산현액</b></u>으로 관리
+<p class="note">※ 예산현액 관리의 필요성: 교육비특별회계는 세부사업을 모든 기관(본청, 직속기관, 교육지원청)에서 사용하여, 예산 이체 시 해당 조직의 해당 세부사업 내 단위과제카드의 원인행위잔액 한도 내에서 이체하므로 예산현액으로 관리하는 것이 타당함</p></li>
+<li><b>이체범위</b>
+<ul class="d"><li>예산을 이체받은 조직이 다시 변경되는 경우 재이체 가능</li><li>이월 및 이·전용된 예산현액도 이체 가능</li><li>이체된 예산을 사업계획 변경 등으로 인한 전용, 변경사용도 가능</li></ul></li>
+<li><b>운용기준</b>
+<ul class="d">
+<li>세입예산은 장·관·항·목별로 지방의회 의결을 받은 사항으로, 이체개념이 아니라 조직정보를 변경하는 차원임</li>
+<li>이체는 사업의 목적·내용이 변경되는 사항이 아니고 직무권한의 변동이 있는 사항으로 의회심의 대상이 아님</li>
+<li>조직변경 조례(안)이 동일 회기내에서 동시에 의결되었을 경우 예산이체
+<p class="note">※ 조직변경을 반영하지 않고 의회에서 확정된 예산대로 예산서 편제 후 조직변경에 맞게 이체하는 것이 원칙, 다만, 지방의회와의 사전 협의(부대의견 등)시 조직개편에 맞게 예산서를 개편·운용</p></li>
+<li>지방자치단체장은 이체를 한 경우에는 분기별로 그 이체 내역을 지방의회에 제출(<a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a>제2항)</li>
+<li>이체 예산에 대하여 추경예산 편성 시 증액 및 감액이 가능
+<p class="note">※ 단, 이체받은 예산은 예산현액으로 관리되어 이체받은 부서에서 추경 편성 시 기정액은 반영되지 않음</p></li>
+</ul></li>
+</ul>
+<p class="tcap">【 예산의 이용·전용·변경사용·이체 구분 】</p>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>이 용</th><th>전 용</th><th>변경사용</th><th>이 체</th></tr></thead>
+<tbody>
+<tr><th>성 격</th><td colspan="3" class="c">과목 간 과부족의 융통 (예산의 목적 외 집행)</td><td class="c">직무권한 등 변동 시<br>(조직개편 등으로 사업 소관 변경)</td></tr>
+<tr><th>근 거</th><td class="c"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a></td><td class="c"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C49%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제49조 조문 보기">제49조</a></td><td class="c">-</td><td class="c"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C47%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방재정법 제47조의2 조문 보기">제47조의2</a></td></tr>
+<tr><th>적용범위</th><td class="c">정책사업 간<br>(총칙 명기 및 의회 의결)</td><td class="c">단위사업 간</td><td class="c">세부사업 간</td><td class="c">실·과 간</td></tr>
+<tr><th>요구권자</th><td class="c">자치단체의 장</td><td class="c">부서(기관)의 장</td><td class="c">사업담당자</td><td class="c">부서(기관)의 장</td></tr>
+<tr><th>승인권자</th><td class="c">지방의회</td><td class="c">지방자치단체의 장</td><td class="c">실·국장</td><td class="c">지방자치단체의 장</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i3-4-3" data-title="예산 이월 (명시·사고·계속비이월)" data-pg="51~52">
+<h3><span class="bx">3</span>예산 이월</h3>
+<ul class="o">
+<li><b>근거</b>: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C50%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제50조 조문 보기">제50조</a></li>
+<li><b>의의</b>: 회계연도 독립의 원칙에 대한 예외로서 당해연도에 사용하지 않은 세출예산을 다음연도에 넘겨서 사용할 수 있는 것을 말함</li>
+<li><b>종류</b>
+<ul class="d">
+<li><b>명시이월</b>: 세출예산 중 경비의 성질상 당해연도 내에 그 지출을 끝내지 못할 것이 예측될 때에 그 취지를 세입·세출예산에 명시하고, 사전에 의회의 승인을 얻어 다음연도에 이월하여 사용하는 것</li>
+<li><b>사고이월</b>: 세출예산 중 당해연도 내에 지출원인행위를 하고 불가피한 사유로 인하여 그 연도 내에 지출하지 못한 경비와 지출원인행위를 하지 아니한 그 부대경비를 다음 연도에 이월하여 사용하는 것</li>
+<li><b>계속비이월</b>: 수년도에 걸쳐 시행하는 사업의 경비에 대하여 일괄하여 의결을 얻은 예산으로, 연간부담액 중 당해연도에 지출하지 못한 금액은 사업완성 연도까지 계속하여 차례로 이월하여 사용할 수 있음
+<p class="note">※ 계속비로 지출할 수 있는 연한은 당해연도로부터 5년 이내이나, 필요하다고 인정될 때에는 지방의회의 의결을 거쳐 다시 그 연한을 연장할 수 있음(<a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방재정법">「지방재정법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EC%9E%AC%EC%A0%95%EB%B2%95/%EC%A0%9C42%EC%A1%B0" target="_blank" rel="noopener" title="지방재정법 제42조 조문 보기">제42조</a>)</p></li>
+</ul></li>
+<li><b>운용기준</b>
+<ul class="d">
+<li>이월예산에 대하여는 다음연도의 예산에 계상하지 않고, 이월예산으로 배정된 것으로 보며 「예산현액」으로 관리</li>
+<li>이월예산은 다음연도에 기 구조화된 동일 사업목적을 가진 세부사업으로 관리
+<p class="note">※ 다만, 동일 목적을 가진 세부사업이 없는 경우에는 사업 목적이 유사한 정책(단위)사업 아래에 신규로 세부사업 설정 가능</p></li>
+<li>이월예산의 구분관리: 예산부서는 목까지 확정하나, 회계처리 등을 고려하여 원가통계목까지 내부적으로 관리함</li>
+<li>이월된 예산이라 할지라도 지출원인행위가 발생되지 않은 예산에 대하여는 동일 목 내에서 통계목의 변경 사용 가능</li>
+</ul></li>
+</ul>
+<p class="tcap">【 예산의 이월 구분 】</p>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>명시이월</th><th>사고이월</th><th>계속비이월</th></tr></thead>
+<tbody>
+<tr><th>이월단위</th><td class="c">목 단위</td><td class="c">목 단위</td><td class="c">목 단위</td></tr>
+<tr><th>요구권자</th><td class="c">자치단체의 장</td><td class="c">부서(기관)의 장</td><td class="c">자치단체의 장</td></tr>
+<tr><th>승인권자</th><td class="c">지방의회</td><td class="c">자치단체의 장</td><td class="c">지방의회</td></tr>
+<tr><th>이월액확정요구<br><small>(사업부서→예산부서)</small></th><td class="c">회계연도가 끝나는 날까지</td><td class="c">회계연도가 끝나는 날까지</td><td class="c">회계연도가 끝나는 날까지</td></tr>
+<tr><th>이월액확정<br><small>(예산부서)</small></th><td class="c">회계연도가 끝난 날로부터 10일 이내</td><td class="c">회계연도가 끝난 날로부터 10일 이내</td><td class="c">회계연도가 끝난 날로부터 10일 이내</td></tr>
+<tr><th>기간연장</th><td class="c">사고이월 가능</td><td class="c">불가능</td><td class="c">의회의결 연장, 사고</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i3-4-4" data-title="이·불용액의 최소화" data-pg="52">
+<h3><span class="bx">4</span>이·불용액의 최소화</h3>
+<ul class="o">
+<li><b>관리 목표 설정</b>: 매 회계연도 마다 이·불용액 목표를 시도교육청별로 자체 설정하여 관리</li>
+<li><b>예산편성·집행 관행 개선</b>: 당해연도에 집행할 수 있는 예산을 편성하고 연내 집행을 확대하여 이·불용액 감축 추진
+<ul class="d"><li>명시이월: 계속비 제도를 활용하는 등 당해연도에 집행가능한 예산을 편성하여 명시이월 감축</li><li>사고이월: 긴급입찰 및 선금제도를 활용하여 사고이월 최소화</li></ul></li>
+<li><b>집행 중간점검</b>: 전체 사업을 대상으로 집행실적 및 향후 지출계획 등을 점검하여 이·불용 예상액을 추경 시 감액 조정하고 지출수요가 높은 사업에 재편성하여 재정운용 효율화</li>
+<li><b>집행관리</b>: 수시 집행상황 모니터링 및 재정집행점검단* 운영 등으로 집행상황 점검·지도, 제도개선 과제 발굴 등 적극적인 집행관리 추진
+<p class="fn">* (구성) 부교육감을 단장으로 주요 국장과 소속 부서장으로 구성<br>&nbsp;&nbsp;(역할) 주 1회 집행현황 모니터링 및 월 2회 실적 관리 및 점검, 부진사업 원인 분석 및 장애요인 개선 등</p></li>
+</ul>
+</article>
+</div>
+
+<!-- ===================== 5. 유의사항 ===================== -->
+<div class="sec" id="s3-5" data-title="5. 교육비특별회계 예산편성 유의사항">
+<h2><span class="sn">5</span>교육비특별회계 예산편성 유의사항</h2>
+
+<article class="item" id="i3-5-1" data-title="세입예산 과목구분 (기금 신설 · 지방이양사무지원사업보전금)" data-pg="53">
+<h3><span class="bx">1</span>교육비특별회계 세입예산 과목구분</h3>
+<ul class="o">
+<li><b><sup>11500항</sup>기금-<sup>11501목</sup>기금-<sup>원가통계목</sup>기금전입금 신설</b>
+<ul class="d"><li><b>(개정)</b> 기존 교부금, 국고보조금, 특별회계전입금으로 구성되어 있던 '중앙정부이전수입' 아래 '기금(11500)' 항 신설</li>
+<li><b>(편성방향)</b> 중앙정부에서 관리하고 있는 각종 기금(신설 추진 중인 미래대응기금 포함)에서 지원되는 수입은 '기금(11501)' 목에 편성</li></ul></li>
+<li><b><sup>12205목</sup>지방이양사무지원사업보전금</b>
+<ul class="d"><li>(현황) '22년부터 지자체 전출하는 '지방이양사업 지원' 보전금에 대해 교육청마다 법정전출금, 비법정전출금 등으로 다양하게 편성</li>
+<li>(편성방향) 2025회계연도부터 신설된 '지방이양사무지원사업보전금'(12205)으로 편성함으로써 법정전출금/비법정전출금과 분리하여 관리</li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-5-2" data-title="세출예산 사업별 분류 (방과후학교 단위사업 수정)" data-pg="53">
+<h3><span class="bx">2</span>교육비특별회계 세출예산 사업별 분류</h3>
+<ul class="o">
+<li><b><sup>정책사업</sup>[03]교육복지-<sup>단위사업</sup>[02]방과후학교-<sup>세부사업</sup>[01], [05] 수정</b>
+<ul class="d"><li><b>(개정)</b> 정책 방향 및 명칭에 부합하게 '[02] 방과후학교및늘봄학교' 단위사업명을 '[02] 방과후학교'로 수정하고 하위 세부사업 및 설정 변경
+<p class="note">※ 기존의 늘봄학교를 '온동네 초등돌봄·교육으로 발전·추진 중('26.~)</p></li>
+<li><b>(편성방향)</b> 세부사업 및 설정 변경에 따라 기존 '[05]늘봄학교운영'에 편성하던 예산은 '[01] 방과후학교운영'에 포함하여 편성</li></ul></li>
+</ul>
+</article>
+
+<article class="item" id="i3-5-3" data-title="세출 성질별 분류 (보수 세목 · 사회보장적수혜금 · 학교운영비)" data-pg="53~54">
+<h3><span class="bx">3</span>교육비특별회계 세출 성질별 분류</h3>
+<ul class="o">
+<li><b><sup>110</sup>인건비목-<sup>11003</sup>기간제근로자보수, <sup>11004</sup>공무직보수, <sup>11005</sup>계약직교원보수 설정 변경</b>
+<ul class="d"><li><b>(개정)</b> 기간제근로자, 공무직, 계약직교원 보수 세목 내 설정 예시 추가</li>
+<li><b>(편성방향)</b> 「공공부문 비정규직 처우개선 대책('26.4.28.)」 및 가이드라인('26.5.29.)에 따라 비정규직 노동자 대상 적정임금 및 수당을 감안하여 예산 편성</li></ul></li>
+<li><b><sup>원가통계목</sup>자체 사회보장적수혜금(취약계층 포함) 설정 변경</b>
+<ul class="d"><li><b>(개정)</b> '27년 교부금 산정부터 현금성 복지 페널티 대상인 해당 항목의 설정을 추가하여 예산 편성 기준 명확화</li>
+<li><b>(편성방향)</b> 난치병 학생 치료비 지원 등 취약계층 대상 지원사업은 '자체 사회보장적 수혜금(취약계층)', 전체 학생을 대상으로 하는 입학지원금 등은 '자체 사회보장적 수혜금'에 편성하여 예산편성 오류 방지</li></ul></li>
+<li><b><sup>620-02</sup>학교운영비 설정 변경</b>
+<ul class="d"><li><b>(현황)</b> 일부 시·도교육청에서 특정 사업 수행을 위하여 각급학교를 대상으로 지원하는 목적성 경비를 학교 운영비에 편성
+<p class="note">※ 특히, 목적성 재원인 특별교부금을 학교운영비에 편성하고, 세출 사업별 분류도 해당 사업 분류가 아닌 '학교재정지원관리' 하위 항목에 편성하는 사례 有</p></li>
+<li><b>(편성방향)</b> 학교기본운영비나 총액배분사업비*를 제외한 목적성 사업은 <sup>620-01</sup>인건비 지원, <sup>620-03</sup>목적사업비, <sup>620-04</sup>학교환경개선사업비 등에 편성하고, 해당 사업의 목적에 맞게 세출 사업별 분류도 편성 필요
+<p class="fn">* 학교기본운영비로 충당하기 어려운 특정 사업수요에 대응하기 위하여, 학교운영비에 포함하여 총액으로 교부하는 목적성 경비</p></li></ul></li>
+</ul>
+</article>
+</div>
+</section>
+
+<section class="chap" data-ch="4" id="ch4">
+<div class="chap-h"><span class="chap-no">Ⅳ</span><h1>예산편성 주요 경비</h1><span class="pg">p.57~91</span></div>
+
+<div class="sec" id="s4-1" data-title="1. 관계법령에 규정된 경비">
+<h2><span class="sn">1</span>관계법령에 규정된 경비</h2>
+
+<article class="item" id="i4-1-1" data-title="인건비 (봉급·수당 지급근거)" data-pg="57">
+<h3><span class="bx">1</span>인건비</h3>
+<div class="tw"><table class="t">
+<thead><tr><th style="width:9em">구 분</th><th>지 급 근 거</th></tr></thead><tbody>
+<tr><th>봉급</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B3%B4%EC%88%98%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원보수규정">「공무원보수규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B3%B4%EC%88%98%EA%B7%9C%EC%A0%95/%EC%A0%9C5%EC%A1%B0" target="_blank" rel="noopener" title="공무원보수규정 제5조 조문 보기">제5조</a>, 제35조<br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B3%B4%EC%88%98%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 보수규정">「지방공무원보수규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B3%B4%EC%88%98%EA%B7%9C%EC%A0%95/%EC%A0%9C4%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 보수규정 제4조 조문 보기">제4조</a>, 제34조</td></tr>
+<tr><th>상여수당</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원수당 등에 관한 규정">「공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C6%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="공무원수당 등에 관한 규정 제6조의2 조문 보기">제6조의2</a>, 제7조, 제7조의2<br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 수당 등에 관한 규정">「지방공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C5%EC%A1%B0%EC%9D%982" target="_blank" rel="noopener" title="지방공무원 수당 등에 관한 규정 제5조의2 조문 보기">제5조의2</a>, 제6조, 제6조의2<p class="arr">정근수당, 정근수당가산금, 대우공무원수당, 대우공무원가산금, 성과상여금</p></td></tr>
+<tr><th>가계보전수당</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원수당 등에 관한 규정">「공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C10%EC%A1%B0" target="_blank" rel="noopener" title="공무원수당 등에 관한 규정 제10조 조문 보기">제10조</a>~제11조의3<br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 수당 등에 관한 규정">「지방공무원 수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C10%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 수당 등에 관한 규정 제10조 조문 보기">제10조</a>~제11조의2<p class="arr">가족수당, 자녀학비보조수당, 주택수당, 육아휴직수당</p></td></tr>
+<tr><th>특수지근무수당</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원수당 등에 관한 규정">「공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C12%EC%A1%B0" target="_blank" rel="noopener" title="공무원수당 등에 관한 규정 제12조 조문 보기">제12조</a><br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 수당 등에 관한 규정">「지방공무원 수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C12%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 수당 등에 관한 규정 제12조 조문 보기">제12조</a></td></tr>
+<tr><th>특수근무수당 등</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원수당 등에 관한 규정">「공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C13%EC%A1%B0" target="_blank" rel="noopener" title="공무원수당 등에 관한 규정 제13조 조문 보기">제13조</a>~제14조의2<br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 수당 등에 관한 규정">「지방공무원 수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C13%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 수당 등에 관한 규정 제13조 조문 보기">제13조</a>~제14조의2<p class="arr">위험근무수당, 특수업무수당, 업무대행수당</p></td></tr>
+<tr><th>초과근무수당 등</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원수당 등에 관한 규정">「공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C15%EC%A1%B0" target="_blank" rel="noopener" title="공무원수당 등에 관한 규정 제15조 조문 보기">제15조</a>~제17조의2<br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 수당 등에 관한 규정">「지방공무원 수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C15%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 수당 등에 관한 규정 제15조 조문 보기">제15조</a>~제17조의2<p class="arr">시간외근무수당, 야간근무수당, 휴일근무수당, 관리업무수당</p></td></tr>
+<tr><th>실비변상 등</th><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원수당 등에 관한 규정">「공무원수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C18%EC%A1%B0" target="_blank" rel="noopener" title="공무원수당 등에 관한 규정 제18조 조문 보기">제18조</a>~제18조의6<br><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 수당 등에 관한 규정">「지방공무원 수당 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%88%98%EB%8B%B9%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C18%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 수당 등에 관한 규정 제18조 조문 보기">제18조</a>~제18조의8<p class="arr">정액급식비, 명절휴가비, 연가보상비, 직급보조비</p></td></tr>
+</tbody></table></div>
+<p class="sq"><b>기타</b>: 본 지침에 정해지지 않은 현업초과근무 대상자, 시험수당(관리비)은 종전 기준에 따른다</p>
+</article>
+
+<article class="item" id="i4-1-2" data-title="겸임수당" data-pg="57">
+<h3><span class="bx">2</span>겸임수당</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>단 가(월)</th><th>지급근거</th><th>지 급 대 상</th><th>지급 시점</th></tr></thead><tbody>
+<tr><td class="c hl">50,000원</td><td class="c"><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B3%B4%EC%88%98%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방공무원 보수규정">「지방공무원 보수규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B3%B5%EB%AC%B4%EC%9B%90%EB%B3%B4%EC%88%98%EA%B7%9C%EC%A0%95/%EC%A0%9C31%EC%A1%B0" target="_blank" rel="noopener" title="지방공무원 보수규정 제31조 조문 보기">제31조</a></td><td>겸임발령자 및 병설(부설·통합)학교 행정실에 근무하는 지방공무원</td><td class="c">발령일부터 지급</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-1-3" data-title="여비 (국내·국외)" data-pg="58">
+<h3><span class="bx">3</span>여비</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>지 급 근 거</th></tr></thead><tbody>
+<tr><td class="c">국내여비 (220-01)</td><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%97%AC%EB%B9%84%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원 여비 규정">「공무원 여비 규정」</a> [별표 2], [별표 5] 등</td></tr>
+<tr><td class="c">국외여비 (220-02)</td><td><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EB%AC%B4%EC%9B%90%EC%97%AC%EB%B9%84%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공무원 여비 규정">「공무원 여비 규정」</a> [별표 3], [별표 4], [별표 6의2] 등</td></tr>
+</tbody></table></div>
+</article>
+</div>
+
+<div class="sec" id="s4-2" data-title="2. 교육부 훈령에 의한 기준 경비">
+<h2><span class="sn">2</span>교육부 훈령에 의한 기준 경비</h2>
+<div class="reason"><span>기준경비 적용하는 사유</span>시·도교육청 상호간 균형유지가 필요한 경비로서 교육부 훈령을 적용하여 편성</div>
+
+<article class="item" id="i4-2-1" data-title="기관운영 및 사업추진 업무추진비" data-pg="58~59">
+<h3><span class="bx">1</span>기관운영 및 사업추진 업무추진비</h3>
+<p class="sq"><b>경비성격</b></p>
+<ul class="o">
+<li>(기관운영) 시·도교육감과 보조기관, 소속기관의 장과 보조기관의 통상적인 조직운영과 홍보, 대민활동, 유관기관과의 협조 및 직책수행 등의 직무수행에 소요되는 제반경비
+<p class="note">※ 기관운영업무추진비는 시·도교육청(본청)은 3급(상당) 이상(다만, 기획관, 감사관 등 국장급 4급 보조·보좌기관 포함 가능), 교육지원청은 4급(상당) 이상(교육지원청 소속기관장 제외), 직속기관은 기관장 편성(본청 및 교육지원청 과장급 이하 편성 불가)</p></li>
+<li>(사업추진) 대단위사업, 주요투자사업, 주요행사 및 각종시책사업 등 원활한 사업 추진에 소요되는 경비(목적에 따라 사업부서의 정책사업에 포함하여 편성. 단, 기관운영 정책사업에 편성 금지)</li>
+</ul>
+<p class="sq"><b>기준액</b></p>
+<ul class="o"><li>시·도교육비특별회계 업무추진비 한도액 기준 범위내에서 자율결정</li><li>시·도교육비특별회계 업무추진비 한도액 기준</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>한도액 기준</th><th>비 고</th></tr></thead><tbody>
+<tr><td class="c">서울·경기</td><td class="c">예산규모의 0.09% 이내</td><td></td></tr>
+<tr><td class="c">기타 시·도</td><td class="c hl">예산규모의 0.12% 이내</td><td></td></tr>
+<tr><td class="c">제주</td><td class="c">예산규모의 0.31% 이내</td><td></td></tr>
+</tbody></table></div>
+<ul class="o"><li>기관운영 업무추진비 기준액</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>기관별</th><th>직위별</th><th>한 도 액</th><th>비 고</th></tr></thead><tbody>
+<tr><th rowspan="9">본 청</th><td class="c">교육감</td><td class="r">190,000천원</td><td></td></tr>
+<tr><td class="c">부교육감</td><td class="r">48,400천원</td><td></td></tr>
+<tr><td class="c">기획조정실장</td><td class="r">20,000천원</td><td></td></tr>
+<tr><td class="c">국장</td><td class="r">18,300천원</td><td></td></tr>
+<tr><td class="c">홍보담당관(3급)</td><td class="r">6,600천원</td><td></td></tr>
+<tr><td class="c">감사관(3급상당)</td><td class="r">6,600천원</td><td></td></tr>
+<tr><td class="c">재정전략기획담당관(3급)</td><td class="r">6,600천원</td><td></td></tr>
+<tr><td class="c">조직기획담당관(3급)</td><td class="r">6,600천원</td><td></td></tr>
+<tr><td class="c">과장</td><td class="r">편성금지</td><td></td></tr>
+<tr><th rowspan="2">교육지원청</th><td class="c">교육장</td><td class="r">기본: 25,000천원<br>가산*: 5,000천원</td><td>* 가산: 전남 '시' 지역 및 광주 '구' 지역</td></tr>
+<tr><td class="c">국장</td><td class="r">5,000천원</td><td></td></tr>
+<tr><th rowspan="2">직속기관</th><td class="c">3급(상당) 기관장</td><td class="r">9,000천원</td><td></td></tr>
+<tr><td class="c">4급(상당) 기관장</td><td class="r">7,000천원</td><td></td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-2-2" data-title="정원가산 업무추진비" data-pg="59">
+<h3><span class="bx">2</span>정원가산 업무추진비</h3>
+<p class="sq"><b>경비성격</b>: 직원의 사기진작을 위한 경비*</p>
+<p class="fn">* 직원 생일기념품, 직원 사기진작을 위한 체육대회·단합행사·전통시장행사, 불우 공무원 지원 등 각 지방교육행정기관 소속 직원의 사기진작을 위한 경비</p>
+<p class="sq"><b>기준액</b>(1인당 연간금액)</p>
+<div class="tw"><table class="t num">
+<thead><tr><th>정 원</th><th>100명까지</th><th>101~300명 까지</th><th>301~600명 까지</th><th>601~800명 까지</th><th>801명이상</th></tr></thead><tbody>
+<tr><th>1인당 기준액</th><td>80,000원</td><td>60,000원</td><td>45,000원</td><td>30,000원</td><td>15,000원</td></tr>
+</tbody></table></div>
+<p class="fn">주 1) 적용대상: 교육행정 및 지원기관(각급 학교 제외*)<br>&nbsp;&nbsp;* 단, 각급 학교는 <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%B4%88%E3%86%8D%EC%A4%91%EB%93%B1%EA%B5%90%EC%9C%A1%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 초ㆍ중등교육법">「초·중등교육법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%B4%88%E3%86%8D%EC%A4%91%EB%93%B1%EA%B5%90%EC%9C%A1%EB%B2%95/%EC%A0%9C30%EC%A1%B0%EC%9D%983" target="_blank" rel="noopener" title="초ㆍ중등교육법 제30조의3 조문 보기">제30조의3</a>제6항에 따라 시·도의 교육규칙으로 정하는 학교회계예산편성지침의 교직원복지비 항목에 "학교 소속 교직원(교장 포함) 생일 기념 소액경비(소액의 생일기념 케이크, 상품권 등)" 예산편성 기준을 정할 수 있다.</p>
+<p class="fn">주 2) 적용기준: 시·도교육청 소속 공무원의 총 정원수(예산편성년도 10.1.기준)<br>&nbsp;&nbsp;※ 단, 교육감이 재정여건 등을 감안하여 필요하다고 인정하는 경우 계약제근로자 등(공무직, 청원경찰, 기간제, 파견자 등) 직원도 자율 적용 가능</p>
+</article>
+
+<article class="item" id="i4-2-3" data-title="직책급 업무수행경비" data-pg="60">
+<h3><span class="bx">3</span>직책급 업무수행경비</h3>
+<p class="sq"><b>경비성격</b>: 직위별 당해 직무수행 활동에 소요되는 경비로 월정액으로 지급</p>
+<p class="sq"><b>기준액</b> <span class="unit">(단위: 천원)</span></p>
+<div class="tw"><table class="t num">
+<thead><tr><th colspan="2">구 분</th><th>직 위</th><th>월 액</th><th>연 액</th></tr></thead><tbody>
+<tr><th>정무직</th><td class="l">시·도교육감<br>(서울특별시교육감)</td><td class="l">기관장</td><td>900<br>(1,025)</td><td>10,800<br>(12,300)</td></tr>
+<tr><th rowspan="6">일반직</th><td class="l">시·도부교육감<br>(서울특별시부교육감)</td><td class="l">부기관장</td><td>700<br>(900)</td><td>8,400<br>(10,800)</td></tr>
+<tr><td class="l">1급</td><td class="l">기관장<br>보조기관</td><td>750<br>700</td><td>9,000<br>8,400</td></tr>
+<tr><td class="l">2·3급</td><td class="l">기관장<br>보조기관</td><td>650<br>600</td><td>7,800<br>7,200</td></tr>
+<tr><td class="l">4급</td><td class="l">기관장<br>보조기관</td><td>400<br>350</td><td>4,800<br>4,200</td></tr>
+<tr><td class="l">5급</td><td class="l">시·도교육청(본청) 과장<br>기관장<br>보조기관</td><td>350<br>150<br>100</td><td>4,200<br>1,800<br>1,200</td></tr>
+<tr><td class="l">6·7급</td><td class="l">기관장<br>보조기관</td><td>100<br>50</td><td>1,200<br>600</td></tr>
+<tr><th>교원</th><td colspan="2" class="l">유·초·중등·특수학교장</td><td>250</td><td>3,000</td></tr>
+</tbody></table></div>
+<p class="note">※ 교육전문직 기관장 및 보조기관은 일반직상당 직급으로 계상</p>
+<ol class="jn">
+<li>가산금: 각급 학교의 학급가산금은 12학급 기준으로 1학급 초과시마다 월 4,000원 가산 (병설유치원 학급, 특수학급, 기타 정규학급으로 지정된 특별학급, 방송통신중·고 학급 및 분교 포함)</li>
+<li>시·도의회의 사무처에 근무하는 전문위원은 시·도교육청에서 "직책급업무수행경비" 기준액 직위에 준하여 지급한다.</li>
+<li>교육감, 부교육감 및 본청 3급 이상 실·국장은 직무상 소요를 감안하여 지급단가의 50% 범위 내에서 조정할 수 있다.</li>
+<li>직제에 의한 보좌기관은 당해직급 보조기관 기준액을 적용한다.</li>
+<li><a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%ED%96%89%EC%A0%95%EA%B8%B0%EA%B4%80%EC%9D%98%ED%96%89%EC%A0%95%EA%B8%B0%EA%B5%AC%EC%99%80%EC%A0%95%EC%9B%90%EA%B8%B0%EC%A4%80%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95" target="_blank" rel="noopener" title="국가법령정보센터 · 지방교육행정기관의 행정기구와 정원기준 등에 관한 규정">「지방교육행정기관의 행정기구와 정원기준 등에 관한 규정」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%ED%96%89%EC%A0%95%EA%B8%B0%EA%B4%80%EC%9D%98%ED%96%89%EC%A0%95%EA%B8%B0%EA%B5%AC%EC%99%80%EC%A0%95%EC%9B%90%EA%B8%B0%EC%A4%80%EB%93%B1%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%A0%95/%EC%A0%9C9%EC%A1%B0" target="_blank" rel="noopener" title="지방교육행정기관의 행정기구와 정원기준 등에 관한 규정 제9조 조문 보기">제9조</a> 제1항에 따른 무보직 4급은 월 15만원 편성 가능</li>
+<li>직제에 의한 기관 또는 조직이 아닌 경우에도 사실상 업무를 수행하는 경우 해당 직급 직책급업무수행경비 지급 가능</li>
+</ol>
+</article>
+
+<article class="item" id="i4-2-4" data-title="부서운영경비" data-pg="61">
+<h3><span class="bx">4</span>부서운영경비</h3>
+<p class="sq"><b>경비성격</b>: 통상적인 실·과 조직운영에 소요되는 제잡비*(<a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A7%80%EB%B0%A9%EA%B5%90%EC%9C%A1%ED%96%89%EC%A0%95%EA%B8%B0%EA%B4%80%EC%97%85%EB%AC%B4%EC%B6%94%EC%A7%84%EB%B9%84%EC%A7%91%ED%96%89%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%B9%99" target="_blank" rel="noopener" title="국가법령정보센터 · 지방교육행정기관 업무추진비 집행에 관한 규칙">「지방교육행정기관 업무추진비 집행에 관한 규칙」</a>에 따라 신용카드 사용을 원칙으로 하되, 과 운영을 위한 소규모 소요에 충당할 수 있도록 정액으로 지급 가능)</p>
+<p class="fn">* 부서 간담회·협의회 등 식대·간식비, 회의비, 접대용품 등 부서운영 제잡비</p>
+<p class="sq"><b>기준액</b></p>
+<ul class="o"><li>시·도교육청 및 교육지원청, 직속기관: 과 및 과 형태를 유지하고 있는 담당관실</li>
+<li>기관장이 4급 이하인 지방단일기관(과 형태를 유지하고 있지 않는 기관): 1개과로 인정 (예산편성년도 10. 1. 기준)</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>기 준 액</th><th>비 고</th></tr></thead><tbody>
+<tr><td>정원 5인이하 실·과</td><td class="r">월 100,000원</td><td></td></tr>
+<tr><td>정원 10인이하 실·과</td><td class="r">월 175,000원</td><td></td></tr>
+<tr><td>정원 15인이하 실·과</td><td class="r">월 250,000원</td><td></td></tr>
+<tr><td>정원 20인이하 실·과</td><td class="r">월 300,000원</td><td></td></tr>
+<tr><td>정원 25인이하 실·과</td><td class="r">월 350,000원</td><td></td></tr>
+<tr><td>정원 30인이하 실·과</td><td class="r">월 400,000원</td><td></td></tr>
+<tr><td>정원 31인이상 1인 초과시</td><td class="r">월 5,000원 추가</td><td></td></tr>
+</tbody></table></div>
+<p class="note">※ 단, 교육감이 재정여건 등을 감안하여 필요하다고 인정하는 경우 계약제근로자 등(공무직, 청원경찰, 기간제, 파견자 등) 직원도 자율 적용 가능</p>
+</article>
+</div>
+
+<div class="sec" id="s4-3" data-title="3. 교육비특별회계 예산편성 지침으로 정하는 경비">
+<h2><span class="sn">3</span>교육비특별회계 예산편성 지침으로 정하는 경비</h2>
+<div class="reason"><span>기준을 정하여 운용하는 사유</span>일정한 기준없이 경비를 운용할 경우 과다한 예산 계상이 우려되는 경비와 부서(기관)간, 지역간 균형을 유지하여야 할 경비에 대하여 예산편성 지침으로 지출상한선을 정하여 균형있고 적정한 예산을 편성·운용토록 함</div>
+
+<article class="item" id="i4-3-1" data-title="예비비·지방채" data-pg="62">
+<h3><span class="bx">1</span>예비비·지방채</h3>
+<ul class="o"><li>재정규모 확대 방지 및 건전재정 유지를 위해 예산 및 예산외 사업을 다음 범위 내에서 운용</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th style="width:8em">구 분</th><th>기 준 액 (비 율)</th></tr></thead><tbody>
+<tr><th rowspan="2">예비비</th><td>○ (일반) 예산총액의 1% 이내</td></tr>
+<tr><td>○ (재해·재난목적) 예비비: 예비비 편성한도 없음</td></tr>
+<tr><th>지방채</th><td>○ 전전년도 교육비특별회계 예산액 대비 10% 이하</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-2" data-title="특별교육재정수요지원비" data-pg="62">
+<h3><span class="bx">2</span>특별교육재정수요지원비</h3>
+<p class="sq"><b>경비성격</b>: 회계연도 중 교육시책 추진과정에서 발생하는 특별한 재정수요에 탄력적으로 대처하기 위한 경비</p>
+<p class="sq"><b>편성·집행기준</b>: 특별교육재정수요지원비 예산편성 최소화</p>
+<div class="tw"><table class="t">
+<thead><tr><th>기준액(비율)</th><th>비고</th></tr></thead><tbody>
+<tr><td class="c hl">본예산액의 0.1% 이하</td><td>교육비특별회계 예산 편성기준 및 기금운용계획 수립기준 적용</td></tr>
+</tbody></table></div>
+<ul class="d"><li>경상비, 시설비, 교육시책사업비로 구분하여 집행하되, 경상비는 10% 초과 금지</li>
+<li>여비, 업무추진비 및 교직원 복지지원 및 건당 1억 원을 초과하는 시설공사는 집행 불가</li>
+<li>건당 1억 원을 초과하는 시설공사는 반드시 해당사업에 예산편성 후 집행</li></ul>
+<div class="box">※ 감사원 지적사항 : 예비비와 성격 중복, 경상비 및 시설비 집행 과다 등</div>
+</article>
+
+<article class="item" id="i4-3-3" data-title="특정업무경비" data-pg="63~64">
+<h3><span class="bx">3</span>특정업무경비</h3>
+<p class="sq"><b>근거</b>: 지방자치단체 교육비특별회계 예산편성 운영기준 [별표1]</p>
+<p class="sq"><b>경비성격</b>: 특정업무담당분야에 근무하는 자에 대한 활동비로 월정액으로 지급</p>
+<p class="sq"><b>기준액</b></p>
+<ul class="o">
+<li>지역 특성 및 재정여건 등을 감안하여 지급대상과 금액을 자율 결정하되, 업무의 성격이 적합하여야 하며, 전년도 특정업무경비 예산총액×최근 3년간 당초예산 평균 증가율의 1/2 범위 내에서 추가편성 가능(다만, 현재 특정업무경비 지급대상 업무담당부서의 정원이 늘어난 경우에는 예외적으로 총액한도를 초과하여 편성 가능)
+<p class="note">※ (산출예시) 전년도 특정업무경비 예산총액 2억원, 전년도 포함 최근 3년 당초예산 평균 증가율 10%인 경우 ⇒ (총액한도) = 2.1억원 (2억×(1+(10%/2)))</p></li>
+<li>지급대상 및 지급액 결정은 과반이상의 외부전문가가 포함된 위원회의 심의를 거쳐 2년 단위로 결정</li>
+<li>지급 대상은 시·도교육청 및 교육지원청 단위로 전담조직(과 또는 계)이 설치된 경우에는 구성원 전원에게 지급하고, 전담조직이 없는 경우에는 지급 대상 업무만 전담하여 업무를 수행하는 담당공무원(담당급 이하)에게 지급*(단, 교육감이 재정여건 등을 감안하여 필요하다고 인정하는 경우 정원 외 직원도 적용 가능)
+<p class="fn">* 이 경우 월정액의 범위 내에서 업무수행에 소요되는 실비를 지급할 수 있음</p></li>
+<li>특정업무경비 상호 간에는 중복 지급할 수 없음</li>
+<li>특정업무경비는 인건비가 아닌 직무수행경비이므로 '(단위사업)기본운영비' 등 해당 세부사업에 편성</li>
+</ul>
+<p class="sq"><b>지급 기준</b></p>
+<ul class="o"><li>지급대상자 및 지급액 <span class="unit">(단위: 월, 원)</span></li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>지급대상자</th><th>지급액</th></tr></thead><tbody>
+<tr><th rowspan="2">감사</th><td>· 본청 감사관</td><td class="r">100,000</td></tr>
+<tr><td>· 본청 및 교육지원청 감사담당공무원(4급 이하)</td><td class="r">80,000</td></tr>
+<tr><th>학생배치</th><td>· 본청 및 교육지원청 학생배치계획 담당공무원(과장 이하)</td><td class="r">100,000</td></tr>
+<tr><th>예산</th><td>· 본청 및 교육지원청 예산담당공무원(과장 이하)</td><td class="r">150,000</td></tr>
+<tr><th rowspan="2">평생교육(학원)</th><td>· 본청 및 교육지원청 담당과장</td><td class="r">80,000</td></tr>
+<tr><td>· 본청 및 교육지원청 담당공무원</td><td class="r">60,000</td></tr>
+<tr><th rowspan="2">학교보건<br>(교육환경보호)</th><td>· 본청 및 교육지원청 담당과장</td><td class="r">80,000</td></tr>
+<tr><td>· 본청 및 교육지원청 담당공무원</td><td class="r">60,000</td></tr>
+<tr><th rowspan="2">교원·공무원·<br>교육공무직원 단체</th><td>· 본청 교원·공무원·교육공무직원단체 담당과장</td><td class="r">80,000</td></tr>
+<tr><td>· 본청 교원·공무원·교육공무직원단체 담당공무원(5급 이하)</td><td class="r">60,000</td></tr>
+<tr><th rowspan="2">회계</th><td>· 본청 복식부기, 본청 및 교육지원청 회계·계약 담당과장</td><td class="r">80,000</td></tr>
+<tr><td>· 본청 복식부기, 본청 및 교육지원청 회계·계약 담당공무원</td><td class="r">60,000</td></tr>
+<tr><th>여론·동향</th><td>· 본청 여론·동향 전담공무원(4급 이하)</td><td class="r">100,000</td></tr>
+<tr><th rowspan="2">법무</th><td>· 본청 법무업무 담당과장</td><td class="r">80,000</td></tr>
+<tr><td>· 본청 법무업무 담당공무원(5급 이하)</td><td class="r">60,000</td></tr>
+</tbody></table></div>
+<p class="sq"><b>교육지원청 적용 기준</b></p>
+<div class="tw"><table class="t">
+<thead><tr><th colspan="2">구 분</th><th>월 액</th><th>비 고</th></tr></thead><tbody>
+<tr><th>감사</th><td>담당공무원</td><td class="r">80</td><td>-청당 5명 이내<br>※ 감사담당공무원 임명시에만 지급</td></tr>
+<tr><th rowspan="2">학생배치</th><td>담당과장</td><td class="r">100</td><td></td></tr>
+<tr><td>담당공무원</td><td class="r">100</td><td>-목포, 여수, 순천, 광양: 청당 2명이내<br>-그 외: 청당 1명 이내</td></tr>
+<tr><th>예산</th><td>담당과장<br>담당공무원</td><td class="r">150</td><td>-청당 4명 이내</td></tr>
+<tr><th rowspan="2">평생교육(학원)</th><td>담당과장</td><td class="r">80</td><td></td></tr>
+<tr><td>담당공무원</td><td class="r">60</td><td>-시지역: 청당 2명 이내<br>-그 외: 청당 1명 이내</td></tr>
+<tr><th rowspan="2">학교보건<br>(교육환경보호)</th><td>담당과장</td><td class="r">80</td><td></td></tr>
+<tr><td>담당공무원</td><td class="r">60</td><td>-목포, 여수, 순천: 청당 4명 이내<br>-그 외: 청당 3명 이내</td></tr>
+<tr><th rowspan="2">회계</th><td>담당과장</td><td class="r">80</td><td>-재정지원과장</td></tr>
+<tr><td>담당공무원</td><td class="r">60</td><td>-순천: 5명 이내<br>-목포, 여수, 광양: 청당 4명 이내<br>-그 외: 청당 3명 이내</td></tr>
+</tbody></table></div>
+<p class="note">※ 동·서부교육지원청의 경우 해당 특정업무를 담당하는 공무원에게 지급</p>
+</article>
+
+<article class="item" id="i4-3-4" data-title="감사활동비" data-pg="64">
+<h3><span class="bx">4</span>감사활동비</h3>
+<ul class="o"><li>경비성격: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EA%B3%B5%EA%B0%90%EC%82%AC%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0" target="_blank" rel="noopener" title="국가법령정보센터 · 공공감사에 관한 법률">「공공감사에 관한 법률」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EA%B3%B5%EA%B0%90%EC%82%AC%EC%97%90%EA%B4%80%ED%95%9C%EB%B2%95%EB%A5%A0/%EC%A0%9C28%EC%A1%B0" target="_blank" rel="noopener" title="공공감사에 관한 법률 제28조 조문 보기">제28조</a> 및 같은법 시행령 제16조제2항 규정에 의한 경비</li>
+<li>지급대상: 감사담당공무원</li><li>기준액: 감사활동을 위한 출장 시 <b class="hl">1일 10,000원</b></li></ul>
+</article>
+
+<article class="item" id="i4-3-5" data-title="관재활동비" data-pg="64">
+<h3><span class="bx">5</span>관재활동비</h3>
+<ul class="o"><li>경비성격: <a class="law-a" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9C%A0%EC%9E%AC%EC%82%B0%EB%B0%8F%EB%AC%BC%ED%92%88%EA%B4%80%EB%A6%AC%EB%B2%95" target="_blank" rel="noopener" title="국가법령정보센터 · 공유재산 및 물품 관리법">「공유재산 및 물품관리법」</a> <a class="law-a art" href="https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B3%B5%EC%9C%A0%EC%9E%AC%EC%82%B0%EB%B0%8F%EB%AC%BC%ED%92%88%EA%B4%80%EB%A6%AC%EB%B2%95/%EC%A0%9C96%EC%A1%B0" target="_blank" rel="noopener" title="공유재산 및 물품 관리법 제96조 조문 보기">제96조</a>제2항 규정에 의한 경비</li>
+<li>지급대상: 본청 및 교육지원청 공유재산 담당공무원</li><li>기준액: <b class="hl">월 60,000원</b>(※ 특정업무경비 중복지급 불가)</li></ul>
+</article>
+
+<article class="item" id="i4-3-6" data-title="일·숙직 수당" data-pg="64">
+<h3><span class="bx">6</span>일·숙직 수당</h3>
+<ul class="o"><li>경비성격: 일·숙직자에 대한 실비 보상적 경비</li><li>기준액</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>세부항목</th><th>단 위</th><th>단 가</th><th>비 고</th></tr></thead><tbody>
+<tr><th rowspan="2">일·숙직비</th><td class="c">일직비</td><td class="c">1일</td><td class="r">60,000</td><td rowspan="2" class="c">운영수당</td></tr>
+<tr><td class="c">숙직비</td><td class="c">1야</td><td class="r">60,000</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-7" data-title="위원회 참석수당" data-pg="65">
+<h3><span class="bx">7</span>위원회 참석수당</h3>
+<ul class="o"><li>경비성격: 법령, 조례 및 사업추진을 위하여 설치된 위원회의 외부위원 회의 참석 수당</li><li>기준액</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>단 위</th><th>단 가</th><th>비 고</th></tr></thead><tbody>
+<tr><th>위원회 참석수당<br>(운영수당)</th><td class="c">일 당</td><td>○ 기본료: 100,000원<br>○ 초 과: 50,000원</td><td>* 초과는 2시간 이상 시 1일 1회에 한하여 지급</td></tr>
+</tbody></table></div>
+<p class="note">※ 공무원(사립학교 교직원, 계약제 직원 포함)인 경우 자기가 소속된 교육청(본청, 직속기관, 교육지원청)에 설치된 위원회에 참석하는 경우에는 다른 법령에 규정이 없는 한 위원회 참석(심사)수당 편성 불가</p>
+<p class="note">※ 사업추진을 위해 자체적으로 구성하는 위원회는 관련 근거(교육부 지침 등)에 의하고, 위원회 구성 인원은 최소화</p>
+<p class="note">※ 단순 협의회 형식의 위원회는 참석수당을 편성할 수 없음</p>
+</article>
+
+<article class="item" id="i4-3-8" data-title="차량운영비 (유류단가·연간주행거리별 단가)" data-pg="65~68">
+<h3><span class="bx">8</span>차량운영비</h3>
+<p class="sq"><b>적용기준</b> <span class="unit">(단위: ℓ/원)</span></p>
+<div class="tw"><table class="t num">
+<thead><tr><th>구 분</th><th>휘 발 유</th><th>경 유</th><th>비 고</th></tr></thead><tbody>
+<tr><th>2026</th><td>1,886</td><td>1,950</td><td></td></tr>
+<tr class="strong"><th>2027</th><td>1,872</td><td>1,856</td><td></td></tr>
+<tr><th>증 감</th><td>137</td><td>290</td><td></td></tr>
+</tbody></table></div>
+<p class="fn">※ 증감 수치는 원문 표기를 그대로 옮긴 것입니다.</p>
+<p class="sq"><b>차량운영비(유류비, 수리비·기타경비)</b> <span class="unit">(단위: 천원)</span></p>
+<p class="fn">원문(p.65~68)의 세로형 표를 차종·형별·연료별 한 줄로 재배열했습니다. "–"는 원문에 해당 구간 단가가 없는 칸입니다.</p>
+
+<div class="tw"><table class="t num veh"><thead><tr><th rowspan="2">차종</th><th rowspan="2">형별</th><th rowspan="2">연료</th><th colspan="8">연간주행거리별 차량운영비 단가 (단위: 천원)</th></tr><tr>
+<th>40,000㎞<br>이상</th>
+<th>35,000㎞<br>이상</th>
+<th>30,000㎞<br>이상</th>
+<th>25,000㎞<br>이상</th>
+<th>20,000㎞<br>이상</th>
+<th>15,000㎞<br>이상</th>
+<th>10,000㎞<br>이상</th>
+<th>5,000㎞<br>이상</th>
+</tr></thead><tbody>
+<tr><td>승용</td><td>의전용(교육장 대형)</td><td>휘발유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>10,856</td><td>9,490</td><td>8,128</td><td>6,765</td><td>5,402</td><td><span class="na">–</span></td></tr>
+<tr><td>승용</td><td>대형(교육감용)</td><td>휘발유</td><td>17,454</td><td>15,842</td><td>14,229</td><td>12,612</td><td>11,001</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td></tr>
+<tr><td>승용</td><td>중형</td><td>휘발유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>9,758</td><td>8,477</td><td>7,198</td><td>5,919</td><td>4,640</td><td><span class="na">–</span></td></tr>
+<tr><td>승용</td><td>소형</td><td>휘발유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>8,127</td><td>6,960</td><td>5,794</td><td>4,625</td><td>3,458</td></tr>
+<tr><td>승용</td><td>지프형</td><td>휘발유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>8,098</td><td>6,830</td><td>5,566</td><td>4,301</td><td>3,036</td></tr>
+<tr><td>승용</td><td>지프형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>9,767</td><td>8,697</td><td>8,277</td><td>6,558</td><td>5,486</td><td><span class="na">–</span></td></tr>
+<tr><td>승합</td><td>대형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>19,944</td><td>16,915</td><td>13,885</td><td>10,856</td><td>7,825</td></tr>
+<tr><td>승합</td><td>중형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>12,552</td><td>10,464</td><td>8,376</td><td>6,286</td><td>4,351</td></tr>
+<tr><td>승합</td><td>소형</td><td>휘발유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>8,429</td><td>7,098</td><td>5,768</td><td>4,438</td><td>3,105</td></tr>
+<tr><td>승합</td><td>소형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>8,813</td><td>7,674</td><td>6,539</td><td>5,402</td><td>4,114</td></tr>
+<tr><td>화물</td><td>대형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>22,995</td><td>19,899</td><td>16,808</td><td>13,714</td><td>10,624</td></tr>
+<tr><td>화물</td><td>중형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>12,842</td><td>11,133</td><td>9,426</td><td>7,721</td><td>6,012</td></tr>
+<tr><td>화물</td><td>소형</td><td>휘발유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>8,991</td><td>7,607</td><td>6,224</td><td>4,842</td><td>3,458</td></tr>
+<tr><td>화물</td><td>소형</td><td>경유</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>9,313</td><td>8,176</td><td>7,038</td><td>5,902</td><td>4,767</td></tr>
+<tr class="ev"><td>승용</td><td>의전용(교육장 대형)</td><td>전기</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>7,585</td><td>6,765</td><td>5,948</td><td>5,130</td><td>4,312</td><td><span class="na">–</span></td></tr>
+<tr class="ev"><td>승용</td><td>대형(교육감용)</td><td>전기</td><td>13,094</td><td>12,027</td><td>10,958</td><td>9,887</td><td>8,821</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td></tr>
+<tr class="ev"><td>승용</td><td>중형</td><td>전기</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>6,487</td><td>5,752</td><td>5,018</td><td>4,284</td><td>3,550</td><td><span class="na">–</span></td></tr>
+<tr class="ev"><td>승용</td><td>소형</td><td>전기</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>5,402</td><td>4,780</td><td>4,159</td><td>3,535</td><td>2,913</td></tr>
+<tr class="ev"><td>승합</td><td>대형</td><td>전기</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>17,421</td><td>14,897</td><td>12,372</td><td>9,847</td><td>7,321</td></tr>
+<tr class="ev"><td>승합</td><td>중형</td><td>전기</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>10,029</td><td>8,446</td><td>6,863</td><td>5,277</td><td>3,847</td></tr>
+<tr class="ev"><td>승합</td><td>소형</td><td>전기</td><td><span class="na">–</span></td><td><span class="na">–</span></td><td><span class="na">–</span></td><td>6,290</td><td>5,656</td><td>5,025</td><td>4,393</td><td>3,609</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-9" data-title="교육강사수당" data-pg="69~70">
+<h3><span class="bx">9</span>교육강사수당</h3>
+<ul class="o"><li>경비의 성격: 공무원교육원의 교육과정 운영 등 이념교육 및 공무원 직무교육 외래 강사의 수당</li><li>기 준 액</li></ul>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>지 급 대 상</th><th>단가(시간당)</th></tr></thead><tbody>
+<tr><th>특별강사(Ⅰ)</th><td>○ 해당분야의 권위자로 기관장이 인정하는 자</td><td class="nw">○ 기본 300,000원<br>○ 초과 200,000원</td></tr>
+<tr><th>특별강사(Ⅱ)</th><td>○ 장·차관(급), 국회의원<br>○ 대학총장(급), 전·현직 교육감<br>○ 대기업 총수(회장), 국영기업체장, 정부출연 연구기관장<br>○ 인간문화재, 유명 예술인<br>○ 교육 운영상 기관장이 특별히 인정하는 강사</td><td class="nw">○ 기본 200,000원<br>○ 초과 150,000원</td></tr>
+<tr><th>일반강사(Ⅰ)</th><td>○ 대학 전임교원 또는 대학 조교수 이상<br>○ 대(중소)기업·국영기업·공사의 임원(이사급 이상)<br>○ 판검사, 변호사, 변리사, 의사, 공인 회계사, 기술사 등 자격(면허)증 소지자<br>○ 정부 출연 연구기관 연구원<br>○ 문화·예술 등 특별분야의 전문강사<br>○ 해당분야 시민단체(활동가) 활동경력 10년 이상인 자<br>○ 해당분야 전문가로 특별 및 일반 2-3급, 보조강사, 다수인강사 이외의 강사<br>○ 유초중등학교장, 장학관, 교육연구관<br>○ 5급(상당) 이상 및 24호봉 이상 공무원</td><td class="nw">○ 기본 160,000원<br>○ 초과 90,000원</td></tr>
+<tr><th>일반강사(Ⅱ)</th><td>○ 대학 비전임교원(시간강사, 연구교수 등) 또는 대학 강사<br>○ 대(중소)기업, 국영기업, 공사의 직원, 시민단체(활동가)로 1급에 해당하지 않는 자<br>○ 외국인(원어민)강사<br>○ 23호봉 이하의 공무원</td><td class="nw">○ 기본 110,000원<br>○ 초과 60,000원</td></tr>
+<tr><th rowspan="2">일반강사(Ⅲ)</th><td>○ 각종 평생교육 프로그램 강사</td><td class="nw">○ 기본 70,000원<br>○ 초과 40,000원</td></tr>
+<tr><td>○ 외국어·체육·전산강사 등 강사</td><td class="nw">○ 기본 50,000원<br>○ 초과 30,000원</td></tr>
+<tr><th>보조강사</th><td>○ 각종 실기실습 보조자(원어민 보조교사 제외)</td><td class="nw">○ 기본 40,000원<br>○ 초과 20,000원</td></tr>
+<tr><th>다수인<br>(그룹강사)</th><td>○ 현대·전통 음악 및 무용, 연극 등 예술 활동으로 다수인이 공동으로 참여하는 경우<br>(기본: 4인, 2시간 기준 / 초과: 1인당)</td><td class="nw">○ 기본 500,000원<br>○ 초과 각50,000원</td></tr>
+</tbody></table></div>
+<ol class="jn">
+<li>특별강사 Ⅰ의 경우, 기관장이 특별히 인정하는 경우 예산의 범위 내에서 기관별 별도의 자체 기준을 정하여 제한적으로 강사료를 지급할 수 있음</li>
+<li>30분 미만 강의 시 1시간 지급단가의 반액 지급</li>
+<li>세미나, 심포지엄, 패널 토의 기조연설자 및 주제발표자에 대한 수당은 상기 기준 적용</li>
+<li>강사수당 구분별 대상에 전·현직 직급, 경력자 포함</li>
+<li>연수기관(도서관 포함)은 기관의 특수성을 감안하여 기관 자체 운영규칙에 따라 예산의 범위 내에서 강사료 할증 자체 기준을 정하여 강사료를 지급</li>
+</ol>
+</article>
+
+<article class="item" id="i4-3-10" data-title="기타 수당 (결산검사위원·심사·자문 등)" data-pg="70">
+<h3><span class="bx">10</span>기타 수당</h3>
+<div class="tw"><table class="t">
+<thead><tr><th colspan="3">구 분</th><th>지급단가(원)</th><th>비 고</th></tr></thead><tbody>
+<tr><th colspan="3">결산검사위원 수당</th><td class="r">200,000</td><td><b>일당</b></td></tr>
+<tr><th rowspan="3">심사(심의),<br>지도(컨설팅),<br>편집·검토, 개발비 등</th><td rowspan="2" class="c">외래인</td><td class="c">교수<br>전문가</td><td class="nw">· 기본 80,000<br>· 초과 30,000</td><td rowspan="3">기본: 3시간 기준 초과<br>- 기본 3시간 초과 시 1일 1회에 한함<br>- 체육대회 등 각종 대회 운영의 경우 1일 2회 초과 가능</td></tr>
+<tr><td class="c">일반인</td><td class="nw">· 기본 50,000<br>· 초과 20,000</td></tr>
+<tr><td colspan="2" class="c">공무원,<br>교육공무직</td><td class="nw">· 기본 50,000<br>· 초과 20,000</td></tr>
+</tbody></table></div>
+<p class="note">※ 자기가 소속된 기관의 컨설팅 업무 수행 시 수당 지급 불가</p>
+<p class="note">※ 컨설팅 수당은 기관 운영여건(도서·벽지 등)을 고려하여 지급기준 단가의 50% 범위에서 가산하여 지급 가능</p>
+</article>
+
+<article class="item" id="i4-3-11" data-title="원고료 등" data-pg="70">
+<h3><span class="bx">11</span>원고료 등</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>항 목</th><th>단 위</th><th>지급단가(원)</th></tr></thead><tbody>
+<tr><th>원고료<br>(국문, 외국어)</th><td>A4규격, 글자 12포인트, 행간격 160, 상·하여백 20mm, 좌·우여백 25mm<br>※ 강의 원고료 시간당 3매 이내<br>※ 기타 원고료는 원고내용, 전문성에 따라 원고매수 기준 설정</td><td class="c">20,000<br>(매당)</td></tr>
+<tr><th>원고료<br>(파워포인트)</th><td>시간당(10매 미만)<br>시간당(10매 이상)</td><td class="c">30,000<br>60,000</td></tr>
+<tr><th>도서발행</th><td>A4규격, 글자 12포인트, 행간격 160, 상·하여백 20mm, 좌·우여백 25mm<br>- 지급한도액 500,000원(권당, 1인 기준)</td><td class="c">10,000<br>(매당)</td></tr>
+</tbody></table></div>
+<ol class="jn">
+<li>기존에 사용한 원고를 활용하여 제출한 경우 원고료 지급 기준 조정<br>- (30% 미만 수정) 미지급, (30%~70% 수정) 해당 원고료의 50% 지급, (70% 초과 수정) 전체 지급</li>
+<li>원고료 항목·구분 간 중복지급 불가</li>
+</ol>
+</article>
+
+<article class="item" id="i4-3-12" data-title="제작료 및 출연료" data-pg="71">
+<h3><span class="bx">12</span>제작료 및 출연료</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>단 위</th><th>단가(천원)</th></tr></thead><tbody>
+<tr><td class="c">녹음 제작</td><td>10분 [40매]</td><td class="r">100</td></tr>
+<tr><td class="c">콘텐츠 제작</td><td>10분 [1시간 수업용, 동영상]</td><td class="r">150</td></tr>
+<tr><td class="c">영상 등 출연료</td><td>편당 한도</td><td class="r">30</td></tr>
+</tbody></table></div>
+<p class="fn">주) 5분 미만 녹음·콘텐츠 제작 시 지급단가의 반액 지급</p>
+</article>
+
+<article class="item" id="i4-3-13" data-title="통·번역료" data-pg="71">
+<h3><span class="bx">13</span>통·번역료 <small>(한국외국어대 통번역센터 요율표)</small></h3>
+<ul class="o"><li>지급기준: 최신 한국어외국어대학교 통·번역센터 기준에 준하여 적용(단, 통역비는 현지 수준을 고려하여 협의 후 지급 가능)</li></ul>
+</article>
+
+<article class="item" id="i4-3-14" data-title="감정평가수수료율" data-pg="71">
+<h3><span class="bx">14</span>감정평가수수료율 <small>(2026. 2. 9. 국토교통부공고, 제2026-145호, 부동산평가과)</small></h3>
+<ul class="o"><li>지급기준: <a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EA%B0%90%EC%A0%95%ED%8F%89%EA%B0%80%EB%B2%95%EC%9D%B8%EB%93%B1%EC%9D%98%EB%B3%B4%EC%88%98%EC%97%90%EA%B4%80%ED%95%9C%EA%B8%B0%EC%A4%80" target="_blank" rel="noopener" title="국가법령정보센터 · 감정평가법인등의 보수에 관한 기준">「감정평가법인등의 보수에 관한 기준」</a> [별표] 감정평가수수료 체계에 따름</li></ul>
+</article>
+
+<article class="item" id="i4-3-15" data-title="차량임차" data-pg="71">
+<h3><span class="bx">15</span>차량임차</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>단 위</th><th>단가(천원)</th></tr></thead><tbody>
+<tr><td class="c">관내(관할구역 내)</td><td rowspan="3" class="c">1일, 45인승, 1대당(왕복)</td><td class="r">500</td></tr>
+<tr><td class="c">특별시 내(관할구역 외)</td><td class="r">700</td></tr>
+<tr><td class="c">특별시 외</td><td class="r">1,000</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-16" data-title="매식비 (특근매식비 등)" data-pg="71">
+<h3><span class="bx">16</span>매식비</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>기준단가(원/인)</th><th>설 정</th></tr></thead><tbody>
+<tr><th>특근매식비(210-05)<br><small>※공무원에게 지급하는 매식비</small></th><td class="c hl">9,000</td><td>○ 기본업무 수행을 위한 특근매식비<br>○ 각종 훈련에 참여하는 직원에 대한 매식비<br>○ 현안 업무추진을 위한 특근매식비<br>○ 급식을 필요로 하나 취사시설 없어 매식하는 경우의 매식비</td></tr>
+<tr><th>기타교육운영<br>(210-12)</th><td class="c">9,000</td><td>○ 교육청(직속, 지원청)이 주관하는 학생 대상 교육·세미나·회의·행사·대회출전 등에 참석·참가하는 학생들에 대한 매식비</td></tr>
+<tr><th>행사실비지원<br>(310-06)</th><td class="c">9,000</td><td>○ 교육, 회의, 세미나, 행사에 참가하는 학부모 등 민간인에 대한 매식비</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-17" data-title="급량비" data-pg="72">
+<h3><span class="bx">17</span>급량비</h3>
+<div class="tw"><table class="t">
+<thead><tr><th>종 별</th><th>기준단가(원/인)</th><th>설 정</th></tr></thead><tbody>
+<tr><th>급량비<br>(210-04)</th><td class="c hl">5,000</td><td>○ 직접 조리하여 급식하는 경우<br>
+- 공무원에게 급여하는 다음의 경비<br>
+&nbsp;&nbsp;①주식비, ②부식비, ③후식비(우유 및 음료), ④합숙인 경우에는 상기(①~③)이외에 숙박비를 포함, ⑤1항에서부터 4항에 소요되는 부대 경비(운반비·보관비 및 공고료), ⑥주·부식물 생산에 필요한 제경비(연료비 등), ⑦주·부 식물을 조리하거나 취사하기 위한 소모성 도구 구입비<br>
+&nbsp;&nbsp;※ 공무원에게 급식비를 보전 또는 지원할 목적의 예산 편성은 불가 (워크숍, 연찬회, 연수, 회의 등 행사성 식비는 230목에 계상)<br>
+- 수련원, 연수원 등에서 학생(연수생)에게 급여하는 상기①부터 ⑦까지의 경비<br>
+☞ 급량비 편성인정<br>
+&nbsp;&nbsp;① 선박(원양어선 승선실습 등)에서의 단체 급식<br>
+&nbsp;&nbsp;② 시험업무(임용·승진시험, 수능, 검정고시 등) 추진에 따른 단체급식*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;* 급식시설이 없어 매식하는 경우 특근매식비(210-05)로 편성<br>
+&nbsp;&nbsp;③ 교육훈련기관의 단체급식<br>
+&nbsp;&nbsp;④ ①~③의 경우에 따른 숙박비</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-18-0" data-title="시설단가 — 개축 및 보수" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 개축 및 보수</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">교실개축</td><td>'실' 기준(철거포함), 석면철거 제외</td><td class="r">191,396</td></tr>
+<tr><td rowspan="1" class="nm">건물철거(일반)</td><td>'실' 기준</td><td class="r">16,556</td></tr>
+<tr><td rowspan="1" class="nm">건물철거(석면)</td><td>'실' 기준</td><td class="r">9,587</td></tr>
+<tr><td rowspan="1" class="nm">노후교실중수</td><td>'실' 기준 [바닥, 창호(내·외부), 천장, 도장(내·외부) 포함]</td><td class="r">60,248</td></tr>
+<tr><td rowspan="1" class="nm">화장실중수</td><td>45㎡기준(배관, 위생기구 포함)</td><td class="r">100,595</td></tr>
+<tr><td rowspan="1" class="nm">화장실보수</td><td>45㎡기준(배관, 위생기구 제외)</td><td class="r">65,119</td></tr>
+<tr><td rowspan="1" class="nm">사택중수</td><td>㎡기준</td><td class="r">1,032</td></tr>
+<tr><td rowspan="2" class="nm">교실누수보수</td><td>평지붕</td><td class="r">14,552</td></tr>
+<tr><td>벽체</td><td class="r">2,079</td></tr>
+<tr><td rowspan="1" class="nm">창고중수</td><td>33㎡기준</td><td class="r">9,980</td></tr>
+<tr><td rowspan="1" class="nm">숙직실중수</td><td>33㎡기준</td><td class="r">20,816</td></tr>
+<tr><td rowspan="4" class="nm">창호보수(90㎡기준)<br><small>[에너지 소비 효율 제품 적용]</small></td><td>교실출입문 2개소</td><td class="r">5,139</td></tr>
+<tr><td>교실출입문 2개소, 복도창 2개소</td><td class="r">8,976</td></tr>
+<tr><td>외부창(이중창, 외부 복도창 포함)</td><td class="r">26,996</td></tr>
+<tr><td>교실전체창(출입문, 복도, 외부 이중창)</td><td class="r">34,403</td></tr>
+<tr><td rowspan="2" class="nm">교실도장(90㎡기준)</td><td>내부(2회칠 기준)</td><td class="r">1,921</td></tr>
+<tr><td>외부(방수 제외, 2회칠 기준)</td><td class="r">1,886</td></tr>
+<tr><td rowspan="2" class="nm">급식실개축(㎡당)</td><td>식당(철거 제외)</td><td class="r">2,602</td></tr>
+<tr><td>조리실(철거 제외)</td><td class="r">4,507</td></tr>
+<tr><td rowspan="3" class="nm">급식실중수(㎡당)</td><td>식당</td><td class="r">707</td></tr>
+<tr><td>조리실(환기설비개선 제외)</td><td class="r">1,598</td></tr>
+<tr><td>조리실 환기설비개선</td><td class="r">1,506</td></tr>
+<tr><td rowspan="1" class="nm">교실벽체보수(90㎡기준)</td><td>페인트외 타재료 마감(적벽돌, 복합패널 등)</td><td class="r">25,719</td></tr>
+<tr><td rowspan="6" class="nm">교실바닥보수(90㎡기준)</td><td>동바리기초, 교실 및 복도 후로링</td><td class="r">23,921</td></tr>
+<tr><td>동바리기초, 교실 및 복도 PVC 타일</td><td class="r">17,850</td></tr>
+<tr><td>콘크리트바닥, 교실 후로링, 복도 PVC 타일</td><td class="r">16,288</td></tr>
+<tr><td>콘크리트바닥, 교실 및 복도 PVC 타일</td><td class="r">14,013</td></tr>
+<tr><td>콘크리트바닥, 교실 이중 바닥재, 복도 PVC 타일</td><td class="r">24,273</td></tr>
+<tr><td>1층 1개소 계단실, 고무타일 40㎡ 기준</td><td class="r">5,490</td></tr>
+<tr><td rowspan="4" class="nm">천장보수(90㎡기준)</td><td>마감층, 단열재 교체 포함</td><td class="r">13,395</td></tr>
+<tr><td>일반층</td><td class="r">9,046</td></tr>
+<tr><td>일반층, 석면철거 포함</td><td class="r">17,357</td></tr>
+<tr><td>일반층, 석면철거 및 전기시설 포함</td><td class="r">22,541</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-18-1" data-title="시설단가 — 토목·설비" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 토목·설비</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="3" class="nm">배수로시설, 콘크리트(m당)</td><td>0.3 × 0.3m</td><td class="r">329</td></tr>
+<tr><td>0.4 × 0.4m</td><td class="r">383</td></tr>
+<tr><td>0.4 × 0.4m, 스틸그레이팅</td><td class="r">527</td></tr>
+<tr><td rowspan="3" class="nm">스탠드시설(m당)<br><small>(배수로 제외)</small></td><td>2단</td><td class="r">397</td></tr>
+<tr><td>3단</td><td class="r">535</td></tr>
+<tr><td>4단</td><td class="r">649</td></tr>
+<tr><td rowspan="5" class="nm">오수정화조</td><td>5톤용</td><td class="r">34,842</td></tr>
+<tr><td>10톤용</td><td class="r">48,064</td></tr>
+<tr><td>20톤용</td><td class="r">93,019</td></tr>
+<tr><td>30톤용</td><td class="r">118,358</td></tr>
+<tr><td>40톤용</td><td class="r">163,387</td></tr>
+<tr><td rowspan="5" class="nm">포장시설</td><td>콘크리트포장</td><td class="r">74</td></tr>
+<tr><td>아스콘포장</td><td class="r">102</td></tr>
+<tr><td>고압블럭(보도)</td><td class="r">88</td></tr>
+<tr><td>고압블거(차도)</td><td class="r">132</td></tr>
+<tr><td>기존포장 철거</td><td class="r">79</td></tr>
+<tr><td rowspan="1" class="nm">옹벽시설(㎡당)</td><td>옹벽 기초높이 1m 추가산출 포함</td><td class="r">458</td></tr>
+<tr><td rowspan="1" class="nm">지하수개발</td><td>H : 80m기준</td><td class="r">57,786</td></tr>
+<tr><td rowspan="1" class="nm">운동장성토(㎡당)</td><td>T : 20cm기준</td><td class="r">34</td></tr>
+<tr><td rowspan="3" class="nm">담장시설(m당)</td><td>적벽돌 담(디자인형울타리)</td><td class="r">623</td></tr>
+<tr><td>휀스(메쉬)</td><td class="r">232</td></tr>
+<tr><td>조경석(㎡기준)</td><td class="r">922</td></tr>
+<tr><td rowspan="2" class="nm">차양시설(포장제외)</td><td>㎡당</td><td class="r">533</td></tr>
+<tr><td>차량통행, 개소당</td><td class="r">9,315</td></tr>
+<tr><td rowspan="3" class="nm">물태크 교체</td><td>스테인리스, 10톤이하</td><td class="r">3,134</td></tr>
+<tr><td>스테인리스, 10톤초과 30톤이하</td><td class="r">2,089</td></tr>
+<tr><td>스테인리스, 30톤초과</td><td class="r">1,567</td></tr>
+<tr><td rowspan="1" class="nm">급수배관 교체</td><td>옥외, PE관, 포장 포함</td><td class="r">231</td></tr>
+<tr><td rowspan="1" class="nm">냉·난방교체</td><td>1실[EHP(전기), 철거 및 전기시설포함]</td><td class="r">8,045</td></tr>
+<tr><td rowspan="3" class="nm">수전설비</td><td>500kVA미만</td><td class="r">149,406</td></tr>
+<tr><td>500kVA ~ 750kVA미만</td><td class="r">227,244</td></tr>
+<tr><td>750kVA ~ 1,000kVA미만</td><td class="r">302,992</td></tr>
+<tr><td rowspan="2" class="nm">승압시설</td><td>보통교실 기준(실당)</td><td class="r">2,488</td></tr>
+<tr><td>변압기용량증설</td><td class="r">62,780</td></tr>
+<tr><td rowspan="2" class="nm">전등교체</td><td>LED, 교실 9등, 복도 1등(배관, 배선 제외)</td><td class="r">2,612</td></tr>
+<tr><td>LED, 교실 9등, 복도 1등(배관, 배선 포함)</td><td class="r">4,284</td></tr>
+<tr><td rowspan="1" class="nm">소방시설보수</td><td>옥내소화전 등 화재예방관련</td><td class="r">5,746</td></tr>
+<tr><td rowspan="2" class="nm">조회대시설</td><td>지붕설치</td><td class="r">68,762</td></tr>
+<tr><td>지붕미설치</td><td class="r">45,266</td></tr>
+<tr><td rowspan="1" class="nm">교문시설</td><td>자바라(스텐레스, AL기준)</td><td class="r">29,100</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-18-2" data-title="시설단가 — 증축" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 증축</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">현관증축(개소)</td><td>철콘, 55㎡기준</td><td class="r">105,167</td></tr>
+<tr><td rowspan="4" class="nm">독립관사(1동)</td><td>조적슬래브, 온돌난방, 38㎡</td><td class="r">125,511</td></tr>
+<tr><td>조적슬래브, 온돌난방, 42㎡</td><td class="r">135,857</td></tr>
+<tr><td>조적슬래브, 온돌난방, 48㎡</td><td class="r">151,546</td></tr>
+<tr><td>조적슬래브, 온돌난방, 58㎡</td><td class="r">177,380</td></tr>
+<tr><td rowspan="1" class="nm">연립관사(1세대)</td><td>철근콘크리트, 온돌난방, 세대당 55㎡기준</td><td class="r">164,164</td></tr>
+<tr><td rowspan="2" class="nm">창고증축</td><td>66㎡(조적슬래브)</td><td class="r">76,224</td></tr>
+<tr><td>59㎡(조립)</td><td class="r">52,579</td></tr>
+<tr><td rowspan="1" class="nm">화장실(1동)</td><td>45㎡기준 (비난방, 설비, 기구 포함, 정화조 별도)</td><td class="r">184,156</td></tr>
+<tr><td rowspan="1" class="nm">숙직실(1동)</td><td>조적슬래브, 온돌난방, 33㎡기준</td><td class="r">79,318</td></tr>
+<tr><td rowspan="2" class="nm">급식실증축(㎡당)</td><td>식당</td><td class="r">2,527</td></tr>
+<tr><td>조리실</td><td class="r">4,392</td></tr>
+<tr><td rowspan="4" class="nm">계단실증축</td><td>1층용, 40㎡(개소당)</td><td class="r">74,026</td></tr>
+<tr><td>2층용, 80㎡(개소당)</td><td class="r">140,935</td></tr>
+<tr><td>3층용, 120㎡(개소당)</td><td class="r">214,774</td></tr>
+<tr><td>4층용, 160㎡(개소당)</td><td class="r">281,654</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-18-3" data-title="시설단가 — 교실증축" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 교실증축</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">일반교실(90㎡)</td><td>비난방, 복도 포함 (흑판, 게시판, 신발장 제외)</td><td class="r">169,296</td></tr>
+<tr><td rowspan="2" class="nm">특별교실<br><small>(과학실, 음악실, 컴퓨터실 등의 부대시설 제외)</small></td><td>1실 비난방, 복포 포함</td><td class="r">181,769</td></tr>
+<tr><td>2실 비난방, 복포 포함</td><td class="r">363,185</td></tr>
+<tr><td rowspan="1" class="nm">내진보강(㎡당)</td><td>연면적 기준</td><td class="r">166</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-18-4" data-title="시설단가 — 교실신축" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 교실신축</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">일반학교(㎡당)</td><td>중앙 집중식 냉난방, 토목 및 옥외시설 제외, 칠판·게시판·신발장 제외</td><td class="r">2,348</td></tr>
+<tr><td rowspan="1" class="nm">특수학교(㎡당)</td><td>중앙 집중식 냉난방, 토목 및 옥외시설 제외, 칠판·게시판·신발장 제외</td><td class="r">2,673</td></tr>
+<tr><td rowspan="1" class="nm">신설파일</td><td>1층 20실 Φ400 20㎜, 실당 18개소</td><td class="r">552,739</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-18-5" data-title="시설단가 — 강당 및 생활관" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 강당 및 생활관</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="3" class="nm">강당증축</td><td>850㎡기준, 파일포함(학생수 500명 이하)</td><td class="r">2,434,467</td></tr>
+<tr><td>950㎡기준, 파일포함(학생수 1,000명 이하)</td><td class="r">2,720,873</td></tr>
+<tr><td>1,000㎡기준, 파일포함(학생수 1,000명 이상)</td><td class="r">2,864,076</td></tr>
+<tr><td rowspan="1" class="nm">기숙사증축(㎡당)</td><td>1인당 12㎡기준(비품비 제외)</td><td class="r">37,638</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-18-6" data-title="시설단가 — 운동장" data-pg="73~77">
+<h3><span class="bx">18</span>시설단가 <small>▣ 운동장</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="3" class="nm">운동장</td><td>천연잔디(㎡당), 배수로 제외</td><td class="r">193</td></tr>
+<tr><td>인조잔디(㎡당), 배수로 제외</td><td class="r">181</td></tr>
+<tr><td>마사토(㎡당), 배수로 제외</td><td class="r">181</td></tr>
+<tr><td rowspan="1" class="nm">우레탄 트랙</td><td>㎡(배수로 제외)</td><td class="r">181</td></tr>
+<tr><td rowspan="2" class="nm">신재생에너지<br><small>(신·증축 및 개축 부분, 연면적 1천제곱미터 이상)</small></td><td>태양광(고정식, 설치면적당)</td><td class="r">627</td></tr>
+<tr><td>BIPV(건물일체형, 설치면적당)</td><td class="r">940</td></tr>
+</tbody></table></div>
+<p class="note">※ 본 단가는 육지단가이며, 도서의 경우 가지역 35%, 나지역 25%, 다지역 15%, 라지역 5% 가산(설계 용역비 및 감리비 제외)</p><p class="note">※ 적용기준: 신축, 증축 또는 개축 건축물은 [에너지절약기준] 및 [오수정화조(신축제외)] 포함 단가</p>
+</article>
+<article class="item" id="i4-3-19-0" data-title="물품단가 — 일반용품" data-pg="78~79">
+<h3><span class="bx">19</span>물품단가 <small>▣ 일반용품</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">책상(사무용)</td><td>1800×1200×720</td><td class="r">332</td></tr>
+<tr><td rowspan="1" class="nm">책상(사무용)</td><td>1400×700×720</td><td class="r">251</td></tr>
+<tr><td rowspan="1" class="nm">의자(사무용)</td><td>610~700×600×1130~1225</td><td class="r">294</td></tr>
+<tr><td rowspan="1" class="nm">의자(회의용)</td><td>510~590×510~620×830~920</td><td class="r">157</td></tr>
+<tr><td rowspan="1" class="nm">캐비닛(목재)</td><td>800×400×1800~2275</td><td class="r">320</td></tr>
+<tr><td rowspan="1" class="nm">강연대(사회대)</td><td>600~780×450~630×1000~1330</td><td class="r">407</td></tr>
+<tr><td rowspan="1" class="nm">이동식서가(단식고정 6단 1연)</td><td>1065~1130×500×2275~2315</td><td class="r">554</td></tr>
+<tr><td rowspan="1" class="nm">이동식서가(복식고정 6단 2연)</td><td>1302~2925×650×2260~2315</td><td class="r">978</td></tr>
+<tr><td rowspan="1" class="nm">이동식서가(복식고정 6단 3연)</td><td>3055~5715×720×2260~2315</td><td class="r">1,236</td></tr>
+<tr><td rowspan="1" class="nm">이동식 파일서랍</td><td>400×520~580×590~670</td><td class="r">195</td></tr>
+<tr><td rowspan="1" class="nm">열람대(칸막이형)</td><td>2인용</td><td class="r">591</td></tr>
+<tr><td rowspan="1" class="nm">진열장</td><td>800×560~600×2000</td><td class="r">467</td></tr>
+<tr><td rowspan="1" class="nm">컴퓨터 책상</td><td>1000×600×720</td><td class="r">329</td></tr>
+<tr><td rowspan="1" class="nm">다목적 교탁</td><td>700~800×500~600×950~1050</td><td class="r">282</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-19-1" data-title="물품단가 — 행정사무 용품" data-pg="78~79">
+<h3><span class="bx">19</span>물품단가 <small>▣ 행정사무 용품</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">FAX</td><td></td><td class="r">346</td></tr>
+<tr><td rowspan="3" class="nm">프린터기</td><td>레이저(A3)</td><td class="r">892</td></tr>
+<tr><td>레이저(A4/컬러)</td><td class="r">581</td></tr>
+<tr><td>레이저(A4/흑백)</td><td class="r">407</td></tr>
+<tr><td rowspan="1" class="nm">전자복사기[정수물품]</td><td>디지털복합기겸용(흑백/컬러, 25~30cpm)</td><td class="r">4,748</td></tr>
+<tr><td rowspan="1" class="nm">디지털인쇄기[정수물품]</td><td>디지털(45~155/min)</td><td class="r">5,408</td></tr>
+<tr><td rowspan="1" class="nm">데스크톱컴퓨터</td><td>Core i5</td><td class="r">1,615</td></tr>
+<tr><td rowspan="1" class="nm">액정모니터</td><td>27형</td><td class="r">280</td></tr>
+<tr><td rowspan="1" class="nm">노트북</td><td>Core i5</td><td class="r">2,200</td></tr>
+<tr><td rowspan="1" class="nm">태블릿컴퓨터</td><td>1.9~2.9GHz</td><td class="r">1,040</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-19-2" data-title="물품단가 — 전자제품" data-pg="78~79">
+<h3><span class="bx">19</span>물품단가 <small>▣ 전자제품</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="2" class="nm">냉난방기</td><td>23평형</td><td class="r">2,316</td></tr>
+<tr><td>40평형</td><td class="r">3,103</td></tr>
+<tr><td rowspan="2" class="nm">에어컨</td><td>벽걸이형</td><td class="r">671</td></tr>
+<tr><td>직립형(16~18형)</td><td class="r">1,642</td></tr>
+<tr><td rowspan="1" class="nm">청소기</td><td>건습식진공</td><td class="r">333</td></tr>
+<tr><td rowspan="2" class="nm">TV(LED)</td><td>42형</td><td class="r">360</td></tr>
+<tr><td>64형</td><td class="r">1,248</td></tr>
+<tr><td rowspan="1" class="nm">세탁기</td><td>12~18kg</td><td class="r">629</td></tr>
+<tr><td rowspan="2" class="nm">냉장고</td><td>250~350L</td><td class="r">481</td></tr>
+<tr><td>500~650L</td><td class="r">1,384</td></tr>
+<tr><td rowspan="1" class="nm">비디오카메라[정수물품]</td><td>FULL HD, 128GB</td><td class="r">983</td></tr>
+<tr><td rowspan="1" class="nm">디지털카메라</td><td>1400만화소 이상</td><td class="r">581</td></tr>
+<tr><td rowspan="1" class="nm">문서세단기</td><td>투입폭 270㎜</td><td class="r">660</td></tr>
+<tr><td rowspan="1" class="nm">코팅기</td><td>A3용, 320㎜</td><td class="r">462</td></tr>
+<tr><td rowspan="1" class="nm">플로터프린터</td><td>914mm</td><td class="r">4,250</td></tr>
+<tr><td rowspan="1" class="nm">비디오프로젝터</td><td>4600ANSI</td><td class="r">2,267</td></tr>
+<tr><td rowspan="1" class="nm">도서도난방지</td><td></td><td class="r">13,355</td></tr>
+<tr><td rowspan="1" class="nm">제본천공기</td><td>자동, 1200매 이상</td><td class="r">818</td></tr>
+<tr><td rowspan="1" class="nm">공기천정기</td><td>74~80㎡</td><td class="r">686</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-19-3" data-title="물품단가 — 교재·교구" data-pg="78~79">
+<h3><span class="bx">19</span>물품단가 <small>▣ 교재·교구</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">전자칠판</td><td>85", TV형</td><td class="r">4,667</td></tr>
+<tr><td rowspan="1" class="nm">전자교탁</td><td>21"</td><td class="r">4,498</td></tr>
+</tbody></table></div>
+</article>
+<article class="item" id="i4-3-19-4" data-title="물품단가 — 기타용품" data-pg="78~79">
+<h3><span class="bx">19</span>물품단가 <small>▣ 기타용품</small></h3>
+<div class="tw"><table class="t price"><thead><tr><th>품명</th><th>규격</th><th>단가<small>(천원)</small></th></tr></thead><tbody>
+<tr><td rowspan="1" class="nm">학생용 책상</td><td>개당</td><td class="r">70</td></tr>
+<tr><td rowspan="1" class="nm">학생용 걸상</td><td>개당</td><td class="r">45</td></tr>
+<tr><td rowspan="1" class="nm">학생용 사물함(초)</td><td>1인용</td><td class="r">45</td></tr>
+<tr><td rowspan="1" class="nm">학생용 사물함(중)</td><td>1인용</td><td class="r">65</td></tr>
+<tr><td rowspan="1" class="nm">학생용 사물함(고)</td><td>1인용</td><td class="r">75</td></tr>
+<tr><td rowspan="1" class="nm">게시판(자성, 알루미늄)</td><td>1200×4800</td><td class="r">502</td></tr>
+<tr><td rowspan="1" class="nm">청소함</td><td>800×420×1230~1800</td><td class="r">281</td></tr>
+<tr><td rowspan="1" class="nm">스캐너</td><td>600dpi(해상도)</td><td class="r">683</td></tr>
+<tr><td rowspan="1" class="nm">신발장</td><td>1인용</td><td class="r">45</td></tr>
+</tbody></table></div>
+<p class="note">※ 정수물품은 신규취득의 경우 반드시 정수배정을 받은 후 요구</p>
+</article>
+<article class="item" id="i4-3-20a" data-title="시설부대경비 — 건설부문 요율" data-pg="80">
+<h3><span class="bx">20</span>시설부대경비 <small>(기본조사설계비, 실시설계비, 감리비, 시설부대비) — 건설부문 요율</small></h3>
+<p class="note">※ 출처: 2027년도 예산안 편성 및 기금운용계획안 작성 세부지침(사업유형별·목별 매뉴얼) (2026. 4. 기획예산처)</p>
+<p class="sq"><b>건설부문 요율</b> <span class="unit">(단위: %)</span></p>
+
+<div class="tw"><table class="t num">
+<thead><tr><th rowspan="2">공사비</th><th colspan="4">기본조사설계비</th><th colspan="5">실시설계비</th><th rowspan="2">공사<br>감리비<sup>1)</sup></th><th rowspan="2">시설<br>부대비<sup>2)</sup></th></tr><tr><th>도로</th><th>철도</th><th>항만</th><th>상수도</th><th>도로</th><th>철도</th><th>항만</th><th>상수도</th><th>하천</th></tr></thead>
+<tbody>
+<tr><th class="l">5천만원까지</th><td>3.35</td><td>3.18</td><td>3.42</td><td>3.28</td><td>6.42</td><td>6.01</td><td>6.72</td><td>6.85</td><td>6.27</td><td>3.02</td><td>1.08</td></tr>
+<tr><th class="l">1억원까지</th><td>3.19</td><td>3.02</td><td>3.26</td><td>3.12</td><td>6.09</td><td>5.68</td><td>6.39</td><td>6.51</td><td>5.93</td><td>2.85</td><td>0.90</td></tr>
+<tr><th class="l">2억원까지</th><td>2.69</td><td>2.52</td><td>2.77</td><td>2.63</td><td>5.11</td><td>4.70</td><td>5.41</td><td>5.53</td><td>4.95</td><td>2.26</td><td>0.72</td></tr>
+<tr><th class="l">3억원까지</th><td>2.53</td><td>2.36</td><td>2.61</td><td>2.47</td><td>4.78</td><td>4.36</td><td>5.07</td><td>5.20</td><td>4.62</td><td>2.06</td><td>0.72</td></tr>
+<tr><th class="l">5억원까지</th><td>2.36</td><td>2.19</td><td>2.44</td><td>2.30</td><td>4.46</td><td>4.04</td><td>4.75</td><td>4.88</td><td>4.30</td><td>1.89</td><td>0.72</td></tr>
+<tr><th class="l">10억원까지</th><td>2.17</td><td>2.00</td><td>2.25</td><td>2.11</td><td>4.07</td><td>3.66</td><td>4.37</td><td>4.49</td><td>3.91</td><td>1.66</td><td>0.63</td></tr>
+<tr><th class="l">20억원까지</th><td>1.97</td><td>1.84</td><td>2.03</td><td>1.92</td><td>3.71</td><td>3.39</td><td>3.96</td><td>4.07</td><td>3.56</td><td>1.53</td><td>0.36</td></tr>
+<tr><th class="l">30억원까지</th><td>1.88</td><td>1.77</td><td>1.93</td><td>1.83</td><td>3.54</td><td>3.27</td><td>3.77</td><td>3.87</td><td>3.39</td><td>1.48</td><td>0.36</td></tr>
+<tr><th class="l">50억원까지</th><td>1.80</td><td>1.71</td><td>1.84</td><td>1.76</td><td>3.41</td><td>3.20</td><td>3.61</td><td>3.70</td><td>3.26</td><td>1.45</td><td>0.27</td></tr>
+<tr><th class="l">100억원까지</th><td>1.71</td><td>1.65</td><td>1.74</td><td>1.68</td><td>3.24</td><td>3.09</td><td>3.41</td><td>3.49</td><td>3.10</td><td>1.41</td><td>0.25</td></tr>
+<tr><th class="l">200억원까지</th><td>1.61</td><td>1.57</td><td>1.64</td><td>1.58</td><td>3.06</td><td>2.98</td><td>3.21</td><td>3.28</td><td>2.94</td><td>1.37</td><td>0.23</td></tr>
+<tr><th class="l">300억원까지</th><td>1.57</td><td>1.54</td><td>1.60</td><td>1.55</td><td>3.01</td><td>2.95</td><td>3.14</td><td>3.20</td><td>2.88</td><td>1.35</td><td>0.23</td></tr>
+<tr><th class="l">500억원까지</th><td>1.50</td><td>1.48</td><td>1.52</td><td>1.48</td><td>2.90</td><td>2.88</td><td>3.02</td><td>3.08</td><td>2.78</td><td>1.33</td><td>0.23</td></tr>
+<tr><th class="l">1,000억원까지</th><td>1.45</td><td>1.45</td><td>1.47</td><td>1.44</td><td>2.79</td><td>2.81</td><td>2.89</td><td>2.94</td><td>2.68</td><td>1.30</td><td>0.23</td></tr>
+<tr><th class="l">2,000억원까지</th><td>1.39</td><td>1.40</td><td>1.41</td><td>1.39</td><td>2.70</td><td>2.75</td><td>2.79</td><td>2.83</td><td>2.60</td><td>1.28</td><td>0.21</td></tr>
+<tr><th class="l">3,000억원까지</th><td>1.37</td><td>1.38</td><td>1.38</td><td>1.36</td><td>2.64</td><td>2.70</td><td>2.71</td><td>2.75</td><td>2.54</td><td>1.25</td><td>0.19</td></tr>
+<tr><th class="l">5,000억원까지</th><td>1.32</td><td>1.34</td><td>1.33</td><td>1.31</td><td>2.58</td><td>2.67</td><td>2.65</td><td>2.69</td><td>2.49</td><td>1.23</td><td>0.17</td></tr>
+</tbody></table></div>
+<p class="fn">1) "공사감리"란 비상주 감리를 말한다.</p>
+<div class="box sm">※ 5,000억원 초과시<br>
+【기본설계요율】 도로=5.20×(공사비)<sup>-0.051</sup>, 철도=4.49×(공사비)<sup>-0.045</sup>, 항만=5.53×(공사비)<sup>-0.053</sup>, 상수도=4.92×(공사비)<sup>-0.049</sup><br>
+【실시설계요율】 도로=8.23×(공사비)<sup>-0.043</sup>, 철도=6.49×(공사비)<sup>-0.033</sup>, 항만=9.41×(공사비)<sup>-0.047</sup>, 상수도=10.08×(공사비)<sup>-0.049</sup>, 하천=7.50×(공사비)<sup>-0.041</sup><br>
+【공사감리요율】 3.4816×(공사비)<sup>-0.0386</sup>-0.00084<br>
+【시설부대비】 28.3833×(공사비)<sup>-0.1895</sup>-0.00223 적용</div>
+<p class="note">※ 위 기준요율은 '23년 신규사업부터 적용하고, '22년 이전 신규사업은 각 해당연도 지침의 기준요율을 따르며, 요율표가 작성되지 않은 분야의 설계비는 도로분야의 요율을 준용한다.</p>
+<p class="fn">2) <a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%B4%9D%EC%82%AC%EC%97%85%EB%B9%84%EA%B4%80%EB%A6%AC%EC%A7%80%EC%B9%A8" target="_blank" rel="noopener" title="국가법령정보센터 · 총사업비 관리지침">「총사업비 관리지침」</a>에 따라 조달청에 설계적정성 검토를 요청하는 사업은 시설부대비 기준요율의 50%를 가산한다. ('21년 신규사업부터 적용)</p>
+</article>
+
+<article class="item" id="i4-3-20b" data-title="시설부대경비 — 통신부문 요율 (그룹별 구분 기준)" data-pg="81~82">
+<h3><span class="bx">20</span>시설부대경비 <small>통신부문 요율</small></h3>
+<p class="sq"><b>통신부문 요율</b> <span class="unit">(단위: %)</span></p>
+
+<div class="tw"><table class="t num">
+<thead><tr><th rowspan="2">공사비</th><th colspan="4">기본설계비</th><th colspan="4">실시설계비</th><th rowspan="2">공사<br>감리비<sup>1)</sup></th><th rowspan="2">시설<br>부대비</th></tr><tr><th>1그룹</th><th>2그룹</th><th>3그룹</th><th>4그룹</th><th>1그룹</th><th>2그룹</th><th>3그룹</th><th>4그룹</th></tr></thead>
+<tbody>
+<tr><th class="l">5천만원까지</th><td>3.73</td><td>4.10</td><td>4.28</td><td>4.40</td><td>11.19</td><td>12.32</td><td>12.84</td><td>13.20</td><td>2.70</td><td>1.08</td></tr>
+<tr><th class="l">1억원까지</th><td>3.50</td><td>3.85</td><td>4.01</td><td>4.13</td><td>10.52</td><td>11.58</td><td>12.08</td><td>12.42</td><td>2.53</td><td>0.90</td></tr>
+<tr><th class="l">2억원까지</th><td>2.79</td><td>3.07</td><td>3.20</td><td>3.29</td><td>8.36</td><td>9.21</td><td>9.60</td><td>9.87</td><td>2.02</td><td>0.72</td></tr>
+<tr><th class="l">3억원까지</th><td>2.54</td><td>2.80</td><td>2.92</td><td>3.00</td><td>7.63</td><td>8.40</td><td>8.76</td><td>9.01</td><td>1.84</td><td>0.72</td></tr>
+<tr><th class="l">5억원까지</th><td>2.31</td><td>2.55</td><td>2.66</td><td>2.73</td><td>6.91</td><td>7.61</td><td>7.94</td><td>8.16</td><td>1.68</td><td>0.72</td></tr>
+<tr><th class="l">10억원까지</th><td>2.04</td><td>2.25</td><td>2.34</td><td>2.41</td><td>6.11</td><td>6.73</td><td>7.02</td><td>7.21</td><td>1.48</td><td>0.63</td></tr>
+<tr><th class="l">20억원까지</th><td>1.89</td><td>2.08</td><td>2.16</td><td>2.23</td><td>5.61</td><td>6.18</td><td>6.44</td><td>6.62</td><td>1.36</td><td>0.36</td></tr>
+<tr><th class="l">30억원까지</th><td>1.81</td><td>2.00</td><td>2.08</td><td>2.14</td><td>5.42</td><td>5.97</td><td>6.22</td><td>6.40</td><td>1.31</td><td>0.36</td></tr>
+<tr><th class="l">50억원까지</th><td>1.78</td><td>1.96</td><td>2.04</td><td>2.10</td><td>5.33</td><td>5.87</td><td>6.12</td><td>6.29</td><td>1.29</td><td>0.27</td></tr>
+<tr><th class="l">100억원까지</th><td>1.72</td><td>1.90</td><td>1.98</td><td>2.03</td><td>5.19</td><td>5.72</td><td>5.96</td><td>6.13</td><td>1.25</td><td>0.25</td></tr>
+<tr><th class="l">200억원까지</th><td>1.68</td><td>1.85</td><td>1.92</td><td>1.98</td><td>5.04</td><td>5.55</td><td>5.78</td><td>5.95</td><td>1.22</td><td>0.23</td></tr>
+<tr><th class="l">300억원까지</th><td>1.66</td><td>1.83</td><td>1.90</td><td>1.96</td><td>5.00</td><td>5.51</td><td>5.74</td><td>5.90</td><td>1.21</td><td>0.23</td></tr>
+<tr><th class="l">500억원까지</th><td>1.64</td><td>1.81</td><td>1.88</td><td>1.94</td><td>4.89</td><td>5.39</td><td>5.61</td><td>5.77</td><td>1.18</td><td>0.23</td></tr>
+<tr><th class="l">1,000억원까지</th><td>1.60</td><td>1.77</td><td>1.84</td><td>1.89</td><td>4.83</td><td>5.32</td><td>5.54</td><td>5.70</td><td>1.16</td><td>0.23</td></tr>
+<tr><th class="l">2,000억원까지</th><td>1.59</td><td>1.74</td><td>1.82</td><td>1.87</td><td>4.74</td><td>5.21</td><td>5.44</td><td>5.59</td><td>1.14</td><td>0.21</td></tr>
+<tr><th class="l">3,000억원까지</th><td>1.57</td><td>1.72</td><td>1.80</td><td>1.85</td><td>4.66</td><td>5.12</td><td>5.34</td><td>5.49</td><td>1.13</td><td>0.19</td></tr>
+<tr><th class="l">5,000억원까지</th><td>1.55</td><td>1.70</td><td>1.78</td><td>1.83</td><td>4.60</td><td>5.06</td><td>5.28</td><td>5.43</td><td>1.11</td><td>0.17</td></tr>
+</tbody></table></div>
+<p class="fn">1) "공사감리"란 비상주 감리를 말한다.</p>
+<div class="box sm">※ 5,000억원 초과시<br>
+【기본설계요율】 1그룹=3.76×(공사비)<sup>-0.033</sup>, 2그룹=4.72×(공사비)<sup>-0.038</sup>, 3그룹=5.51×(공사비)<sup>-0.042</sup>, 4그룹=5.82×(공사비)<sup>-0.043</sup><br>
+【실시설계요율】 1그룹=13.87×(공사비)<sup>-0.041</sup>, 2그룹=17.46×(공사비)<sup>-0.046</sup>, 3그룹=19.75×(공사비)<sup>-0.049</sup>, 4그룹=20.87×(공사비)<sup>-0.050</sup><br>
+【공사감리요율】 2.3088×(공사비)<sup>-0.0271</sup>-0.00262,<br>
+【시설부대비요율】 28.3833×(공사비)<sup>-0.1895</sup>-0.00223 적용</div>
+<p class="note">※ 위 기준요율은 '23년 신규사업부터 적용하고, '22년 이전 신규사업은 각 해당연도 지침의 기준요율을 따른다.</p>
+<p class="sub-h">※ 참고: 통신부문 공사의 그룹별 구분 기준</p>
+<div class="tw"><table class="t">
+<thead><tr><th>구 분</th><th>대분류</th><th>세부공사</th></tr></thead><tbody>
+<tr><th>그룹 1</th><td class="c">방송설비</td><td class="c">방송국설비공사</td></tr>
+<tr><th>그룹 2</th><td class="c">통신설비</td><td class="c">교환설비공사<br>전송설비공사<br>구내설비공사<br>고정무선통신설비공사</td></tr>
+<tr><th rowspan="4">그룹 3</th><td class="c">통신설비</td><td class="c">선로설비공사<br>별정통신설비공사</td></tr>
+<tr><td class="c">방송설비</td><td class="c">방송전송, 선로설비공사</td></tr>
+<tr><td class="c">정보설비</td><td class="c">정보매체설비공사</td></tr>
+<tr><td class="c">기타설비</td><td class="c">정보통신전용 전기시설설비공사</td></tr>
+<tr><th rowspan="3">그룹 4</th><td class="c">통신설비</td><td class="c">이동통신설비공사<br>위성통신설비공사</td></tr>
+<tr><td class="c">정보설비</td><td class="c">정보제어, 보안설비공사<br>정보망설비공사<br>철도통신, 신호설비공사<br>항공(항행,보안,전산) 및 항만통신설비공사</td></tr>
+<tr><td class="c">유시티설비공사</td><td class="c">유시티설비공사</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-20c" data-title="시설부대경비 — 전기부문 요율 (설계비·전기공사감리비)" data-pg="83~84">
+<h3><span class="bx">20</span>시설부대경비 <small>전기부문 요율</small></h3>
+<p class="sq"><b>전기부문 요율</b></p>
+<ul class="o"><li>설계비</li></ul>
+
+<div class="tw"><table class="t num">
+<thead><tr><th>공사비</th><th>기본설계 (%)</th><th>실시설계 (%)</th></tr></thead>
+<tbody>
+<tr><th class="l">2,000만원까지</th><td>3.79</td><td>11.38</td></tr>
+<tr><th class="l">3,000만원까지</th><td>3.07</td><td>9.19</td></tr>
+<tr><th class="l">5,000만원까지</th><td>2.14</td><td>6.42</td></tr>
+<tr><th class="l">1억원까지</th><td>2.01</td><td>6.01</td></tr>
+<tr><th class="l">2억원까지</th><td>1.60</td><td>4.80</td></tr>
+<tr><th class="l">3억원까지</th><td>1.46</td><td>4.38</td></tr>
+<tr><th class="l">5억원까지</th><td>1.33</td><td>3.97</td></tr>
+<tr><th class="l">10억원까지</th><td>1.17</td><td>3.51</td></tr>
+<tr><th class="l">20억원까지</th><td>1.08</td><td>3.22</td></tr>
+<tr><th class="l">30억원까지</th><td>1.04</td><td>3.11</td></tr>
+<tr><th class="l">50억원까지</th><td>1.02</td><td>3.06</td></tr>
+<tr><th class="l">100억원까지</th><td>0.99</td><td>2.98</td></tr>
+<tr><th class="l">200억원까지</th><td>0.96</td><td>2.89</td></tr>
+<tr><th class="l">300억원까지</th><td>0.95</td><td>2.87</td></tr>
+<tr><th class="l">500억원까지</th><td>0.94</td><td>2.81</td></tr>
+<tr><th class="l">1,000억원까지</th><td>0.92</td><td>2.77</td></tr>
+<tr><th class="l">2,000억원까지</th><td>0.91</td><td>2.72</td></tr>
+<tr><th class="l">3,000억원까지</th><td>0.90</td><td>2.67</td></tr>
+<tr><th class="l">5,000억원까지</th><td>0.89</td><td>2.64</td></tr>
+</tbody></table></div>
+<p class="note">※ 위 기준요율은 '23년 신규사업부터 적용하고, '22년 이전 신규사업은 각 해당연도 지침의 기준요율을 따른다.</p>
+<ul class="o"><li>전기공사감리비 요율 <span class="unit">【단위: 감리원수(인×월)】</span></li></ul>
+
+<div class="tw"><table class="t num">
+<thead><tr><th>공사비(억원)</th><th>단순공종</th><th>보통공종</th><th>복잡공종</th></tr></thead>
+<tbody>
+<tr><th class="c">0.05</th><td>0.17</td><td>0.18</td><td>0.20</td></tr>
+<tr><th class="c">0.1</th><td>0.28</td><td>0.31</td><td>0.34</td></tr>
+<tr><th class="c">0.2</th><td>0.48</td><td>0.53</td><td>0.59</td></tr>
+<tr><th class="c">0.3</th><td>0.66</td><td>0.73</td><td>0.80</td></tr>
+<tr><th class="c">0.4</th><td>0.82</td><td>0.90</td><td>1.0</td></tr>
+<tr><th class="c">0.5</th><td>1.0</td><td>1.1</td><td>1.2</td></tr>
+<tr><th class="c">0.6</th><td>1.1</td><td>1.2</td><td>1.4</td></tr>
+<tr><th class="c">0.7</th><td>1.3</td><td>1.4</td><td>1.5</td></tr>
+<tr><th class="c">0.8</th><td>1.4</td><td>1.5</td><td>1.7</td></tr>
+<tr><th class="c">0.9</th><td>1.5</td><td>1.7</td><td>1.9</td></tr>
+<tr><th class="c">1</th><td>1.7</td><td>1.8</td><td>2.0</td></tr>
+<tr><th class="c">2</th><td>2.8</td><td>3.1</td><td>3.4</td></tr>
+<tr><th class="c">3</th><td>3.9</td><td>4.3</td><td>4.7</td></tr>
+<tr><th class="c">4</th><td>4.8</td><td>5.3</td><td>5.9</td></tr>
+<tr><th class="c">5</th><td>5.7</td><td>6.3</td><td>7.0</td></tr>
+<tr><th class="c">6</th><td>6.6</td><td>7.3</td><td>8.0</td></tr>
+<tr><th class="c">7</th><td>7.4</td><td>8.2</td><td>9.0</td></tr>
+<tr><th class="c">8</th><td>8.2</td><td>9.1</td><td>10.0</td></tr>
+<tr><th class="c">9</th><td>9.0</td><td>10.0</td><td>11.0</td></tr>
+<tr><th class="c">10</th><td>9.7</td><td>10.8</td><td>11.9</td></tr>
+<tr><th class="c">20</th><td>16.6</td><td>18.4</td><td>20.3</td></tr>
+<tr><th class="c">30</th><td>22.6</td><td>25.2</td><td>27.7</td></tr>
+<tr><th class="c">40</th><td>28.3</td><td>31.4</td><td>34.5</td></tr>
+<tr><th class="c">50</th><td>33.5</td><td>37.3</td><td>41.0</td></tr>
+<tr><th class="c">70</th><td>43.4</td><td>48.3</td><td>53.1</td></tr>
+<tr><th class="c">100</th><td>57.2</td><td>63.5</td><td>69.9</td></tr>
+<tr><th class="c">200</th><td>97.4</td><td>108.2</td><td>119.0</td></tr>
+<tr><th class="c">300</th><td>133.0</td><td>147.8</td><td>162.6</td></tr>
+<tr><th class="c">400</th><td>166.0</td><td>184.4</td><td>202.9</td></tr>
+<tr><th class="c">500</th><td>197.0</td><td>218.9</td><td>240.8</td></tr>
+</tbody></table></div>
+<p class="note">※ 위 표의 감리원수는 고급감리원 기준이며, 감리원수(인×월)에서 1월이라 함은 22일임</p>
+<p class="note">※ 위 표의 요율을 기준으로 직접인건비, 직접경비, 제경비, 기술료, 추가업무비용 등을 계상하여 감리대가를 산정</p>
+<p class="note">※ 위 기준요율은 '23년 신규사업부터 적용하고, '22년 이전 신규사업은 각 해당연도 지침의 기준요율을 따른다.</p>
+</article>
+
+<article class="item" id="i4-3-20d" data-title="시설부대경비 — 건축부문 요율 (종별 구분 기준)" data-pg="85~86">
+<h3><span class="bx">20</span>시설부대경비 <small>건축부문 요율</small></h3>
+<p class="sq"><b>건축부문 요율</b> <span class="unit">(단위: %)</span></p>
+
+<div class="tw"><table class="t num">
+<thead><tr><th rowspan="3">공사비</th><th colspan="4">제1종(단순)</th><th colspan="4">제2종(보통)</th><th colspan="4">제3종(복잡)</th></tr><tr><th colspan="3">도서의 양</th><th rowspan="2">감리</th><th colspan="3">도서의 양</th><th rowspan="2">감리</th><th colspan="3">도서의 양</th><th rowspan="2">감리</th></tr><tr><th>상급</th><th>중급</th><th>기본</th><th>상급</th><th>중급</th><th>기본</th><th>상급</th><th>중급</th><th>기본</th></tr></thead>
+<tbody>
+<tr><th class="l">5000만원까지</th><td>10.22</td><td>8.51</td><td>6.81</td><td>2.02</td><td>11.41</td><td>9.51</td><td>7.61</td><td>2.24</td><td>12.55</td><td>10.46</td><td>8.36</td><td>2.46</td></tr>
+<tr><th class="l">1억원까지</th><td>9.38</td><td>7.82</td><td>6.25</td><td>1.90</td><td>10.43</td><td>8.69</td><td>6.95</td><td>2.11</td><td>11.48</td><td>9.56</td><td>7.65</td><td>2.32</td></tr>
+<tr><th class="l">2억원까지</th><td>8.16</td><td>6.80</td><td>5.44</td><td>1.51</td><td>9.08</td><td>7.57</td><td>6.05</td><td>1.68</td><td>9.99</td><td>8.33</td><td>6.66</td><td>1.85</td></tr>
+<tr><th class="l">3억원까지</th><td>7.08</td><td>5.90</td><td>4.72</td><td>1.39</td><td>7.88</td><td>6.57</td><td>5.26</td><td>1.54</td><td>8.68</td><td>7.23</td><td>5.78</td><td>1.70</td></tr>
+<tr><th class="l">5억원까지</th><td>6.46</td><td>5.38</td><td>4.30</td><td>1.29</td><td>7.18</td><td>5.98</td><td>4.79</td><td>1.43</td><td>7.90</td><td>6.58</td><td>5.26</td><td>1.57</td></tr>
+<tr><th class="l">10억원까지</th><td>5.75</td><td>4.79</td><td>3.83</td><td>1.11</td><td>6.39</td><td>5.32</td><td>4.26</td><td>1.23</td><td>7.03</td><td>5.86</td><td>4.68</td><td>1.35</td></tr>
+<tr><th class="l">20억원까지</th><td>5.09</td><td>4.24</td><td>3.40</td><td>1.02</td><td>5.66</td><td>4.72</td><td>3.77</td><td>1.13</td><td>6.22</td><td>5.19</td><td>4.15</td><td>1.24</td></tr>
+<tr><th class="l">30억원까지</th><td>4.84</td><td>4.03</td><td>3.23</td><td>0.98</td><td>5.38</td><td>4.48</td><td>3.58</td><td>1.09</td><td>5.91</td><td>4.93</td><td>3.94</td><td>1.20</td></tr>
+<tr><th class="l">50억원까지</th><td>4.68</td><td>3.90</td><td>3.12</td><td>0.96</td><td>5.20</td><td>4.33</td><td>3.46</td><td>1.07</td><td>5.72</td><td>4.76</td><td>3.81</td><td>1.18</td></tr>
+<tr><th class="l">100억원까지</th><td>4.56</td><td>3.80</td><td>3.04</td><td>0.94</td><td>5.07</td><td>4.22</td><td>3.38</td><td>1.04</td><td>5.58</td><td>4.65</td><td>3.72</td><td>1.14</td></tr>
+<tr><th class="l">200억원까지</th><td>4.43</td><td>3.69</td><td>2.96</td><td>0.91</td><td>4.92</td><td>4.10</td><td>3.28</td><td>1.01</td><td>5.42</td><td>4.51</td><td>3.61</td><td>1.11</td></tr>
+<tr><th class="l">300억원까지</th><td>4.36</td><td>3.63</td><td>2.91</td><td>0.90</td><td>4.84</td><td>4.03</td><td>3.23</td><td>1.00</td><td>5.32</td><td>4.44</td><td>3.55</td><td>1.10</td></tr>
+<tr><th class="l">500억원까지</th><td>4.30</td><td>3.58</td><td>2.87</td><td>0.88</td><td>4.77</td><td>3.98</td><td>3.18</td><td>0.98</td><td>5.25</td><td>4.38</td><td>3.50</td><td>1.08</td></tr>
+<tr><th class="l">1,000억원까지</th><td>4.21</td><td>3.50</td><td>2.80</td><td>0.87</td><td>4.68</td><td>3.90</td><td>3.12</td><td>0.97</td><td>5.14</td><td>4.29</td><td>3.43</td><td>1.07</td></tr>
+<tr><th class="l">2,000억원까지</th><td>4.14</td><td>3.45</td><td>2.76</td><td>0.86</td><td>4.60</td><td>3.84</td><td>3.07</td><td>0.95</td><td>5.06</td><td>4.22</td><td>3.38</td><td>1.05</td></tr>
+<tr><th class="l">3,000억원까지</th><td>4.10</td><td>3.42</td><td>2.73</td><td>0.85</td><td>4.55</td><td>3.79</td><td>3.03</td><td>0.94</td><td>5.01</td><td>4.17</td><td>3.34</td><td>1.03</td></tr>
+<tr><th class="l">5,000억원까지</th><td>4.03</td><td>3.36</td><td>2.69</td><td>0.84</td><td>4.48</td><td>3.73</td><td>2.99</td><td>0.93</td><td>4.93</td><td>4.11</td><td>3.28</td><td>1.02</td></tr>
+</tbody></table></div>
+<p class="note">※ 동 요율은 기본조사설계와 실시설계를 합친 요율임</p>
+<ul class="d"><li>건축법 제11조에 의한 건축허가 또는 동법 제14조에 의한 건축신고만으로 건축이 가능한 건축물인 경우: 기본설계 40%, 실시설계 60%</li>
+<li>타법령에 의한 별도의 사업시행인가 등을 필요로 하는 관광숙박시설, 병원건축물, 재개발·재건축 등의 경우: 기본설계 45%, 실시설계 55%</li></ul>
+<p class="note">※ 감리비 요율은 공공발주사업에 대한 건축사의 업무범위와 대가기준(국토부 고시 제2012-553호, 2012.8.22) 제14조의 규정을 적용(위 표의 감리비 요율은 건축법시행령 제19조 제5항의 규정에 의하여 수시 또는 필요한 때 공사현장에서 수행하는 감리업무대가에 적용)</p>
+<p class="note">※ 도서의 양은 공공발주사업에 대한 건축사의 업무범위와 대가기준(국토부 고시 제2012-553호, 2012.8.22) 제10조 참조</p>
+<p class="note">※ 시설부대비는 건설부문 요율 적용</p>
+<p class="note">※ 위 기준요율은 '23년 신규사업부터 적용하고, '22년 이전 신규사업은 각 해당연도 지침의 기준요율을 따른다.</p>
+<p class="sub-h">※ 참고 : 건축공사의 종별 구분 기준</p>
+<div class="tw"><table class="t">
+<thead><tr><th style="width:6em">종 별</th><th>건축물의 종류</th></tr></thead><tbody>
+<tr><th>1 종<br>(단순)</th><td>· 가설건축물 · 창고시설(하역장) · 자동차관련시설(정비공장, 운전학원·정비학원 제외) · 동물 및 식물관련시설(가축용 창고, 관리사, 가축시장, 버섯재배사) · 기타 제1종 용도와 유사한 것<br>※ 제1종 시설로서 공기조화 설비 등 특수설비를 요하는 시설은 제2종을 적용</td></tr>
+<tr><th>2 종<br>(보통)</th><td>· 공작물(굴뚝·옹벽·고가수조 등) · 단독주택 · 공동주택 · 제1종 근린생활시설 · 제2종 근린생활시설 · 판매시설 · 장례식장 · 교육연구시설(도서관 제외) · 노유자시설 · 수련시설 · 업무시설 · 숙박시설(관광숙박시설 제외) · 위락시설 · 공장 · 창고시설(냉장·냉동창고 포함) · 위험물저장 및 처리시설 · 자동차 관련시설(정비공장, 운전학원, 정비학원) · 동물 및 식물관련시설 · 분뇨 및 쓰레기처리시설 · 교정 및 군사시설 · 묘지관련시설(화장장 제외) · 관광휴게시설(관망탑 제외) · 기타 제2종 용도와 유사한 것<br>※ 제2종 시설로서 특수구조 또는 공기조화 설비 등 특수설비를 요하는 시설은 제3종을 적용</td></tr>
+<tr><th>3 종<br>(복잡)</th><td>· 문화 및 집회시설 · 운수시설(철도시설, 공항시설, 항만시설, 종합여객 시설 등) · 의료시설 · 교육연구시설 중 도서관 · 운동시설 · 숙박시설 중 관광숙박시설 · 발전시설(발전소, 집단에너지 공급시설 포함) · 방송통신시설(방송·통신시설, 촬영시설) · 묘지관련시설 중 화장장 · 관광휴게시설 중 관망탑 · 기타 제3종 용도와 유사한 것</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-20e" data-title="시설부대경비 — 전면 책임감리비 요율 · 공사복잡도 구분" data-pg="87~89">
+<h3><span class="bx">20</span>시설부대경비 <small>전면 책임감리비 요율 · 공사복잡도에 따른 구분</small></h3>
+<p class="sq"><b>전면 책임감리비 요율</b></p>
+
+<div class="tw"><table class="t num">
+<thead><tr><th rowspan="2">공사비<br>(억원)</th><th colspan="3">개산요율 (%)</th></tr><tr><th>단순한 공종</th><th>보통의 공종</th><th>복잡한 공종</th></tr></thead>
+<tbody>
+<tr><th class="c">50</th><td>11.75</td><td>13.10</td><td>14.44</td></tr>
+<tr><th class="c">70</th><td>10.49</td><td>11.65</td><td>12.81</td></tr>
+<tr><th class="c">100</th><td>9.66</td><td>10.73</td><td>11.80</td></tr>
+<tr><th class="c">200</th><td>7.34</td><td>8.14</td><td>8.97</td></tr>
+<tr><th class="c">300</th><td>6.24</td><td>6.92</td><td>7.62</td></tr>
+<tr><th class="c">400</th><td>5.48</td><td>6.09</td><td>6.70</td></tr>
+<tr><th class="c">500</th><td>4.96</td><td>5.52</td><td>6.07</td></tr>
+<tr><th class="c">700</th><td>4.38</td><td>4.87</td><td>5.35</td></tr>
+<tr><th class="c">1,000</th><td>3.93</td><td>4.36</td><td>4.79</td></tr>
+<tr><th class="c">1,500</th><td>3.44</td><td>3.82</td><td>4.21</td></tr>
+<tr><th class="c">2,000</th><td>3.11</td><td>3.45</td><td>3.79</td></tr>
+<tr><th class="c">3,000</th><td>2.73</td><td>3.03</td><td>3.32</td></tr>
+<tr><th class="c">5,000</th><td>2.32</td><td>2.57</td><td>2.82</td></tr>
+</tbody></table></div>
+<p class="note">※ 건설기술진흥법 제39조 제2항의 규정에 의한 감독 권한대행 건설사업관리의 경우에 적용한다.</p>
+<p class="note">※ 5,000억 초과의 경우 개산요율은 단순=42,064.2419×(공사비)<sup>-0.364</sup>, 보통=46,597.0266×(공사비)<sup>-0.364</sup>, 복잡=52,525.8586×(공사비)<sup>-0.365</sup> 적용</p>
+<p class="note">※ 위 기준요율은 '27년 신규 발주하는 사업부터 적용하고, '24년도 이전 발주 사업은 각 해당 연도 지침의 기준요율을 따른다.</p>
+<p class="note">※ '22.5.1. 이전 계약된 계속사업은 전면책임감리사업장 중 안전관리기술인 추가투입이 필요한 경우 동 지침 시행일 이후 잔여공사기간에 대해 필요한 소요를 반영한다.</p>
+<ul class="d"><li>총사업비관리대상 사업은 <a class="law-a" href="https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EC%B4%9D%EC%82%AC%EC%97%85%EB%B9%84%EA%B4%80%EB%A6%AC%EC%A7%80%EC%B9%A8" target="_blank" rel="noopener" title="국가법령정보센터 · 총사업비 관리지침">「총사업비관리지침」</a> 제70조 제6항에 따라 안전관리기술인 추가 투입이 필요한 경우 실소요를 자율조정 하되, 계약건당 조정한도는 별도로 정한다.</li></ul>
+
+<p class="sub-h">〈공사복잡도에 따른 구분〉</p>
+<p class="sq"><b>토목공사</b></p>
+<div class="tw"><table class="t">
+<thead><tr><th>단순한 공종</th><th>보통의 공종</th><th>복잡한 공종</th></tr></thead><tbody>
+<tr><td>· 구조물이 없는 일반 부지 조성<br>· 하천수로제방 및 호안<br>· 지방도, 농촌도로<br>· 우수구거<br>· 포장보수<br>· 준설 및 매립<br>· 보통조경</td>
+<td>· 장대교량(200m이상)이나 터널이 없는 고속도로<br>· 도시가로 및 간선 국도<br>· 간선하수구거<br>· 600㎜이상 하수구거<br>· 400㎜이상 상수구거<br>· 단순구조의 방파제, 접안시설<br>· 하수도 및 수로터널<br>· 공동구, 교량 등 구조물이 있는 부지조성<br>· 공항 활주로<br>· 하천수문 및 통문<br>· 대형 조경 구조물</td>
+<td>· 비대칭으로 구조가 복잡한 교량<br>· 장대 교량, 터널이 있는 도로, 철도<br>· 대구경 터널공사, 입체교차로<br>· 깊은 굴착을 하는 지하철<br>· 하구언 및 갑문<br>· 소구경상수 및 하수관거<br>· 상수, 하수 및 산업 폐수 처리장<br>· 배수 및 양수 펌프장<br>· 구조가 복잡한 방파제, 접안시설<br>· 대형구조물 기초공사<br>· 대형구조물 개축<br>· 수중 구조물</td></tr>
+</tbody></table></div>
+<p class="sq"><b>건축공사</b></p>
+<div class="tw"><table class="t">
+<thead><tr><th>단순한 공종</th><th>보통의 공종</th><th>복잡한 공종</th></tr></thead><tbody>
+<tr><td>· 공장<br>· 창고시설<br>· 주차장 등 자동차 관련 시설<br>· 축사 등 동물관련 시설<br>· 종묘배양시설 등 식물 관련시설</td>
+<td>· 공동주택<br>· 기숙사<br>· 근린생활시설<br>· 소방서, 우체국 등 근린 공공시설<br>· 종교시설<br>· 유치원, 노인복지시설 등 노유자시설<br>· 학교, 교육원 등 교육 연구시설<br>· 묘지관련시설<br>· 업무시설<br>· 숙박시설<br>· 교도소 등 교정시설<br>· 판매시설<br>· 유스호스텔 등 청소년 시설<br>· 기타 단순 또는 복잡한 공종에 해당되지 아니하는 용도</td>
+<td>· 체육관, 운동장 등 운동시설<br>· 공연장 등 관람집회시설<br>· 박물관 등 전시시설<br>· 의료시설<br>· 공항·여객자동차 터미널 등 운수시설<br>· 방송국 등 방송통신시설<br>· 분뇨·쓰레기처리 시설<br>· 관광휴게시설 중 관망탑</td></tr>
+</tbody></table></div>
+<p class="note">※ 주: 각 공종별 건축물의 내용은 건축법시행령 [별표 1]의 건축물의 용도분류에서 정하는 바에 따름</p>
+<p class="sq"><b>전기공사</b></p>
+<div class="tw"><table class="t">
+<thead><tr><th>단순한 공종</th><th>보통의 공종</th><th>복잡한 공종</th></tr></thead><tbody>
+<tr><td>배전설비, 공장의 조명설비, 창고시설, 주차장 등 자동차관련 시설, 축사 동물관련시설, 종묘배양시설 등 식물관련시설 등의 전력시설물 공사와 전기기기 일부만 공사할 경우를 말한다.<br>* 배전설비에서 구내배전 설비는 제외한다.</td>
+<td>단순 또는 복잡공종에 속하지 않는 전력시설물 공사를 말한다.</td>
+<td>발전설비, 체육관, 운동장 등 운동시설, 공연장 등 관람집회 시설, 박물관 등 전시시설, 의료시설, 공항·여객터미널 등 시설, 방송국 등 방송 통신시설, 상수·하수·산업폐수·분뇨·쓰레기 시설, 관광휴게시설, 건축물 연면적 2만제곱미터이상, 지하층을 제외한 건축물의 층수가 11층 이상의 건축물, 전기철도 설비, 특수한 전기응용설비와 공사기간이 길고 배선수가 많아 복잡한 전력시설물의 공사를 말한다.</td></tr>
+</tbody></table></div>
+</article>
+
+<article class="item" id="i4-3-20f" data-title="시설부대경비 — 용어정의" data-pg="90~91">
+<h3><span class="bx">20</span>시설부대경비 <small>〈용어정의〉</small></h3>
+<dl class="terms">
+<dt>1. 기본조사설계</dt><dd>가. 주요설계 수행지침 / 나. 예비설계 및 기본공사비 산정 / 다. 설계요강의 결정 / 라. 설계지침의 작성 / 마. 공공건설사업 시행절차 규정에서 정하는 사항</dd>
+<dt>2. 실시설계</dt><dd>가. 기본설계 또는 계획의 검토 / 나. 실시설계에 필요한 자료의 수집 및 정비 / 다. 설계요강의 결정 / 라. 설계지침의 작성 / 마. 도면 및 계산서 작성 / 바. 시방서 및 예정공정표 작성 / 사. 공사수량 산출 및 공사비 내역서 작성 / 아. 공공건설사업 시행절차 규정에서 정하는 사항</dd>
+<dt>3. 공사감리</dt><dd>가. 시공계획 및 공정표 검토 / 나. 시공자가 작성한 시공도 검토 / 다. 시공자가 제시하는 시험성과표 검토 / 라. 공정 및 기성고 사정 / 마. 준공도 검토</dd>
+<dt>4. 책임감리</dt><dd>가. 시공계획의 검토 / 나. 공정표의 검토 / 다. 시공자가 작성한 시공도면의 검토 / 라. 시공이 설계도면 및 시방서의 내용에 적합하게 행하여지고 있는지에 대한 회신 / 마. 구조물규격에 대한 검토확인 / 바. 사용자재의 적합성 확인 / 사. 품질관리시험 계획 지도 및 시험성과에 관한 검토확인 / 아. 재해예방대책 및 안전관리의 검토확인 / 자. 설계의 변경에 관한 사항의 검토확인 / 차. 기성고 사정 및 기성검사 / 카. 완공도면의 검토 및 준공검사 / 타. 하도급에 대한 타당성 검토 / 파. 기타 공사의 질적향상을 위하여 필요한 사항</dd>
+<dt>5. 시설부대비</dt><dd>조달청 계약수수료, 공사와 직접 관련있는 공고비, 공공요금, 수용비, 여비, 공사감독관 체재비 등</dd>
+<dt>6. 공사비</dt><dd>발주자의 공사비 총예정금액(자재대 포함) 중 용지비, 보상비, 법률수속비 및 부가가치세를 제외한 일체의 공사비를 말한다.</dd>
+<dt>7. 건설부문 및 통신부문</dt><dd>엔지니어링기술진흥법 제10조의 규정에 의한 엔지니어링 사업의 통신부문 대가기준 [별표 1]의 건설부문 및 [별표 2]의 통신부문을 말한다.</dd>
+<dt>8. 건설공사</dt><dd>건설산업기본법 제2조 규정에 의한 건설공사를 말한다.</dd>
+</dl>
+</article>
+</div>
+</section>
+
+      </div>
+      <p class="foot">출처: 「전남광주통합특별시교육비특별회계 2027년도 예산편성 기본지침」 Ⅲ. 2027년도 예산편성 기준(p.29~54), Ⅳ. 예산편성 주요 경비(p.57~91). 차량운영비 표는 원문의 세로형 배열을 차종·형별·연료별 가로 배열로 재구성했으며, 예산 전용·변경사용 도식(p.49~50)은 글로 요약했습니다. 정확한 적용은 원문을 함께 확인하세요. 법령 링크는 국가법령정보센터(law.go.kr)의 현행 법령으로 연결되며, 교육부 내부 지침·조례·매뉴얼 등 법령정보센터에 단독 게재되지 않는 자료는 링크하지 않았습니다.</p>
+    </main>
+  </div>
+</div>
+<button class="totop" id="totop" type="button" aria-label="맨 위로">↑</button>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var items=$$('.item'), secs=$$('.sec'), chaps=$$('.chap');
+  var q=$('#q'), clearBtn=$('#clear'), status=$('#status'), empty=$('#empty');
+  var scope='all';
+  var orig=new Map(), text=new Map();
+  items.forEach(function(it){orig.set(it,it.innerHTML);text.set(it,(it.dataset.title+' '+it.textContent).toLowerCase())});
+
+  // stats
+  $('#st-items').textContent=items.length;
+  $('#st-tables').textContent=$$('#content table').length;
+  $('#st-rows').textContent=$$('#content tbody tr').length.toLocaleString('ko-KR');
+
+  // header height for sticky offsets
+  function setHH(){document.documentElement.style.setProperty('--hh',$('#top').offsetHeight+'px')}
+  setHH(); window.addEventListener('resize',setHH);
+
+  // build tree
+  var tree=$('#tree'), links=new Map(), secSum=new Map(), chapSum=new Map();
+  chaps.forEach(function(ch){
+    var d=document.createElement('details'); d.className='lvl1'; d.open=true;
+    var s=document.createElement('summary');
+    var no=ch.querySelector('.chap-no').textContent, t=ch.querySelector('.chap-h h1').textContent;
+    s.innerHTML='<span class="no">'+no+'</span> '+t+'<span class="cnt"></span>';
+    d.appendChild(s); chapSum.set(ch,s);
+    $$('.sec',ch).forEach(function(sec){
+      var d2=document.createElement('details'); d2.className='lvl2'; d2.open=ch.dataset.ch==='3';
+      var s2=document.createElement('summary'); s2.innerHTML=sec.dataset.title+'<span class="cnt"></span>';
+      d2.appendChild(s2); secSum.set(sec,s2);
+      var ul=document.createElement('ul');
+      $$('.item',sec).forEach(function(it){
+        var li=document.createElement('li'), a=document.createElement('a');
+        a.href='#'+it.id; a.textContent=it.dataset.title;
+        a.addEventListener('click',function(e){e.preventDefault();go(it)});
+        li.appendChild(a); ul.appendChild(li); links.set(it,a);
+      });
+      d2.appendChild(ul); d.appendChild(d2);
+    });
+    tree.appendChild(d);
+  });
+  function go(it){
+    if(it.hidden){q.value='';setScope('all');apply()}
+    it.scrollIntoView({block:'start'});
+    it.classList.remove('flash'); void it.offsetWidth; it.classList.add('flash');
+    if(window.innerWidth<=980){toggleNav(false)}
+  }
+
+  // highlighting
+  function esc(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+  function highlight(root,terms){
+    if(!terms.length) return;
+    var re=new RegExp('('+terms.map(esc).join('|')+')','gi');
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null), nodes=[], n;
+    while((n=w.nextNode())){ if(n.nodeValue.trim() && re.test(n.nodeValue)) nodes.push(n); re.lastIndex=0; }
+    nodes.forEach(function(node){
+      var frag=document.createDocumentFragment(), parts=node.nodeValue.split(re);
+      parts.forEach(function(p,i){ if(!p) return; if(i%2){var m=document.createElement('mark');m.textContent=p;frag.appendChild(m)} else frag.appendChild(document.createTextNode(p)) });
+      node.parentNode.replaceChild(frag,node);
+    });
+  }
+
+  function apply(){
+    var raw=q.value.trim().toLowerCase();
+    var terms=raw?raw.split(/\s+/).filter(Boolean):[];
+    clearBtn.hidden=!raw;
+    var shown=0;
+    items.forEach(function(it){
+      var ch=it.closest('.chap').dataset.ch;
+      var okScope=scope==='all'||scope===ch;
+      var t=text.get(it), t2=t.replace(/\s+/g,'');
+      var okQ=terms.every(function(x){return t.indexOf(x)>-1||t2.indexOf(x)>-1});
+      var vis=okScope&&okQ;
+      if(it.dataset.hl){it.innerHTML=orig.get(it);delete it.dataset.hl}
+      if(vis&&terms.length){highlight(it,terms);it.dataset.hl='1'}
+      it.hidden=!vis; if(vis) shown++;
+      var a=links.get(it); a.classList.toggle('dim',!vis);
+    });
+    secs.forEach(function(sec){
+      var n=$$('.item',sec).filter(function(i){return !i.hidden}).length, tot=$$('.item',sec).length;
+      sec.hidden=n===0;
+      var s=secSum.get(sec); s.querySelector('.cnt').textContent=(terms.length||scope!=='all')?n:tot; s.classList.toggle('dim',n===0);
+      if(terms.length&&n) s.parentNode.open=true;
+    });
+    chaps.forEach(function(ch){
+      var n=$$('.item',ch).filter(function(i){return !i.hidden}).length, tot=$$('.item',ch).length;
+      ch.hidden=n===0;
+      var s=chapSum.get(ch); s.querySelector('.cnt').textContent=(terms.length||scope!=='all')?n:tot; s.classList.toggle('dim',n===0);
+    });
+    $('#intro').hidden=!!terms.length;
+    empty.hidden=shown>0;
+    if(terms.length){status.innerHTML='<span>"'+q.value.trim().replace(/[<>&]/g,'')+'" 검색 결과</span> <b>'+shown+'</b>개 항목'}
+    else if(scope!=='all'){status.innerHTML='<b>'+shown+'</b>개 항목 표시 중'}
+    else status.textContent='';
+    try{localStorage.setItem('bg27-scope',scope)}catch(e){}
+  }
+  var timer; q.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(apply,140)});
+  q.addEventListener('keydown',function(e){if(e.key==='Escape'){q.value='';apply()}});
+  clearBtn.addEventListener('click',function(){q.value='';apply();q.focus()});
+  function setScope(s){scope=s;$$('.chip[data-scope]').forEach(function(c){c.setAttribute('aria-pressed',String(c.dataset.scope===s))})}
+  $$('.chip[data-scope]').forEach(function(c){c.addEventListener('click',function(){setScope(c.dataset.scope);apply();window.scrollTo({top:0})})});
+  $$('.chip[data-kw]').forEach(function(c){c.addEventListener('click',function(){q.value=c.dataset.kw;apply();window.scrollTo({top:0})})});
+  document.addEventListener('keydown',function(e){if(e.key==='/'&&document.activeElement!==q){e.preventDefault();q.focus()}});
+
+  // mobile nav
+  var side=$('#side'), nb=$('#navbtn');
+  function toggleNav(open){side.classList.toggle('open',open);nb.setAttribute('aria-expanded',String(open));nb.textContent=open?'목차 닫기':'목차 열기'}
+  nb.addEventListener('click',function(){toggleNav(!side.classList.contains('open')); if(side.classList.contains('open')) side.scrollIntoView({block:'start'})});
+  $('#totop').addEventListener('click',function(){window.scrollTo({top:0})});
+
+  // active link on scroll
+  if('IntersectionObserver' in window){
+    var cur=null;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){if(cur)cur.classList.remove('on');cur=links.get(e.target);if(cur)cur.classList.add('on')}})},{rootMargin:'-30% 0px -60% 0px'});
+    items.forEach(function(it){io.observe(it)});
+  }
+
+  try{var sv=localStorage.getItem('bg27-scope'); if(sv==='3'||sv==='4') setScope(sv)}catch(e){}
+  if(location.hash){var t=document.getElementById(location.hash.slice(1)); if(t&&t.classList.contains('item')) setTimeout(function(){go(t)},50)}
+  apply();
+})();
+</script>
