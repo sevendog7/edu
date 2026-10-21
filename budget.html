@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>2027 예산편성 기준 검색</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -227,6 +228,73 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
   dl.terms dd{margin-bottom:10px}
   .search input{font-size:15px;padding-left:46px}
 }
+
+/* ---------- 모바일 가독성 보강 ---------- */
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px;font-weight:700;box-shadow:0 0 0 1px var(--warn) inset}
+.fs{display:inline-flex;flex:none;border:1px solid var(--line-2);border-radius:999px;overflow:hidden}
+.fs button{border:0;background:transparent;color:var(--fg-2);font:inherit;font-weight:700;padding:5px 12px;cursor:pointer;line-height:1.2}
+.fs button+button{border-left:1px solid var(--line-2)}
+.fs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.fs button:nth-child(1){font-size:12px}.fs button:nth-child(2){font-size:14px}.fs button:nth-child(3){font-size:16px}
+body[data-fs="2"] #content, body[data-fs="2"] #intro{zoom:1.12}
+body[data-fs="3"] #content, body[data-fs="3"] #intro{zoom:1.25}
+@media (max-width:980px){
+  body{font-size:17px;line-height:1.75}
+  .tree summary{font-size:16px;padding:9px 10px}
+  .tree .lvl1>summary{font-size:17px}
+  .tree .lvl2>summary{font-size:15.5px}
+  .tree a{font-size:15.5px;padding:8px 10px}
+  .tree .cnt{font-size:13px}
+}
+@media (max-width:560px){
+  body{font-size:17.5px}
+  .brand h1{font-size:21px}
+  .brand p{font-size:12.5px}
+  .search input{font-size:17px;padding:16px 14px 16px 48px}
+  .search .clear{font-size:15px}
+  .chips{gap:8px}
+  .chips .lab{font-size:13px}
+  .chip{font-size:15px;padding:8px 16px}
+  .fs button{padding:8px 14px}
+  .fs button:nth-child(1){font-size:14px}.fs button:nth-child(2){font-size:16px}.fs button:nth-child(3){font-size:19px}
+  .eyebrow{font-size:13px}
+  .intro h2{font-size:24px}
+  .intro p{font-size:16.5px}
+  .legend-law{font-size:15px;display:block}
+  .stat b{font-size:26px}
+  .stat span{font-size:14px}
+  .status{font-size:17px;min-height:28px;padding:10px 14px;background:var(--panel);border:1px solid var(--line-2);border-radius:12px}
+  .status:empty{display:none}
+  .status b{font-size:20px}
+  .empty{font-size:17px}
+  .chap-no{font-size:17px}
+  .chap-h h1{font-size:23px}
+  .pg{font-size:13px}
+  .sec>h2{font-size:20.5px}
+  .sn{width:34px;height:34px;font-size:16px}
+  .item h3{font-size:19.5px;padding-right:64px}
+  .item h3 small{font-size:16px}
+  .bx{font-size:14.5px;height:26px;min-width:28px}
+  .item::after{font-size:13px}
+  .item h4{font-size:18px}
+  .note,.sub,ol.jn{font-size:16.5px}
+  .fn{font-size:15.5px}
+  .law{font-size:15px}
+  .arr{font-size:16px}
+  .unit{font-size:13.5px}
+  .box.sm{font-size:16px}
+  .reason span,.v-lab{font-size:13px}
+  .v-goal strong{font-size:22px}
+  ol.flow li{grid-template-columns:104px minmax(0,1fr)}
+  table.t{font-size:16px}
+  table.t.sm{font-size:15px}
+  table.t thead th{font-size:15px}
+  table.t th,table.t td{padding:10px 12px}
+  table.price td:last-child{width:auto}
+  dl.terms dt{font-size:17.5px}
+  .foot{font-size:14.5px}
+  .totop{width:52px;height:52px;font-size:22px}
+}
 </style>
 
 <header class="top" id="top">
@@ -260,6 +328,9 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
       <button class="chip kw" type="button" data-kw="시설단가">시설단가</button>
       <button class="chip kw" type="button" data-kw="물품단가">물품단가</button>
       <button class="chip navbtn" type="button" id="navbtn" aria-expanded="false">목차 열기</button>
+      <span class="sep"></span>
+      <span class="lab">글씨</span>
+      <span class="fs" role="group" aria-label="글씨 크기"><button type="button" data-fs="1" aria-pressed="true">가</button><button type="button" data-fs="2" aria-pressed="false">가</button><button type="button" data-fs="3" aria-pressed="false">가</button></span>
     </div>
   </div>
 </header>
@@ -1978,6 +2049,12 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
 
   try{var sv=localStorage.getItem('bg27-scope'); if(sv==='3'||sv==='4') setScope(sv)}catch(e){}
   if(location.hash){var t=document.getElementById(location.hash.slice(1)); if(t&&t.classList.contains('item')) setTimeout(function(){go(t)},50)}
+  // 글씨 크기
+  function setFs(v){document.body.dataset.fs=v;$$('.fs button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.fs===v))});try{localStorage.setItem('bg27-fs',v)}catch(e){};setHH()}
+  $$('.fs button').forEach(function(b){b.addEventListener('click',function(){setFs(b.dataset.fs)})});
+  try{var fv=localStorage.getItem('bg27-fs'); if(fv==='2'||fv==='3') setFs(fv)}catch(e){}
   apply();
 })();
 </script>
+
+</body></html>
