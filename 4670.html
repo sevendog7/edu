@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>K-비서실</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,9 @@
     --primary:#8fe3c0;
     --primary-deep:#2f8f6c;
     --primary-soft:#d8f4e7;
+
+    --info:#b9d4f5;
+    --info-deep:#2f5d8f;
 
     --warn:#f3dc8f;
     --warn-deep:#8a6b12;
@@ -44,7 +47,7 @@
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ height:100%; }
+  html{ height:100%; -webkit-text-size-adjust:100%; }
 
   body{
     background-color:var(--bg);
@@ -55,8 +58,11 @@
     color:var(--ink);
     font-family:'Noto Sans KR', sans-serif;
     -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
     min-height:100vh; min-height:100dvh;
     padding: clamp(18px, 3.4vw, 40px) 0;
+    padding-bottom: max(clamp(18px, 3.4vw, 40px), env(safe-area-inset-bottom));
+    overflow-x:hidden;
   }
 
   .wrap{ width:var(--panel-w); margin:0 auto; display:flex; flex-direction:column; }
@@ -121,43 +127,32 @@
     padding-top: clamp(16px, 2.4vw, 22px);
     border-top:1px dashed var(--border);
   }
-  .cover-links .label{
-    font-size:12px; font-weight:700;
-    color:var(--ink-soft);
-    letter-spacing:.02em;
-    margin-right:4px;
-  }
   a.quick{
     display:inline-flex; align-items:center; gap:10px;
     padding:11px 18px 11px 14px;
     font-size: clamp(13px, 1.4vw, 14.5px);
     font-weight:900;
     letter-spacing:-.01em;
-    color:#ffffff;                   /* 흰 글씨 */
+    color:#ffffff;
     text-decoration:none;
-    background:#55534e;              /* 진회색 버튼 */
+    background:#55534e;
     border-radius:var(--r-pill);
     box-shadow:var(--raise-1);
+    white-space:nowrap;
     transition: box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
   }
-  a.quick.gx{
-    color:#55534e;                   /* 진회색 글씨 */
-    background:#ffffff;              /* 흰 버튼 */
-  }
+  a.quick.gx{ color:#55534e; background:#ffffff; }
 
   a.quick .dot{
     display:grid; place-items:center;
     width:26px; height:26px; border-radius:50%;
+    flex-shrink:0;
     font-size:11px; font-weight:900;
-    color:#55534e;                   /* 동그라미: 흰 바탕 + 진회색 글씨 */
+    color:#55534e;
     background:#ffffff;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
   }
-  a.quick.gx .dot{
-    color:#ffffff;                   /* 동그라미: 진회색 바탕 + 흰 글씨 */
-    background:#55534e;
-    box-shadow:none;
-  }
+  a.quick.gx .dot{ color:#ffffff; background:#55534e; box-shadow:none; }
 
   a.quick .arrow{ font-size:12px; color:#b3b0a8; transition: color .25s ease; }
   a.quick.gx .arrow{ color:#a9a59c; }
@@ -165,14 +160,19 @@
   a.quick:hover .arrow{ color:#ffffff; }
   a.quick.gx:hover .arrow{ color:#55534e; }
   a.quick:active{ transform:none; box-shadow:var(--inset-2); }
-  a.quick:focus-visible{
-    outline:none;
-    box-shadow:var(--raise-1), 0 0 0 3px #d4d2cc;
-  }
-  
+  a.quick:focus-visible{ outline:none; box-shadow:var(--raise-1), 0 0 0 3px #d4d2cc; }
+
   /* ---------- SECTION ---------- */
   .body-flow{ display:flex; flex-direction:column; gap: clamp(28px, 4.4vw, 46px); }
-  section{ display:flex; flex-direction:column; }
+  section{
+    display:flex; flex-direction:column;
+    /* 섹션별 색상 토큰 (불릿·카드 hover 공통) */
+    --tone:var(--primary); --tone-deep:var(--primary-deep); --tone-soft:var(--primary-soft);
+  }
+  section.tone-info  { --tone:var(--info);   --tone-deep:var(--info-deep);   --tone-soft:#e3eefb; }
+  section.tone-warn  { --tone:var(--warn);   --tone-deep:var(--warn-deep);   --tone-soft:#faf1d0; }
+  section.tone-danger{ --tone:var(--danger); --tone-deep:var(--danger-deep); --tone-soft:#fbe3e0; }
+  section.tone-plain { --tone:#dcdad4;       --tone-deep:#55534e;            --tone-soft:#e9e7e2; }
 
   .section-head{
     display:flex; align-items:center; gap: clamp(10px, 1.4vw, 14px);
@@ -183,15 +183,12 @@
     display:inline-grid; place-items:center;
     min-width:42px; height:30px; padding:0 10px;
     font-size:12.5px; font-weight:700;
-    color:var(--primary-deep);
-    background:var(--primary);
+    color:var(--tone-deep);
+    background:var(--tone);
     border-radius:var(--r-pill);
     box-shadow: 4px 4px 10px var(--lo), -4px -4px 10px var(--hi), inset 0 1px 0 rgba(255,255,255,.55);
     flex-shrink:0;
   }
-  section.tone-warn  .section-head .num{ background:var(--warn);   color:var(--warn-deep); }
-  section.tone-danger .section-head .num{ background:var(--danger); color:var(--danger-deep); }
-  section.tone-plain .section-head .num{ background:var(--surface); color:var(--ink-soft); }
 
   .section-head h2{
     font-weight:700;
@@ -215,7 +212,7 @@
   /* ---------- CARDS ---------- */
   .grid-cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns:repeat(auto-fill, minmax(160px, 1fr));
     gap: 18px;
     align-items:stretch;
   }
@@ -223,14 +220,14 @@
   a.card{
     position:relative;
     display:flex; flex-direction:column; justify-content:space-between;
-    gap: 12px;
-    min-height:112px;
-    padding: 16px 16px 14px;
+    gap: 10px;
+    min-height:84px;
+    padding: 14px 16px 14px;
     text-decoration:none; color:var(--ink);
     background:var(--surface);
     border-radius:var(--r-md);
     box-shadow:var(--raise-2);
-    transition: box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+    transition: background-color .25s ease, box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
   }
   a.card .idx{
     align-self:flex-start;
@@ -251,17 +248,9 @@
     overflow-wrap:break-word;
     word-break:keep-all;
   }
-  a.card .domain{
-    display:block;
-    font-size:10.5px;
-    color:var(--ink-faint);
-    overflow-wrap:break-word;
-    word-break:break-all;
-    line-height:1.4;
-  }
   a.card::after{
     content:"↗";
-    position:absolute; top:13px; right:14px;
+    position:absolute; top:12px; right:14px;
     width:26px; height:26px; display:grid; place-items:center;
     font-size:12px; color:var(--ink-faint);
     border-radius:50%;
@@ -270,21 +259,16 @@
     transition: color .25s ease, background .25s ease, box-shadow .25s ease;
   }
 
-  a.card:hover{
-    transform: translateY(-2px);
-    box-shadow: var(--raise-3);
-  }
-  a.card:hover .idx{ color:var(--primary-deep); background:var(--primary-soft); }
-  a.card:hover::after{ color:var(--primary-deep); background:var(--primary); box-shadow: 0 0 12px rgba(143,227,192,.8); }
+  a.card h3{ transition: color .25s ease; }
 
-  a.card:active{
-    transform:none;
-    box-shadow: var(--inset-2);
-  }
-  a.card:focus-visible{
-    outline:none;
-    box-shadow: var(--raise-2), var(--ring);
-  }
+  /* hover: 카드 전체가 해당 섹션 불릿 색상으로 채워짐 */
+  a.card:hover{ transform: translateY(-2px); background:var(--tone); box-shadow: var(--raise-3); }
+  a.card:hover h3{ color:var(--tone-deep); }
+  a.card:hover .idx{ color:var(--tone-deep); background:var(--tone-soft); box-shadow:none; }
+  a.card:hover::after{ color:var(--tone-deep); background:var(--tone-soft); box-shadow:none; }
+  a.card:active{ transform:none; background:var(--tone); box-shadow: var(--inset-2); }
+  a.card:active h3{ color:var(--tone-deep); }
+  a.card:focus-visible{ outline:none; box-shadow: var(--raise-2), 0 0 0 3px var(--tone); }
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -305,27 +289,49 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    a.card, a.card::after, a.card .idx{ transition:none; }
-    a.card:hover{ transform:none; }
+    a.card, a.card::after, a.card .idx, a.quick{ transition:none; }
+    a.card:hover, a.quick:hover{ transform:none; }
   }
 
+  /* ---------- MOBILE ---------- */
   @media (max-width:640px){
+    :root{ --panel-w: calc(100vw - 32px); }   /* 좌우 16px 여백 */
     body{ padding: 16px 0; }
-    header.cover{ border-radius:22px; }
+    header.cover{ border-radius:22px; padding:20px 18px; }
     h1.title{ font-size:clamp(30px, 9vw, 40px); }
     .cover-meta{ flex-direction:column; align-items:flex-start; gap:8px; }
     .cover-meta p.sub{ display:none; }
-    .grid-cards{ grid-template-columns:repeat(auto-fit, minmax(104px, 1fr)); gap:12px; }
-    a.card{ padding: 12px 10px 10px; border-radius:16px; gap:8px; min-height:92px;
+    .cover-meta .byline{ white-space:normal; font-size:11.5px; padding:7px 14px; }
+
+    /* 상단 바로가기: 2열 정렬 버튼 */
+    .cover-links{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
+    a.quick{
+      width:100%; min-height:46px;
+      padding:9px 10px;
+      gap:8px;
+      font-size:13px;
+      white-space:normal; word-break:keep-all; line-height:1.25;
+    }
+    a.quick .dot{ width:26px; height:26px; font-size:10.5px; }
+    a.quick .arrow{ display:none; }
+    a.quick:hover{ transform:none; }
+
+    /* 카드: 3열 */
+    .body-flow{ gap:28px; }
+    .grid-cards{ grid-template-columns:repeat(3, 1fr); gap:12px; }
+    a.card{ padding: 10px 10px 11px; border-radius:16px; gap:8px; min-height:72px;
             box-shadow: 6px 6px 14px var(--lo), -6px -6px 14px var(--hi); }
-    a.card h3{ font-size:12.5px; line-height:1.3; }
-    a.card .domain{ font-size:9px; }
+    a.card h3{ font-size:13px; line-height:1.3; }
     a.card .idx{ font-size:9px; padding:2px 8px; }
-    a.card::after{ width:20px; height:20px; font-size:10px; top:10px; right:9px; }
+    a.card::after{ width:20px; height:20px; font-size:10px; top:9px; right:9px; }
+    a.card:hover{ transform:none; }
+
+    footer{ padding:12px 18px; font-size:12px; }
   }
 
-  @media (max-width:380px){
+  @media (max-width:360px){
     .grid-cards{ grid-template-columns:repeat(2, 1fr); }
+    a.quick{ font-size:12.5px; }
   }
 </style>
 </head>
@@ -339,232 +345,192 @@
         <p class="sub">필요한 시스템과 자료를 한 화면에 정리했습니다. 비서실 외부로 링크가 유출되지 않도록 유의해주세요.</p>
         <p class="byline">전남광주통합특별시교육청 K-비서실 [byST]</p>
       </div>
-      <nav class="cover-links" aria-label="주요 정책 바로가기">
+      <nav class="cover-links" aria-label="주요 바로가기">
         <a class="quick" href="https://sevendog7.github.io/edu/gamsa.html" target="_blank" rel="noopener">
           <span class="dot">감사</span>행정사무감사<span class="arrow">↗</span>
-        </a>                     
-        <a class="quick gx" href="https://sevendog7.github.io/edu/bunjang.html" target="_blank" rel="noopener">
-          <span class="dot">JG</span>사무분장검색<span class="arrow">↗</span>
-        </a>                        
-        <a class="quick" href="https://sevendog7.github.io/edu/budget.html" target="_blank" rel="noopener">
-          <span class="dot">￦</span>예산편성지침<span class="arrow">↗</span>
-        </a>             
-        <a class="quick gx" href="https://sevendog7.github.io/edu/JG-sc.html" target="_blank" rel="noopener">
-          <span class="dot">JG</span>학교검색<span class="arrow">↗</span>
-        </a>        
-        <a class="quick" href="https://sevendog7.github.io/edu/gwansa.html" target="_blank" rel="noopener">
-          <span class="dot">JN</span>관사현황<span class="arrow">↗</span>
-        </a>                
-        <a class="quick gx" href="https://sevendog7.github.io/edu/tong.html" target="_blank" rel="noopener">
-          <span class="dot">통계</span>2026교육통계<span class="arrow">↗</span>
-        </a>        
-        <a class="quick" href="https://sevendog7.github.io/edu/K-4.html" target="_blank" rel="noopener">
-          <span class="dot">100</span>4대 핵심과제<span class="arrow">↗</span>
-        </a>                          
-        <a class="quick gx" href="https://sevendog7.github.io/edu/jean.html" target="_blank" rel="noopener">
-          <span class="dot">85</span>정책제안서<span class="arrow">↗</span>
-        </a>              
-        <a class="quick" href="https://sevendog7.github.io/edu/junbi.html" target="_blank" rel="noopener">
-          <span class="dot">K</span>준비위원회<span class="arrow">↗</span>
-        </a>        
-        <a class="quick gx" href="https://sevendog7.github.io/edu/election.html" target="_blank" rel="noopener">
-          <span class="dot">선거</span>정치관계법<span class="arrow">↗</span>
-        </a>                
-        <a class="quick" href="https://sevendog7.github.io/edu/sungeo.html" target="_blank" rel="noopener">
-          <span class="dot">선거</span>공직선거법<span class="arrow">↗</span>
-        </a>                        
-        <a class="quick gx" href="https://sevendog7.github.io/edu/moe.html" target="_blank" rel="noopener">
-          <span class="dot">교육</span>교육부업무<span class="arrow">↗</span>
-        </a>            
-        <a class="quick" href="https://sevendog7.github.io/edu/sik.html" target="_blank" rel="noopener">
+        </a>
+        <a class="quick gx" href="https://sevendog7.github.io/edu/sik.html" target="_blank" rel="noopener">
           <span class="dot">食</span>식단표<span class="arrow">↗</span>
-        </a>        
+        </a>
+        <a class="quick" href="https://sevendog7.github.io/edu/tong.html" target="_blank" rel="noopener">
+          <span class="dot">통계</span>2026교육통계<span class="arrow">↗</span>
+        </a>
+        <a class="quick gx" href="https://sevendog7.github.io/edu/K-4.html" target="_blank" rel="noopener">
+          <span class="dot">100</span>4대 핵심과제<span class="arrow">↗</span>
+        </a>
+        <a class="quick" href="https://sevendog7.github.io/edu/jean.html" target="_blank" rel="noopener">
+          <span class="dot">85</span>정책제안서<span class="arrow">↗</span>
+        </a>
+        <a class="quick gx" href="https://sevendog7.github.io/edu/junbi.html" target="_blank" rel="noopener">
+          <span class="dot">K</span>준비위원회<span class="arrow">↗</span>
+        </a>
       </nav>
     </header>
 
     <div class="body-flow">
 
-      <section id="access" class="tone-primary" aria-labelledby="access-heading">
+      <!-- 01 필수자료 -->
+      <section id="essential" class="tone-primary" aria-labelledby="essential-heading">
         <div class="section-head">
           <span class="num">01</span>
-          <h2 id="access-heading">필수 접속 링크</h2>
-          <span class="cap">업무 관련</span>
+          <h2 id="essential-heading">필수자료</h2>
+          <span class="cap">일정·방문·검색·현황</span>
         </div>
         <div class="grid-cards">
           <a class="card" href="https://calendar.google.com/calendar/u/0/r" target="_blank" rel="noopener">
-            <span class="idx">01</span>
-            <h3>구글캘린더</h3>
-            <span class="domain">calendar.google.com</span>
+            <span class="idx">01</span><h3>구글캘린더</h3>
           </a>
           <a class="card" href="https://docs.google.com/spreadsheets/d/1_BlnLsFznWV5djLpMBRMqWPgnQXgTs2t-xtFecdbpDQ/edit?gid=0#gid=0" target="_blank" rel="noopener">
-            <span class="idx">01-1</span>
-            <h3>본청과/기관방문현황</h3>
-            <span class="domain">calendar.google.com</span>
-          </a>
-          <a class="card" href="https://www.jge.go.kr/jgemain/main.do" target="_blank" rel="noopener">
-            <span class="idx">02</span>
-            <h3>교육청 누리집</h3>
-            <span class="domain">jge.go.kr</span>
+            <span class="idx">02</span><h3>본청과/기관방문</h3>
           </a>
           <a class="card" href="https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=3017&amp;bbsId=1106" target="_blank" rel="noopener">
-            <span class="idx">03</span>
-            <h3>교육감에게 바란다</h3>
-            <span class="domain">jge.go.kr</span>
-          </a>
-          <a class="card" href="https://gen.eduptl.kr/bpm_lgn_lg00_001.do?noEpSession" target="_blank" rel="noopener">
-            <span class="idx">04</span>
-            <h3>업무포털</h3>
-            <span class="domain">gen.eduptl.kr</span>
-          </a>
-          <a class="card" href="https://mail.korea.kr/" target="_blank" rel="noopener">
-            <span class="idx">05</span>
-            <h3>공직자통합메일</h3>
-            <span class="domain">mail.korea.kr</span>
-          </a>
-          <a class="card" href="https://council.jeonnam-gwangju.go.kr/jngjassem/main" target="_blank" rel="noopener">
-            <span class="idx">06</span>
-            <h3>전남광주통합특별시의회</h3>
-            <span class="domain">council.jeonnam-gwangju.go.kr</span>
-          </a>
-          <a class="card" href="https://eduup.gen.go.kr/" target="_blank" rel="noopener">
-            <span class="idx">07</span>
-            <h3>광주교육연수원</h3>
-            <span class="domain">eduup.gen.go.kr</span>
-          </a>
-          <a class="card" href="https://www.law.go.kr/main.html" target="_blank" rel="noopener">
-            <span class="idx">08</span>
-            <h3>국가법령정보센터</h3>
-            <span class="domain">law.go.kr</span>
-          </a>
-          <a class="card" href="https://www.jge.go.kr/jgelaw/na/ntt/selectNttList.do?mi=2514&bbsId=906" target="_blank" rel="noopener">
-            <span class="idx">09</span>
-            <h3>자치법규</h3>
-            <span class="domain">law.go.kr</span>
-          </a>          
-          <a class="card" href="https://github.com/chrisryugj/Docufinder/releases" target="_blank" rel="noopener">
-            <span class="idx">10</span>
-            <h3>검색Anything</h3>
-            <span class="domain">문서 내 워딩검색</span>
-          </a>          
-          <a class="card" href="https://www.nec.go.kr/site/nec/law/lawList.do" target="_blank" rel="noopener">
-            <span class="idx">11</span>
-            <h3>선관위 질의응답</h3>
-            <span class="domain">중앙선거관리위원회</span>
-          </a>                    
-          <a class="card" href="https://edu.na.go.kr:444/cmmit/main/main.do" target="_blank" rel="noopener">
-            <span class="idx">12</span>
-            <h3>국회 교육위원회</h3>
-            <span class="domain">대한민국 국회</span>
-          </a>                             
-          <a class="card" href="https://www.windy.com/?35.154,126.896,5" target="_blank" rel="noopener">
-            <span class="idx">14</span>
-            <h3>Windy</h3>
-            <span class="domain">날씨검색</span>
-          </a>           
-        </div>
-      </section>
- 
-      <section id="news" class="tone-warn" aria-labelledby="news-heading">
-        <div class="section-head">
-          <span class="num">02</span>
-          <h2 id="news-heading">보도검색</h2>
-          <span class="cap">뉴스, 보도, 이슈</span>
-        </div>
-        <div class="grid-cards">
-          <a class="card" href="https://premium.scrapmaster.co.kr/server/board/b_main.php?userinfo=moego2009" target="_blank" rel="noopener">
-            <span class="idx">01</span>
-            <h3>교육부스크랩</h3>
-            <span class="domain">premium.scrapmaster.co.kr</span>
-          </a>
-          <a class="card" href="https://www.yna.co.kr/graphic/index" target="_blank" rel="noopener">
-            <span class="idx">02</span>
-            <h3>연합 비주얼뉴스</h3>
-            <span class="domain">www.yna.co.kr</span>
-          </a>
-          <a class="card" href="https://www.korea.kr/briefing/pressReleaseList.do" target="_blank" rel="noopener">
-            <span class="idx">03</span>
-            <h3>정책브리핑</h3>
-            <span class="domain">www.korea.kr</span>
-          </a>
-          <a class="card" href="https://www.nars.go.kr/report/list.do?cmsCode=CM0043" target="_blank" rel="noopener">
-            <span class="idx">04</span>
-            <h3>국회입법조사처</h3>
-            <span class="domain">www.nars.go.kr</span>
-          </a>
-          <a class="card" href="https://www.moe.go.kr/boardCnts/listRenew.do?boardID=294&amp;m=020402&amp;s=moe" target="_blank" rel="noopener">
-            <span class="idx">05</span>
-            <h3>교육부 보도자료</h3>
-            <span class="domain">moe.go.kr</span>
-          </a>
-          <a class="card" href="https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&amp;view_type=sm" target="_blank" rel="noopener">
-            <span class="idx">06</span>
-            <h3>전남광주교육 통</h3>
-            <span class="domain">jngjedu.kr</span>
-          </a>
-          <a class="card" href="https://www.ihopenews.com/" target="_blank" rel="noopener">
-            <span class="idx">07</span>
-            <h3>호남교육신문</h3>
-            <span class="domain">ihopenews.com</span>
-          </a>
-        </div>
-      </section>
-
-      <section id="knowledge" class="tone-danger" aria-labelledby="knowledge-heading">
-        <div class="section-head">
-          <span class="num">03</span>
-          <h2 id="knowledge-heading">챗봇과 검색기</h2>
-          <span class="cap">실무 참고자료 4종</span>
-        </div>
-        <div class="grid-cards">
-          <a class="card" href="https://notebook.google.com/notebook/90e57148-a283-4981-849c-c8f0c148af23/preview" target="_blank" rel="noopener">
-            <span class="idx">01</span>
-            <h3>사무분장과 조직개편</h3>
-            <span class="domain">notebook.google.com</span>
-          </a>
-          <a class="card" href="https://notebook.google.com/notebook/0e342cf9-37ba-45c1-93f9-7c35361e08f1/preview" target="_blank" rel="noopener">
-            <span class="idx">02</span>
-            <h3>공직선거법</h3>
-            <span class="domain">notebook.google.com</span>
-          </a>
-          <a class="card" href="https://sevendog7.github.io/edu/huga.html" target="_blank" rel="noopener">
-            <span class="idx">03</span>
-            <h3>지방공무원 복무</h3>
-            <span class="domain">sevendog7.github.io</span>
+            <span class="idx">03</span><h3>교육감에게 바란다</h3>
           </a>
           <a class="card" href="https://sevendog7.github.io/edu-staff-search/jikweon.html" target="_blank" rel="noopener">
-            <span class="idx">04</span>
-            <h3>교육청 직원검색</h3>
-            <span class="domain">sevendog7.github.io</span>
+            <span class="idx">04</span><h3>직원검색</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/bunjang.html" target="_blank" rel="noopener">
+            <span class="idx">05</span><h3>사무분장검색</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/JG-sc.html" target="_blank" rel="noopener">
+            <span class="idx">06</span><h3>학교검색</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/gwansa.html" target="_blank" rel="noopener">
+            <span class="idx">07</span><h3>관사현황</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/budget.html" target="_blank" rel="noopener">
+            <span class="idx">08</span><h3>예산편성지침</h3>
+          </a>
+          <a class="card" href="https://notebook.google.com/notebook/168efab2-d9a6-449d-8060-db14aef62f72/preview" target="_blank" rel="noopener">
+            <span class="idx">09</span><h3>업무추진비 챗봇</h3>
           </a>
         </div>
       </section>
 
-      <section id="ai-tools" class="tone-plain" aria-labelledby="ai-tools-heading">
+      <!-- 02 교육청관련 -->
+      <section id="office" class="tone-info" aria-labelledby="office-heading">
+        <div class="section-head">
+          <span class="num">02</span>
+          <h2 id="office-heading">교육청관련</h2>
+          <span class="cap">포털·법규·조직·복무</span>
+        </div>
+        <div class="grid-cards">
+          <a class="card" href="https://gen.eduptl.kr/bpm_lgn_lg00_001.do?noEpSession" target="_blank" rel="noopener">
+            <span class="idx">01</span><h3>업무포털</h3>
+          </a>
+          <a class="card" href="https://mail.korea.kr/" target="_blank" rel="noopener">
+            <span class="idx">02</span><h3>공직자통합메일</h3>
+          </a>
+          <a class="card" href="https://www.jge.go.kr/jgemain/main.do" target="_blank" rel="noopener">
+            <span class="idx">03</span><h3>교육청누리집</h3>
+          </a>
+          <a class="card" href="https://www.law.go.kr/main.html" target="_blank" rel="noopener">
+            <span class="idx">04</span><h3>국가법령정보</h3>
+          </a>
+          <a class="card" href="https://www.jge.go.kr/jgelaw/na/ntt/selectNttList.do?mi=2514&amp;bbsId=906" target="_blank" rel="noopener">
+            <span class="idx">05</span><h3>자치법규</h3>
+          </a>
+          <a class="card" href="https://eduup.gen.go.kr/" target="_blank" rel="noopener">
+            <span class="idx">06</span><h3>광주교육연수원</h3>
+          </a>
+          <a class="card" href="https://notebook.google.com/notebook/90e57148-a283-4981-849c-c8f0c148af23/preview" target="_blank" rel="noopener">
+            <span class="idx">07</span><h3>사무분장과 조직개편 챗봇</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/huga.html" target="_blank" rel="noopener">
+            <span class="idx">08</span><h3>지방공무원 복무</h3>
+          </a>
+          <a class="card" href="https://notebook.google.com/notebook/ad1f4045-0d32-4bed-9d77-e1f2a45659b0/preview
+" target="_blank" rel="noopener">
+            <span class="idx">08</span><h3>복무 챗봇</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/moe.html" target="_blank" rel="noopener">
+            <span class="idx">09</span><h3>교육부업무</h3>
+          </a>
+        </div>
+      </section>
+
+      <!-- 03 언론보도 -->
+      <section id="news" class="tone-warn" aria-labelledby="news-heading">
+        <div class="section-head">
+          <span class="num">03</span>
+          <h2 id="news-heading">언론보도</h2>
+          <span class="cap">뉴스·보도·이슈</span>
+        </div>
+        <div class="grid-cards">
+          <a class="card" href="https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&amp;view_type=sm" target="_blank" rel="noopener">
+            <span class="idx">01</span><h3>전남광주교육 통</h3>
+          </a>
+          <a class="card" href="https://www.ihopenews.com/" target="_blank" rel="noopener">
+            <span class="idx">02</span><h3>호남교육신문</h3>
+          </a>
+          <a class="card" href="https://premium.scrapmaster.co.kr/server/board/b_main.php?userinfo=moego2009" target="_blank" rel="noopener">
+            <span class="idx">03</span><h3>교육부스크랩</h3>
+          </a>
+          <a class="card" href="https://www.moe.go.kr/boardCnts/listRenew.do?boardID=294&amp;m=020402&amp;s=moe" target="_blank" rel="noopener">
+            <span class="idx">04</span><h3>교육부 보도자료</h3>
+          </a>
+          <a class="card" href="https://www.korea.kr/briefing/pressReleaseList.do" target="_blank" rel="noopener">
+            <span class="idx">05</span><h3>정책브리핑</h3>
+          </a>
+          <a class="card" href="https://www.yna.co.kr/graphic/index" target="_blank" rel="noopener">
+            <span class="idx">06</span><h3>연합 비주얼뉴스</h3>
+          </a>
+        </div>
+      </section>
+
+      <!-- 04 선거의회 -->
+      <section id="election" class="tone-danger" aria-labelledby="election-heading">
         <div class="section-head">
           <span class="num">04</span>
-          <h2 id="ai-tools-heading">생성형 AI 도구</h2>
+          <h2 id="election-heading">선거의회</h2>
+          <span class="cap">선거법·의회·국회</span>
+        </div>
+        <div class="grid-cards">
+
+          <a class="card" href="https://notebook.google.com/notebook/0e342cf9-37ba-45c1-93f9-7c35361e08f1/preview
+" target="_blank" rel="noopener">
+            <span class="idx">01</span><h3>선거법 챗봇</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/election.html" target="_blank" rel="noopener">
+            <span class="idx">02</span><h3>정치관계법</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/sungeo.html" target="_blank" rel="noopener">
+            <span class="idx">03</span><h3>공직선거법</h3>
+          </a>
+          <a class="card" href="https://council.jeonnam-gwangju.go.kr/jngjassem/main" target="_blank" rel="noopener">
+            <span class="idx">04</span><h3>통합특별시의회</h3>
+          </a>
+          <a class="card" href="https://edu.na.go.kr:444/cmmit/main/main.do" target="_blank" rel="noopener">
+            <span class="idx">05</span><h3>국회 교육위원회</h3>
+          </a>
+          <a class="card" href="https://www.nars.go.kr/report/list.do?cmsCode=CM0043" target="_blank" rel="noopener">
+            <span class="idx">06</span><h3>국회 입법조사처</h3>
+          </a>
+          <a class="card" href="https://www.nec.go.kr/site/nec/law/lawList.do" target="_blank" rel="noopener">
+            <span class="idx">07</span><h3>선관위 질의응답</h3>
+          </a>
+        </div>
+      </section>
+
+      <!-- 05 생성형AI 도구 -->
+      <section id="ai-tools" class="tone-plain" aria-labelledby="ai-tools-heading">
+        <div class="section-head">
+          <span class="num">05</span>
+          <h2 id="ai-tools-heading">생성형AI 도구</h2>
           <span class="cap">AI 보조 도구 4종</span>
         </div>
         <div class="grid-cards">
           <a class="card" href="https://chatgpt.com/" target="_blank" rel="noopener">
-            <span class="idx">01</span>
-            <h3>챗GPT</h3>
-            <span class="domain">chatgpt.com</span>
+            <span class="idx">01</span><h3>챗GPT</h3>
           </a>
           <a class="card" href="https://gemini.google.com/app?hl=ko" target="_blank" rel="noopener">
-            <span class="idx">02</span>
-            <h3>제미나이</h3>
-            <span class="domain">gemini.google.com</span>
+            <span class="idx">02</span><h3>GEMINI</h3>
           </a>
           <a class="card" href="https://claude.ai/new" target="_blank" rel="noopener">
-            <span class="idx">03</span>
-            <h3>클로드</h3>
-            <span class="domain">claude.ai</span>
+            <span class="idx">03</span><h3>클로드</h3>
           </a>
           <a class="card" href="https://notebook.google.com/" target="_blank" rel="noopener">
-            <span class="idx">04</span>
-            <h3>노트북</h3>
-            <span class="domain">notebook.google.com</span>
+            <span class="idx">04</span><h3>노트북</h3>
           </a>
         </div>
       </section>
