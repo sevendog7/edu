@@ -1,0 +1,272 @@
+<title>2026 행정사무감사 수감 일정</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 한 장짜리 운영표 — 상단 요약 → 11월 수감 캘린더 → 출석·선서 → 정례회 회기 달력(11. 15.~). 폰에서는 달력이 일정 있는 날만 목록으로 전환 */
+:root{
+  --bg:#f5f7f8; --paper:#ffffff; --ink:#18242e; --muted:#5b6b77; --line:#d9e0e5;
+  --accent:#0d5f73; --accent-soft:#e2eff2;
+  --warn:#b45309; --warn-soft:#fdf0dc; --crit:#b42318; --crit-soft:#fde7e5;
+  --ok:#3f7d4e; --ok-soft:#e5f2e8; --gray-soft:#eef1f3;
+  --op:#6a4c93; --op-soft:#efe8f7;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1519; --paper:#172027; --ink:#e4ebef; --muted:#97a6b1; --line:#2b3741;
+  --accent:#5cbcd2; --accent-soft:#163540;
+  --warn:#f0a94b; --warn-soft:#3a2a12; --crit:#f2867c; --crit-soft:#3d1a17;
+  --ok:#7cc48c; --ok-soft:#173022; --gray-soft:#1f2a32;
+  --op:#b99be6; --op-soft:#2a2140; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1519; --paper:#172027; --ink:#e4ebef; --muted:#97a6b1; --line:#2b3741;
+  --accent:#5cbcd2; --accent-soft:#163540;
+  --warn:#f0a94b; --warn-soft:#3a2a12; --crit:#f2867c; --crit-soft:#3d1a17;
+  --ok:#7cc48c; --ok-soft:#173022; --gray-soft:#1f2a32;
+  --op:#b99be6; --op-soft:#2a2140; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:1160px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+
+/* header */
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:16px}
+.eyebrow{font-size:12.5px;letter-spacing:.08em;color:var(--accent);font-weight:600}
+h1{font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-top:4px}
+.sub{color:var(--muted);font-size:14px;margin-top:6px}
+.dday{display:flex;gap:10px;flex-wrap:wrap}
+.dbox{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 14px;min-width:132px}
+.dbox b{display:block;font-family:var(--f-mono);font-size:24px;line-height:1.2;color:var(--accent)}
+.dbox span{font-size:12.5px;color:var(--muted)}
+
+/* summary */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.sum{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px 16px;min-width:0}
+.sum h3{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.02em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sum p{margin:0;font-size:14.5px}
+.sum .big{font-size:19px;font-weight:700}
+.tag{display:inline-block;font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.t-edu{background:var(--accent-soft);color:var(--accent)}
+.t-op{background:var(--op-soft);color:var(--op)}
+
+section{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:20px 22px;min-width:0}
+section>h2{font-size:18px;font-weight:700;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+section>h2 small{font-size:13px;font-weight:400;color:var(--muted)}
+
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:-6px 0 14px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* calendar */
+.cal-wrap{overflow-x:auto}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(128px,1fr));gap:6px;min-width:930px}
+.dow{font-size:12px;font-weight:600;color:var(--muted);text-align:center;padding-bottom:2px}
+.day{border:1px solid var(--line);border-radius:6px;padding:9px 10px;min-height:118px;display:flex;flex-direction:column;gap:6px;background:var(--paper)}
+.day .n{font-family:var(--f-mono);font-weight:600;font-size:13px;color:var(--muted)}
+.day.off{background:var(--gray-soft)}
+.day.off .n{opacity:.7}
+.ev{border-left:3px solid var(--accent);background:var(--accent-soft);padding:6px 8px;border-radius:0 4px 4px 0;font-size:13px;line-height:1.45}
+.ev b{display:block;font-size:13.5px}
+.ev.op{border-color:var(--op);background:var(--op-soft)}
+.ev.ref{border-color:var(--line);background:transparent;color:var(--muted);font-size:12.5px}
+.ev.all{border-color:var(--crit);background:var(--crit-soft)}
+.ev .tm{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.ev.wn{border-color:var(--warn);background:var(--warn-soft)}
+.ev .sm{display:block;font-size:12.5px;color:var(--muted)}
+.cal7{grid-template-columns:repeat(7,minmax(104px,1fr));min-width:760px}
+.cal7 .day{min-height:96px;padding:8px}
+.cal7 .day.out{opacity:.45}
+.n .short{display:none}
+.cal7 .n .full{display:none}.cal7 .n .short{display:inline}
+.calnote{font-size:13px;color:var(--muted);margin-top:10px}
+
+/* mobile */
+@media (max-width:640px){
+  body{font-size:16px;padding-block:18px 40px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  .wrap{gap:16px}
+  .eyebrow{font-size:13.5px}
+  h1{font-size:25px}
+  .sub{font-size:15px}
+  .dday{width:100%}
+  .dbox{flex:1;min-width:0}
+  .dbox b{font-size:26px}
+  .dbox span{font-size:14px}
+  .sum h3{font-size:14.5px}
+  .sum p{font-size:16px}
+  .sum .big{font-size:19px}
+  .tag{font-size:13px;padding:2px 9px}
+  section{padding:16px}
+  section>h2{font-size:20px}
+  section>h2 small{font-size:14.5px}
+  .legend{font-size:14px}
+  .legend i{width:12px;height:12px}
+  /* 달력 → 일정 목록 */
+  .cal-wrap{overflow:visible}
+  .cal,.cal7{grid-template-columns:minmax(0,1fr);min-width:0;gap:8px}
+  .day,.cal7 .day{min-height:0;padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
+  .cal .dow,.cal .day.empty,.cal .day.minor{display:none}
+  .day .n{font-size:15.5px;color:var(--ink);font-weight:700}
+  .cal7 .n .full{display:inline}.cal7 .n .short{display:none}
+  .day.off,.cal7 .day.out{opacity:1}
+  .ev{font-size:15px;padding:8px 10px}
+  .ev b{font-size:16px}
+  .ev .tm{font-size:14px}
+  .ev .sm{font-size:14px}
+  .calnote{font-size:14.5px;line-height:1.7}
+  /* 출석 표 → 카드 */
+  table.att{min-width:0;font-size:15.5px}
+  table.att thead{display:none}
+  table.att tr{display:block;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+  table.att td{display:block;border:0;padding:4px 0;white-space:normal}
+  table.att td::before{content:attr(data-label);display:block;font-size:13px;font-weight:600;color:var(--muted)}
+  table.att td:first-child{font-size:17px}
+  table.att td:first-child::before{display:none}
+              footer{font-size:14px}
+}
+
+/* tables */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+thead th{border-bottom:2px solid var(--ink);font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+td:first-child{font-weight:600;white-space:nowrap}
+
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.ct{background:var(--gray-soft);border-radius:6px;padding:8px 12px;font-size:13.5px}
+.ct b{display:block;font-size:14px}
+
+
+footer{font-size:12.5px;color:var(--muted);line-height:1.7}
+
+
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <div class="eyebrow">전남광주통합특별시교육청 · 대외협력담당관</div>
+    <h1>2026년도 시의회 행정사무감사<br>수감 일정 한눈에 보기</h1>
+    <div class="sub">교육위원회 수감계획 + 의회운영위원회 수감계획(교육감 비서실) 통합 요약 · 원문 2026. 10.</div>
+  </div>
+  <div class="dday" id="dday">
+    <div class="dbox"><b id="d1">–</b><span>운영위 수감 11. 2.(월)</span></div>
+    <div class="dbox"><b id="d2">–</b><span>본청 수감 11. 3.(화)</span></div>
+  </div>
+</header>
+
+<div class="summary">
+  <div class="sum"><h3>감사 기간</h3><p class="big mono">2026. 11. 2.(월) ~ 11. 15.(일)</p><p class="muted">14일간 · 수감일은 7일(교육위) + 1일(운영위)</p></div>
+  <div class="sum"><h3><span class="tag t-edu">교육위원회</span>감사대상 52개 기관</h3><p>본청 1 · 직속기관 25 · 교육지원청 24 · 출연기관 2</p><p class="muted">장소: 교육위원회 회의실 · 매일 09:30 개시</p></div>
+  <div class="sum"><h3><span class="tag t-op">의회운영위원회</span>교육감 비서실</h3><p>11. 2.(월) 14:00 · 의회운영위원회 회의실</p><p class="muted">출석: 비서실장, 비서관(4급 이상) · 소관 운영지원과·총무과</p></div>
+  <div class="sum"><h3>법적 근거</h3><p>「지방자치법」 제49조, 같은 법 시행령 제41조</p><p class="muted">「전남광주통합특별시의회 행정사무감사 및 조사에 관한 조례」 제2조</p></div>
+</div>
+
+<section>
+  <h2>11월 수감 캘린더 <small>모든 교육위 일정 09:30 개시, 교육위원회 회의실</small></h2>
+  <div class="cal-wrap"><div class="cal" id="cal"></div></div>
+  <p class="calnote">※ 11. 5.~6. 직속기관·출연기관 27개 기관의 일자별 배정은 원문에 구분되어 있지 않음(세부일정은 교육위원회 일일수감 시나리오에 따름). 감사일정·장소는 사정에 따라 변경될 수 있음.</p>
+</section>
+
+<section>
+  <h2>출석 및 선서 대상</h2>
+  <div class="tbl-wrap"><table class="att">
+    <thead><tr><th>구분</th><th>수감일</th><th>감사장 출석 대상</th><th>선서 대상 · 방법</th></tr></thead>
+    <tbody>
+      <tr><td data-label="구분">본청</td><td data-label="수감일" class="mono">11. 3.~4.</td><td data-label="감사장 출석">교육감, 부교육감(2), 기획조정실장, 국장(6), 과장급 이상 간부(33) — <b>43명</b></td><td data-label="선서 대상 · 방법">43명 전원. 교육감이 대표 낭독, 대상자 기립·오른손 선서. 선서서 사전 서명·스캔 → 10. 22.까지 메일 제출</td></tr>
+      <tr><td data-label="구분">직속기관</td><td data-label="수감일" class="mono">11. 5.~6.</td><td data-label="감사장 출석">직속기관장, 분원장, 부장, 과장<br><span class="muted">분원: 안전체험학습장, 순천만생태문화교육원, 자연탐구원, 학생교육원 분원 학생수련장(6개소)</span></td><td data-label="선서 대상 · 방법">기관장, 과장급 이상. 대표 낭독: 광주창의융합교육원장(11. 5.)</td></tr>
+      <tr><td data-label="구분">출연기관</td><td data-label="수감일" class="mono">11. 5.~6.</td><td data-label="감사장 출석">원장, 사무처장, 사무국장 (꿈실현재단, 희망사다리 교육재단)</td><td data-label="선서 대상 · 방법">원장, 사무처장, 사무국장</td></tr>
+      <tr><td data-label="구분">교육지원청</td><td data-label="수감일" class="mono">11. 10.~12.</td><td data-label="감사장 출석">교육장, 과장, 학교종합지원센터장</td><td data-label="선서 대상 · 방법">교육장, 과장(센터장 포함). 대표 낭독: 목포(11. 10.)·여수(11. 11.)·나주(11. 12.) 교육장. 선서 후 선서서를 감사위원장에게 제출</td></tr>
+      <tr><td data-label="구분">전체기관</td><td data-label="수감일" class="mono">11. 13.</td><td data-label="감사장 출석">부교육감, 기획조정실장, 국장, 본청 과장급 이상, 직속기관장, 교육장, 출연기관 원장·사무국장</td><td data-label="선서 대상 · 방법">—</td></tr>
+      <tr><td data-label="구분">교육감 비서실<br><span class="tag t-op">운영위</span></td><td data-label="수감일" class="mono">11. 2.</td><td data-label="감사장 출석">교육감 비서실장, 비서관(4급 이상)</td><td data-label="선서 대상 · 방법">비서실장 1명. 증인 선서서 서명 → 10. 23.까지 대외협력담당관 제출</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>제5회 제2차 정례회 회기 <small class="mono">2026. 11. 2.(월) ~ 12. 16.(수) · 45일간</small></h2>
+  <div class="legend">
+    <span><i style="background:var(--op)"></i>본회의</span>
+        <span><i style="background:var(--warn)"></i>교육위 상임위·예결위</span>
+    <span><i style="background:var(--crit)"></i>인사청문회</span>
+    <span><i style="background:var(--line)"></i>기타</span>
+  </div>
+  <div class="cal-wrap"><div class="cal cal7" id="scal"></div></div>
+  <p class="calnote">※ 전남교육꿈실현재단 원장 인사청문회 12. 2.(수) 예정. 11. 2.~11. 13. 일정(제1차 본회의·행정사무감사)은 위 11월 수감 캘린더 참고.</p>
+</section>
+
+<footer>
+  출처: 「2026년도 전남광주통합특별시의회 행정사무감사 수감 계획」(대외협력담당관, 2026. 10.) · 「[의회운영위원회] 2026년도 전남광주통합특별시의회 행정사무감사 수감 계획」(대외협력담당관, 2026. 10.). 「제5회 제2차 정례회 회기 일정」(첨부 이미지). 요일은 2026년 달력으로 대조함.
+</footer>
+</div>
+
+<script>
+(function(){
+  var Y=2026;
+  function d(m,day){return new Date(Y,m-1,day)}
+  var today=new Date(); today.setHours(0,0,0,0);
+  var W='일월화수목금토';
+  function fmt(dt){return (dt.getMonth()+1)+'. '+dt.getDate()+'.('+W[dt.getDay()]+')'}
+  function diff(dt){return Math.round((dt-today)/86400000)}
+
+  // D-day
+  [['d1',d(11,2)],['d2',d(11,3)]].forEach(function(p){
+    var n=diff(p[1]), el=document.getElementById(p[0]);
+    el.textContent = n>0?('D-'+n):(n===0?'D-DAY':'진행/종료');
+  });
+
+  // calendar 11/2(월) ~ 11/15(일)
+  var ev={
+    2:[['op','교육감 비서실','<span class="tm">14:00</span> 의회운영위 회의실'],['ref','교육위: 감사준비·자료 수집','']],
+    3:[['','본청 1일차','<span class="tm">09:30</span> 교육감·부교육감·실국장·과장급 이상'],['ref','운영위: 시장 비서실(오전)·의회사무처(오후)','']],
+    4:[['','본청 2일차','<span class="tm">09:30</span> 부교육감·실국장·과장급 이상']],
+    5:[['','직속기관·출연기관','<span class="tm">09:30</span> 27개 기관 · 대표선서 광주창의융합교육원장']],
+    6:[['','직속기관·출연기관','<span class="tm">09:30</span> 27개 기관']],
+    7:[['ref','휴일','']],8:[['ref','휴일','']],
+    9:[['ref','감사자료 수집','']],
+    10:[['','교육지원청 9개청','<span class="tm">09:30</span> 목포·장흥·강진·해남·영암·무안·완도·진도·신안']],
+    11:[['','교육지원청 7개청','<span class="tm">09:30</span> 여수·순천·광양·곡성·구례·고흥·보성']],
+    12:[['','교육지원청 8개청','<span class="tm">09:30</span> 나주·광주동부·광주서부·담양·화순·함평·영광·장성']],
+    13:[['all','전체기관 종합감사','<span class="tm">09:30</span> 본청 간부·직속기관장·교육장·출연기관장 · 감사종료 선언']],
+    14:[['ref','감사기간','']],15:[['ref','감사기간 종료','']]
+  };
+  var c='';'월화수목금토일'.split('').forEach(function(w){c+='<div class="dow">'+w+'</div>'});
+  for(var i=2;i<=15;i++){
+    var dt=d(11,i), wk=dt.getDay(), off=(wk===0||wk===6);
+    var only=(ev[i]||[]).every(function(e){return e[0]==='ref'});
+    c+='<div class="day'+(off?' off':'')+(only?' minor':'')+'"><span class="n">11. '+i+'.('+W[wk]+')</span>';
+    (ev[i]||[]).forEach(function(e){c+='<div class="ev '+e[0]+'"><b>'+e[1]+'</b>'+(e[2]?e[2]:'')+'</div>'});
+    c+='</div>';
+  }
+  document.getElementById('cal').innerHTML=c;
+
+  // 정례회 회기 달력 11/15(일) ~ 12/19(토), 일요일 시작(원문 형식)
+  var SV={
+    '11-16':[['op','제2차 본회의','']],
+    '11-19':[['ref','대학수학능력시험','']],
+    '11-24':[['wn','교육위 상임위','추경']],
+    '11-25':[['wn','교육위 상임위','본예산']],'11-26':[['wn','교육위 상임위','본예산']],'11-27':[['wn','교육위 상임위','본예산']],
+    '12-2':[['all','인사청문회','전남교육꿈실현재단 원장(예정)']],
+    '12-3':[['wn','교육청 예결위','추경'],['ref','인사청문회 경과보고서 관련 안건','']],
+    '12-7':[['wn','교육청 예결위','본예산']],'12-8':[['wn','교육청 예결위','본예산']],
+    '12-9':[['op','제3차 본회의','']],
+    '12-10':[['wn','교육청 예결위','본예산']],
+    '12-16':[['op','제4차 본회의','회기 종료']]
+  };
+  var sc='';'일월화수목금토'.split('').forEach(function(w){sc+='<div class="dow">'+w+'</div>'});
+  var s0=d(11,2), s1=d(12,16);
+  for(var k=0;k<35;k++){
+    var dt=new Date(2026,10,15+k), m=dt.getMonth()+1, dd=dt.getDate(), wk=dt.getDay();
+    var key=m+'-'+dd, evs=SV[key]||[], out=(dt<s0||dt>s1), off=(wk===0||wk===6);
+    var lbl=(dd===1||k===0)?(m+'. '+dd+'.'):(dd+'');
+    sc+='<div class="day'+(off?' off':'')+(out?' out':'')+(evs.length?'':' empty')+'"><span class="n"><span class="full">'+m+'. '+dd+'.('+W[wk]+')</span><span class="short">'+lbl+'</span></span>';
+    evs.forEach(function(e){sc+='<div class="ev '+e[0]+'"><b>'+e[1]+'</b>'+(e[2]?'<span class="sm">'+e[2]+'</span>':'')+'</div>'});
+    sc+='</div>';
+  }
+  document.getElementById('scal').innerHTML=sc;
+})();
+</script>
