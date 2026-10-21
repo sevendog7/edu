@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e4e6ea">
 <title>교육감 선거법규 운용 가이드</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -144,9 +149,96 @@ details.art .law{margin:0 12px 12px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 html{scroll-behavior:smooth}
+
+/* top link */
+.toplinks{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tl-lbl{font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.tl-link{display:inline-flex;align-items:center;gap:8px;background:var(--pill);color:var(--pill-fg);text-decoration:none;border-radius:999px;padding:9px 16px 9px 10px;font-weight:600;font-size:14px;box-shadow:var(--shadow);min-height:40px}
+.tl-link:hover{opacity:.9}
+.tl-ic{width:24px;height:24px;border-radius:50%;background:var(--pill-fg);color:var(--pill);display:inline-grid;place-items:center;font-size:13px;font-weight:700}
+.tl-arr{font-family:var(--f-mono);opacity:.75}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,.chip,.navbtn,.hit{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+
+/* ===== 휴대전화 최적화 ===== */
+@media (max-width:640px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  .hero>div,.main>*{min-width:0}
+  .seg{overflow-y:hidden}
+  body{font-size:15px;line-height:1.7;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-top:max(12px,env(safe-area-inset-top,0px));padding-bottom:48px}
+  .wrap{gap:12px}
+  :root{--r-lg:18px;--r-md:13px}
+  .toplinks{justify-content:flex-end}
+  .tl-lbl{display:none}
+  .tl-link{width:100%;justify-content:center;font-size:14.5px;padding:11px 16px}
+  .tl-arr{margin-left:auto}
+  .hero{padding:18px 16px;gap:16px}
+  h1{font-size:23px;margin:4px 0 6px}
+  .eyebrow{font-size:11.5px;line-height:1.5}
+  .lede{font-size:14px}
+  .search{padding:4px 4px 4px 14px}
+  .search input{font-size:16px;padding:9px 0}   /* 16px 미만이면 iOS가 입력 시 확대함 */
+  .pill{padding:10px 14px}
+  .pill.ghost{padding:10px 8px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin:12px -16px 0;padding:0 16px 4px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none;padding:7px 13px;font-size:13.5px}
+  .hint{display:none}
+  .notice{padding:14px 16px;gap:12px;font-size:13px;line-height:1.65}
+  .notice .ic{width:30px;height:30px;border-radius:10px}
+  .main{gap:12px}
+  nav.rail{position:sticky;top:0;z-index:20;margin:0 -12px;border-radius:0;padding:8px 12px;gap:6px;scrollbar-width:none;box-shadow:0 6px 14px -10px rgba(0,0,0,.35)}
+  nav.rail::-webkit-scrollbar{display:none}
+  .navbtn{padding:8px 13px;font-size:13.5px;border-radius:999px;background:var(--inset);gap:6px;min-height:38px}
+  .navbtn .no{font-size:11.5px}
+  .chhead{padding:16px}
+  .chhead h2{font-size:20px}
+  .stats{gap:6px;width:100%}
+  .stat{flex:1;min-width:0;padding:6px 10px;border-radius:12px}
+  .stat b{font-size:17px}
+  .stat span{font-size:11px;white-space:nowrap}
+  .seg{top:62px;max-width:100%;scrollbar-width:none}
+  .seg::-webkit-scrollbar{display:none}
+  .seg button{padding:7px 13px;font-size:13px}
+  section.sec{scroll-margin-top:120px;gap:10px}
+  .sectitle{padding:4px 2px 0;gap:8px}
+  .sectitle h3{font-size:16px}
+  .group{padding:14px;gap:10px}
+  .ghead h4{font-size:15px;line-height:1.45}
+  .ghead .sub{width:100%;font-size:12px}
+  .item{padding:12px;scroll-margin-top:130px}
+  .ihead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 8px}
+  .ihead .n{min-width:0}
+  .ihead .t{font-size:14.5px}
+  .ihead .acts{grid-column:2;justify-content:flex-start}
+  .badge{font-size:11.5px;padding:3px 10px}
+  .copy{padding:3px 10px;font-size:12px}
+  .body{padding-left:0;margin-top:8px;gap:8px}
+  .body p{font-size:14.5px}
+  .box,.lawq{padding:10px 12px;font-size:13.5px}
+  .law{padding:12px 14px;font-size:13.5px;line-height:1.8}
+  details.art summary{padding:12px 14px;font-size:14px}
+  details.art .law{margin:0 8px 8px}
+  ul.list li{font-size:14px}
+  .res{padding:14px;gap:8px}
+  .hit{padding:12px 14px}
+  .hit .snip{font-size:13px}
+  .empty{padding:22px 14px}
+  .src{font-size:11.5px;line-height:1.6;padding:4px 4px 0}
+}
+@media (max-width:360px){
+  h1{font-size:21px}
+  .stat span{font-size:10.5px}
+}
 </style>
 
 <div class="wrap">
+  <nav class="toplinks" aria-label="관련 페이지">
+    <span class="tl-lbl">관련 자료</span>
+    <a class="tl-link" href="https://sevendog7.github.io/edu/election.html">
+      <span class="tl-ic" aria-hidden="true">§</span>정치관계법 바로가기<span class="tl-arr" aria-hidden="true">→</span>
+    </a>
+  </nav>
   <header class="card hero">
     <div>
       <div class="eyebrow">2026 지방자치단체의 활동에 관한 공직선거법규 운용자료 · 중앙선거관리위원회</div>
