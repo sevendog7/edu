@@ -61,6 +61,7 @@ mark{background:var(--mark);color:var(--markink);border-radius:3px;padding:0 1px
 .rail-btn small{font-family:var(--disp);font-size:10.5px;font-weight:700;letter-spacing:.04em;line-height:1}
 .rail-btn:hover{color:var(--ink2);background:rgba(255,255,255,.04)}
 .rail-btn[aria-pressed="true"]{background:linear-gradient(135deg,var(--bc,#6B4FD8),var(--bc2,#4B33B5));color:#fff;box-shadow:0 0 16px color-mix(in srgb,var(--bc,#6B4FD8) 55%,transparent)}
+.rail .logo{cursor:pointer;transition:filter .15s,transform .15s}.rail .logo:hover{filter:brightness(1.15);transform:translateY(-1px)}
 .rail-sep{width:28px;height:1px;background:var(--line);margin:4px 0}
 .rail .grow{flex:1}
 
@@ -431,7 +432,7 @@ function snippet(p){
 /* rail */
 function railHTML(){
   const counts = c => DATA.filter(p => p.chapter === c).length;
-  let h = `<div class="logo" aria-hidden="true">${svg('<path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-5h6v5"/>',1.8)}</div>`;
+  let h = `<button class="logo" id="homeBtn" aria-label="처음 화면으로" title="처음 화면으로">${svg('<path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-5h6v5"/>',1.8)}</button>`;
   h += `<button class="rail-btn" data-ch="all" aria-pressed="${S.ch==='all'}" title="전체 ${DATA.length}개">${svg(ICON.all)}<small>전체</small></button>`;
   h += `<div class="rail-sep"></div>`;
   CHAPTERS.forEach(c => { h += `<button class="rail-btn" style="${cvar(c)}" data-ch="${c.id}" aria-pressed="${S.ch===c.id}" title="${c.id}. ${esc(c.name)} (${counts(c.id)}개)">${svg(c.icon)}<small>${c.id}</small></button>`; });
@@ -695,9 +696,18 @@ function toggleFav(no){
   renderList(); renderFilters(); if (S.sel===no) renderDetail();
   toast(S.fav.has(no) ? '관심 공약에 추가했습니다' : '관심 공약에서 해제했습니다');
 }
+function goHome(){
+  S.q=''; $('#q').value=''; S.type='all'; S.dept=''; S.sort='no'; S.ch='all'; store.set('ch','all');
+  S.sel=null; S.collapsed.clear(); store.set('collapsed',[]);
+  $('#detail').classList.remove('open');
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+  renderNav(); renderFilters(); syncClear(); renderList(); renderDetail();
+  $('#list').scrollTop=0; $('#dscroll').scrollTop=0;
+}
 let tt; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('on'),1600); }
 
 document.addEventListener('click', e => {
+  if (e.target.closest('#homeBtn')){ goHome(); return; }
   const st = e.target.closest('[data-star]'); if (st){ e.stopPropagation(); toggleFav(+st.dataset.star); return; }
   const chb = e.target.closest('[data-ch]'); if (chb){ setCh(chb.dataset.ch); if (mq.matches) closeP(); return; }
   const row = e.target.closest('.row'); if (row){ openP(+row.dataset.no); return; }
