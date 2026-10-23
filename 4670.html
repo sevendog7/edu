@@ -129,6 +129,12 @@
   a.nmap:active{ transform:none; box-shadow:var(--inset-2); }
   a.nmap:focus-visible{ outline:none; box-shadow:var(--raise-1), 0 0 0 3px #b8ecd0; }
 
+  /* 구글·네이버·네이버지도 묶음 */
+  .title-links{ display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+  a.nmap.ggl .nmap-ico{ background:#4285f4; }
+  a.nmap.ggl:hover .arrow{ color:#2f6fd8; }
+  a.nmap.ggl:focus-visible{ box-shadow:var(--raise-1), 0 0 0 3px #c9dafb; }
+
   .cover-meta{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
     gap: clamp(10px, 2vw, 20px);
@@ -378,7 +384,8 @@
     body{ padding: 16px 0; }
     header.cover{ border-radius:22px; padding:20px 18px; }
     h1.title{ font-size:clamp(30px, 9vw, 40px); }
-    .title-row{ flex-wrap:nowrap; }
+    .title-row{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .title-links{ gap:8px; }
     a.nmap{ padding:6px 12px 6px 6px; gap:6px; font-size:12px; }
     a.nmap .nmap-ico{ width:28px; height:28px; }
     a.nmap .nmap-ico svg{ width:15px; height:15px; }
@@ -436,11 +443,23 @@
       </div>
       <div class="title-row">
         <h1 class="title">K-비서실 4670</h1>
+        <div class="title-links">
+        <a class="nmap ggl" href="https://www.google.com" target="_blank" rel="noopener" aria-label="구글 열기">
+          <span class="nmap-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5M12 3.5C9.6 5.9 8.4 8.7 8.4 12s1.2 6.1 3.6 8.5"/></svg>
+          </span>구글<span class="arrow">↗</span>
+        </a>
+        <a class="nmap" href="https://www.naver.com/" target="_blank" rel="noopener" aria-label="네이버 열기">
+          <span class="nmap-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
+          </span>네이버<span class="arrow">↗</span>
+        </a>
         <a class="nmap" href="https://map.naver.com/p?c=15.00,0,0,2,dh" target="_blank" rel="noopener" aria-label="네이버 지도 열기">
           <span class="nmap-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5 7 12.1 7 12.1s7-7.1 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="#ffffff"/><circle cx="12" cy="9.4" r="2.6" fill="#03c75a"/></svg>
           </span>네이버 지도<span class="arrow">↗</span>
         </a>
+        </div>
       </div>
       <div class="cover-meta">
         <p class="sub">필요한 시스템과 자료를 한 화면에 정리했습니다. 비서실 외부로 링크가 유출되지 않도록 유의해주세요.</p>
