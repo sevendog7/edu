@@ -92,48 +92,49 @@
   }
   h1.title{
     font-weight:900;
-    font-size: clamp(32px, 6vw, 60px);
+    font-size: clamp(22.4px, 4.2vw, 42px);
     line-height:1.05;
     letter-spacing:-.03em;
     color:var(--ink);
+    display:inline-flex; align-items:baseline; gap:.28em;
   }
-
-  /* ---------- TITLE ROW + 네이버 지도 ---------- */
+  /* 제목 강조: '4670'을 검은 배지 안 흰 글씨로 (내선번호 표시) */
+  h1.title{ align-items:center; }
+  h1.title .t-num{
+    font-size:.62em; font-weight:800;
+    color:#ffffff; background:var(--ink);
+    padding:.18em .55em .22em;
+    border-radius:.4em;
+    letter-spacing:.06em;
+    line-height:1;
+    font-variant-numeric: tabular-nums;
+    transform:translateY(-.04em);
+  }
+  /* ---------- TITLE ROW + 구글·네이버·지도 ---------- */
   .title-row{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
     gap: clamp(10px, 2vw, 20px);
   }
   a.nmap{
-    display:inline-flex; align-items:center; gap:10px;
-    padding:8px 16px 8px 8px;
+    display:inline-flex; align-items:center; gap:7px;
+    padding:6px 4px;
     text-decoration:none;
     font-size: clamp(12.5px, 1.3vw, 13.5px);
     font-weight:700;
-    color:var(--ink);
-    background:var(--surface);
-    border-radius:var(--r-pill);
-    box-shadow:var(--raise-1);
+    color:var(--ink-soft);
+    background:none;
     white-space:nowrap;
-    transition: box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+    transition: color .2s ease;
   }
-  a.nmap .nmap-ico{
-    display:grid; place-items:center;
-    width:34px; height:34px; border-radius:50%;
-    background:#03c75a;
-    flex-shrink:0;
-  }
+  a.nmap .nmap-ico{ display:inline-flex; flex-shrink:0; color:currentColor; }
   a.nmap .nmap-ico svg{ width:18px; height:18px; display:block; }
-  a.nmap .arrow{ font-size:12px; color:var(--ink-faint); transition: color .25s ease; }
-  a.nmap:hover{ transform:translateY(-2px); box-shadow:var(--raise-2); }
-  a.nmap:hover .arrow{ color:#03a14a; }
-  a.nmap:active{ transform:none; box-shadow:var(--inset-2); }
-  a.nmap:focus-visible{ outline:none; box-shadow:var(--raise-1), 0 0 0 3px #b8ecd0; }
+  a.nmap .arrow{ font-size:11px; color:var(--ink-faint); transition: color .2s ease; }
+  a.nmap:hover{ color:var(--ink); }
+  a.nmap:hover .arrow{ color:var(--ink); }
+  a.nmap:focus-visible{ outline:none; border-radius:6px; box-shadow:0 0 0 2px #d4d2cc; }
 
   /* 구글·네이버·네이버지도 묶음 */
-  .title-links{ display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
-  a.nmap.ggl .nmap-ico{ background:#4285f4; }
-  a.nmap.ggl:hover .arrow{ color:#2f6fd8; }
-  a.nmap.ggl:focus-visible{ box-shadow:var(--raise-1), 0 0 0 3px #c9dafb; }
+  .title-links{ display:flex; align-items:center; flex-wrap:wrap; gap:18px; }
 
   .cover-meta{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
@@ -157,11 +158,61 @@
     white-space:nowrap;
   }
 
+
+  /* ---------- 뉴스 한 줄 (뉴시스) ---------- */
+  .news-line{
+    flex:1 1 420px; min-width:0; max-width:760px;
+    display:flex; align-items:center; gap:10px;
+    height:34px; padding:0;
+    background:none;
+    font-size: clamp(12.5px, 1.35vw, 14px);
+  }
+  .news-badge{
+    display:inline-flex; align-items:center; gap:6px; flex-shrink:0;
+    height:26px; padding:0 11px;
+    font-size:11.5px; font-weight:900; letter-spacing:.02em;
+    color:#ffffff; background:#d6453b;
+    border-radius:var(--r-pill);
+  }
+  .news-badge.latest{ background:#55534e; }
+  .news-badge::before{
+    content:""; width:6px; height:6px; border-radius:50%; background:#ffffff;
+    animation: newsPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes newsPulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+  .news-src{
+    flex-shrink:0; font-size:11.5px; font-weight:700;
+    color:var(--info-deep); background:#e3eefb;
+    padding:3px 9px; border-radius:var(--r-pill);
+  }
+  .news-src.nsis{ color:#b23a2f; background:#fbe3e0; }
+  .news-src.sbs{ color:#1f4fa8; background:#dfe8fa; }
+  a.news-title{
+    flex:1 1 auto; min-width:0;
+    overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+    color:var(--ink); font-weight:500; text-decoration:none;
+    transition: opacity .35s ease, color .2s ease;
+  }
+  a.news-title:hover{ color:#d6453b; text-decoration:underline; text-underline-offset:3px; }
+  a.news-title.fade{ opacity:0; }
+  .news-time{ flex-shrink:0; font-size:11.5px; color:var(--ink-faint); }
+  .news-ctrl{ display:flex; gap:2px; flex-shrink:0; }
+  .news-ctrl button{
+    width:24px; height:24px; border:0; border-radius:50%;
+    background:transparent; color:var(--ink-soft); cursor:pointer;
+    font-size:12px; line-height:1;
+  }
+  .news-ctrl button:hover{ background:var(--surface); box-shadow:var(--raise-1); color:var(--ink); }
+  @media (prefers-reduced-motion: reduce){
+    .news-badge.latest{ background:#55534e; }
+  .news-badge::before{ animation:none; } a.news-title{ transition:none; }
+  }
+
   /* ---------- COVER QUICK LINKS ---------- */
   .cover-links{
     display:flex; flex-wrap:wrap; align-items:center;
     gap:8px;
-    margin-top: clamp(14px, 2vw, 20px);
+    margin-top: clamp(6px, 1vw, 10px);
     padding-top: clamp(12px, 1.8vw, 16px);
     border-top:1px dashed var(--border);
   }
@@ -331,21 +382,16 @@
   .cover-top .cover-label{ margin-bottom:0; }
   a.wx{
     display:inline-flex; align-items:center; gap:12px;
-    padding:8px 16px 8px 10px;
+    padding:4px 0;
     text-decoration:none; color:var(--ink);
-    background:var(--bg);
-    border-radius:var(--r-pill);
-    box-shadow:var(--inset-1);
+    background:none;
     font-size: clamp(12px, 1.3vw, 13.5px);
-    transition: box-shadow .25s ease;
   }
-  a.wx:hover{ box-shadow:var(--raise-1); }
-  a.wx:focus-visible{ outline:none; box-shadow:var(--inset-1), 0 0 0 3px var(--info); }
+  a.wx:hover .wx-cond{ text-decoration:underline; text-underline-offset:3px; }
+  a.wx:focus-visible{ outline:none; border-radius:6px; box-shadow:0 0 0 2px #d4d2cc; }
   .wx-ico{
     display:grid; place-items:center;
-    width:34px; height:34px; border-radius:50%;
-    font-size:19px; line-height:1;
-    background:var(--surface); box-shadow:var(--raise-1);
+    font-size:20px; line-height:1;
     flex-shrink:0;
   }
   .wx-now{ display:flex; align-items:baseline; gap:6px; }
@@ -364,7 +410,7 @@
   .wx-sep{ width:1px; align-self:stretch; background:var(--border); }
   @media (max-width:640px){
     .cover-top{ flex-direction:column; align-items:flex-start; }
-    a.wx{ width:100%; flex-wrap:wrap; gap:8px 10px; padding:9px 14px 9px 10px; border-radius:18px; }
+    a.wx{ width:100%; flex-wrap:wrap; gap:8px 10px; padding:2px 0; }
     .wx-sep{ display:none; }
     .wx-loc{ margin-left:auto; }
     .wx-detail{ width:100%; gap:8px; }
@@ -380,16 +426,16 @@
     :root{ --panel-w: calc(100vw - 32px); }   /* 좌우 16px 여백 */
     body{ padding: 16px 0; }
     header.cover{ border-radius:22px; padding:20px 18px; }
-    h1.title{ font-size:clamp(30px, 9vw, 40px); }
+    h1.title{ font-size:clamp(21px, 6.3vw, 28px); }
     .title-row{ flex-direction:column; align-items:flex-start; gap:12px; }
     .title-links{ gap:8px; }
-    a.nmap{ padding:6px 12px 6px 6px; gap:6px; font-size:12px; }
-    a.nmap .nmap-ico{ width:28px; height:28px; }
-    a.nmap .nmap-ico svg{ width:15px; height:15px; }
+    a.nmap{ gap:6px; font-size:12.5px; }
+    a.nmap .nmap-ico svg{ width:16px; height:16px; }
     a.nmap .arrow{ display:none; }
-    a.nmap:hover{ transform:none; }
     .cover-meta{ flex-direction:column; align-items:flex-start; gap:8px; }
-    .cover-meta p.sub{ display:none; }
+    .news-line{ width:100%; flex-basis:auto; height:36px; gap:7px; }
+    .news-time, .news-ctrl{ display:none; }
+    .news-badge{ padding:0 9px; font-size:11px; }
     .cover-meta .byline{ white-space:normal; font-size:11.5px; padding:7px 14px; }
 
     /* 상단 바로가기: 2열 정렬 칩 */
@@ -430,27 +476,36 @@
         </a>
       </div>
       <div class="title-row">
-        <h1 class="title">K-비서실 4670</h1>
+        <h1 class="title" aria-label="K-비서실 4670"><span>K-비서실</span><span class="t-num">4670</span></h1>
         <div class="title-links">
-        <a class="nmap ggl" href="https://www.google.com" target="_blank" rel="noopener" aria-label="구글 열기">
+        <a class="nmap" href="https://www.google.com" target="_blank" rel="noopener" aria-label="구글 열기">
           <span class="nmap-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5M12 3.5C9.6 5.9 8.4 8.7 8.4 12s1.2 6.1 3.6 8.5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5M12 3.5C9.6 5.9 8.4 8.7 8.4 12s1.2 6.1 3.6 8.5"/></svg>
           </span>구글<span class="arrow">↗</span>
         </a>
         <a class="nmap" href="https://www.naver.com/" target="_blank" rel="noopener" aria-label="네이버 열기">
           <span class="nmap-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
           </span>네이버<span class="arrow">↗</span>
         </a>
         <a class="nmap" href="https://map.naver.com/p?c=15.00,0,0,2,dh" target="_blank" rel="noopener" aria-label="네이버 지도 열기">
           <span class="nmap-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5 7 12.1 7 12.1s7-7.1 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="#ffffff"/><circle cx="12" cy="9.4" r="2.6" fill="#03c75a"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5 7 12.1 7 12.1s7-7.1 7-12.1c0-3.9-3.1-6.9-7-6.9z"/><circle cx="12" cy="9.4" r="2.6"/></svg>
           </span>네이버 지도<span class="arrow">↗</span>
         </a>
         </div>
       </div>
       <div class="cover-meta">
-        <p class="sub">필요한 시스템과 자료를 한 화면에 정리했습니다. 비서실 외부로 링크가 유출되지 않도록 유의해주세요.</p>
+        <div class="news-line" id="news-line" aria-live="polite">
+          <span class="news-badge" id="news-badge">속보</span>
+          <span class="news-src nsis">뉴시스</span>
+          <a class="news-title" id="news-title" href="https://www.newsis.com/" target="_blank" rel="noopener">최신 기사를 불러오는 중입니다…</a>
+          <span class="news-time" id="news-time"></span>
+          <span class="news-ctrl">
+            <button type="button" id="news-prev" aria-label="이전 기사">‹</button>
+            <button type="button" id="news-next" aria-label="다음 기사">›</button>
+          </span>
+        </div>
         <p class="byline">전남광주통합특별시교육청 K-비서실 [byST]</p>
       </div>
       <nav class="cover-links" aria-label="주요 바로가기">
@@ -721,6 +776,84 @@
       });
     }
     load(); setInterval(load, 30*60*1000);
+  })();
+
+  /* ===== 뉴스 한 줄: 뉴시스 공식 RSS(속보·최신) =====
+     - 뉴시스 RSS는 다른 사이트에서 직접 읽기를 허용해 변환 서비스 없이 바로 불러옴
+       (2026.10.23. 확인: 연합·SBS·동아·경향 등은 브라우저 직접 읽기가 차단되고,
+        rss2json·allorigins·corsproxy 등 무료 변환 서비스도 응답하지 않음)
+     - 제목에 [속보]가 있으면 빨간 '속보', 그 외는 회색 '최신' 배지
+     - 6초마다 다음 기사, 마우스를 올리면 멈춤, 3분마다 새로고침 */
+  (function(){
+    var FEED = 'https://www.newsis.com/RSS/sokbo.xml';
+    var HOME = 'https://www.newsis.com/';
+    var ROTATE = 6000, REFRESH = 3*60*1000, MAX = 30;
+    var items = [], idx = 0, timer = null, paused = false;
+    function $(id){ return document.getElementById(id); }
+
+    function parse(txt){
+      var doc = new DOMParser().parseFromString(txt, 'text/xml'), out = [];
+      var nodes = doc.getElementsByTagName('item');
+      for(var i=0;i<nodes.length && out.length<MAX;i++){
+        var n=nodes[i];
+        var t=n.getElementsByTagName('title')[0], l=n.getElementsByTagName('link')[0], d=n.getElementsByTagName('pubDate')[0];
+        if(!t) continue;
+        var title=t.textContent.replace(/\s+/g,' ').trim();
+        if(!title) continue;
+        out.push({title:title, link:l?l.textContent.trim():HOME, t:d?Date.parse(d.textContent):0});
+      }
+      return out;
+    }
+    function hhmm(t){
+      if(!t || isNaN(t)) return '';
+      var d=new Date(t), now=new Date(), p=function(n){ return (n<10?'0':'')+n; };
+      return (d.toDateString()===now.toDateString()?'':(d.getMonth()+1)+'.'+d.getDate()+' ')+p(d.getHours())+':'+p(d.getMinutes());
+    }
+    function show(i){
+      if(!items.length) return;
+      idx=(i+items.length)%items.length;
+      var it=items[idx], a=$('news-title'), bd=$('news-badge');
+      a.classList.add('fade');
+      setTimeout(function(){
+        var sokbo=/^\s*\[속보\]/.test(it.title);
+        bd.textContent = sokbo ? '속보' : '최신';
+        bd.className = 'news-badge' + (sokbo ? '' : ' latest');
+        a.textContent = sokbo ? it.title.replace(/^\s*\[속보\]\s*/,'') : it.title;
+        a.href = it.link; a.title = it.title;
+        $('news-time').textContent = hhmm(it.t);
+        a.classList.remove('fade');
+      }, 250);
+    }
+    function start(){ clearInterval(timer); timer=setInterval(function(){ if(!paused) show(idx+1); }, ROTATE); }
+
+    function load(){
+      fetch(FEED, {cache:'no-store'})
+        .then(function(r){ if(!r.ok) throw 0; return r.text(); })
+        .then(function(txt){
+          var list=parse(txt);
+          if(!list.length) throw 0;
+          var cur = items[idx] && items[idx].link;
+          items=list;
+          var k=0; for(var i=0;i<items.length;i++){ if(items[i].link===cur){ k=i; break; } }
+          if(!cur) { show(0); start(); } else { idx=k; }
+        })
+        .catch(function(){
+          if(!items.length){
+            var a=$('news-title');
+            a.classList.remove('fade');
+            a.textContent='뉴스를 불러오지 못했습니다 · 뉴시스 바로가기';
+            a.href=HOME;
+          }
+        });
+    }
+
+    var box=$('news-line');
+    box.addEventListener('mouseenter', function(){ paused=true; });
+    box.addEventListener('mouseleave', function(){ paused=false; });
+    $('news-prev').addEventListener('click', function(){ show(idx-1); start(); });
+    $('news-next').addEventListener('click', function(){ show(idx+1); start(); });
+
+    load(); setInterval(load, REFRESH);
   })();
   </script>
 </body>
