@@ -97,6 +97,38 @@
     letter-spacing:-.03em;
     color:var(--ink);
   }
+
+  /* ---------- TITLE ROW + 네이버 지도 ---------- */
+  .title-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
+    gap: clamp(10px, 2vw, 20px);
+  }
+  a.nmap{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:8px 16px 8px 8px;
+    text-decoration:none;
+    font-size: clamp(12.5px, 1.3vw, 13.5px);
+    font-weight:700;
+    color:var(--ink);
+    background:var(--surface);
+    border-radius:var(--r-pill);
+    box-shadow:var(--raise-1);
+    white-space:nowrap;
+    transition: box-shadow .25s ease, transform .25s cubic-bezier(.2,.7,.3,1);
+  }
+  a.nmap .nmap-ico{
+    display:grid; place-items:center;
+    width:34px; height:34px; border-radius:50%;
+    background:#03c75a;
+    flex-shrink:0;
+  }
+  a.nmap .nmap-ico svg{ width:18px; height:18px; display:block; }
+  a.nmap .arrow{ font-size:12px; color:var(--ink-faint); transition: color .25s ease; }
+  a.nmap:hover{ transform:translateY(-2px); box-shadow:var(--raise-2); }
+  a.nmap:hover .arrow{ color:#03a14a; }
+  a.nmap:active{ transform:none; box-shadow:var(--inset-2); }
+  a.nmap:focus-visible{ outline:none; box-shadow:var(--raise-1), 0 0 0 3px #b8ecd0; }
+
   .cover-meta{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
     gap: clamp(10px, 2vw, 20px);
@@ -346,6 +378,12 @@
     body{ padding: 16px 0; }
     header.cover{ border-radius:22px; padding:20px 18px; }
     h1.title{ font-size:clamp(30px, 9vw, 40px); }
+    .title-row{ flex-wrap:nowrap; }
+    a.nmap{ padding:6px 12px 6px 6px; gap:6px; font-size:12px; }
+    a.nmap .nmap-ico{ width:28px; height:28px; }
+    a.nmap .nmap-ico svg{ width:15px; height:15px; }
+    a.nmap .arrow{ display:none; }
+    a.nmap:hover{ transform:none; }
     .cover-meta{ flex-direction:column; align-items:flex-start; gap:8px; }
     .cover-meta p.sub{ display:none; }
     .cover-meta .byline{ white-space:normal; font-size:11.5px; padding:7px 14px; }
@@ -396,7 +434,14 @@
           <span class="wx-loc" id="wx-loc">위치 확인 중</span>
         </a>
       </div>
-      <h1 class="title">K-비서실 4670</h1>
+      <div class="title-row">
+        <h1 class="title">K-비서실 4670</h1>
+        <a class="nmap" href="https://map.naver.com/p?c=15.00,0,0,2,dh" target="_blank" rel="noopener" aria-label="네이버 지도 열기">
+          <span class="nmap-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5 7 12.1 7 12.1s7-7.1 7-12.1c0-3.9-3.1-6.9-7-6.9z" fill="#ffffff"/><circle cx="12" cy="9.4" r="2.6" fill="#03c75a"/></svg>
+          </span>네이버 지도<span class="arrow">↗</span>
+        </a>
+      </div>
       <div class="cover-meta">
         <p class="sub">필요한 시스템과 자료를 한 화면에 정리했습니다. 비서실 외부로 링크가 유출되지 않도록 유의해주세요.</p>
         <p class="byline">전남광주통합특별시교육청 K-비서실 [byST]</p>
