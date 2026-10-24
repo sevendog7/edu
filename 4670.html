@@ -187,6 +187,15 @@
   }
   .news-src.nsis{ color:#b23a2f; background:#fbe3e0; }
   .news-src.sbs{ color:#1f4fa8; background:#dfe8fa; }
+  /* 뉴스 2줄 묶음: 위=전국 속보, 아래=전남광주 지역 */
+  .news-stack{
+    flex:1 1 420px; min-width:0; max-width:760px;
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .news-stack .news-line{ flex:none; width:100%; max-width:none; }
+  .news-src.local{ color:var(--primary-deep); background:var(--primary-soft); }
+  .news-badge.region{ background:#2f8f6c; }
+  .news-empty{ color:var(--ink-faint) !important; }
   a.news-title{
     flex:1 1 auto; min-width:0;
     overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
@@ -375,10 +384,16 @@
 
   /* ---------- WEATHER (기상청 운암2동) ---------- */
   .cover-top{
-    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;
-    gap:12px; margin-bottom: clamp(12px, 1.8vw, 18px);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:nowrap;
+    gap:16px 24px;
   }
-  .cover-top .cover-label{ margin-bottom:0; }
+  .cover-top h1.title{ flex-shrink:0; }
+  /* 뉴스 오른쪽: 구글·네이버·지도 + 업무 도구 표시 */
+  .meta-side{
+    display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+    flex-shrink:0;
+  }
+  .meta-side .cover-label{ margin-bottom:0; }
   a.wx{
     display:inline-flex; align-items:center; gap:12px;
     padding:4px 0;
@@ -408,7 +423,8 @@
   }
   .wx-sep{ width:1px; align-self:stretch; background:var(--border); }
   @media (max-width:640px){
-    .cover-top{ flex-direction:column; align-items:flex-start; }
+    .cover-top{ flex-direction:column; align-items:flex-start; flex-wrap:wrap; }
+    .meta-side{ align-items:flex-start; }
     a.wx{ width:100%; flex-wrap:wrap; gap:8px 10px; padding:2px 0; }
     .wx-sep{ display:none; }
     .wx-loc{ margin-left:auto; }
@@ -419,6 +435,8 @@
     a.card, a.card::after, a.card .idx, a.card h3, a.quick, a.quick .dot{ transition:none; }
     a.card:hover{ transform:none; }
   }
+
+  @media (max-width:1100px){ .cover-top{ flex-wrap:wrap; } }
 
   /* ---------- MOBILE ---------- */
   @media (max-width:640px){
@@ -432,10 +450,10 @@
     a.nmap .nmap-ico svg{ width:16px; height:16px; }
     a.nmap .arrow{ display:none; }
     .cover-meta{ flex-direction:column; align-items:flex-start; gap:8px; }
+    .news-stack{ width:100%; flex-basis:auto; }
     .news-line{ width:100%; flex-basis:auto; height:36px; gap:7px; }
     .news-time, .news-ctrl{ display:none; }
     .news-badge{ padding:0 9px; font-size:11px; }
-    .cover-meta .byline{ white-space:normal; font-size:11.5px; padding:7px 14px; }
 
     /* 상단 바로가기: 2열 정렬 칩 */
     .cover-links{ display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; }
@@ -443,10 +461,10 @@
 
     /* 카드: 3열 슬림 (기존 72px → 44px) */
     .body-flow{ gap:28px; }
-    .grid-cards{ grid-template-columns:repeat(3, 1fr); gap:8px; }
+    .grid-cards{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px; }
     a.card{ min-height:44px; padding:6px 8px; gap:6px; border-radius:12px; }
     a.card .idx{ width:20px; height:20px; font-size:9.5px; border-radius:6px; }
-    a.card h3{ font-size:12.5px; line-height:1.25; }
+    a.card h3{ font-size:12.5px; line-height:1.25; overflow-wrap:anywhere; }
     a.card::after{ display:none; }
     a.card:hover{ transform:none; }
 
@@ -454,7 +472,7 @@
   }
 
   @media (max-width:360px){
-    .grid-cards{ grid-template-columns:repeat(2, 1fr); }
+    .grid-cards{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     a.quick{ font-size:12.5px; }
   }
 </style>
@@ -463,8 +481,9 @@
   <div class="wrap">
 
     <header class="cover">
+      <!-- 1줄: 제목 + 날씨 (데스크톱 한 줄) -->
       <div class="cover-top">
-        <p class="cover-label">비서실 업무 도구 [UBUNTU·V1]</p>
+        <h1 class="title" aria-label="K-비서실 4670"><span>K-비서실</span><span class="t-num">4670</span></h1>
         <a class="wx" id="wx" href="https://www.weather.go.kr/w/index.do#dong/1230060200/35.17097/126.88475/%EC%A0%84%EB%82%A8%EA%B4%91%EC%A3%BC%ED%86%B5%ED%95%A9%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%B4%EC%95%942%EB%8F%99//" target="_blank" rel="noopener" aria-label="기상청 날씨누리 운암2동 날씨 열기">
           <span class="wx-ico" id="wx-ico">⛅</span>
           <span class="wx-now"><span class="wx-temp" id="wx-temp">--°</span><span class="wx-cond" id="wx-cond">날씨 불러오는 중</span></span>
@@ -473,9 +492,34 @@
           <span class="wx-loc" id="wx-loc">위치 확인 중</span>
         </a>
       </div>
-      <div class="title-row">
-        <h1 class="title" aria-label="K-비서실 4670"><span>K-비서실</span><span class="t-num">4670</span></h1>
-        <div class="title-links">
+      <!-- 2줄: 뉴스(왼쪽) + 검색 링크·도구 표시(오른쪽) -->
+      <div class="cover-meta">
+        <div class="news-stack">
+          <!-- 전국 속보·최신 (뉴시스 속보 RSS) -->
+          <div class="news-line" id="news-line" aria-live="polite">
+            <span class="news-badge" id="news-badge">속보</span>
+            <span class="news-src nsis">뉴시스</span>
+            <a class="news-title" id="news-title" href="https://www.newsis.com/" target="_blank" rel="noopener">최신 기사를 불러오는 중입니다…</a>
+            <span class="news-time" id="news-time"></span>
+            <span class="news-ctrl">
+              <button type="button" id="news-prev" aria-label="이전 기사">‹</button>
+              <button type="button" id="news-next" aria-label="다음 기사">›</button>
+            </span>
+          </div>
+          <!-- 전남광주 지역 속보·최신 (뉴시스 RSS 중 전남광주 발 기사만) -->
+          <div class="news-line" id="local-line" aria-live="polite">
+            <span class="news-badge region" id="local-badge">지역</span>
+            <span class="news-src local">전남광주</span>
+            <a class="news-title" id="local-title" href="https://www.newsis.com/" target="_blank" rel="noopener">지역 기사를 불러오는 중입니다…</a>
+            <span class="news-time" id="local-time"></span>
+            <span class="news-ctrl">
+              <button type="button" id="local-prev" aria-label="이전 지역 기사">‹</button>
+              <button type="button" id="local-next" aria-label="다음 지역 기사">›</button>
+            </span>
+          </div>
+        </div>
+        <div class="meta-side">
+            <div class="title-links">
         <a class="nmap" href="https://www.google.com" target="_blank" rel="noopener" aria-label="구글 열기">
           <span class="nmap-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5M12 3.5C9.6 5.9 8.4 8.7 8.4 12s1.2 6.1 3.6 8.5"/></svg>
@@ -492,19 +536,8 @@
           </span>네이버 지도<span class="arrow">↗</span>
         </a>
         </div>
-      </div>
-      <div class="cover-meta">
-        <div class="news-line" id="news-line" aria-live="polite">
-          <span class="news-badge" id="news-badge">속보</span>
-          <span class="news-src nsis">뉴시스</span>
-          <a class="news-title" id="news-title" href="https://www.newsis.com/" target="_blank" rel="noopener">최신 기사를 불러오는 중입니다…</a>
-          <span class="news-time" id="news-time"></span>
-          <span class="news-ctrl">
-            <button type="button" id="news-prev" aria-label="이전 기사">‹</button>
-            <button type="button" id="news-next" aria-label="다음 기사">›</button>
-          </span>
+          <p class="cover-label">비서실 업무 도구 [UBUNTU·V1] [byST]</p>
         </div>
-        <p class="byline">전남광주통합특별시교육청 K-비서실 [byST]</p>
       </div>
       <nav class="cover-links" aria-label="주요 바로가기">
         <a class="quick" href="https://sevendog7.github.io/edu/gamsa.html" target="_blank" rel="noopener">
@@ -776,28 +809,36 @@
     load(); setInterval(load, 30*60*1000);
   })();
 
-  /* ===== 뉴스 한 줄: 뉴시스 공식 RSS(속보·최신) =====
-     - 뉴시스 RSS는 다른 사이트에서 직접 읽기를 허용해 변환 서비스 없이 바로 불러옴
+  /* ===== 뉴스 2줄: 뉴시스 공식 RSS =====
+     - 뉴시스 RSS는 다른 사이트에서 직접 읽기를 허용(Access-Control-Allow-Origin: *)해 변환 서비스 없이 불러옴
        (2026.10.23. 확인: 연합·SBS·동아·경향 등은 브라우저 직접 읽기가 차단되고,
         rss2json·allorigins·corsproxy 등 무료 변환 서비스도 응답하지 않음)
-     - 제목에 [속보]가 있으면 빨간 '속보', 그 외는 회색 '최신' 배지
+     - 1줄(전국): 속보 RSS. 제목에 [속보]가 있으면 빨간 '속보', 그 외는 회색 '최신'
+     - 2줄(지역): 뉴시스는 광주·전남 전용 RSS가 없어(2026.10.25. RSS 목록 확인),
+       속보·지방·사회·정치·경제·문화 RSS를 모아 본문 첫머리 발신지가
+       [전남광주=뉴시스], [광주=뉴시스], [목포=뉴시스] 등 광주·전남 지역인 기사만 골라 최신순 표시
      - 6초마다 다음 기사, 마우스를 올리면 멈춤, 3분마다 새로고침 */
   (function(){
-    var FEED = 'https://www.newsis.com/RSS/sokbo.xml';
+    var BASE = 'https://www.newsis.com/RSS/';
     var HOME = 'https://www.newsis.com/';
     var ROTATE = 6000, REFRESH = 3*60*1000, MAX = 30;
-    var items = [], idx = 0, timer = null, paused = false;
+    var LOCAL_RE = /\[\s*(전남광주|광주|전남|무안|목포|순천|여수|광양|나주|담양|곡성|구례|고흥|보성|화순|장흥|강진|해남|영암|함평|영광|장성|완도|진도|신안)\s*=\s*뉴시스/;
     function $(id){ return document.getElementById(id); }
 
-    function parse(txt){
+    function parse(txt, filter){
       var doc = new DOMParser().parseFromString(txt, 'text/xml'), out = [];
       var nodes = doc.getElementsByTagName('item');
-      for(var i=0;i<nodes.length && out.length<MAX;i++){
+      for(var i=0;i<nodes.length;i++){
         var n=nodes[i];
-        var t=n.getElementsByTagName('title')[0], l=n.getElementsByTagName('link')[0], d=n.getElementsByTagName('pubDate')[0];
+        var t=n.getElementsByTagName('title')[0], l=n.getElementsByTagName('link')[0],
+            d=n.getElementsByTagName('pubDate')[0], ds=n.getElementsByTagName('description')[0];
         if(!t) continue;
         var title=t.textContent.replace(/\s+/g,' ').trim();
         if(!title) continue;
+        if(filter){
+          var body=(ds?ds.textContent:'').replace(/<[^>]+>/g,' ').slice(0,300);
+          if(!filter.test(body)) continue;
+        }
         out.push({title:title, link:l?l.textContent.trim():HOME, t:d?Date.parse(d.textContent):0});
       }
       return out;
@@ -807,51 +848,81 @@
       var d=new Date(t), now=new Date(), p=function(n){ return (n<10?'0':'')+n; };
       return (d.toDateString()===now.toDateString()?'':(d.getMonth()+1)+'.'+d.getDate()+' ')+p(d.getHours())+':'+p(d.getMinutes());
     }
-    function show(i){
-      if(!items.length) return;
-      idx=(i+items.length)%items.length;
-      var it=items[idx], a=$('news-title'), bd=$('news-badge');
-      a.classList.add('fade');
-      setTimeout(function(){
-        var sokbo=/^\s*\[속보\]/.test(it.title);
-        bd.textContent = sokbo ? '속보' : '최신';
-        bd.className = 'news-badge' + (sokbo ? '' : ' latest');
-        a.textContent = sokbo ? it.title.replace(/^\s*\[속보\]\s*/,'') : it.title;
-        a.href = it.link; a.title = it.title;
-        $('news-time').textContent = hhmm(it.t);
-        a.classList.remove('fade');
-      }, 250);
+    function getText(f){
+      return fetch(BASE+f+'.xml', {cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.text(); });
     }
-    function start(){ clearInterval(timer); timer=setInterval(function(){ if(!paused) show(idx+1); }, ROTATE); }
 
-    function load(){
-      fetch(FEED, {cache:'no-store'})
-        .then(function(r){ if(!r.ok) throw 0; return r.text(); })
-        .then(function(txt){
-          var list=parse(txt);
-          if(!list.length) throw 0;
+    /* 한 줄 티커 공통 동작 */
+    function ticker(cfg){
+      var items=[], idx=0, timer=null, paused=false;
+      function show(i){
+        if(!items.length) return;
+        idx=(i+items.length)%items.length;
+        var it=items[idx], a=$(cfg.title), bd=$(cfg.badge);
+        a.classList.add('fade');
+        setTimeout(function(){
+          var sokbo=/^\s*\[속보\]/.test(it.title);
+          bd.textContent = sokbo ? '속보' : cfg.normalLabel;
+          bd.className = 'news-badge' + (sokbo ? '' : ' '+cfg.normalClass);
+          a.classList.remove('news-empty');
+          a.textContent = sokbo ? it.title.replace(/^\s*\[속보\]\s*/,'') : it.title;
+          a.href = it.link; a.title = it.title;
+          $(cfg.time).textContent = hhmm(it.t);
+          a.classList.remove('fade');
+        }, 250);
+      }
+      function start(){ clearInterval(timer); timer=setInterval(function(){ if(!paused) show(idx+1); }, ROTATE); }
+      function load(){
+        cfg.fetch().then(function(list){
+          if(!list.length) throw 'empty';
           var cur = items[idx] && items[idx].link;
-          items=list;
+          items=list.slice(0, MAX);
           var k=0; for(var i=0;i<items.length;i++){ if(items[i].link===cur){ k=i; break; } }
-          if(!cur) { show(0); start(); } else { idx=k; }
-        })
-        .catch(function(){
+          if(!cur){ show(0); start(); } else { idx=k; }
+        }).catch(function(e){
           if(!items.length){
-            var a=$('news-title');
+            var a=$(cfg.title);
             a.classList.remove('fade');
-            a.textContent='뉴스를 불러오지 못했습니다 · 뉴시스 바로가기';
+            if(e==='empty'){ a.textContent=cfg.emptyText; a.classList.add('news-empty'); }
+            else { a.textContent='뉴스를 불러오지 못했습니다 · 뉴시스 바로가기'; }
             a.href=HOME;
           }
         });
+      }
+      var box=$(cfg.box);
+      box.addEventListener('mouseenter', function(){ paused=true; });
+      box.addEventListener('mouseleave', function(){ paused=false; });
+      $(cfg.prev).addEventListener('click', function(){ show(idx-1); start(); });
+      $(cfg.next).addEventListener('click', function(){ show(idx+1); start(); });
+      load(); setInterval(load, REFRESH);
     }
 
-    var box=$('news-line');
-    box.addEventListener('mouseenter', function(){ paused=true; });
-    box.addEventListener('mouseleave', function(){ paused=false; });
-    $('news-prev').addEventListener('click', function(){ show(idx-1); start(); });
-    $('news-next').addEventListener('click', function(){ show(idx+1); start(); });
+    /* 1줄: 전국 속보·최신 */
+    ticker({
+      box:'news-line', title:'news-title', badge:'news-badge', time:'news-time',
+      prev:'news-prev', next:'news-next', normalLabel:'최신', normalClass:'latest',
+      emptyText:'표시할 기사가 없습니다 · 뉴시스 바로가기',
+      fetch:function(){ return getText('sokbo').then(function(t){ return parse(t); }); }
+    });
 
-    load(); setInterval(load, REFRESH);
+    /* 2줄: 전남광주 지역만 (여러 분야 RSS 통합 → 중복 제거 → 최신순) */
+    ticker({
+      box:'local-line', title:'local-title', badge:'local-badge', time:'local-time',
+      prev:'local-prev', next:'local-next', normalLabel:'지역', normalClass:'region',
+      emptyText:'현재 전남광주 지역 기사가 없습니다 · 뉴시스 바로가기',
+      fetch:function(){
+        var feeds=['sokbo','country','society','politics','economy','culture'];
+        return Promise.all(feeds.map(function(f){
+          return getText(f).then(function(t){ return parse(t, LOCAL_RE); }, function(){ return null; });
+        })).then(function(res){
+          if(res.every(function(r){ return r===null; })) throw 0;   // 전부 실패
+          var seen={}, all=[];
+          res.forEach(function(list){ (list||[]).forEach(function(it){ if(!seen[it.link]){ seen[it.link]=1; all.push(it); } }); });
+          all.sort(function(a,b){ return (b.t||0)-(a.t||0); });
+          return all;
+        });
+      }
+    });
   })();
   </script>
 </body>
