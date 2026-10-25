@@ -1,0 +1,374 @@
+<title>통합교육청 지방공무원 정원</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700&display=swap">
+<style>
+/* Layout: 행정 보고서형 한 단 구성 — 요약 수치 → 구성 → 기준 대비 → 상세 정원표 → 한시정원 */
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --sunk:#EEF1F4; --ink:#17212E; --muted:#5A6676; --faint:#8A95A3; --line:#DCE1E7;
+  --act:#1D2B3D; --act-fg:#FFFFFF;
+  --jn:#2F8A5F; --jn-soft:#DDF0E6; --gj:#3B6FC2; --gj-soft:#DFE8F7; --tg:#C2861A; --tg-soft:#F7ECD6;
+  --ok:#2F8A5F; --ok-soft:#E0F1E8; --warn:#B4541F;
+  --display:"Noto Serif KR","Nanum Myeongjo",Georgia,serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161D; --surface:#18202A; --sunk:#1F2934; --ink:#E7ECF2; --muted:#A3AEBB; --faint:#7A8695; --line:#2C3744;
+  --act:#E7ECF2; --act-fg:#11161D;
+  --jn:#56B887; --jn-soft:#1D3A2D; --gj:#6F9BE6; --gj-soft:#1F2F4A; --tg:#E2A845; --tg-soft:#3D3019;
+  --ok:#56B887; --ok-soft:#1D3A2D; --warn:#E38A57; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161D; --surface:#18202A; --sunk:#1F2934; --ink:#E7ECF2; --muted:#A3AEBB; --faint:#7A8695; --line:#2C3744;
+  --act:#E7ECF2; --act-fg:#11161D;
+  --jn:#56B887; --jn-soft:#1D3A2D; --gj:#6F9BE6; --gj-soft:#1F2F4A; --tg:#E2A845; --tg-soft:#3D3019;
+  --ok:#56B887; --ok-soft:#1D3A2D; --warn:#E38A57; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+.num,td,th{font-variant-numeric:tabular-nums}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.25}
+h2{font-size:22px;line-height:1.3}
+p{margin:0}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--muted)}
+.sub{color:var(--muted);font-size:14px;max-width:68ch}
+
+header.top{padding-top:36px;display:flex;flex-direction:column;gap:14px;border-bottom:1px solid var(--line);padding-bottom:24px}
+.toc{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px}
+.toc a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent}
+.toc a:hover,.toc a:focus-visible{color:var(--ink);border-color:var(--ink);outline:none}
+
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:1.4fr repeat(3,1fr) 1fr;border:1px solid var(--line);background:var(--surface);border-radius:10px;overflow:hidden}
+.kpi{padding:18px 20px;display:flex;flex-direction:column;gap:4px;border-left:1px solid var(--line);min-width:0}
+.kpi:first-child{border-left:0}
+.kpi .lab{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.kpi .val{font-size:28px;font-weight:700;line-height:1.15}
+.kpi .val small{font-size:14px;font-weight:500;color:var(--muted);margin-left:2px}
+.kpi.main .val{font-size:40px;font-family:var(--display)}
+.kpi .note{font-size:12px;color:var(--faint)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.split{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--sunk);margin-top:8px}
+.split span{display:block;height:100%}
+
+section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.two>*{min-width:0}
+
+/* bar rows */
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:120px 1fr 70px;gap:12px;align-items:center}
+.bar-row .name{font-size:14px;font-weight:500}
+.bar-row .name small{display:block;font-size:12px;color:var(--faint);font-weight:400}
+.bar-row .tot{text-align:right;font-weight:700}
+.track{height:22px;border-radius:4px;background:var(--sunk);overflow:hidden;display:flex}
+.track span{height:100%;display:block}
+.track span+span{box-shadow:inset 1px 0 0 var(--surface)}
+
+/* criteria */
+.crit{display:flex;flex-direction:column;gap:12px}
+.crit h3{margin:0;font-size:15px;font-weight:700}
+.crit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.gauge{border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.gauge .g-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.gauge .g-name{font-weight:600;font-size:14px}
+.gauge .g-rule{font-size:12px;color:var(--muted);white-space:nowrap}
+.gauge .g-val{font-size:22px;font-weight:700}
+.gauge .g-val small{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+.meter{position:relative;height:10px;border-radius:5px;background:var(--sunk)}
+.meter .fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--act)}
+.meter .lim{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--warn)}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.no{background:var(--sunk);color:var(--warn)}
+.g-foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);gap:8px}
+.callout{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding:4px 0 4px 12px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-size:12px;font-weight:600;color:var(--muted);background:var(--sunk);position:sticky;top:0}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:inherit}
+thead th:first-child{background:var(--sunk);z-index:1}
+tbody tr{background:var(--surface)}
+tbody tr:hover{background:var(--sunk)}
+tr.sum{background:var(--sunk)}
+tr.sum td{font-weight:700}
+tr.grp td{font-weight:600;color:var(--muted);font-size:13px;background:var(--surface)}
+td.zero{color:var(--faint)}
+td.ind{padding-left:28px}
+.mini{display:inline-flex;width:84px;height:8px;border-radius:4px;overflow:hidden;background:var(--sunk);vertical-align:middle}
+.mini span{height:100%}
+.col-hi{background:color-mix(in srgb,var(--sunk) 55%,transparent)}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab,.seg button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+.tab:hover,.seg button:hover{border-color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--act);color:var(--act-fg);border-color:var(--act)}
+.tab:focus-visible,.seg button:focus-visible,input:focus-visible{outline:2px solid var(--gj);outline-offset:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;border-radius:0;padding:6px 14px}
+.seg button[aria-pressed="true"]{background:var(--act);color:var(--act-fg)}
+.search{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);width:180px}
+.ctl-right{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.chip.d1{background:var(--tg-soft);color:var(--tg)}
+.chip.d2{background:var(--sunk);color:var(--muted)}
+.rg{display:inline-block;font-size:12px;font-weight:600;padding:1px 7px;border-radius:4px;margin-left:4px}
+.rg.jn{background:var(--jn-soft);color:var(--jn)} .rg.gj{background:var(--gj-soft);color:var(--gj)} .rg.tg{background:var(--tg-soft);color:var(--tg)}
+
+#tempTbl td,#tempTbl th{text-align:left}#tempTbl td:nth-child(4),#tempTbl th:nth-child(4){text-align:right}
+.notes{display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)}
+.notes li{margin-bottom:4px}
+footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);padding-top:16px}
+
+@media (max-width:860px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi{border-left:0;border-top:1px solid var(--line)}
+  .kpi.main{grid-column:1/-1;border-top:0}
+  .two{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .bar-row{grid-template-columns:84px 1fr 52px;gap:8px}
+  .search{width:100%}
+  .ctl-right{width:100%}
+}
+@media (prefers-reduced-motion:no-preference){.track span,.meter .fill{transition:width .4s ease}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">전남광주통합특별시교육청 · 정원 현황</span>
+    <h1>교육감 소속 지방공무원 정원 한눈에 보기</h1>
+    <p class="sub">정원관리 단위기관별·직급별·직렬별 정원표([별표 1]·[별표 3])와 한시정원([별표 2]·[별표 4]), 종류별·직급별 정원책정기준을 한 화면에 정리했습니다. 단위는 명입니다.</p>
+    <div class="legend" aria-label="구분 색상">
+      <span><i style="background:var(--jn)"></i>전남</span>
+      <span><i style="background:var(--gj)"></i>광주</span>
+      <span><i style="background:var(--tg)"></i>통합</span>
+    </div>
+    <nav class="toc" aria-label="목차">
+      <a href="#summary">정원 총괄</a><a href="#compose">구성</a><a href="#criteria">책정기준 대비</a><a href="#grade">일반직 직급별</a><a href="#detail">직렬별 상세</a><a href="#temp">한시정원</a><a href="#notes">참고</a>
+    </nav>
+  </header>
+
+  <section id="summary" aria-label="정원 총괄">
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section id="compose">
+    <div class="sec-head"><span class="eyebrow">구성</span><h2>종류별·기관별 정원</h2></div>
+    <div class="two">
+      <div class="panel"><div class="sec-head" style="margin-bottom:16px"><strong>공무원 종류별</strong><span class="sub">정무직·일반직·별정직·특정직(교육전문직원)</span></div><div class="bars" id="kindBars"></div></div>
+      <div class="panel"><div class="sec-head" style="margin-bottom:16px"><strong>정원관리 단위기관별</strong><span class="sub">본청은 직속기관, 교육지원청은 소속기관 포함</span></div><div class="bars" id="agencyBars"></div></div>
+    </div>
+  </section>
+
+  <section id="criteria">
+    <div class="sec-head"><span class="eyebrow">정원책정기준 대비</span><h2>기준 비율과 현재 정원 비교</h2>
+      <p class="sub">책정기준([별표 1] 종류별, [별표 2] 직급별, 제3조 관련)의 비율과 현재 정원표에서 산출한 비율을 나란히 놓았습니다. 주황색 선이 기준선입니다.</p></div>
+    <div class="panel crit"><h3>① 종류별 정원책정기준</h3><div class="crit-grid" id="c1"></div>
+      <p class="callout">비고: 일반직에는 전문경력관, 연구사를 포함한다. 산출 분모는 일반직·정무직·별정직 합계(특정직 제외)로 두었습니다.</p></div>
+    <div class="panel crit"><h3>② 일반직 직급별 정원책정기준</h3><div class="crit-grid" id="c2"></div>
+      <p class="callout">산출 분모는 일반직 계(전문경력관·연구사 포함)입니다. 8급·9급은 원표의 8급, 8·9급, 9급을 합산했습니다.</p></div>
+    <div class="two">
+      <div class="panel crit"><h3>③ 특정직(교육전문직원)</h3><div class="crit-grid" id="c3"></div></div>
+      <div class="panel crit"><h3>④ 별정직</h3><div class="crit-grid" id="c4"></div></div>
+    </div>
+    <p class="callout">비율은 첨부 정원표 수치로 계산한 참고값입니다. 산출 분모를 무엇으로 볼지는 근거 규정의 해석에 따라 달라질 수 있어 공식 판단에는 추가 확인이 필요합니다.</p>
+  </section>
+
+  <section id="grade">
+    <div class="sec-head"><span class="eyebrow">일반직</span><h2>직급별 정원 요약</h2><p class="sub">각 직급 소계 기준입니다. 막대는 전남·광주·통합 비중입니다.</p></div>
+    <div class="tbl-wrap"><table id="gradeTbl"></table></div>
+  </section>
+
+  <section id="detail">
+    <div class="sec-head"><span class="eyebrow">[별표 1] 상세</span><h2>직급·직렬별 정원표</h2><p class="sub">직급을 고르면 직렬별 정원이 기관별로 펼쳐집니다. 오른쪽에서 전남·광주·통합 구분을 바꿀 수 있습니다.</p></div>
+    <div class="controls">
+      <div class="tabs" role="tablist" id="tabs" aria-label="직급 선택"></div>
+      <div class="ctl-right">
+        <div class="seg" id="seg" role="group" aria-label="구분 선택"></div>
+        <input class="search" id="q" type="search" placeholder="직렬 검색 (예: 시설관리)" aria-label="직렬 검색">
+      </div>
+    </div>
+    <div class="tbl-wrap"><table id="detailTbl"></table></div>
+  </section>
+
+  <section id="temp">
+    <div class="sec-head"><span class="eyebrow">[별표 2]·[별표 4]</span><h2>한시정원 36명</h2><p class="sub">존속기한이 정해진 정원입니다. K-교육통합추진단은 2027. 6. 30., 그 밖의 기관은 2027. 12. 31.까지입니다.</p></div>
+    <div class="kpis" id="tempKpis" style="grid-template-columns:repeat(4,1fr)"></div>
+    <div class="tbl-wrap"><table id="tempTbl"></table></div>
+  </section>
+
+  <section id="notes">
+    <div class="sec-head"><span class="eyebrow">참고</span><h2>읽을 때 유의할 점</h2></div>
+    <ul class="notes">
+      <li>정원표의 ‘통합·전남·광주’ 구분은 원표 표기를 그대로 따랐습니다. 각 구분의 정의는 원 규정에서 확인하십시오.</li>
+      <li>하위 직급 체계가 구분별로 다르게 편성되어 있습니다. 전남은 <b>8급</b>(1,632명)과 <b>9급</b>(438명)으로, 광주는 <b>8·9급</b>(593명)으로 묶여 있습니다.</li>
+      <li>6급 소계(1,729명)에는 원표상 6급 칸에 편성된 운영 직렬(시설관리·운전·전기운영·사무운영 등)이 포함되어 있습니다.</li>
+      <li>[별표 3](제4조제1항)은 [별표 1](제2조제1항)의 직급별 총괄이며 총계 7,740명으로 일치합니다. 원표에 공란으로 된 칸은 이 화면에서 ‘–’로 표시했습니다.</li>
+      <li>한시정원 36명이 정원 7,740명에 포함되는지는 첨부 자료만으로는 알 수 없어 별도로 표시했습니다.</li>
+      <li>해양수산, 선박항해운영, 선박기관운영, 속기(8·9급) 등 정원 0명 직렬도 원표대로 남겨 두었습니다.</li>
+    </ul>
+  </section>
+
+  <footer>출처: 첨부 자료 — 지방공무원의 종류별 정원책정기준 [별표 1](제3조제1항 관련), 직급별 정원책정기준 [별표 2](제3조제2항 관련), 정원관리 단위기관별·직급별·직렬별 정원 [별표 1](제2조제1항 관련), 한시정원의 직급별·직렬별 정원 [별표 2](제2조제2항 관련), 정원관리 단위기관별·직급별 정원 [별표 3](제4조제1항 관련), 기관별·직급별 한시정원 [별표 4](제4조제2항 관련). 비율은 정원표 수치로 자체 산출한 참고값입니다.</footer>
+</div>
+
+<script>
+const RAW=[["합계","합계","합계",[7740,24,5601,2115,6,0,4,2,1817,24,990,803,1756,0,1460,296,4161,0,3147,1014]],["정무직","정무직계","정무직계",[1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0]],["정무직","교육감","교육감",[1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0]],["일반직","일반직계","일반직계",[6911,15,5087,1809,6,0,4,2,1427,15,776,636,1481,0,1240,241,3997,0,3067,930]],["일반직","3급","소계",[13,5,4,4,0,0,0,0,13,5,4,4,0,0,0,0,0,0,0,0]],["일반직","3급","부이사관",[13,5,4,4,0,0,0,0,13,5,4,4,0,0,0,0,0,0,0,0]],["일반직","4급","소계",[53,10,25,18,1,0,1,0,50,10,24,16,2,0,0,2,0,0,0,0]],["일반직","4급","서기관",[19,0,4,15,1,0,1,0,16,0,3,13,2,0,0,2,0,0,0,0]],["일반직","4급","서기관·과학기술서기관",[34,10,21,3,0,0,0,0,34,10,21,3,0,0,0,0,0,0,0,0]],["일반직","5급","소계",[288,0,176,112,0,0,0,0,140,0,67,73,46,0,38,8,102,0,71,31]],["일반직","5급","교육행정",[196,0,110,86,0,0,0,0,89,0,39,50,5,0,0,5,102,0,71,31]],["일반직","5급","교육행정·행정",[5,0,1,4,0,0,0,0,5,0,1,4,0,0,0,0,0,0,0,0]],["일반직","5급","사서",[13,0,8,5,0,0,0,0,8,0,3,5,5,0,5,0,0,0,0,0]],["일반직","5급","공업·시설",[9,0,2,7,0,0,0,0,7,0,2,5,2,0,0,2,0,0,0,0]],["일반직","5급","교육행정·공업·시설",[1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0]],["일반직","5급","교육행정·행정·공업·시설",[12,0,11,1,0,0,0,0,4,0,4,0,8,0,7,1,0,0,0,0]],["일반직","5급","교육행정·행정·시설·보건",[34,0,34,0,0,0,0,0,12,0,12,0,22,0,22,0,0,0,0,0]],["일반직","5급","교육행정·공업·시설·보건",[5,0,5,0,0,0,0,0,1,0,1,0,4,0,4,0,0,0,0,0]],["일반직","5급","교육행정·행정·사서·시설",[5,0,5,0,0,0,0,0,5,0,5,0,0,0,0,0,0,0,0,0]],["일반직","5급","교육행정·행정·사서",[8,0,0,8,0,0,0,0,8,0,0,8,0,0,0,0,0,0,0,0]],["일반직","6급","소계",[1729,0,1272,457,3,0,2,1,349,0,196,153,249,0,203,46,1128,0,871,257]],["일반직","6급","교육행정·공업·시설",[1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0]],["일반직","6급","교육행정·식품위생",[1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0]],["일반직","6급","교육행정·시설관리",[2,0,2,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0]],["일반직","6급","교육행정",[1250,0,882,368,2,0,1,1,208,0,110,98,126,0,98,28,914,0,673,241]],["일반직","6급","전산",[39,0,27,12,0,0,0,0,28,0,16,12,11,0,11,0,0,0,0,0]],["일반직","6급","교육행정·전산",[2,0,0,2,0,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0]],["일반직","6급","사서",[59,0,39,20,0,0,0,0,43,0,23,20,16,0,16,0,0,0,0,0]],["일반직","6급","속기",[2,0,2,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0]],["일반직","6급","방호",[1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0]],["일반직","6급","공업",[27,0,17,10,0,0,0,0,13,0,10,3,11,0,5,6,3,0,2,1]],["일반직","6급","보건",[9,0,9,0,0,0,0,0,4,0,4,0,5,0,5,0,0,0,0,0]],["일반직","6급","보건·식품위생",[10,0,10,0,0,0,0,0,0,0,0,0,10,0,10,0,0,0,0,0]],["일반직","6급","해양수산",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","6급","교육행정·보건",[3,0,0,3,0,0,0,0,1,0,0,1,2,0,0,2,0,0,0,0]],["일반직","6급","식품위생",[6,0,3,3,0,0,0,0,3,0,1,2,3,0,2,1,0,0,0,0]],["일반직","6급","간호",[2,0,2,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0]],["일반직","6급","시설",[42,0,27,15,0,0,0,0,21,0,13,8,21,0,14,7,0,0,0,0]],["일반직","6급","공업·시설",[24,0,24,0,0,0,0,0,1,0,1,0,23,0,23,0,0,0,0,0]],["일반직","6급","위생·조리",[23,0,23,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,23,0]],["일반직","6급","조리",[2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2]],["일반직","6급","시설관리",[101,0,92,9,0,0,0,0,7,0,4,3,10,0,10,0,84,0,78,6]],["일반직","6급","운전",[57,0,55,2,0,0,0,0,6,0,4,2,5,0,5,0,46,0,46,0]],["일반직","6급","통신운영",[1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0]],["일반직","6급","전기운영",[7,0,5,2,0,0,0,0,3,0,1,2,0,0,0,0,4,0,4,0]],["일반직","6급","기계운영",[5,0,5,0,0,0,0,0,1,0,1,0,2,0,2,0,2,0,2,0]],["일반직","6급","열관리운영",[9,0,8,1,0,0,0,0,3,0,2,1,0,0,0,0,6,0,6,0]],["일반직","6급","선박항해운영",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","6급","사무운영",[44,0,37,7,0,0,0,0,0,0,0,0,0,0,0,0,44,0,37,7]],["일반직","7급","소계",[2110,0,1492,618,1,0,0,1,488,0,258,230,622,0,522,100,999,0,712,287]],["일반직","7급","교육행정·공업·시설",[1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0]],["일반직","7급","교육행정",[1508,0,1003,505,1,0,0,1,360,0,184,176,432,0,358,74,715,0,461,254]],["일반직","7급","속기",[1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0]],["일반직","7급","전산",[55,0,39,16,0,0,0,0,33,0,18,15,22,0,21,1,0,0,0,0]],["일반직","7급","교육행정·전산",[2,0,0,2,0,0,0,0,0,0,0,0,2,0,0,2,0,0,0,0]],["일반직","7급","사회복지",[14,0,14,0,0,0,0,0,0,0,0,0,14,0,14,0,0,0,0,0]],["일반직","7급","사서",[62,0,46,16,0,0,0,0,38,0,22,16,24,0,24,0,0,0,0,0]],["일반직","7급","공업",[19,0,11,8,0,0,0,0,5,0,2,3,13,0,8,5,1,0,1,0]],["일반직","7급","보건",[17,0,17,0,0,0,0,0,3,0,3,0,14,0,14,0,0,0,0,0]],["일반직","7급","방송통신",[1,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0]],["일반직","7급","해양수산",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","7급","식품위생",[17,0,13,4,0,0,0,0,2,0,2,0,15,0,11,4,0,0,0,0]],["일반직","7급","시설",[69,0,52,17,0,0,0,0,15,0,7,8,54,0,45,9,0,0,0,0]],["일반직","7급","공업·시설",[10,0,10,0,0,0,0,0,1,0,1,0,9,0,9,0,0,0,0,0]],["일반직","7급","위생·조리",[31,0,31,0,0,0,0,0,0,0,0,0,0,0,0,0,31,0,31,0]],["일반직","7급","조리",[2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,2]],["일반직","7급","시설관리",[187,0,152,35,0,0,0,0,16,0,8,8,9,0,8,1,162,0,136,26]],["일반직","7급","운전",[78,0,74,4,0,0,0,0,8,0,7,1,12,0,10,2,58,0,57,1]],["일반직","7급","전기운영",[1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0]],["일반직","7급","기계운영",[3,0,3,0,0,0,0,0,2,0,2,0,0,0,0,0,1,0,1,0]],["일반직","7급","열관리운영",[6,0,2,4,0,0,0,0,1,0,0,1,2,0,0,2,3,0,2,1]],["일반직","7급","선박기관운영",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","7급","사무운영",[26,0,23,3,0,0,0,0,0,0,0,0,0,0,0,0,26,0,23,3]],["일반직","8급","소계",[1632,0,1632,0,1,0,1,0,183,0,183,0,453,0,453,0,995,0,995,0]],["일반직","8급","교육행정·보건",[25,0,25,0,0,0,0,0,0,0,0,0,25,0,25,0,0,0,0,0]],["일반직","8급","교육행정",[1103,0,1103,0,0,0,0,0,116,0,116,0,309,0,309,0,678,0,678,0]],["일반직","8급","전산",[19,0,19,0,0,0,0,0,3,0,3,0,16,0,16,0,0,0,0,0]],["일반직","8급","사서",[52,0,52,0,0,0,0,0,22,0,22,0,30,0,30,0,0,0,0,0]],["일반직","8급","방호",[2,0,2,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0]],["일반직","8급","공업",[14,0,14,0,0,0,0,0,11,0,11,0,2,0,2,0,1,0,1,0]],["일반직","8급","보건",[7,0,7,0,0,0,0,0,1,0,1,0,6,0,6,0,0,0,0,0]],["일반직","8급","해양수산",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","8급","식품위생",[17,0,17,0,0,0,0,0,1,0,1,0,16,0,16,0,0,0,0,0]],["일반직","8급","시설",[26,0,26,0,0,0,0,0,4,0,4,0,22,0,22,0,0,0,0,0]],["일반직","8급","공업·시설",[6,0,6,0,0,0,0,0,0,0,0,0,6,0,6,0,0,0,0,0]],["일반직","8급","위생·조리",[21,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,21,0]],["일반직","8급","시설관리",[236,0,236,0,0,0,0,0,14,0,14,0,14,0,14,0,208,0,208,0]],["일반직","8급","운전",[98,0,98,0,0,0,0,0,9,0,9,0,7,0,7,0,82,0,82,0]],["일반직","8급","열관리운영",[4,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,4,0]],["일반직","8급","선박기관운영",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","8급","사무운영",[2,0,2,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0]],["일반직","8·9급","소계",[593,0,0,593,0,0,0,0,155,0,0,155,83,0,0,83,355,0,0,355]],["일반직","8·9급","교육행정",[458,0,0,458,0,0,0,0,97,0,0,97,71,0,0,71,290,0,0,290]],["일반직","8·9급","속기",[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],["일반직","8·9급","전산",[7,0,0,7,0,0,0,0,7,0,0,7,0,0,0,0,0,0,0,0]],["일반직","8·9급","사서",[11,0,0,11,0,0,0,0,11,0,0,11,0,0,0,0,0,0,0,0]],["일반직","8·9급","공업",[14,0,0,14,0,0,0,0,5,0,0,5,4,0,0,4,5,0,0,5]],["일반직","8·9급","식품위생",[2,0,0,2,0,0,0,0,1,0,0,1,1,0,0,1,0,0,0,0]],["일반직","8·9급","간호",[4,0,0,4,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0]],["일반직","8·9급","시설",[10,0,0,10,0,0,0,0,4,0,0,4,6,0,0,6,0,0,0,0]],["일반직","8·9급","시설관리",[80,0,0,80,0,0,0,0,20,0,0,20,1,0,0,1,59,0,0,59]],["일반직","8·9급","운전",[4,0,0,4,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0]],["일반직","8·9급","통신운영",[1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0]],["일반직","8·9급","전기운영",[1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0]],["일반직","8·9급","열관리운영",[1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1]],["일반직","9급","소계",[438,0,438,0,0,0,0,0,11,0,11,0,9,0,9,0,418,0,418,0]],["일반직","9급","위생·조리",[100,0,100,0,0,0,0,0,0,0,0,0,0,0,0,0,100,0,100,0]],["일반직","9급","시설관리",[228,0,228,0,0,0,0,0,10,0,10,0,9,0,9,0,209,0,209,0]],["일반직","9급","운전",[110,0,110,0,0,0,0,0,1,0,1,0,0,0,0,0,109,0,109,0]],["일반직","전문경력관","소계",[32,0,29,3,0,0,0,0,32,0,29,3,0,0,0,0,0,0,0,0]],["일반직","가군","소계",[2,0,1,1,0,0,0,0,2,0,1,1,0,0,0,0,0,0,0,0]],["일반직","가군","비상계획담당",[2,0,1,1,0,0,0,0,2,0,1,1,0,0,0,0,0,0,0,0]],["일반직","나군","소계",[23,0,21,2,0,0,0,0,23,0,21,2,0,0,0,0,0,0,0,0]],["일반직","나군","학생수련지도",[16,0,14,2,0,0,0,0,16,0,14,2,0,0,0,0,0,0,0,0]],["일반직","나군","평생교육지도",[7,0,7,0,0,0,0,0,7,0,7,0,0,0,0,0,0,0,0,0]],["일반직","다군","소계",[7,0,7,0,0,0,0,0,7,0,7,0,0,0,0,0,0,0,0,0]],["일반직","다군","학생수련지도",[3,0,3,0,0,0,0,0,3,0,3,0,0,0,0,0,0,0,0,0]],["일반직","다군","평생교육지도",[2,0,2,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0]],["일반직","다군","학생안전체험지도",[2,0,2,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0]],["일반직","연구사","소계",[23,0,19,4,0,0,0,0,6,0,4,2,17,0,15,2,0,0,0,0]],["일반직","연구사","기록연구사",[21,0,18,3,0,0,0,0,4,0,3,1,17,0,15,2,0,0,0,0]],["일반직","연구사","학예연구사",[2,0,1,1,0,0,0,0,2,0,1,1,0,0,0,0,0,0,0,0]],["별정직","별정직계","별정직계",[7,7,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0]],["별정직","4급상당","소계",[1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0]],["별정직","4급상당","비서관",[1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0]],["별정직","5급상당","소계",[4,4,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0]],["별정직","5급상당","비서관",[4,4,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0]],["별정직","6급상당","소계",[2,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0]],["별정직","6급상당","비서",[2,2,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0]],["특정직","특정직계","특정직계",[821,1,514,306,0,0,0,0,382,1,214,167,275,0,220,55,164,0,80,84]],["특정직","일반직3급상당장학관·교육연구관","일반직3급상당장학관·교육연구관",[14,0,6,8,0,0,0,0,12,0,6,6,2,0,0,2,0,0,0,0]],["특정직","일반직4급상당장학관·교육연구관","일반직4급상당장학관·교육연구관",[61,1,41,19,0,0,0,0,37,1,19,17,24,0,22,2,0,0,0,0]],["특정직","일반직5급상당장학관·교육연구관","일반직5급상당장학관·교육연구관",[95,0,60,35,0,0,0,0,54,0,27,27,41,0,33,8,0,0,0,0]],["특정직","장학사·교육연구사","장학사·교육연구사",[651,0,407,244,0,0,0,0,279,0,162,117,208,0,165,43,164,0,80,84]]];
+// v: [계,통합,전남,광주] × [총계, 시의회사무처, 본청, 교육지원청, 학교]
+const rows=RAW.map(([k,g,s,v])=>({k,g,s,v}));
+const fmt=n=>n?n.toLocaleString('ko-KR'):'–';
+const pct=(a,b)=>b?a/b*100:0;
+const find=(g,s)=>rows.find(r=>r.g===g&&r.s===s);
+const T=rows[0].v;
+const C={jn:'var(--jn)',gj:'var(--gj)',tg:'var(--tg)'};
+function splitBar(tg,jn,gj,cls='split'){const t=tg+jn+gj||1;return `<div class="${cls}">`+[[jn,'jn'],[gj,'gj'],[tg,'tg']].filter(x=>x[0]).map(([n,c])=>`<span style="width:${n/t*100}%;background:${C[c]}" title="${{jn:'전남',gj:'광주',tg:'통합'}[c]} ${n.toLocaleString()}명"></span>`).join('')+'</div>'}
+
+// KPI
+const hansi={t:36,tg:5,jn:16,gj:15};
+document.getElementById('kpis').innerHTML=`
+ <div class="kpi main"><span class="lab">정원 총계</span><span class="val num">${fmt(T[0])}<small>명</small></span>${splitBar(T[1],T[2],T[3])}</div>
+ <div class="kpi"><span class="lab"><span class="dot" style="background:var(--jn)"></span>전남</span><span class="val num">${fmt(T[2])}</span><span class="note">${pct(T[2],T[0]).toFixed(1)}%</span></div>
+ <div class="kpi"><span class="lab"><span class="dot" style="background:var(--gj)"></span>광주</span><span class="val num">${fmt(T[3])}</span><span class="note">${pct(T[3],T[0]).toFixed(1)}%</span></div>
+ <div class="kpi"><span class="lab"><span class="dot" style="background:var(--tg)"></span>통합</span><span class="val num">${fmt(T[1])}</span><span class="note">${pct(T[1],T[0]).toFixed(1)}%</span></div>
+ <div class="kpi"><span class="lab">한시정원 (별도)</span><span class="val num">${hansi.t}</span><span class="note">2027년 중 존속기한 만료</span></div>`;
+
+// composition
+function bars(el,items){const max=Math.max(...items.map(i=>i.v[0]));
+ document.getElementById(el).innerHTML=items.map(i=>{const [t,tg,jn,gj]=i.v;const w=t/max*100;
+  return `<div class="bar-row"><div class="name">${i.name}${i.sub?`<small>${i.sub}</small>`:''}</div>
+   <div class="track" style="width:${Math.max(w,1.5)}%;min-width:6px">${[[jn,'jn','전남'],[gj,'gj','광주'],[tg,'tg','통합']].filter(x=>x[0]).map(([n,c,l])=>`<span style="width:${n/t*100}%;background:${C[c]}" title="${l} ${n.toLocaleString()}명"></span>`).join('')}</div>
+   <div class="tot num">${fmt(t)}</div></div>`}).join('')}
+const sub=(r,o)=>r.v.slice(o,o+4);
+bars('kindBars',[
+ {name:'일반직',sub:'전문경력관·연구사 포함',v:find('일반직계','일반직계').v},
+ {name:'특정직',sub:'장학관·장학사 등',v:find('특정직계','특정직계').v},
+ {name:'별정직',v:find('별정직계','별정직계').v},
+ {name:'정무직',sub:'교육감',v:find('정무직계','정무직계').v}]);
+const tot=rows[0];
+bars('agencyBars',[
+ {name:'공립 각급학교',v:sub(tot,16)},{name:'본청',sub:'직속기관 포함',v:sub(tot,8)},
+ {name:'교육지원청',sub:'소속기관 포함',v:sub(tot,12)},{name:'시의회 사무처',v:sub(tot,4)}]);
+
+// criteria
+function gauge(name,val,den,limit,type,extra=''){
+ const p=pct(val,den);const ok=type==='max'?p<=limit+1e-9:p>=limit-1e-9;
+ const scale=Math.max(limit*1.6,p*1.15,1);const cap=Math.min(scale,100);
+ return `<div class="gauge"><div class="g-top"><span class="g-name">${name}</span><span class="g-rule">기준 ${limit}% ${type==='max'?'이내':'이상'}</span></div>
+  <div class="g-val num">${p.toFixed(2)}%<small>${fmt(val)}명 / ${fmt(den)}명</small></div>
+  <div class="meter" role="img" aria-label="${name} ${p.toFixed(2)}%, 기준 ${limit}%"><div class="fill" style="width:${Math.min(p/cap*100,100)}%"></div><div class="lim" style="left:calc(${Math.min(limit/cap*100,100)}% - 1px)"></div></div>
+  <div class="g-foot"><span>${extra}</span><span class="pill ${ok?'ok':'no'}">${ok?'기준 충족':'기준 초과'}</span></div></div>`}
+const gen=find('일반직계','일반직계').v[0], pol=find('정무직계','정무직계').v[0], spc=find('별정직계','별정직계').v[0];
+const base1=gen+pol+spc;
+document.getElementById('c1').innerHTML=gauge('일반직',gen,base1,99.8,'min')+gauge('정무직·별정직',pol+spc,base1,0.2,'max',`정무 ${pol} · 별정 ${spc}`);
+const G=g=>find(g,'소계').v[0];
+const g89=G('8급')+G('8·9급')+G('9급');
+document.getElementById('c2').innerHTML=[
+ gauge('4급 이상',G('3급')+G('4급'),gen,2,'max',`3급 ${G('3급')} · 4급 ${G('4급')}`),
+ gauge('5급',G('5급'),gen,8.4,'max'),gauge('6급',G('6급'),gen,36,'max'),gauge('7급',G('7급'),gen,44,'max'),
+ gauge('8급·9급',g89,gen,8.5,'min',`8급 ${fmt(G('8급'))} · 8·9급 ${G('8·9급')} · 9급 ${G('9급')}`),
+ gauge('전문경력관',G('전문경력관'),gen,0.7,'max'),gauge('연구사',G('연구사'),gen,0.4,'max')].join('');
+const sp=rows.filter(r=>r.k==='특정직'&&r.s!=='특정직계');const spT=find('특정직계','특정직계').v[0];
+const kwan=sp.filter(r=>r.g.includes('장학관')).reduce((a,r)=>a+r.v[0],0);
+document.getElementById('c3').innerHTML=gauge('장학관·교육연구관',kwan,spT,30,'max','3·4·5급 상당 합계')+gauge('장학사·교육연구사',spT-kwan,spT,70,'min');
+const bj=g=>find(g,'소계').v[0];
+document.getElementById('c4').innerHTML=gauge('4급 상당',bj('4급상당'),spc,15,'max')+gauge('5급 상당',bj('5급상당'),spc,60,'max')+gauge('6급 상당 이하',bj('6급상당'),spc,25,'min');
+
+// grade table
+const grades=['3급','4급','5급','6급','7급','8급','8·9급','9급','전문경력관','연구사'];
+const gl={'8·9급':'8·9급'};
+let gh=`<thead><tr><th>직급</th><th>계</th><th>전남</th><th>광주</th><th>통합</th><th>구성</th><th>시의회</th><th>본청</th><th>교육지원청</th><th>학교</th><th>일반직 대비</th></tr></thead><tbody>`;
+grades.forEach(g=>{const v=find(g,'소계').v;
+ gh+=`<tr><td>${g}</td><td><b>${fmt(v[0])}</b></td>${[v[2],v[3],v[1]].map(n=>`<td class="${n?'':'zero'}">${fmt(n)}</td>`).join('')}<td>${splitBar(v[1],v[2],v[3],'mini')}</td>${[v[4],v[8],v[12],v[16]].map(n=>`<td class="${n?'':'zero'}">${fmt(n)}</td>`).join('')}<td>${pct(v[0],gen).toFixed(1)}%</td></tr>`});
+const gv=find('일반직계','일반직계').v;
+gh+=`<tr class="sum"><td>일반직 계</td><td>${fmt(gv[0])}</td><td>${fmt(gv[2])}</td><td>${fmt(gv[3])}</td><td>${fmt(gv[1])}</td><td>${splitBar(gv[1],gv[2],gv[3],'mini')}</td><td>${fmt(gv[4])}</td><td>${fmt(gv[8])}</td><td>${fmt(gv[12])}</td><td>${fmt(gv[16])}</td><td>100%</td></tr></tbody>`;
+document.getElementById('gradeTbl').innerHTML=gh;
+
+// detail
+const TABS=[...grades.map(g=>({id:g,label:g})),{id:'별정직',label:'별정직'},{id:'특정직',label:'특정직'},{id:'정무직',label:'정무직'}];
+const REG=[{id:0,label:'계'},{id:2,label:'전남'},{id:3,label:'광주'},{id:1,label:'통합'}];
+let state={tab:'6급',reg:0,q:''};
+try{const s=JSON.parse(localStorage.getItem('jeongwon-view')||'null');if(s)state={...state,...s,q:''}}catch(e){}
+const pretty=x=>x.replace(/^일반직(\d급)상당/,'일반직 $1 상당 ').replace(/(\d급)상당$/,'$1 상당');
+function rowsFor(tab){
+ if(tab==='전문경력관'){const i=rows.findIndex(r=>r.g==='전문경력관');return rows.slice(i,rows.findIndex(r=>r.g==='연구사'))}
+ if(['별정직','특정직','정무직'].includes(tab))return rows.filter(r=>r.k===tab);
+ return rows.filter(r=>r.k==='일반직'&&r.g===tab)}
+function renderDetail(){
+ document.getElementById('tabs').innerHTML=TABS.map(t=>`<button class="tab" role="tab" aria-selected="${t.id===state.tab}" data-t="${t.id}">${t.label}</button>`).join('');
+ document.getElementById('seg').innerHTML=REG.map(r=>`<button aria-pressed="${r.id===state.reg}" data-r="${r.id}">${r.label}</button>`).join('');
+ const o=state.reg; const q=state.q.trim();
+ const label=r=>{
+  if(state.tab==='전문경력관'){ if(r.g==='전문경력관')return['전문경력관 계','sum']; if(r.s==='소계')return[r.g.replace('군',' 군')+' 소계','grp']; return[r.s,'ind']}
+  if(r.s==='소계')return[(grades.includes(state.tab)?state.tab:pretty(r.g))+' 소계','sum'];
+  if(r.s.endsWith('계')&&r.s===r.g)return[r.s.replace(/계$/,' 계'),'sum'];
+  return[pretty(r.s),'ind']};
+ let list=rowsFor(state.tab);
+ const regName=REG.find(r=>r.id===o).label;
+ let h=`<thead><tr><th>${state.tab==='특정직'?'구분':'직렬'}</th><th>${regName} 합계</th><th>시의회 사무처</th><th>본청</th><th>교육지원청</th><th>공립 각급학교</th>${o===0?'<th>전남 · 광주 · 통합</th>':''}</tr></thead><tbody>`;
+ let shown=0;
+ list.forEach(r=>{const [txt,cls]=label(r);
+  if(q&&cls==='ind'&&!txt.includes(q))return;
+  const v=r.v;const cells=[v[o],v[4+o],v[8+o],v[12+o],v[16+o]];
+  if(cls==='ind')shown++;
+  h+=`<tr class="${cls==='sum'?'sum':cls==='grp'?'grp':''}"><td class="${cls==='ind'?'ind':''}">${txt}</td>${cells.map((n,i)=>`<td class="${n?'':'zero'}">${i===0&&cls!=='sum'?`<b>${fmt(n)}</b>`:fmt(n)}</td>`).join('')}${o===0?`<td>${fmt(v[2])} · ${fmt(v[3])} · ${fmt(v[1])}</td>`:''}</tr>`});
+ if(q&&!shown)h+=`<tr><td colspan="7" style="text-align:left;color:var(--muted)">‘${q.replace(/[<>&]/g,'')}’ 직렬이 ${state.tab}에 없습니다. 다른 직급을 선택해 보십시오.</td></tr>`;
+ document.getElementById('detailTbl').innerHTML=h+'</tbody>';
+ try{localStorage.setItem('jeongwon-view',JSON.stringify({tab:state.tab,reg:state.reg}))}catch(e){}
+}
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b){state.tab=b.dataset.t;renderDetail()}});
+document.getElementById('seg').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(b){state.reg=+b.dataset.r;renderDetail()}});
+document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value;
+ if(state.q.trim()&&!rowsFor(state.tab).some(r=>r.s.includes(state.q.trim())&&r.s!=='소계')){const hit=TABS.find(t=>rowsFor(t.id).some(r=>r.s.includes(state.q.trim())&&r.s!=='소계'));if(hit)state.tab=hit.id}
+ renderDetail()});
+renderDetail();
+
+// temp (한시정원)
+const TEMP=[
+ {grp:'일반직',org:'본청 · K-교육통합추진단',d:1,items:[['4급','서기관',0,1,0],['5급','교육행정',0,1,1],['6급','교육행정',0,2,2],['7급','교육행정',0,3,3],['연구사','기록연구사',0,1,0]]},
+ {grp:'일반직',org:'본청 · 홍보담당관',d:2,items:[['3급','부이사관',1,0,0],['4급','서기관·과학기술서기관',1,0,0]]},
+ {grp:'일반직',org:'본청 · 감사관',d:2,items:[['4급','서기관·과학기술서기관',1,0,0]]},
+ {grp:'일반직',org:'본청 · 재정전략기획담당관',d:2,items:[['4급','서기관·과학기술서기관',1,0,0]]},
+ {grp:'일반직',org:'본청 · 조직기획담당관',d:2,items:[['4급','서기관·과학기술서기관',1,0,0]]},
+ {grp:'일반직',org:'직속기관 · 광주학생교육문화회관',d:2,items:[['3급','부이사관',0,0,1]]},
+ {grp:'일반직',org:'직속기관 · 전남학생교육문화회관',d:2,items:[['3급','부이사관',0,1,0]]},
+ {grp:'특정직(교육전문직원)',org:'본청 · K-교육통합추진단',d:1,items:[['일반직 5급 상당','장학관',0,1,1],['','장학사',0,2,3]]},
+ {grp:'특정직(교육전문직원)',org:'본청 · 미래정책국',d:2,items:[['일반직 3급 상당','장학관',0,0,1]]},
+ {grp:'특정직(교육전문직원)',org:'본청 · 미래성장국',d:2,items:[['일반직 3급 상당','장학관',0,1,0]]},
+ {grp:'특정직(교육전문직원)',org:'직속기관 · 광주창의융합교육원',d:2,items:[['일반직 3급 상당','교육연구관',0,0,1]]},
+ {grp:'특정직(교육전문직원)',org:'직속기관 · 광주교육연수원',d:2,items:[['일반직 3급 상당','교육연구관',0,0,1]]},
+ {grp:'특정직(교육전문직원)',org:'직속기관 · 광주학생교육원',d:2,items:[['일반직 3급 상당','교육연구관',0,0,1]]},
+ {grp:'특정직(교육전문직원)',org:'직속기관 · 전남교육연수원',d:2,items:[['일반직 3급 상당','교육연구관',0,1,0]]},
+ {grp:'특정직(교육전문직원)',org:'직속기관 · 전남학생교육원',d:2,items:[['일반직 3급 상당','교육연구관',0,1,0]]},
+ {grp:'특정직(교육전문직원)',org:'직속기관 · 전남창의융합교육원',d:2,items:[['일반직 3급 상당','교육연구관',0,1,0]]}];
+const D={1:'2027. 6. 30.',2:'2027. 12. 31.'};
+const s3=arr=>arr.reduce((a,[,,t,j,g])=>[a[0]+t,a[1]+j,a[2]+g],[0,0,0]);
+const allItems=TEMP.flatMap(t=>t.items);const [at,aj,ag]=s3(allItems);
+const k1=TEMP.filter(t=>t.d===1).flatMap(t=>t.items);const [k1t,k1j,k1g]=s3(k1);
+document.getElementById('tempKpis').innerHTML=`
+ <div class="kpi"><span class="lab">한시정원 계</span><span class="val num">${at+aj+ag}</span>${splitBar(at,aj,ag)}</div>
+ <div class="kpi"><span class="lab">일반직</span><span class="val num">${TEMP.filter(t=>t.grp==='일반직').flatMap(t=>t.items).reduce((a,i)=>a+i[2]+i[3]+i[4],0)}</span><span class="note">통합 ${at} · 전남 9 · 광주 7</span></div>
+ <div class="kpi"><span class="lab">특정직(교육전문직원)</span><span class="val num">${TEMP.filter(t=>t.grp!=='일반직').flatMap(t=>t.items).reduce((a,i)=>a+i[2]+i[3]+i[4],0)}</span><span class="note">전남 7 · 광주 8</span></div>
+ <div class="kpi"><span class="lab">2027. 6. 30. 만료</span><span class="val num">${k1t+k1j+k1g}</span><span class="note">K-교육통합추진단 전원</span></div>`;
+let th=`<thead><tr><th>기관</th><th>직급</th><th>직렬·직위</th><th>정원</th><th>구분</th><th>존속기한</th></tr></thead><tbody>`;let lastGrp='';
+TEMP.forEach(t=>{
+ if(t.grp!==lastGrp){const it=TEMP.filter(x=>x.grp===t.grp).flatMap(x=>x.items);const [a,b,c]=s3(it);
+  th+=`<tr class="sum"><td>${t.grp} 계</td><td></td><td></td><td>${a+b+c}</td><td>${a?`통합 ${a} `:''}${b?`전남 ${b} `:''}${c?`광주 ${c}`:''}</td><td></td></tr>`;lastGrp=t.grp}
+ t.items.forEach((i,ix)=>{const n=i[2]+i[3]+i[4];
+  const rg=[[i[3],'jn','전남'],[i[4],'gj','광주'],[i[2],'tg','통합']].filter(x=>x[0]).map(([v,c,l])=>`<span class="rg ${c}">${l} ${v}</span>`).join('');
+  th+=`<tr><td class="ind">${ix===0?t.org:''}</td><td>${i[0]}</td><td>${i[1]}</td><td><b>${n}</b></td><td style="text-align:left">${rg}</td><td>${ix===0?`<span class="chip d${t.d}">${D[t.d]}</span>`:''}</td></tr>`})});
+document.getElementById('tempTbl').innerHTML=th+'</tbody>';
+</script>
