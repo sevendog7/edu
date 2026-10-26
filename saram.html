@@ -51,6 +51,7 @@ header.top{padding-top:36px;display:flex;flex-direction:column;gap:14px;border-b
 .kpi .val{font-size:28px;font-weight:700;line-height:1.15}
 .kpi .val small{font-size:14px;font-weight:500;color:var(--muted);margin-left:2px}
 .kpi.main .val{font-size:40px;font-family:var(--display)}
+#tempKpis{grid-template-columns:repeat(4,1fr)}
 .kpi .note{font-size:12px;color:var(--faint)}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .split{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--sunk);margin-top:8px}
@@ -133,6 +134,75 @@ td.ind{padding-left:28px}
 .notes li{margin-bottom:4px}
 footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);padding-top:16px}
 
+/* mobile list (tables → cards) */
+.mob{display:none}
+.mlist{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.mi{padding:12px 14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.mi:first-child{border-top:0}
+.mi-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.mi-name{font-weight:600;font-size:15px;min-width:0;overflow-wrap:anywhere}
+.mi-tot{font-weight:700;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mi-tot small{font-size:12px;color:var(--muted);font-weight:500;margin-left:2px}
+.mi-meta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mi-meta b{color:var(--ink);font-weight:600}
+.mi-chips{display:flex;flex-wrap:wrap;gap:4px}
+.mi-chips .rg{margin-left:0}
+.mi.sum{background:var(--sunk)}
+.mi.sum .mi-name{font-weight:700}
+.mi.grp{background:var(--surface);padding-block:8px}
+.mi.grp .mi-name{color:var(--muted);font-size:13px}
+.mi.zero{padding-block:8px}
+.mi.zero .mi-name,.mi.zero .mi-tot{color:var(--faint);font-weight:500;font-size:14px}
+.mi .split{margin-top:2px;height:6px}
+.org{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.org-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.org-name{font-weight:700;font-size:15px}
+.org-name small{display:block;font-size:12px;color:var(--muted);font-weight:500}
+.org-line{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;border-top:1px dashed var(--line);padding-top:8px}
+.org-line .l{min-width:0}
+.org-line .l small{color:var(--muted);margin-right:6px}
+.org-line .r{display:flex;align-items:center;gap:6px;white-space:nowrap;font-weight:700}
+.org-grp{font-size:14px;font-weight:700;display:flex;justify-content:space-between;padding:4px 2px}
+.orgs{display:flex;flex-direction:column;gap:10px}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  .desk{display:none}
+  .mob{display:block}
+  .wrap{gap:32px}
+  header.top{padding-top:24px}
+  .sub{font-size:14.5px}
+  .kpi{padding:14px 16px}
+  .kpi .val{font-size:24px}
+  .kpi.main .val{font-size:36px}
+  .panel{padding:16px}
+  .bar-row{grid-template-columns:1fr auto;grid-template-areas:"n t" "b b";gap:6px 12px}
+  .bar-row .name{grid-area:n}
+  .bar-row .name small{display:inline;margin-left:6px}
+  .bar-row .tot{grid-area:t;font-size:16px}
+  .bar-row .track{grid-area:b;height:14px}
+  .crit-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .gauge{padding:12px;gap:6px}
+  .gauge .g-top{flex-direction:column;gap:0}
+  .gauge .g-val{font-size:20px}
+  .gauge .g-val small{display:block;margin-left:0;font-size:12px}
+  .g-foot{flex-direction:column;align-items:flex-start;gap:4px}
+  .g-foot span:first-child:empty{display:none}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;margin-inline:-16px;padding:2px 16px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;width:calc(100% + 32px)}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;padding:8px 14px}
+  .controls{flex-direction:column;align-items:stretch}
+  .ctl-right{flex-direction:column;align-items:stretch}
+  .seg{display:grid;grid-template-columns:repeat(4,1fr)}
+  .seg button{padding:9px 0}
+  .search{width:100%;padding:10px 14px;font-size:16px}
+  #tempKpis{grid-template-columns:1fr 1fr!important}
+  #tempKpis .kpi{border-top:1px solid var(--line)}
+  #tempKpis .kpi:nth-child(-n+2){border-top:0}
+  #tempKpis .kpi:nth-child(even){border-left:1px solid var(--line)}
+  #kpis .kpi:not(.main):nth-child(odd){border-left:1px solid var(--line)}
+  .notes{font-size:14px;padding-left:18px}
+}
 @media (max-width:860px){
   .kpis{grid-template-columns:1fr 1fr}
   .kpi{border-left:0;border-top:1px solid var(--line)}
@@ -140,7 +210,6 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
   .two{grid-template-columns:1fr}
 }
 @media (max-width:480px){
-  .bar-row{grid-template-columns:84px 1fr 52px;gap:8px}
   .search{width:100%}
   .ctl-right{width:100%}
 }
@@ -190,7 +259,7 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
 
   <section id="grade">
     <div class="sec-head"><span class="eyebrow">일반직</span><h2>직급별 정원 요약</h2><p class="sub">각 직급 소계 기준입니다. 막대는 전남·광주·통합 비중입니다.</p></div>
-    <div class="tbl-wrap"><table id="gradeTbl"></table></div>
+    <div class="tbl-wrap desk"><table id="gradeTbl"></table></div><div class="mob mlist" id="gradeM"></div>
   </section>
 
   <section id="detail">
@@ -202,13 +271,13 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
         <input class="search" id="q" type="search" placeholder="직렬 검색 (예: 시설관리)" aria-label="직렬 검색">
       </div>
     </div>
-    <div class="tbl-wrap"><table id="detailTbl"></table></div>
+    <div class="tbl-wrap desk"><table id="detailTbl"></table></div><div class="mob mlist" id="detailM"></div>
   </section>
 
   <section id="temp">
     <div class="sec-head"><span class="eyebrow">[별표 2]·[별표 4]</span><h2>한시정원 36명</h2><p class="sub">존속기한이 정해진 정원입니다. K-교육통합추진단은 2027. 6. 30., 그 밖의 기관은 2027. 12. 31.까지입니다.</p></div>
-    <div class="kpis" id="tempKpis" style="grid-template-columns:repeat(4,1fr)"></div>
-    <div class="tbl-wrap"><table id="tempTbl"></table></div>
+    <div class="kpis" id="tempKpis"></div>
+    <div class="tbl-wrap desk"><table id="tempTbl"></table></div><div class="mob orgs" id="tempM"></div>
   </section>
 
   <section id="notes">
@@ -327,6 +396,7 @@ function renderDetail(){
   h+=`<tr class="${cls==='sum'?'sum':cls==='grp'?'grp':''}"><td class="${cls==='ind'?'ind':''}">${txt}</td>${cells.map((n,i)=>`<td class="${n?'':'zero'}">${i===0&&cls!=='sum'?`<b>${fmt(n)}</b>`:fmt(n)}</td>`).join('')}${o===0?`<td>${fmt(v[2])} · ${fmt(v[3])} · ${fmt(v[1])}</td>`:''}</tr>`});
  if(q&&!shown)h+=`<tr><td colspan="7" style="text-align:left;color:var(--muted)">‘${q.replace(/[<>&]/g,'')}’ 직렬이 ${state.tab}에 없습니다. 다른 직급을 선택해 보십시오.</td></tr>`;
  document.getElementById('detailTbl').innerHTML=h+'</tbody>';
+ renderDetailM(list,label,o,q);
  try{localStorage.setItem('jeongwon-view',JSON.stringify({tab:state.tab,reg:state.reg}))}catch(e){}
 }
 document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b){state.tab=b.dataset.t;renderDetail()}});
@@ -334,7 +404,6 @@ document.getElementById('seg').addEventListener('click',e=>{const b=e.target.clo
 document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value;
  if(state.q.trim()&&!rowsFor(state.tab).some(r=>r.s.includes(state.q.trim())&&r.s!=='소계')){const hit=TABS.find(t=>rowsFor(t.id).some(r=>r.s.includes(state.q.trim())&&r.s!=='소계'));if(hit)state.tab=hit.id}
  renderDetail()});
-renderDetail();
 
 // temp (한시정원)
 const TEMP=[
@@ -371,4 +440,39 @@ TEMP.forEach(t=>{
   const rg=[[i[3],'jn','전남'],[i[4],'gj','광주'],[i[2],'tg','통합']].filter(x=>x[0]).map(([v,c,l])=>`<span class="rg ${c}">${l} ${v}</span>`).join('');
   th+=`<tr><td class="ind">${ix===0?t.org:''}</td><td>${i[0]}</td><td>${i[1]}</td><td><b>${n}</b></td><td style="text-align:left">${rg}</td><td>${ix===0?`<span class="chip d${t.d}">${D[t.d]}</span>`:''}</td></tr>`})});
 document.getElementById('tempTbl').innerHTML=th+'</tbody>';
+
+// ===== mobile card lists =====
+const AG=[['본청',8],['교육지원청',12],['학교',16],['시의회',4]];
+const chips=(tg,jn,gj)=>[[jn,'jn','전남'],[gj,'gj','광주'],[tg,'tg','통합']].filter(x=>x[0]).map(([v,c,l])=>`<span class="rg ${c}">${l} ${v.toLocaleString()}</span>`).join('');
+const agMeta=(v,o)=>AG.filter(([,i])=>v[i+o]).map(([n,i])=>`<span>${n} <b>${v[i+o].toLocaleString()}</b></span>`).join('');
+function renderDetailM(list,label,o,q){
+ let h='',shown=0;
+ list.forEach(r=>{const [txt,cls]=label(r);
+  if(q&&cls==='ind'&&!txt.includes(q))return;
+  const v=r.v,t=v[o];
+  if(cls==='grp'){h+=`<div class="mi grp"><div class="mi-top"><span class="mi-name">${txt}</span><span class="mi-tot" style="font-size:14px">${fmt(t)}</span></div></div>`;return}
+  if(cls==='ind')shown++;
+  if(!t){h+=`<div class="mi zero"><div class="mi-top"><span class="mi-name">${txt}</span><span class="mi-tot">–</span></div></div>`;return}
+  h+=`<div class="mi ${cls==='sum'?'sum':''}"><div class="mi-top"><span class="mi-name">${txt}</span><span class="mi-tot">${fmt(t)}<small>명</small></span></div>
+   <div class="mi-meta">${agMeta(v,o)}</div>${o===0?`<div class="mi-chips">${chips(v[1],v[2],v[3])}</div>`:''}</div>`});
+ if(q&&!shown)h+=`<div class="mi"><span class="mi-name" style="font-weight:400;color:var(--muted)">‘${q.replace(/[<>&]/g,'')}’ 직렬이 ${state.tab}에 없습니다.</span></div>`;
+ document.getElementById('detailM').innerHTML=h;
+}
+(function(){
+ let h='';
+ grades.forEach(g=>{const v=find(g,'소계').v;
+  h+=`<div class="mi"><div class="mi-top"><span class="mi-name">${g}</span><span class="mi-tot">${fmt(v[0])}<small>명 · ${pct(v[0],gen).toFixed(1)}%</small></span></div>
+   ${splitBar(v[1],v[2],v[3])}<div class="mi-chips">${chips(v[1],v[2],v[3])}</div><div class="mi-meta">${agMeta(v,0)}</div></div>`});
+ h+=`<div class="mi sum"><div class="mi-top"><span class="mi-name">일반직 계</span><span class="mi-tot">${fmt(gv[0])}<small>명</small></span></div><div class="mi-chips">${chips(gv[1],gv[2],gv[3])}</div><div class="mi-meta">${agMeta(gv,0)}</div></div>`;
+ document.getElementById('gradeM').innerHTML=h;
+ let t='',lg='';
+ TEMP.forEach(x=>{
+  if(x.grp!==lg){const it=TEMP.filter(y=>y.grp===x.grp).flatMap(y=>y.items);const [a,b,c]=s3(it);
+   t+=`<div class="org-grp"><span>${x.grp}</span><span>${a+b+c}명</span></div>`;lg=x.grp}
+  const [kind,name]=x.org.split(' · ');const n=x.items.reduce((a,i)=>a+i[2]+i[3]+i[4],0);
+  t+=`<div class="org"><div class="org-head"><span class="org-name"><small>${kind}</small>${name} · ${n}명</span><span class="chip d${x.d}">~${D[x.d]}</span></div>`+
+   x.items.map(i=>`<div class="org-line"><span class="l"><small>${i[0]||'&nbsp;'}</small>${i[1]}</span><span class="r">${chips(i[2],i[3],i[4])}</span></div>`).join('')+`</div>`});
+ document.getElementById('tempM').innerHTML=t;
+})();
+renderDetail();
 </script>
