@@ -1,4 +1,15 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>통합교육청 지방공무원 정원</title>
+<script>
+/* 휴대전화인데 화면이 PC 폭(980px 등)으로 잡히면 기기 폭으로 다시 맞춘다 */
+(function(){try{var sw=Math.min(screen.width,screen.height);var coarse=window.matchMedia&&matchMedia('(pointer:coarse)').matches;
+ if(coarse&&sw<=820&&window.innerWidth>sw+40){var m=document.querySelector('meta[name=viewport]');
+  if(!m){m=document.createElement('meta');m.name='viewport';(document.head||document.documentElement).appendChild(m)}
+  m.setAttribute('content','width=device-width, initial-scale=1, viewport-fit=cover')}}catch(e){}})();
+</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,6 +35,7 @@
   --jn:#56B887; --jn-soft:#1D3A2D; --gj:#6F9BE6; --gj-soft:#1F2F4A; --tg:#E2A845; --tg-soft:#3D3019;
   --ok:#56B887; --ok-soft:#1D3A2D; --warn:#E38A57; color-scheme:dark}
 *{box-sizing:border-box}
+body,h1,h2,h3,p,li,td,.sub{word-break:keep-all;overflow-wrap:anywhere}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px}
 .wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
@@ -165,7 +177,7 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
 .org-grp{font-size:14px;font-weight:700;display:flex;justify-content:space-between;padding:4px 2px}
 .orgs{display:flex;flex-direction:column;gap:10px}
 
-@media (max-width:640px){
+@media (max-width:760px){
   body{font-size:16px}
   .desk{display:none}
   .mob{display:block}
@@ -216,7 +228,7 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
 @media (prefers-reduced-motion:no-preference){.track span,.meter .fill{transition:width .4s ease}}
 
 /* 모바일 세로 화면: 글자 크기 상향 */
-@media (max-width:640px){
+@media (max-width:760px){
   body{font-size:17px;line-height:1.65;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   h1{font-size:28px}
   h2{font-size:24px}
@@ -262,12 +274,26 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
   .notes{font-size:16px}
   footer{font-size:14px}
 }
+
+/* 모바일 섹션 이동 바 */
+.mnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;gap:8px;overflow-x:auto;scrollbar-width:none;
+  background:var(--bg);margin-inline:-16px;padding:10px 16px;border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}
+.mnav::-webkit-scrollbar{display:none}
+.mnav a{flex:0 0 auto;font-size:16px;font-weight:600;color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.mnav a.on{background:var(--act);color:var(--act-fg);border-color:var(--act)}
+@media (max-width:760px){
+  .mnav.mob{display:flex}
+  header.top .toc{display:none}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+  section{scroll-margin-top:72px}
+  .wrap{gap:28px}
+}
 </style>
 
 <div class="wrap">
   <header class="top">
     <span class="eyebrow">전남광주통합특별시교육청 · 정원 현황</span>
-    <h1>2026.9.1. 교육감 소속 지방공무원 정원 한눈에 보기</h1>
+    <h1>교육감 소속 지방공무원 정원 한눈에 보기</h1>
     <p class="sub">정원관리 단위기관별·직급별·직렬별 정원표([별표 1]·[별표 3])와 한시정원([별표 2]·[별표 4]), 종류별·직급별 정원책정기준을 한 화면에 정리했습니다. 단위는 명입니다.</p>
     <div class="legend" aria-label="구분 색상">
       <span><i style="background:var(--jn)"></i>전남</span>
@@ -278,6 +304,9 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
       <a href="#summary">정원 총괄</a><a href="#compose">구성</a><a href="#criteria">책정기준 대비</a><a href="#grade">일반직 직급별</a><a href="#detail">직렬별 상세</a><a href="#temp">한시정원</a><a href="#notes">참고</a>
     </nav>
   </header>
+  <nav class="mnav mob" id="mnav" aria-label="섹션 이동">
+    <a href="#summary">총괄</a><a href="#compose">구성</a><a href="#criteria">기준 대비</a><a href="#grade">직급별</a><a href="#detail">직렬별</a><a href="#temp">한시정원</a><a href="#notes">참고</a>
+  </nav>
 
   <section id="summary" aria-label="정원 총괄">
     <div class="kpis" id="kpis"></div>
@@ -311,7 +340,7 @@ footer{font-size:12px;color:var(--faint);border-top:1px solid var(--line);paddin
   </section>
 
   <section id="detail">
-    <div class="sec-head"><span class="eyebrow">[별표 1] 상세</span><h2>직급·직렬별 정원표</h2><p class="sub">직급을 고르면 직렬별 정원이 기관별로 펼쳐집니다. 오른쪽에서 전남·광주·통합 구분을 바꿀 수 있습니다.</p></div>
+    <div class="sec-head"><span class="eyebrow">[별표 1] 상세</span><h2>직급·직렬별 정원표</h2><p class="sub">직급을 고르면 직렬별 정원이 기관별로 펼쳐집니다. 전남·광주·통합 버튼으로 구분을 바꿀 수 있습니다.</p></div>
     <div class="controls">
       <div class="tabs" role="tablist" id="tabs" aria-label="직급 선택"></div>
       <div class="ctl-right">
@@ -523,4 +552,12 @@ function renderDetailM(list,label,o,q){
  document.getElementById('tempM').innerHTML=t;
 })();
 renderDetail();
+
+// 모바일 섹션 바: 현재 위치 표시
+(function(){const links=[...document.querySelectorAll('#mnav a')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+ function upd(){let cur=0;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<120)cur=i});
+  links.forEach((a,i)=>a.classList.toggle('on',i===cur));const a=links[cur];if(a&&a.parentElement.scrollWidth>a.parentElement.clientWidth){a.parentElement.scrollTo({left:a.offsetLeft-16,behavior:'auto'})}}
+ let t;addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(upd,60)},{passive:true});upd();})();
 </script>
+
+</html>
