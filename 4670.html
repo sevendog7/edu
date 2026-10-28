@@ -268,6 +268,7 @@
   section.tone-warn  { --tone:var(--warn);   --tone-deep:var(--warn-deep);   --tone-soft:#faf1d0; }
   section.tone-danger{ --tone:var(--danger); --tone-deep:var(--danger-deep); --tone-soft:#fbe3e0; }
   section.tone-plain { --tone:#dcdad4;       --tone-deep:#55534e;            --tone-soft:#e9e7e2; }
+  section.tone-audit { --tone:#d9ccf5;       --tone-deep:#5b3fa0;            --tone-soft:#ece5fb; }
 
   .section-head{
     display:flex; align-items:center; gap: clamp(10px, 1.4vw, 14px);
@@ -540,18 +541,6 @@
         </div>
       </div>
       <nav class="cover-links" aria-label="주요 바로가기">
-        <a class="quick" href="https://sevendog7.github.io/edu/gamsa.html" target="_blank" rel="noopener">
-          <span class="dot">감사</span>행감일정<span class="arrow">↗</span>
-        </a>
-        <a class="quick" href="https://sevendog7.github.io/edu/biseo.html" target="_blank" rel="noopener">
-          <span class="dot">행감</span>비서실질의<span class="arrow">↗</span>
-        </a>                
-        <a class="quick" href="https://sevendog7.github.io/edu/hgj.html" target="_blank" rel="noopener">
-          <span class="dot">행감</span>광주예상질의<span class="arrow">↗</span>
-        </a>        
-        <a class="quick" href="https://sevendog7.github.io/edu/hjn.html" target="_blank" rel="noopener">
-          <span class="dot">행감</span>전남예상질의<span class="arrow">↗</span>
-        </a>                
         <a class="quick" href="https://sevendog7.github.io/edu/8.html" target="_blank" rel="noopener">
           <span class="dot">정책</span>핵심정책<span class="arrow">↗</span>
         </a>        
@@ -577,6 +566,29 @@
     </header>
 
     <div class="body-flow">
+
+      <!-- 특집 행정사무감사 -->
+      <section id="audit" class="tone-audit" aria-labelledby="audit-heading">
+        <div class="section-head">
+          <span class="num">특집</span>
+          <h2 id="audit-heading">행정사무감사</h2>
+          <span class="cap">일정·질의·예상질의</span>
+        </div>
+        <div class="grid-cards">
+          <a class="card" href="https://sevendog7.github.io/edu/gamsa.html" target="_blank" rel="noopener">
+            <span class="idx">01</span><h3>행감일정</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/biseo.html" target="_blank" rel="noopener">
+            <span class="idx">02</span><h3>비서실질의</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/hgj.html" target="_blank" rel="noopener">
+            <span class="idx">03</span><h3>광주예상질의</h3>
+          </a>
+          <a class="card" href="https://sevendog7.github.io/edu/hjn.html" target="_blank" rel="noopener">
+            <span class="idx">04</span><h3>전남예상질의</h3>
+          </a>
+        </div>
+      </section>
 
       <!-- 01 필수자료 -->
       <section id="essential" class="tone-primary" aria-labelledby="essential-heading">
