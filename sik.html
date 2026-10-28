@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>광주청사 10월 식단표</title>
+<title>광주청사 11월 식단표</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,6 +125,7 @@ body::after{content:"";position:fixed;inset:0;background:radial-gradient(ellipse
 .card .num b{font-family:var(--sans);font-size:20px;color:var(--ink);margin-right:4px;letter-spacing:0}
 .tag{font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px}
 .tag.now{background:var(--mint);color:var(--mint-ink)}
+.tag.event{background:var(--amber-soft);color:var(--amber)}
 .tag.veg{background:rgba(155,215,127,.14);color:var(--leaf)}
 .menu{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;font-size:14px}
 .menu li{overflow-wrap:anywhere}
@@ -145,6 +146,18 @@ mark{background:var(--amber);color:#1d1503;border-radius:3px;padding:0 2px}
 .result{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em}
 .result b{color:var(--mint)}
 
+.origin{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px 20px}
+.origin summary{cursor:pointer;font-weight:700;padding:12px 0;list-style-position:inside}
+.origin summary:focus-visible{outline:2px solid var(--mint);outline-offset:2px}
+.origin dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 18px;margin:4px 0 18px;font-size:14px}
+.origin dt{font-family:var(--mono);color:var(--mint);font-size:13px;padding-top:1px}
+.origin dd{margin:0;color:var(--muted)}
+@media (max-width:560px){.origin dl{grid-template-columns:1fr;gap:2px}.origin dd{margin-bottom:8px}}
+.month-break{font-size:12px;color:var(--mint);letter-spacing:.2em;display:flex;align-items:center;gap:12px;margin-bottom:-12px}
+.month-break::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--mint),transparent)}
+.card.past{opacity:.55}
+.card.past.dim{opacity:.18}
+.tree ul .d{width:56px}
 footer{font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:4px 18px;padding:0 4px}
 
 @media (max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -171,13 +184,13 @@ footer{font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:4px 1
     <div class="logo" aria-hidden="true"><i></i></div>
     <div>
       <h1>구내식당 식단표</h1>
-      <div class="sub mono">전남광주통합특별시교육청 광주청사 · 2026. 10. 중식</div>
+      <div class="sub mono">전남광주통합특별시교육청 광주청사 · 2026. 10. 26. ~ 11. 30. 중식</div>
     </div>
   </div>
 
   <label class="search" for="q">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="q" type="search" autocomplete="off" placeholder="메뉴·날짜 검색 (예: 돈까스, 미역국, 과일, 15일)">
+    <input id="q" type="search" autocomplete="off" placeholder="메뉴·날짜 검색 (예: 돈까스, 미역국, 과일, 11.2, 30일)">
     <button class="clear" id="clear" type="button" hidden>지우기</button>
   </label>
 
@@ -196,9 +209,9 @@ footer{font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:4px 1
 
     <main class="main">
       <section>
-        <div class="eyebrow mono">OCTOBER LUNCH MENU · 19 SERVING DAYS</div>
-        <h2>이번 달 점심, 언제 무엇이 나오는지</h2>
-        <p class="lead">광주청사 구내식당의 10월 중식 식단을 주차별로 모았습니다. 메뉴 이름이나 날짜로 검색하거나 왼쪽 목록에서 날짜를 누르면 해당 식단으로 이동합니다. 초록색 굵은 글씨가 그날의 주요리입니다.</p>
+        <div class="eyebrow mono" id="eyebrow">NOVEMBER LUNCH MENU</div>
+        <h2>점심, 언제 무엇이 나오는지</h2>
+        <p class="lead">광주청사 구내식당의 10월 마지막 주부터 11월 말까지 중식 식단을 주차별로 이어서 모았습니다. 메뉴 이름이나 날짜로 검색하거나 왼쪽 목록에서 날짜를 누르면 해당 식단으로 이동합니다. 초록색 굵은 글씨가 그날의 주요리입니다.</p>
       </section>
 
       <div class="stats" id="stats"></div>
@@ -215,45 +228,73 @@ footer{font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:4px 1
     </main>
   </div>
 
+  <details class="origin">
+    <summary>식재료 원산지 안내</summary>
+    <dl>
+      <dt>쌀</dt><dd>밥·죽·누룽지용 쌀(쌀가공품, 찹쌀, 현미, 찐쌀 포함): 국내산</dd>
+      <dt>배추김치</dt><dd>원료 배추(얼갈이배추, 봄동배추 포함)와 고춧가루: 국내산</dd>
+      <dt>두부·콩</dt><dd>두부류(가공두부, 유바 제외)·콩비지·콩국수용 콩(콩가공품 포함): 국내산</dd>
+      <dt>축산물</dt><dd>돼지고기·오리고기·닭고기 및 그 가공품: 국내산 / 쇠고기: 한우(국내산), 호주산</dd>
+      <dt>수산물</dt><dd>장어, 낙지, 꽃게, 참조기, 아귀, 고등어, 삼치, 오징어 및 그 가공품, 가리비, 우렁쉥이, 전복, 방어, 부세: 국내산</dd>
+      <dt>그 외</dt><dd>다랑어(참치캔): 원양산 / 미꾸라지(치어): 중국산 / 명태(동태, 코다리, 황태, 북어 포함): 러시아산 / 갈치: 세네갈산 / 주꾸미: 베트남산</dd>
+    </dl>
+  </details>
+
   <footer>
     <span>급식없는 날: 매월 셋째 주 금요일</span>
     <span>‘+’ 뒤 작은 글씨는 곁들임 소스·양념입니다.</span>
-    <span>자료: 2026년 10월 식단표(배포용)</span>
+    <span>자료: 2026년 10월 식단표(배포용), 11월 식단표(배부용) · 식단은 시장 물가변동과 교육청 사정(행사)에 따라 변경될 수 있습니다.</span>
   </footer>
 </div>
 
 <script>
 const DOW=["월","화","수","목","금"];
+/* 키 = 월*100+일 (예: 1026 = 10월 26일) */
 const D={
-  1:{tag:"채식의 날",veg:true,m:["콩나물밥*양념장","단배추된장국","크래미달걀찜","볼어묵볶음","배도라지초무침","배추김치","건빵"]},
-  2:{m:["검정쌀밥","황태무국","꽈리고추돈육장조림","군만두*야채무침","열무김치","과일(키위)"]},
-  5:{off:"개천절 대체휴일"},
-  6:{m:["검정쌀밥","팽이유부된장국","등심돈까스*소스","고추장감자조림","그린샐러드*드레싱","갓김치"]},
-  7:{m:["혼합잡곡밥","민물새우수제비국","햄야채달걀말이","병아리콩조림","솎음배추겉절이","석박지"]},
-  8:{m:["차수수밥","소고기미역국","훈제오리야채볶음","적채부추무침","배추김치","단호박팥찜"]},
-  9:{off:"한글날"},
-  12:{m:["찰기장밥","근대된장국","자반고등어구이","소보로메추리알조림","사과오이무침","배추김치"]},
-  13:{m:["귀리쌀밥","쇠고기버섯찌개","데리야끼닭봉조림","톳두부무침","가지나물","열무김치"]},
-  14:{m:["토마토카레/강황밥","버터갈릭난","미소장국","베이비크랩강정","그린샐러드*드레싱","배추김치"],main:[0,3]},
-  15:{m:["검정쌀밥","추어탕","누들떡고추잡채","야채스틱*쌈장","석박지","과일(네이블오렌지)"]},
-  16:{nomeal:"급식없는 날",sub:"매월 셋째 주 금요일"},
-  19:{m:["발아현미밥","아욱된장국","납작당면소불고기","뮤즐리멸치볶음","미나리무생채","배추김치"]},
-  20:{m:["혼합잡곡밥","들깨미역국","생선까스*타르타르S","온두부&볶음김치","그린샐러드*드레싱","석박지"]},
-  21:{m:["차수수밥","어묵국","닭볶음탕","호두연근조림","청경채나물","배추김치"]},
-  22:{m:["귀리쌀밥","순두부달걀국","수제떡갈비","느타리버섯나물","꼬시래기야채무침","배추김치"]},
-  23:{m:["검정쌀밥","부대찌개","날치알달걀찜","오징어젓갈무침","애호박나물","열무김치"]},
-  26:{m:["강황보리쌀밥","황태콩나물국","도라지오리불고기","피망감자채볶음","상추부추무침","배추김치"]},
-  27:{m:["귀리쌀밥","청국장찌개","돈육찹스테이크","다시마/브로컬리초회","갓김치","과일(바나나)"]},
-  28:{m:["검정쌀밥","소고기무국","순살코다리강정","숙주나물무침","그린샐러드*드레싱","배추김치"]},
-  29:{m:["혼합잡곡밥","애호박고추장찌개","소불고기퀘사디아","쥐어채볶음","솎음배추겉절이","석박지"]},
-  30:{m:["발아현미밥","홍합살미역국","제육볶음","청포묵김무침","모둠쌈채소*쌈장","배추김치"]}
+  1026:{m:["강황보리쌀밥","황태콩나물국","도라지오리불고기","피망감자채볶음","상추부추무침","배추김치"]},
+  1027:{m:["귀리쌀밥","청국장찌개","돈육찹스테이크","다시마/브로컬리초회","갓김치","과일(바나나)"]},
+  1028:{m:["검정쌀밥","소고기무국","순살코다리강정","숙주나물무침","그린샐러드*드레싱","배추김치"]},
+  1029:{m:["혼합잡곡밥","애호박고추장찌개","소불고기퀘사디아","쥐어채볶음","솎음배추겉절이","석박지"]},
+  1030:{m:["발아현미밥","홍합살미역국","제육볶음","청포묵김무침","모둠쌈채소*쌈장","배추김치"]},
+  1102:{tag:"채식의 날",veg:true,m:["팥찰밥*도시락김","황태달걀국","두부양념조림","우엉강정","유채겉절이","배추김치"]},
+  1103:{m:["검정쌀밥","근대된장국","찜닭","볼어묵볶음","무생채","갓김치"]},
+  1104:{m:["혼합잡곡밥","콩비지찌개","매생이달걀말이","굴소스가지볶음","돌나물*초고추장","석박지"]},
+  1105:{m:["귀리쌀밥","동태지리탕","제육볶음","쌈채소*쌈장","으깬단호박샐러드","배추김치"]},
+  1106:{m:["강황찰현미밥","감자호박된장국","오징어초무침","너비아니구이","파래자반볶음","배추김치"],main:[2,3]},
+  1109:{m:["차수수밥","아욱된장국","자반고등어구이","메추리알카레조림","취나물무침","배추김치"]},
+  1110:{m:["발아현미밥","콩나물무국","돈육김치찜","시금치프리타타","적채부추겉절이","깍두기"]},
+  1111:{tag:"농업인의 날",m:["귀리쌀밥","들깨미역국","치킨까스&떡꼬치","그린샐러드*드레싱","꽈리멸치볶음","배추김치"]},
+  1112:{m:["검정쌀밥","시래기된장국","훈제오리찜","알감자조림","쫄면야채무침","열무김치"]},
+  1113:{m:["혼합잡곡밥","육개장","돈육파채불고기","연두부*양념장","비트양배추피클","배추김치"]},
+  1116:{m:["검정쌀밥","장어탕","햄야채달걀찜","잡채","단감오이무침","갓김치"]},
+  1117:{m:["강황귀리쌀밥","황태미역국","오리불고기","쌈채소*쌈장","건새우무나물","배추김치"]},
+  1118:{m:["혼합잡곡밥","소고기굴떡국","순살가자미튀김","햇땅콩연근조림","솎음열무겉절이","배추김치"]},
+  1119:{m:["건취나물밥*양념장","팽이두부된장국","수제떡갈비","진미채야채무침","석박지","과일(바나나)"]},
+  1120:{nomeal:"급식없는 날",sub:"매월 셋째 주 금요일"},
+  1123:{m:["귀리쌀밥","건홍합미역국","치즈달걀말이","누들떡고추잡채","콩나물무침","배추김치"]},
+  1124:{m:["발아현미밥","청국장찌개","소불고기","깻잎상추무침","한입메밀전병","배추김치"]},
+  1125:{m:["검정쌀밥","참치김치찌개","수제등심탕수육","도토리묵*양념장","시금치나물","깍두기"]},
+  1126:{m:["혼합잡곡밥","어묵국","닭볶음탕","파프리카두부무침","애호박나물","배추김치","붕어빵"]},
+  1127:{m:["찰기장밥","아욱된장국","코다리무조림","고기동그랑땡전","솎음배추겉절이","열무김치"]},
+  1130:{m:["강황차수수밥","소고기버섯찌개","돈육달걀장조림","온두부*볶음김치","참나물유자청무침","갓김치"]}
 };
-const WEEKS=[[1,2],[5,6,7,8,9],[12,13,14,15,16],[19,20,21,22,23],[26,27,28,29,30]];
+const WEEKS=[
+  {label:"10월 5주차",short:"10월 5주",days:[1026,1027,1028,1029,1030]},
+  {label:"11월 1주차",short:"11월 1주",days:[1102,1103,1104,1105,1106]},
+  {label:"11월 2주차",short:"11월 2주",days:[1109,1110,1111,1112,1113]},
+  {label:"11월 3주차",short:"11월 3주",days:[1116,1117,1118,1119,1120]},
+  {label:"11월 4주차",short:"11월 4주",days:[1123,1124,1125,1126,1127]},
+  {label:"11월 5주차",short:"11월 5주",days:[1130]}
+];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const dowOf=day=>new Date(2026,9,day).getDay();
+const mo=k=>Math.floor(k/100), dd=k=>k%100;
+const dowOf=k=>new Date(2026,mo(k)-1,dd(k)).getDay();
+const dw=k=>DOW[dowOf(k)-1];
+const md=k=>`${mo(k)}.${dd(k)}`;
 const mainsOf=d=>d.main||[2];
 const mainName=d=>d.m[mainsOf(d)[0]].split("*")[0];
+const KEYS=Object.keys(D).map(Number).sort((a,b)=>a-b);
 
 function seoulToday(){
   try{const p=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Seoul",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
@@ -261,7 +302,8 @@ function seoulToday(){
   catch(e){const n=new Date();return {y:n.getFullYear(),m:n.getMonth()+1,d:n.getDate()}}
 }
 const T=seoulToday();
-const today=(T.y===2026&&T.m===10)?T.d:null;
+const todayKey=T.y<2026?0:T.y>2026?9999:T.m*100+T.d;
+const today=D[todayKey]?todayKey:null;
 
 function hl(text,q){
   if(!q) return esc(text);
@@ -283,28 +325,28 @@ function cls(i,t,d){
 }
 
 /* 통계 */
-const served=Object.keys(D).filter(k=>D[k].m).map(Number);
-const offs=Object.keys(D).filter(k=>D[k].off).length;
-const nomeals=Object.keys(D).filter(k=>D[k].nomeal).length;
-const fruitDays=served.filter(k=>D[k].m.some(t=>t.startsWith("과일"))).length;
-let next=null;
-if(today){for(let d=today;d<=30;d++){if(D[d]&&D[d].m){next=d;break}}}
-else if(T.y<2026||(T.y===2026&&T.m<10)) next=served[0];
+const served=KEYS.filter(k=>D[k].m);
+const offs=KEYS.filter(k=>D[k].off).length;
+const nomeals=KEYS.filter(k=>D[k].nomeal).length;
+const fruitList=served.flatMap(k=>D[k].m.filter(t=>t.startsWith("과일")).map(t=>`${md(k)} ${t.slice(3,-1)}`));
+const next=served.find(k=>k>=todayKey)||null;
+const isToday=next&&next===todayKey;
 
+$("#eyebrow").textContent=`LUNCH MENU · ${md(served[0])} – ${md(served[served.length-1])} · ${served.length} SERVING DAYS`;
 $("#stats").innerHTML=`
-  <div class="stat"><b>${served.length}</b><span>급식 운영일</span><small>10.1 ~ 10.30</small></div>
+  <div class="stat"><b>${served.length}</b><span>급식 운영일</span><small>10월 ${served.filter(k=>mo(k)===10).length}일 · 11월 ${served.filter(k=>mo(k)===11).length}일</small></div>
   <div class="stat"><b>${offs+nomeals}</b><span>휴무일</span><small>공휴일 ${offs} · 급식없는 날 ${nomeals}</small></div>
-  <div class="stat"><b>${fruitDays}</b><span>과일 나오는 날</span><small>키위 · 오렌지 · 바나나</small></div>
-  <div class="stat hl"><b>${next?`10.${next} (${DOW[dowOf(next)-1]})`:"일정 종료"}</b><span>${next===today?"오늘 급식":"다음 급식"}</span><small>${next?esc(mainName(D[next])):"10월 식단 종료"}</small></div>`;
+  <div class="stat"><b>${fruitList.length}</b><span>과일 나오는 날</span><small>${fruitList.join(" · ")||"없음"}</small></div>
+  <div class="stat hl"><b>${next?`${md(next)} (${dw(next)})`:"일정 종료"}</b><span>${isToday?"오늘 급식":"다음 급식"}</span><small>${next?esc(mainName(D[next])):"식단 일정 종료"}</small></div>`;
 
 /* 오늘/다음 급식 */
 (function(){
   const box=$("#spot");
   if(!next){box.hidden=true;return}
   const d=D[next];let why="";
-  if(today&&today!==next){const td=D[today];why=`오늘(10월 ${today}일)은 ${td?(td.off||td.nomeal):"주말"}입니다.`}
-  box.innerHTML=`<div><div class="k mono">${next===today?"TODAY'S LUNCH":"NEXT LUNCH"}</div>
-    <div class="when">10월 ${next}일 ${DOW[dowOf(next)-1]}요일</div>${why?`<div class="why">${why}</div>`:""}</div>
+  if(!isToday&&todayKey>=KEYS[0]&&todayKey<=KEYS[KEYS.length-1]){const td=D[todayKey];why=`오늘(${T.m}월 ${T.d}일)은 ${td?(td.off||td.nomeal):"주말"}입니다.`}
+  box.innerHTML=`<div><div class="k mono">${isToday?"TODAY'S LUNCH":"NEXT LUNCH"}</div>
+    <div class="when">${mo(next)}월 ${dd(next)}일 ${dw(next)}요일</div>${why?`<div class="why">${why}</div>`:""}</div>
     <ol>${d.m.map((t,i)=>`<li class="${mainsOf(d).includes(i)?"main-dish":""}">${itemHTML(t)}</li>`).join("")}</ol>`;
 })();
 
@@ -312,44 +354,52 @@ $("#stats").innerHTML=`
 (function(){
   const c={};
   served.forEach(k=>D[k].m.forEach(t=>{const n=t.split("*")[0];c[n]=(c[n]||0)+1}));
-  const top=Object.entries(c).filter(([,v])=>v>=2).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],"ko")).slice(0,10);
+  const top=Object.entries(c).filter(([,v])=>v>=2).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],"ko")).slice(0,12);
   $("#chips").innerHTML=top.map(([n,v])=>`<button class="chip" data-q="${esc(n)}">${esc(n)}<em>${v}</em></button>`).join("");
 })();
 
 /* 주차 카드 */
 const state={week:0,kind:"all",q:""};
-function weekRange(w){const a=w[0],b=w[w.length-1];return `10.${a} ~ 10.${b}`}
+function weekRange(w){const a=w.days[0],b=w.days[w.days.length-1];return a===b?md(a):`${md(a)} ~ ${md(b)}`}
+function parseDateQ(q){
+  let m=q.match(/^(\d{1,2})\s*(?:[.\/-]|월)\s*(\d{1,2})\s*일?$/);
+  if(m) return {m:+m[1],d:+m[2]};
+  m=q.match(/^(\d{1,2})\s*일?$/);
+  if(m) return {m:null,d:+m[1]};
+  return null;
+}
 function renderWeeks(){
-  const q=state.q.trim().replace(/일$/,"").length?state.q.trim():"";
-  const dayQ=/^\d{1,2}일?$/.test(q)?parseInt(q,10):null;
-  const textQ=dayQ?"":q;
+  const q=state.q.trim();
+  const dq=q?parseDateQ(q):null;
+  const textQ=dq?"":q;
   let hit=0;
   $("#weeks").innerHTML=WEEKS.map((w,wi)=>{
     const hidden=state.week&&state.week!==wi+1;
-    const lead=wi===0?[1,2,3].map(()=>`<div class="card ghost" aria-hidden="true"></div>`).join(""):"";
-    const cards=w.map(day=>{
-      const d=D[day],dw=DOW[dowOf(day)-1],isNow=day===today;
+    const lead=Array.from({length:dowOf(w.days[0])-1}).map(()=>`<div class="card ghost" aria-hidden="true"></div>`).join("");
+    const cards=w.days.map(k=>{
+      const d=D[k],isNow=k===today;
       const isOff=!!(d.off||d.nomeal);
       if(state.kind==="meal"&&isOff) return "";
       if(state.kind==="off"&&!isOff) return "";
       let match=true;
-      if(dayQ) match=day===dayQ;
+      if(dq) match=dd(k)===dq.d&&(dq.m===null||mo(k)===dq.m);
       else if(textQ){const hay=isOff?(d.off||d.nomeal):d.m.join(" ")+" "+(d.tag||"");match=hay.toLowerCase().includes(textQ.toLowerCase())}
-      if(match&&(dayQ||textQ)&&!hidden) hit++;
-      const top=`<div class="top"><span class="num"><b>${day}</b>${dw}</span>${isNow?'<span class="tag now">오늘</span>':""}${d.veg?`<span class="tag veg">${hl(d.tag,textQ)}</span>`:""}</div>`;
-      const c=`card ${isOff?"off":""} ${d.nomeal?"nomeal":""} ${isNow?"is-now":""} ${match?"":"dim"}`;
-      if(isOff) return `<article class="${c}" id="d${day}">${top}<div><div class="reason">${hl(d.off||d.nomeal,textQ)}</div><div class="sub">${d.sub||"공휴일 · 급식 없음"}</div></div></article>`;
-      return `<article class="${c}" id="d${day}">${top}<ul class="menu">${d.m.map((t,i)=>`<li class="${cls(i,t,d)}">${itemHTML(t,textQ)}</li>`).join("")}</ul></article>`;
+      if(match&&(dq||textQ)&&!hidden) hit++;
+      const top=`<div class="top"><span class="num"><b>${dd(k)}</b>${dw(k)}</span>${isNow?'<span class="tag now">오늘</span>':""}${d.tag?`<span class="tag ${d.veg?"veg":"event"}">${hl(d.tag,textQ)}</span>`:""}</div>`;
+      const c=`card ${isOff?"off":""} ${d.nomeal?"nomeal":""} ${isNow?"is-now":""} ${match?"":"dim"} ${k<todayKey&&!isNow?"past":""}`;
+      if(isOff) return `<article class="${c}" id="d${k}">${top}<div><div class="reason">${hl(d.off||d.nomeal,textQ)}</div><div class="sub">${d.sub||"공휴일 · 급식 없음"}</div></div></article>`;
+      return `<article class="${c}" id="d${k}">${top}<ul class="menu">${d.m.map((t,i)=>`<li class="${cls(i,t,d)}">${itemHTML(t,textQ)}</li>`).join("")}</ul></article>`;
     }).join("");
     const showLead=state.kind==="all"?lead:"";
-    return `<section class="week" ${hidden?"hidden":""}><div class="week-h"><strong>${wi+1}주차</strong><span class="mono">${weekRange(w)}</span></div><div class="grid">${showLead}${cards}</div></section>`;
+    const monthBreak=wi>0&&mo(w.days[0])!==mo(WEEKS[wi-1].days[0]);
+    return `${monthBreak?`<div class="month-break mono">${mo(w.days[0])}월</div>`:""}<section class="week" ${hidden?"hidden":""}><div class="week-h"><strong>${w.label}</strong><span class="mono">${weekRange(w)}</span></div><div class="grid">${showLead}${cards}</div></section>`;
   }).join("");
-  $("#result").innerHTML=(dayQ||textQ)?`검색 결과 <b>${hit}</b>일 · “${esc(q)}”`:"";
+  $("#result").innerHTML=(dq||textQ)?`검색 결과 <b>${hit}</b>일 · “${esc(q)}”`:"";
   $("#clear").hidden=!state.q;
 }
 
 /* 필터 알약 & 트리 */
-$("#weekPills").innerHTML=`<button class="pill" data-week="0" aria-pressed="true">전체</button>`+WEEKS.map((w,i)=>`<button class="pill" data-week="${i+1}" aria-pressed="false">${i+1}주차</button>`).join("");
+$("#weekPills").innerHTML=`<button class="pill" data-week="0" aria-pressed="true">전체</button>`+WEEKS.map((w,i)=>`<button class="pill" data-week="${i+1}" aria-pressed="false">${w.short}</button>`).join("");
 function setWeek(n){
   state.week=n;
   document.querySelectorAll("[data-week]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.week===n)));
@@ -364,19 +414,20 @@ document.addEventListener("click",e=>{
   const go=e.target.closest("[data-go]");if(go){jump(+go.dataset.go);return}
   const tg=e.target.closest("[data-toggle]");if(tg){const li=tg.parentElement;li.classList.toggle("open");tg.setAttribute("aria-expanded",li.classList.contains("open"))}
 });
-function jump(day){
-  if(state.week&&!WEEKS[state.week-1].includes(day)) setWeek(0);
+function jump(k){
+  if(state.week&&!WEEKS[state.week-1].days.includes(k)) setWeek(0);
   if(state.kind!=="all"){state.kind="all";document.querySelectorAll("[data-kind]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.kind==="all")));renderWeeks()}
-  const el=document.getElementById("d"+day);if(!el) return;
+  const el=document.getElementById("d"+k);if(!el) return;
   el.scrollIntoView({behavior:"smooth",block:"center"});
   el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1400);
 }
+const openIdx=Math.max(0,WEEKS.findIndex(w=>w.days[w.days.length-1]>=todayKey));
 $("#tree").innerHTML=WEEKS.map((w,wi)=>{
-  const meals=w.filter(d=>D[d].m).length;
-  const curWeek=today?w.includes(today)||(wi<4&&today>w[w.length-1]&&today<WEEKS[wi+1][0]):wi===0;
-  return `<li class="${curWeek?"open":""}"><button data-toggle aria-expanded="${curWeek}"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg>${wi+1}주차 <span class="range">${weekRange(w)}</span><span class="cnt">${meals}일</span></button>
-  <ul>${w.map(day=>{const d=D[day];const off=!!(d.off||d.nomeal);
-    return `<li><button data-go="${day}" class="${off?"off":""} ${day===today?"now":""}"><span class="d">${day} ${DOW[dowOf(day)-1]}</span><span class="m">${esc(off?(d.off||d.nomeal):mainName(d))}</span></button></li>`}).join("")}</ul></li>`;
+  const meals=w.days.filter(k=>D[k].m).length;
+  const cur=wi===openIdx;
+  return `<li class="${cur?"open":""}"><button data-toggle aria-expanded="${cur}"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 6 6 6-6 6"/></svg>${w.label} <span class="range">${weekRange(w)}</span><span class="cnt">${meals}일</span></button>
+  <ul>${w.days.map(k=>{const d=D[k];const off=!!(d.off||d.nomeal);
+    return `<li><button data-go="${k}" class="${off?"off":""} ${k===today?"now":""}"><span class="d">${md(k)} ${dw(k)}</span><span class="m">${esc(off?(d.off||d.nomeal):mainName(d))}</span></button></li>`}).join("")}</ul></li>`;
 }).join("");
 
 $("#q").addEventListener("input",e=>{state.q=e.target.value;renderWeeks()});
