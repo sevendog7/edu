@@ -126,7 +126,17 @@ section>h2 small{font-size:13px;font-weight:400;color:var(--muted)}
   table.att td::before{content:attr(data-label);display:block;font-size:13px;font-weight:600;color:var(--muted)}
   table.att td:first-child{font-size:17px}
   table.att td:first-child::before{display:none}
-              footer{font-size:14px}
+              section .cm-grid{grid-template-columns:minmax(0,1fr)}
+  .att-box h3{font-size:16px}
+  .who-list{flex-direction:column;font-size:16px}
+  .who-list li{display:grid;grid-template-columns:92px minmax(0,1fr)}
+  .who-list b{font-size:14.5px}
+  .cm-d,.cm-t{font-size:17px}
+  .cm-tl{font-size:16px}
+  .cm-tl li{grid-template-columns:56px minmax(0,1fr)}
+  .cm-tl .tm{font-size:15px}
+  .cm-tl em{font-size:14px}
+  footer{font-size:14px}
 }
 
 /* tables */
@@ -142,6 +152,25 @@ ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
 
 
 footer{font-size:12.5px;color:var(--muted);line-height:1.7}
+/* committee detail */
+.att-box{background:var(--gray-soft);border-radius:6px;padding:12px 16px;margin-bottom:14px}
+.att-box h3{font-size:14px;font-weight:700;margin-bottom:6px}
+.att-box h3 small{font-weight:400;color:var(--muted);font-size:12.5px;margin-left:6px}
+.who-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:14px}
+.who-list b{color:var(--accent);margin-right:8px;font-size:13px}
+.cm-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.cm{border:1px solid var(--line);border-top:3px solid var(--warn);border-radius:6px;padding:12px 14px;min-width:0}
+.cm-h{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.cm-d{font-weight:600;font-size:15px}
+.cm-t{font-weight:700;font-size:15px}
+.t-ch{background:var(--warn-soft);color:var(--warn)}
+.t-bd{background:var(--accent-soft);color:var(--accent)}
+.cm-tl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.cm-tl li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:8px;line-height:1.5}
+.cm-tl .tm{color:var(--muted);font-size:13px;padding-top:1px}
+.cm-tl em{display:block;font-style:normal;font-size:12.5px;color:var(--muted)}
+@media (max-width:1000px){.cm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 
 
 </style>
@@ -167,7 +196,7 @@ footer{font-size:12.5px;color:var(--muted);line-height:1.7}
 </div>
 
 <section>
-  <h2>11월 수감 캘린더 <small>모든 교육위 일정 09:30 개시(첫날 09:10), 교육위원회 회의실</small></h2>
+  <h2>11월 수감 캘린더 <small>모든 교육위 일정 09:30 개시, 교육위원회 회의실</small></h2>
   <div class="cal-wrap"><div class="cal" id="cal"></div></div>
   <p class="calnote">※ 11. 5.~6. 직속기관·출연기관 27개 기관의 일자별 배정은 원문에 구분되어 있지 않음(세부일정은 교육위원회 일일수감 시나리오에 따름). 감사일정·장소는 사정에 따라 변경될 수 있음.</p>
 </section>
@@ -199,8 +228,56 @@ footer{font-size:12.5px;color:var(--muted);line-height:1.7}
   <p class="calnote">※ 전남교육꿈실현재단 원장 인사청문회 12. 2.(수) 예정. 11. 2.~11. 13. 일정(제1차 본회의·행정사무감사)은 위 11월 수감 캘린더 참고.</p>
 </section>
 
+<section>
+  <h2>교육위원회 상임위 세부일정 <small class="mono">2026. 11. 24.(화) ~ 11. 27.(금)</small></h2>
+  <div class="att-box">
+    <h3>출석대상 공무원 <small>4일간 동일</small></h3>
+    <ul class="who-list">
+      <li><b>본청</b>부교육감, 기획조정실장, 국장, (담당)관, 단장, 과장</li>
+      <li><b>직속기관</b>직속기관장</li>
+      <li><b>교육지원청</b>교육장</li>
+    </ul>
+  </div>
+  <div class="cm-grid">
+    <article class="cm">
+      <div class="cm-h"><span class="cm-d mono">11. 24.(화)</span><span class="cm-t">1차 교육위원회</span><span class="tag t-ch">추경</span></div>
+      <ol class="cm-tl">
+        <li><span class="tm mono">10:00</span><span>개의</span></li>
+        <li><span class="tm mono">10:05</span><span><b>조례안 등 의안심사</b><br><b>2026년도 제1회 추가경정예산안 심사</b><em>전남광주통합특별시교육비특별회계</em></span></li>
+        <li><span class="tm mono">18:00</span><span>산회(예정)</span></li>
+      </ol>
+    </article>
+    <article class="cm">
+      <div class="cm-h"><span class="cm-d mono">11. 25.(수)</span><span class="cm-t">2차 교육위원회</span><span class="tag t-bd">본예산</span></div>
+      <ol class="cm-tl">
+        <li><span class="tm mono">10:00</span><span>개의</span></li>
+        <li><span class="tm mono">10:05</span><span><b>2027년도 예산안 심사</b><em>전남광주통합특별시교육비특별회계</em></span></li>
+        <li><span class="tm mono">18:00</span><span>산회(예정)</span></li>
+      </ol>
+    </article>
+    <article class="cm">
+      <div class="cm-h"><span class="cm-d mono">11. 26.(목)</span><span class="cm-t">3차 교육위원회</span><span class="tag t-bd">본예산</span></div>
+      <ol class="cm-tl">
+        <li><span class="tm mono">10:00</span><span>개의</span></li>
+        <li><span class="tm mono">10:05</span><span><b>2027년도 예산안 심사</b><em>전남광주통합특별시교육비특별회계</em></span></li>
+        <li><span class="tm mono">18:00</span><span>산회(예정)</span></li>
+      </ol>
+    </article>
+    <article class="cm">
+      <div class="cm-h"><span class="cm-d mono">11. 27.(금)</span><span class="cm-t">4차 교육위원회</span><span class="tag t-bd">본예산</span></div>
+      <ol class="cm-tl">
+        <li><span class="tm mono">10:00</span><span>개의</span></li>
+        <li><span class="tm mono">10:05</span><span><b>행정사무감사 결과보고 채택의 건</b><br><b>2027년도 예산안 심사</b><em>전남광주통합특별시교육비특별회계</em></span></li>
+        <li><span class="tm mono">18:00</span><span>산회(예정)</span></li>
+      </ol>
+    </article>
+  </div>
+  <p class="calnote">※ 산회 시각은 예정이며 심사 진행에 따라 변경될 수 있음.</p>
+</section>
+
+
 <footer>
-  출처: 「2026년도 전남광주통합특별시의회 행정사무감사 수감 계획」(대외협력담당관, 2026. 10.) · 「[의회운영위원회] 2026년도 전남광주통합특별시의회 행정사무감사 수감 계획」(대외협력담당관, 2026. 10.). 「제5회 제2차 정례회 회기 일정」(첨부 이미지). 요일은 2026년 달력으로 대조함.
+  출처: 「2026년도 전남광주통합특별시의회 행정사무감사 수감 계획」(대외협력담당관, 2026. 10.) · 「[의회운영위원회] 2026년도 전남광주통합특별시의회 행정사무감사 수감 계획」(대외협력담당관, 2026. 10.). 「제5회 제2차 정례회 회기 일정」(첨부 이미지) · 교육위원회 11. 24.~27. 세부일정(한글 파일). 요일은 2026년 달력으로 대조함.
 </footer>
 </div>
 
@@ -222,7 +299,7 @@ footer{font-size:12.5px;color:var(--muted);line-height:1.7}
   // calendar 11/2(월) ~ 11/15(일)
   var ev={
     2:[['op','교육감 비서실','<span class="tm">14:00</span> 의회운영위 회의실'],['ref','교육위: 감사준비·자료 수집','']],
-    3:[['','본청 1일차','<span class="tm">09:10</span> 교육감·부교육감·실국장·과장급 이상'],['ref','운영위: 시장 비서실(오전)·의회사무처(오후)','']],
+    3:[['','본청 1일차','<span class="tm">09:30</span> 교육감·부교육감·실국장·과장급 이상'],['ref','운영위: 시장 비서실(오전)·의회사무처(오후)','']],
     4:[['','본청 2일차','<span class="tm">09:30</span> 부교육감·실국장·과장급 이상']],
     5:[['','직속기관·출연기관','<span class="tm">09:30</span> 27개 기관 · 대표선서 광주창의융합교육원장']],
     6:[['','직속기관·출연기관','<span class="tm">09:30</span> 27개 기관']],
@@ -248,8 +325,9 @@ footer{font-size:12.5px;color:var(--muted);line-height:1.7}
   var SV={
     '11-16':[['op','제2차 본회의','']],
     '11-19':[['ref','대학수학능력시험','']],
-    '11-24':[['wn','교육위 상임위','추경']],
-    '11-25':[['wn','교육위 상임위','본예산']],'11-26':[['wn','교육위 상임위','본예산']],'11-27':[['wn','교육위 상임위','본예산']],
+    '11-24':[['wn','1차 교육위원회','조례안 등 · 2026 추경']],
+    '11-25':[['wn','2차 교육위원회','2027 본예산']],'11-26':[['wn','3차 교육위원회','2027 본예산']],
+    '11-27':[['wn','4차 교육위원회','행감 결과보고 채택 · 2027 본예산']],
     '12-2':[['all','인사청문회','전남교육꿈실현재단 원장(예정)']],
     '12-3':[['wn','교육청 예결위','추경'],['ref','인사청문회 경과보고서 관련 안건','']],
     '12-7':[['wn','교육청 예결위','본예산']],'12-8':[['wn','교육청 예결위','본예산']],
