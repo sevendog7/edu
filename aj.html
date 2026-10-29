@@ -1,0 +1,343 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>안전사고 보고체계</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: 모바일 단일 컬럼 — 연락처(즉시 행동) → 보고 대상 → 학교급별 흐름 → 교육부 보고 기준 */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --fg: #1b2230;
+  --muted: #5d6676;
+  --line: #dde1e8;
+  --navy: #26324a;
+  --alert: #c8361c;
+  --alert-soft: #fbe9e4;
+  --call: #1f6f4a;
+  --call-soft: #e5f2ea;
+  --purple: #7a4bb5;
+  --purple-soft: #f1eafa;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --surface: #1b212b; --fg: #e8ebf0; --muted: #9aa3b2; --line: #2d3542;
+    --navy: #2b3953; --alert: #ff7a5c; --alert-soft: #3a211b; --call: #5fcf98; --call-soft: #17301f;
+    --purple: #b994ec; --purple-soft: #2a2238; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --surface: #1b212b; --fg: #e8ebf0; --muted: #9aa3b2; --line: #2d3542;
+  --navy: #2b3953; --alert: #ff7a5c; --alert-soft: #3a211b; --call: #5fcf98; --call-soft: #17301f;
+  --purple: #b994ec; --purple-soft: #2a2238; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  word-break: keep-all; overflow-wrap: anywhere;
+}
+.wrap {
+  max-width: 720px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+header { display: flex; flex-direction: column; gap: 10px; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--muted); }
+h1 { margin: 0; font-size: 26px; line-height: 1.3; text-wrap: balance; }
+h2 { margin: 0; font-size: 19px; line-height: 1.35; text-wrap: balance; }
+.rule {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--alert-soft); color: var(--alert);
+  border-radius: 10px; padding: 12px 14px; font-weight: 700; font-size: 17px;
+}
+.rule small { display: block; font-weight: 500; font-size: 14px; color: var(--fg); opacity: .85; }
+.rule svg { flex: none; }
+section { display: flex; flex-direction: column; gap: 12px; }
+.sub { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* 연락처 */
+.org { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.org-head { background: var(--navy); color: #fff; padding: 10px 14px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.org-head span { font-weight: 400; font-size: 14px; opacity: .85; }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; padding: 10px 12px; border-top: 1px solid var(--line); }
+.row:first-of-type { border-top: 0; }
+.call {
+  display: flex; flex-direction: column; min-width: 0;
+  text-decoration: none; color: var(--fg);
+  background: var(--call-soft); border-radius: 10px; padding: 8px 12px;
+  border: 1px solid transparent;
+}
+.call:hover { border-color: var(--call); }
+.call:focus-visible, .copy:focus-visible, .tab:focus-visible { outline: 3px solid var(--call); outline-offset: 2px; }
+.call .when { font-size: 13px; color: var(--muted); }
+.call .num { font-family: var(--font-num); font-size: 19px; font-weight: 600; color: var(--call); font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 6px; }
+.call .num svg { flex: none; }
+.copy {
+  font: inherit; font-size: 13px; color: var(--muted);
+  background: transparent; border: 1px solid var(--line); border-radius: 8px;
+  padding: 8px 10px; cursor: pointer; min-height: 44px;
+}
+.copy.done { color: var(--call); border-color: var(--call); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+
+/* 보고 대상 */
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.box p { margin: 0; }
+.except { font-size: 14px; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 8px; }
+
+/* 흐름 */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab {
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  padding: 8px 12px; border-radius: 999px; min-height: 40px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+}
+.tab[aria-selected="true"] { background: var(--navy); border-color: var(--navy); color: #fff; }
+.flow { display: flex; flex-direction: column; gap: 0; }
+.step { display: grid; grid-template-columns: 28px 1fr; gap: 10px; }
+.rail { display: flex; flex-direction: column; align-items: center; }
+.dot { width: 14px; height: 14px; border-radius: 50%; background: var(--navy); margin-top: 16px; flex: none; }
+.dot.start { background: var(--alert); }
+.bar { flex: 1; width: 2px; background: var(--line); }
+.step:last-child .bar { display: none; }
+.node { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; min-width: 0; }
+.node b { display: block; }
+.node .who { font-size: 13px; color: var(--muted); }
+.side { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip { font-size: 12.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; }
+.chip.report { background: var(--navy); color: #fff; }
+.chip.spread { background: var(--purple-soft); color: var(--purple); }
+.chip.sos { background: var(--alert-soft); color: var(--alert); }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+/* 도식 */
+:root { --wire: #4a5568; --org-line: #2f8a5c; --moe-line: #3d6fd1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --wire: #9aa6ba; --org-line: #5fcf98; --moe-line: #7aa2f0; } }
+:root[data-theme="dark"] { --wire: #9aa6ba; --org-line: #5fcf98; --moe-line: #7aa2f0; }
+.diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 8px; }
+.diagram svg { display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; font-family: var(--font-body); }
+.d-box { fill: var(--surface); stroke-width: 1.6; }
+.d-moe { stroke: var(--moe-line); }
+.d-org { stroke: var(--org-line); stroke-width: 2; }
+.d-sch { stroke: var(--purple); }
+.d-ext { stroke: var(--line); }
+.d-sos { fill: var(--alert-soft); stroke: var(--alert); }
+.d-t { fill: var(--fg); font-size: 14px; font-weight: 700; text-anchor: middle; }
+.d-s { fill: var(--muted); font-size: 11.5px; text-anchor: middle; }
+.d-sos-t { fill: var(--alert); font-size: 14px; font-weight: 700; text-anchor: middle; }
+.d-top { fill: var(--surface); stroke: var(--navy); }
+.d-cap { fill: var(--fg); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.w-rep { stroke: var(--wire); stroke-width: 1.8; fill: none; }
+.w-spr { stroke: var(--purple); stroke-width: 1.8; fill: none; }
+.w-sos { stroke: var(--alert); stroke-width: 1.8; fill: none; }
+.m-rep { fill: var(--wire); } .m-spr { fill: var(--purple); } .m-sos { fill: var(--alert); }
+.routes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; }
+.routes li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; }
+.routes b { color: var(--purple); }
+
+.pill rect { fill: var(--call-soft); stroke: transparent; stroke-width: 1.5; }
+.pill:hover rect, .pill:focus-visible rect { stroke: var(--call); }
+.pill:focus, .sos:focus { outline: none; }
+.sos:focus-visible rect { stroke-width: 3; }
+.ph { fill: var(--call); }
+.p-l { fill: var(--muted); font-size: 11.5px; }
+.p-n { fill: var(--call); font-family: var(--font-num); font-size: 13px; font-weight: 600; text-anchor: end; font-variant-numeric: tabular-nums; }
+.d-s-in { fill: var(--muted); font-size: 11.5px; font-weight: 500; }
+.d-h { fill: var(--fg); font-size: 12.5px; font-weight: 700; }
+/* 교육부 보고 */
+ol.moe { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+ol.moe li::marker { color: var(--muted); font-family: var(--font-num); }
+.foot { font-size: 13px; color: var(--muted); text-align: left; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">전남광주통합특별시교육청 · 학교 안전</div>
+    <h1>재난·안전사고 보고체계</h1>
+    <div class="rule" role="note">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 1 21h22L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V9h2v4Z"/></svg>
+      <div>사고 발생 인지 즉시 유선보고<small>경미한 사고를 제외한 모든 재난·안전사고가 대상입니다.</small></div>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-flow">
+    <h2 id="h-flow">보고체계와 연락처</h2>
+    <p class="sub">다중 보고체계를 유지합니다. 초록색 번호를 누르면 전화가 연결됩니다.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 360 608" role="img" aria-labelledby="dg-title dg-desc">
+        <title id="dg-title">재난상황 보고체계와 보고 연락처</title>
+        <desc id="dg-desc">유·초·중학교는 교육지원청을 거쳐 시교육청에 보고하고, 중요재난 시에는 교육지원청과 시교육청에 동시 보고합니다. 고·특수학교는 시교육청에 직접 보고합니다. 시교육청과 교육지원청은 교육부에 보고하고 담당부서·유관기관에 전파합니다. 모든 학교는 경찰서 112, 소방서 119에 신고합니다. 시교육청 안전총괄과 근무시간 중 062-380-4119, 근무시간 외 당직실 062-380-4580. 동부교육지원청 학교지원센터 근무시간 중 062-605-5765, 당직실 062-605-5505. 서부교육지원청 학교지원센터 근무시간 중 062-600-9872, 당직실 062-600-9700.</desc>
+        <defs>
+          <marker id="ar-rep" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="m-rep" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="ar-spr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="m-spr" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="ar-sos" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="m-sos" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <!-- 보고 선 -->
+        <path class="w-rep" d="M59 458 V422" marker-end="url(#ar-rep)"/>
+        <path class="w-rep" d="M160 458 V422" marker-end="url(#ar-rep)"/>
+        <path class="w-rep" d="M303 458 V200 H242"/>
+        <path class="w-rep" d="M242 458 V164 H232" marker-end="url(#ar-rep)"/>
+        <path class="w-rep" d="M126 224 V188" marker-end="url(#ar-rep)"/>
+        <path class="w-rep" d="M170 86 V50" marker-end="url(#ar-rep)"/>
+        <path class="w-rep" d="M22 244 H10 V26 H114" marker-end="url(#ar-rep)"/>
+
+        <!-- 전파 선 -->
+        <path d="M230 244 H310 V166" style="stroke:var(--surface);stroke-width:7;fill:none"/>
+        <path class="w-spr" d="M230 244 H310 V166" marker-end="url(#ar-spr)"/>
+        <path class="w-spr" d="M230 130 H264" marker-end="url(#ar-spr)"/>
+
+        <!-- 신고 선 -->
+        <path class="w-sos" d="M59 516 V552" marker-end="url(#ar-sos)"/>
+        <path class="w-sos" d="M182 516 V552" marker-end="url(#ar-sos)"/>
+        <path class="w-sos" d="M303 516 V552" marker-end="url(#ar-sos)"/>
+
+        <!-- 교육부 -->
+        <rect class="d-box d-moe" x="118" y="6" width="124" height="40" rx="8"/>
+        <text class="d-t" x="180" y="31">교육부</text>
+
+        <!-- 시교육청 -->
+        <rect class="d-box d-org" x="22" y="86" width="208" height="100" rx="10"/>
+        <text class="d-t" x="126" y="108">시교육청 <tspan class="d-s-in">안전총괄과</tspan></text>
+        <a class="pill" href="tel:0623804119" aria-label="근무시간 중 062-380-4119 전화 걸기">
+          <rect x="32" y="118" width="188" height="26" rx="6"/>
+          <svg x="40" y="125.0" width="12" height="12" viewBox="0 0 24 24"><path class="ph" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <text class="p-l" x="58" y="135.5">근무 중</text>
+          <text class="p-n" x="212" y="135.5">062-380-4119</text>
+        </a>
+        <a class="pill" href="tel:0623804580" aria-label="근무시간 외 당직실 062-380-4580 전화 걸기">
+          <rect x="32" y="150" width="188" height="26" rx="6"/>
+          <svg x="40" y="157.0" width="12" height="12" viewBox="0 0 24 24"><path class="ph" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <text class="p-l" x="58" y="167.5">당직실</text>
+          <text class="p-n" x="212" y="167.5">062-380-4580</text>
+        </a>
+
+        <!-- 담당부서 -->
+        <rect class="d-box d-ext" x="266" y="104" width="88" height="60" rx="8"/>
+        <text class="d-t" x="310" y="129">담당부서</text>
+        <text class="d-t" x="310" y="149">유관기관</text>
+
+        <!-- 교육지원청 -->
+        <rect class="d-box d-org" x="22" y="224" width="208" height="196" rx="10"/>
+        <text class="d-t" x="126" y="246">교육지원청 <tspan class="d-s-in">학교지원센터</tspan></text>
+        <text class="d-h" x="34" y="270">동부</text>
+        <a class="pill" href="tel:0626055765" aria-label="근무시간 중 062-605-5765 전화 걸기">
+          <rect x="32" y="278" width="188" height="26" rx="6"/>
+          <svg x="40" y="285.0" width="12" height="12" viewBox="0 0 24 24"><path class="ph" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <text class="p-l" x="58" y="295.5">근무 중</text>
+          <text class="p-n" x="212" y="295.5">062-605-5765</text>
+        </a>
+        <a class="pill" href="tel:0626055505" aria-label="근무시간 외 당직실 062-605-5505 전화 걸기">
+          <rect x="32" y="308" width="188" height="26" rx="6"/>
+          <svg x="40" y="315.0" width="12" height="12" viewBox="0 0 24 24"><path class="ph" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <text class="p-l" x="58" y="325.5">당직실</text>
+          <text class="p-n" x="212" y="325.5">062-605-5505</text>
+        </a>
+        <text class="d-h" x="34" y="352">서부</text>
+        <a class="pill" href="tel:0626009872" aria-label="근무시간 중 062-600-9872 전화 걸기">
+          <rect x="32" y="360" width="188" height="26" rx="6"/>
+          <svg x="40" y="367.0" width="12" height="12" viewBox="0 0 24 24"><path class="ph" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <text class="p-l" x="58" y="377.5">근무 중</text>
+          <text class="p-n" x="212" y="377.5">062-600-9872</text>
+        </a>
+        <a class="pill" href="tel:0626009700" aria-label="근무시간 외 당직실 062-600-9700 전화 걸기">
+          <rect x="32" y="390" width="188" height="26" rx="6"/>
+          <svg x="40" y="397.0" width="12" height="12" viewBox="0 0 24 24"><path class="ph" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg>
+          <text class="p-l" x="58" y="407.5">당직실</text>
+          <text class="p-n" x="212" y="407.5">062-600-9700</text>
+        </a>
+
+        <!-- 학교 -->
+        <rect class="d-box d-sch" x="6" y="458" width="106" height="58" rx="8"/>
+        <text class="d-t" x="59" y="482">유·초·중학교</text>
+        <text class="d-s" x="59" y="501">학교장</text>
+
+        <rect class="d-box d-sch" x="118" y="458" width="128" height="58" rx="8"/>
+        <text class="d-t" x="182" y="482">유·초·중학교</text>
+        <text class="d-s" x="182" y="501">중요재난 발생 시</text>
+
+        <rect class="d-box d-sch" x="252" y="458" width="102" height="58" rx="8"/>
+        <text class="d-t" x="303" y="482">고·특수학교</text>
+        <text class="d-s" x="303" y="501">학교장</text>
+
+        <!-- 신고 -->
+        <a class="sos" href="tel:112" aria-label="경찰서 112 전화 걸기">
+          <rect class="d-box d-sos" x="6" y="554" width="171" height="48" rx="8"/>
+          <text class="d-sos-t" x="91" y="583">경찰서 112</text>
+        </a>
+        <a class="sos" href="tel:119" aria-label="소방서 119 전화 걸기">
+          <rect class="d-box d-sos" x="183" y="554" width="171" height="48" rx="8"/>
+          <text class="d-sos-t" x="268" y="583">소방서 119</text>
+        </a>
+      </svg>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--wire)"></i>보고</span>
+      <span><i class="sw" style="background:var(--purple)"></i>전파</span>
+      <span><i class="sw" style="background:var(--alert)"></i>신고</span>
+      <span><i class="sw" style="background:var(--call)"></i>전화 연결</span>
+    </div>
+    <ul class="routes">
+      <li><b>유·초·중학교</b> 교육지원청 → 시교육청 → 교육부</li>
+      <li><b>유·초·중 중요재난</b> 교육지원청과 시교육청에 동시 보고</li>
+      <li><b>고·특수학교</b> 시교육청에 직접 보고</li>
+      <li><b>모든 학교</b> 경찰서(112)·소방서(119) 신고 병행</li>
+    </ul>
+    <p class="note">근무 중: 근무시간 중 · 당직실: 근무시간 이외. 전화가 연결되지 않는 화면에서는 번호를 길게 눌러 복사해 사용하세요.</p>
+  </section>
+
+  <section aria-labelledby="h-target">
+    <h2 id="h-target">보고 대상</h2>
+    <div class="box">
+      <p><b>경미한 사고를 제외한 모든 재난·안전사고</b></p>
+      <p class="except">경미한 사고(보고 제외): 상태가 경한 학교 안전사고(염좌, 단순골절 등), 자체 해결이 가능한 자연재난 이외의 경미한 시설 피해 등</p>
+    </div>
+  </section>
+
+
+  <section aria-labelledby="h-moe">
+    <h2 id="h-moe">교육부 보고 대상</h2>
+    <div class="box">
+      <ol class="moe">
+        <li><b>교육활동 중 사고:</b> 병원진료를 요하는 중상 이상의 사고</li>
+        <li><b>교육활동 외 사고:</b> 사망 1명 또는 부상 5명 이상의 사고</li>
+        <li>학교 관련 시설에 대한 화재, 붕괴, 폭발 사고 등</li>
+        <li>학교 현장의 폭발사고 등으로 인명피해가 발생하고 시설피해가 심대한 경우</li>
+        <li>학교 현장에서 신종 감염병 최초 발생 및 법정 감염병 집단 발생 시</li>
+        <li>기타 사회적 파장이 예상되는 사건·사고 및 국가적 대응이 필요한 재난 발생 시</li>
+      </ol>
+      <p class="except">교육부 보고는 본청 또는 지역교육지원청에서 시행합니다.</p>
+    </div>
+  </section>
+
+  <p class="foot">출처: 재난 상황 보고 체계(안전사고보고체계.pdf). 서부교육지원청 근무시간 중 번호는 원본 수기 정정(9876 → 9872)을 반영했습니다.</p>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var num = btn.getAttribute('data-num');
+    function ok() { btn.textContent = '복사됨'; btn.classList.add('done'); setTimeout(function () { btn.textContent = '복사'; btn.classList.remove('done'); }, 1600); }
+    function fallback() {
+      var el = btn.parentElement.querySelector('.num');
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = '선택됨';
+    }
+    try {
+      navigator.clipboard.writeText(num).then(ok, fallback);
+    } catch (e) { fallback(); }
+  });
+});
+</script>
+
+</body></html>
