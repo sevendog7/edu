@@ -423,6 +423,51 @@
     background:#e3eefb; padding:3px 10px; border-radius:var(--r-pill); white-space:nowrap;
   }
   .wx-sep{ width:1px; align-self:stretch; background:var(--border); }
+  /* ---------- 현재 날짜·시각 (제목과 날씨 사이) ---------- */
+  .now-clock{
+    display:inline-flex; align-items:baseline; gap:8px;
+    white-space:nowrap; color:var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .now-date{ font-size: clamp(12.5px, 1.35vw, 14.5px); font-weight:700; color:var(--ink-soft); }
+  .now-time{ font-size: clamp(18px, 2vw, 22px); font-weight:900; letter-spacing:-.01em; }
+  /* 날짜 클릭 → 달력 */
+  .now-clock{ position:relative; }
+  button.now-date{
+    border:0; background:none; font-family:inherit; cursor:pointer;
+    padding:2px 4px; border-radius:6px;
+  }
+  button.now-date:hover{ color:var(--ink); text-decoration:underline; text-underline-offset:3px; }
+  button.now-date:focus-visible{ outline:none; box-shadow:0 0 0 2px #d4d2cc; }
+  .cal-pop{
+    position:absolute; top:calc(100% + 10px); left:0; z-index:50;
+    width:260px; padding:14px;
+    background:#ffffff; border:1px solid var(--border); border-radius:16px;
+    box-shadow:0 12px 28px -8px rgba(38,38,36,.28);
+    font-variant-numeric: tabular-nums;
+  }
+  .cal-pop[hidden]{ display:none; }
+  .cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .cal-head b{ font-size:14.5px; font-weight:900; color:var(--ink); }
+  .cal-head button{
+    width:26px; height:26px; border:0; border-radius:50%; cursor:pointer;
+    background:transparent; color:var(--ink-soft); font-size:14px; line-height:1;
+  }
+  .cal-head button:hover{ background:var(--surface); color:var(--ink); }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:2px; text-align:center; }
+  .cal-grid span{ height:30px; display:grid; place-items:center; font-size:12.5px; color:var(--ink); border-radius:8px; }
+  .cal-grid .dow{ height:24px; font-size:11px; font-weight:700; color:var(--ink-faint); }
+  .cal-grid .sun{ color:var(--danger-deep); }
+  .cal-grid .sat{ color:var(--info-deep); }
+  .cal-grid .out{ color:var(--border); }
+  .cal-grid .today{ background:var(--ink); color:#ffffff; font-weight:900; }
+  .cal-foot{ margin-top:8px; text-align:right; }
+  .cal-foot button{
+    border:1px solid var(--border); background:#ffffff; border-radius:var(--r-pill);
+    padding:3px 12px; font-size:11.5px; font-weight:700; color:var(--ink-soft); cursor:pointer; font-family:inherit;
+  }
+  .cal-foot button:hover{ background:#55534e; border-color:#55534e; color:#ffffff; }
+  @media (max-width:640px){ .cal-pop{ width:min(260px, calc(100vw - 72px)); } }
   @media (max-width:640px){
     .cover-top{ flex-direction:column; align-items:flex-start; flex-wrap:wrap; }
     .meta-side{ align-items:flex-start; }
@@ -485,6 +530,13 @@
       <!-- 1줄: 제목 + 날씨 (데스크톱 한 줄) -->
       <div class="cover-top">
         <h1 class="title" aria-label="K-비서실 4670"><span>K-비서실</span><span class="t-num">4670</span></h1>
+        <div class="now-clock" aria-live="off"><button type="button" class="now-date" id="now-date" aria-haspopup="dialog" aria-expanded="false" title="달력 보기"></button><span class="now-time" id="now-time"></span>
+          <div class="cal-pop" id="cal-pop" role="dialog" aria-label="달력" hidden>
+            <div class="cal-head"><button type="button" id="cal-prev" aria-label="이전 달">‹</button><b id="cal-title"></b><button type="button" id="cal-next" aria-label="다음 달">›</button></div>
+            <div class="cal-grid" id="cal-grid"></div>
+            <div class="cal-foot"><button type="button" id="cal-today">오늘</button></div>
+          </div>
+        </div>
         <a class="wx" id="wx" href="https://www.weather.go.kr/w/index.do#dong/1230060200/35.17097/126.88475/%EC%A0%84%EB%82%A8%EA%B4%91%EC%A3%BC%ED%86%B5%ED%95%A9%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%B4%EC%95%942%EB%8F%99//" target="_blank" rel="noopener" aria-label="기상청 날씨누리 운암2동 날씨 열기">
           <span class="wx-ico" id="wx-ico">⛅</span>
           <span class="wx-now"><span class="wx-temp" id="wx-temp">--°</span><span class="wx-cond" id="wx-cond">날씨 불러오는 중</span></span>
@@ -801,6 +853,45 @@
   </div>
 
   <script>
+  /* ===== 현재 날짜(요일)·시각(시:분) ===== */
+  (function(){
+    var W=['일','월','화','수','목','금','토'];
+    function p(n){ return (n<10?'0':'')+n; }
+    function tick(){
+      var d=new Date();
+      document.getElementById('now-date').textContent=d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.('+W[d.getDay()]+')';
+      document.getElementById('now-time').textContent=p(d.getHours())+':'+p(d.getMinutes());
+    }
+    tick(); setInterval(tick, 1000);
+
+    /* 날짜 클릭 → 달력 */
+    var btn=document.getElementById('now-date'), pop=document.getElementById('cal-pop'),
+        grid=document.getElementById('cal-grid'), ttl=document.getElementById('cal-title'), view;
+    function draw(){
+      var y=view.getFullYear(), m=view.getMonth(), now=new Date();
+      ttl.textContent=y+'년 '+(m+1)+'월';
+      var h='', first=new Date(y,m,1).getDay(), last=new Date(y,m+1,0).getDate(), prevLast=new Date(y,m,0).getDate();
+      W.forEach(function(w,i){ h+='<span class="dow'+(i===0?' sun':i===6?' sat':'')+'">'+w+'</span>'; });
+      var cells=Math.ceil((first+last)/7)*7;
+      for(var i=0;i<cells;i++){
+        var day=i-first+1, wd=i%7, cls=wd===0?'sun':wd===6?'sat':'', txt;
+        if(day<1){ txt=prevLast+day; cls='out'; }
+        else if(day>last){ txt=day-last; cls='out'; }
+        else { txt=day; if(y===now.getFullYear()&&m===now.getMonth()&&day===now.getDate()) cls+=' today'; }
+        h+='<span class="'+cls+'">'+txt+'</span>';
+      }
+      grid.innerHTML=h;
+    }
+    function open(v){ pop.hidden=!v; btn.setAttribute('aria-expanded', v?'true':'false'); if(v){ var n=new Date(); view=new Date(n.getFullYear(), n.getMonth(), 1); draw(); } }
+    btn.addEventListener('click', function(e){ e.stopPropagation(); open(pop.hidden); });
+    pop.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.getElementById('cal-prev').addEventListener('click', function(){ view.setMonth(view.getMonth()-1); draw(); });
+    document.getElementById('cal-next').addEventListener('click', function(){ view.setMonth(view.getMonth()+1); draw(); });
+    document.getElementById('cal-today').addEventListener('click', function(){ var n=new Date(); view=new Date(n.getFullYear(), n.getMonth(), 1); draw(); });
+    document.addEventListener('click', function(){ if(!pop.hidden) open(false); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !pop.hidden){ open(false); btn.focus(); } });
+  })();
+
   /* ===== 날씨: 접속 지역 기준 (인증키·별도 서버 불필요) =====
      위치: 브라우저 위치 권한 → 거부 시 접속 IP 기준 지역 → 실패 시 운암2동
      날씨: Open-Meteo 현재 날씨(무료·인증키 없음) */
