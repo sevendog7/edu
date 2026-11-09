@@ -468,6 +468,12 @@
   }
   .cal-foot button:hover{ background:#55534e; border-color:#55534e; color:#ffffff; }
   @media (max-width:640px){ .cal-pop{ width:min(260px, calc(100vw - 72px)); } }
+  /* 날짜·시각을 오른쪽(검색 링크 아래)으로 옮김 → 달력은 오른쪽 기준으로 열림 */
+  .meta-side .cal-pop{ left:auto; right:0; }
+  @media (max-width:640px){ .meta-side .cal-pop{ left:0; right:auto; } }
+  /* 업무 도구 표시를 하단 전화번호 앞으로 옮김 */
+  .foot-right{ display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+  footer .cover-label{ margin-bottom:0; box-shadow:none; }
   @media (max-width:640px){
     .cover-top{ flex-direction:column; align-items:flex-start; flex-wrap:wrap; }
     .meta-side{ align-items:flex-start; }
@@ -530,13 +536,6 @@
       <!-- 1줄: 제목 + 날씨 (데스크톱 한 줄) -->
       <div class="cover-top">
         <h1 class="title" aria-label="K-비서실 4670"><span>K-비서실</span><span class="t-num">4670</span></h1>
-        <div class="now-clock" aria-live="off"><button type="button" class="now-date" id="now-date" aria-haspopup="dialog" aria-expanded="false" title="달력 보기"></button><span class="now-time" id="now-time"></span>
-          <div class="cal-pop" id="cal-pop" role="dialog" aria-label="달력" hidden>
-            <div class="cal-head"><button type="button" id="cal-prev" aria-label="이전 달">‹</button><b id="cal-title"></b><button type="button" id="cal-next" aria-label="다음 달">›</button></div>
-            <div class="cal-grid" id="cal-grid"></div>
-            <div class="cal-foot"><button type="button" id="cal-today">오늘</button></div>
-          </div>
-        </div>
         <a class="wx" id="wx" href="https://www.weather.go.kr/w/index.do#dong/1230060200/35.17097/126.88475/%EC%A0%84%EB%82%A8%EA%B4%91%EC%A3%BC%ED%86%B5%ED%95%A9%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%B4%EC%95%942%EB%8F%99//" target="_blank" rel="noopener" aria-label="기상청 날씨누리 운암2동 날씨 열기">
           <span class="wx-ico" id="wx-ico">⛅</span>
           <span class="wx-now"><span class="wx-temp" id="wx-temp">--°</span><span class="wx-cond" id="wx-cond">날씨 불러오는 중</span></span>
@@ -589,7 +588,13 @@
           </span>네이버 지도<span class="arrow">↗</span>
         </a>
         </div>
-          <p class="cover-label">비서실 업무 도구 [UBUNTU·V1] [byST]</p>
+        <div class="now-clock" aria-live="off"><button type="button" class="now-date" id="now-date" aria-haspopup="dialog" aria-expanded="false" title="달력 보기"></button><span class="now-time" id="now-time"></span>
+          <div class="cal-pop" id="cal-pop" role="dialog" aria-label="달력" hidden>
+            <div class="cal-head"><button type="button" id="cal-prev" aria-label="이전 달">‹</button><b id="cal-title"></b><button type="button" id="cal-next" aria-label="다음 달">›</button></div>
+            <div class="cal-grid" id="cal-grid"></div>
+            <div class="cal-foot"><button type="button" id="cal-today">오늘</button></div>
+          </div>
+        </div>
         </div>
       </div>
       <nav class="cover-links" aria-label="주요 바로가기">
@@ -847,7 +852,7 @@
 
     <footer>
       <span class="name">K-비서실 업무도구 / 이 페이지가 외부로 유출되지 않도록 해주세요.</span>
-      <span class="sig">byST ☎ 062)380-4670</span>
+      <span class="foot-right"><span class="cover-label">비서실 업무 도구 [UBUNTU·V1] [byST]</span><span class="sig">☎ 062)380-4670</span></span>
     </footer>
 
   </div>
