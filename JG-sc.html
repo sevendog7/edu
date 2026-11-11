@@ -56,15 +56,16 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;font-family:-appl
 .search button{font:inherit;font-size:.8rem;font-weight:600;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink2);cursor:pointer;white-space:nowrap}
 .search button:hover{background:var(--soft)}
 .search button:disabled{opacity:.4;cursor:default}
-/* 학교급 표지: 색=설립구분, 글자=학교급 */
-.sb{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;color:#fff;font-size:11px;font-weight:800;line-height:1;flex-shrink:0;border:2px solid #fff;box-shadow:0 0 0 1px rgba(15,23,42,.35)}
-.sb.kg{border-radius:5px}
-.sb.sp{border-radius:5px;transform:rotate(45deg)} .sb.sp > i{transform:rotate(-45deg);font-style:normal}
-.sb.national{background:var(--national)} .sb.public{background:var(--public)} .sb.private{background:var(--private)}
-.sb.neutral{background:#64748b}
-.lchip .sb{width:16px;height:16px;font-size:9px;border-width:1px;margin-right:4px;vertical-align:-3px;box-shadow:none}
+/* 학교 표지: 모양=설립구분(국립 네모·공립 세모·사립 동그라미), 색=학교급 */
+.sv{display:inline-flex;width:20px;height:20px;flex-shrink:0}
+.sv svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 1px rgba(15,23,42,.85))}
+.sv text{font-size:11px;font-weight:800;fill:#fff;text-anchor:middle;font-family:inherit}
+.lchip .sv{width:20px;height:14px;margin-right:4px;vertical-align:-2px}
+.lchip .sv svg{filter:none}
+.tchip .sv{width:15px;height:15px}
+.tchip .sv svg{filter:none}
 .s-icon{background:transparent;border:none}
-.s-icon .sb{width:22px;height:22px;cursor:pointer}
+.s-icon .sv{width:24px;height:24px;cursor:pointer}
 .leaflet-tooltip.s-lbl{background:rgba(255,255,255,.92);border:1px solid rgba(15,23,42,.25);border-radius:4px;padding:1px 6px;font-size:11.5px;font-weight:700;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,.3);white-space:nowrap}
 .leaflet-tooltip.s-lbl::before{display:none}
 .list-meta{display:flex;justify-content:space-between;padding:8px 16px 6px;font-size:.8rem;color:var(--muted);font-weight:600}
@@ -180,7 +181,7 @@ a.tel:hover,a.tel:focus-visible{background:#047857;outline:2px solid #047857;out
     <div class="search"><input type="search" id="q" placeholder="학교명 검색 (전체 지역)"><button type="button" id="btnQClear" disabled>검색 초기화</button></div>
     <div class="list-meta"><span id="listTitle">관내 학교 목록</span><span id="listCount">총 0개교</span></div>
     <div id="list"></div>
-    <div class="foot">출처: 학교알리미 2026년 공시(학교기본정보, 학년별·학급별 학생수 — 2026.4.1. 기준), 유치원알리미 2026년 1차 공시(일반현황), 공공데이터포털 전국초중등학교위치표준데이터(2026.10.1. 기준). 2026.10.11. 수집. 폐교·휴교 및 2026년 공시 실적이 없는 학교, 사립유치원은 제외.</div>
+    <div class="foot">출처: 학교알리미 2026년 공시(학교기본정보, 학년별·학급별 학생수 — 2026.4.1. 기준), 유치원알리미 2026년 1차 공시(일반현황), 공공데이터포털 전국초중등학교위치표준데이터(2026.10.1. 기준). 2026.10.11. 수집. 폐교·휴교 및 2026년 공시 실적이 없는 학교, 사립유치원은 제외. 배경지도: 브이월드(국토교통부).</div>
   </aside>
 
   <main id="mapWrap">
@@ -242,8 +243,21 @@ const LEVELS = ['유치원','초등학교','중학교','고등학교','특수학
 const LEVEL_SHORT = {'전체':'전체','유치원':'유치원','초등학교':'초등학교','중학교':'중학교','고등학교':'고등학교','특수학교':'특수학교'};
 const LEVEL_MARK = {'유치원':'유','초등학교':'초','중학교':'중','고등학교':'고','특수학교':'특'};
 const LEVEL_SHAPE = {'유치원':' kg','특수학교':' sp'};
+/* 브이월드(국토교통부 공간정보 오픈플랫폼) 인증키 — 만료·재발급 시 이 값만 바꾸면 됨 */
+const VWORLD_KEY = '2F506906-1B8B-493D-851A-6355C87B1644';
 const LABEL_ZOOM = 14;   /* 이 배율 이상 확대하면 학교명이 항상 보임 */
-function badge(level, typeClass){ return `<span class="sb ${typeClass}${LEVEL_SHAPE[level]||''}"><i style="font-style:normal">${LEVEL_MARK[level]||''}</i></span>`; }
+const LEVEL_COLOR = {'유치원':'#db2777','초등학교':'#059669','중학교':'#2563eb','고등학교':'#ea580c','특수학교':'#7c3aed'};
+/* 모양=설립구분, 색=학교급, 글자=학교급 */
+function badge(level, typeClass){
+  const c = LEVEL_COLOR[level] || '#64748b', t = LEVEL_MARK[level] || '';
+  const st = `fill="${c}" stroke="#fff" stroke-width="2" stroke-linejoin="round"`;
+  if (typeClass === 'neutral')   /* 학교급 범례용 색상 표지 */
+    return `<span class="sv"><svg viewBox="0 0 30 20"><rect x="1" y="1" width="28" height="18" rx="9" fill="${c}"/><text x="15" y="14.5" style="font-size:12px">${t}</text></svg></span>`;
+  const shape = typeClass === 'national' ? `<rect x="2.5" y="2.5" width="19" height="19" rx="2" ${st}/><text x="12" y="16">${t}</text>`
+              : typeClass === 'public'   ? `<polygon points="12,0.5 24,22.5 0,22.5" ${st}/><text x="12" y="20" style="font-size:10px">${t}</text>`
+              :                            `<circle cx="12" cy="12" r="10.5" ${st}/><text x="12" y="16">${t}</text>`;
+  return `<span class="sv"><svg viewBox="0 0 24 24">${shape}</svg></span>`;
+}
 const TYPES = ['국립','공립','사립'];
 const TYPE_COLOR = {국립:'#2563eb', 공립:'#059669', 사립:'#ea580c'};
 const TYPE_CLASS = {국립:'national', 공립:'public', 사립:'private'};
@@ -634,32 +648,43 @@ function clearData(){
 
 /* ================= 지도 ================= */
 function initMap(){
-  map = L.map('map', {center:[34.95, 126.85], zoom:9, zoomControl:true});
-  /* API 키가 필요 없는 배경지도. 한 곳이 막히면 다음 지도로 자동 전환 */
+  map = L.map('map', {center:[34.95, 126.85], zoom:9, minZoom:6, zoomControl:true});
+  /* 배경지도: 브이월드(국토교통부) WMTS. 인증키 오류·접속 차단 시 예비 지도로 자동 전환 */
+  const vw = (layer, ext) => L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${VWORLD_KEY}/${layer}/{z}/{y}/{x}.${ext}`,
+    {minZoom:6, maxZoom:19, attribution:'&copy; 브이월드(국토교통부)'});
   const bases = {
-    '위성 사진': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, attribution:'Tiles &copy; Esri'}),
-    '일반 지도': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, attribution:'Tiles &copy; Esri'}),
-    'OpenStreetMap': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'})
+    '브이월드 위성 사진': vw('Satellite', 'jpeg'),
+    '브이월드 일반 지도': vw('Base', 'png'),
+    '브이월드 백지도': vw('white', 'png'),
+    '예비: 위성 사진(Esri)': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, attribution:'Tiles &copy; Esri'}),
+    '예비: OpenStreetMap': L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'})
   };
-  /* 위성 사진 위에 지명·경계 표시 */
-  const labels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, pane:'overlayPane'});
-  const order = Object.keys(bases);
-  let cur = 0, errs = 0, loaded = 0;
-  bases[order[0]].addTo(map);
-  labels.addTo(map);
-  L.control.layers(bases, {'지명·경계 표시': labels}, {position:'topright', collapsed:true}).addTo(map);
-  order.forEach((k, i) => {
-    bases[k].on('tileload', () => { if (i === cur) loaded++; });
+  /* 브이월드가 열리지 않을 때 넘어갈 예비 지도 */
+  const FALLBACK = {'브이월드 위성 사진':'예비: 위성 사진(Esri)', '브이월드 일반 지도':'예비: OpenStreetMap', '브이월드 백지도':'예비: OpenStreetMap', '예비: 위성 사진(Esri)':'예비: OpenStreetMap'};
+  /* 위성 사진 위에 겹치는 지명·도로(위성 사진일 때만 표시) */
+  const LABELS = {
+    '브이월드 위성 사진': L.tileLayer(`https://api.vworld.kr/req/wmts/1.0.0/${VWORLD_KEY}/Hybrid/{z}/{y}/{x}.png`, {minZoom:6, maxZoom:19, pane:'overlayPane'}),
+    '예비: 위성 사진(Esri)': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {maxZoom:19, pane:'overlayPane'})
+  };
+  const labels = L.layerGroup().addTo(map);
+  const syncLabels = name => { labels.clearLayers(); if (LABELS[name]) labels.addLayer(LABELS[name]); };
+  let cur = '브이월드 위성 사진', errs = 0, loaded = 0;
+  bases[cur].addTo(map); syncLabels(cur);
+  L.control.layers(bases, {'지명·도로 표시(위성 사진)': labels}, {position:'topright', collapsed:true}).addTo(map);
+  Object.keys(bases).forEach(k => {
+    bases[k].on('tileload', () => { if (k === cur) loaded++; });
     bases[k].on('tileerror', () => {
-      if (i !== cur) return;
+      if (k !== cur) return;
       errs++;
-      if (errs >= 6 && loaded === 0 && cur < order.length - 1) {
-        map.removeLayer(bases[order[cur]]); cur++; errs = 0;
-        bases[order[cur]].addTo(map);
+      if (errs >= 6 && loaded === 0 && FALLBACK[cur]) {
+        const from = cur, to = FALLBACK[cur];
+        map.removeLayer(bases[from]); cur = to; errs = 0; loaded = 0;
+        bases[to].addTo(map); syncLabels(to);
+        if (from.startsWith('브이월드')) toast('브이월드 지도를 불러오지 못해 예비 지도로 전환했습니다.\n(인증키 유효기간·등록 서비스 URL 또는 인터넷 연결을 확인하십시오.)');
       }
     });
   });
-  map.on('baselayerchange', e => { cur = order.indexOf(e.name); errs = 0; loaded = 0; });
+  map.on('baselayerchange', e => { cur = e.name; errs = 0; loaded = 0; syncLabels(cur); });
   canvasRenderer = L.canvas({padding:0.3});
   map.on('zoomend', () => applyLabels(false));
   badgeLayer = L.layerGroup().addTo(map);
@@ -693,7 +718,7 @@ function renderMap(scope, distCounts){
     }
   } else {
     scope.filter(s => s.lat != null).forEach(s => {
-      const m = L.marker([s.lat, s.lng], {icon: L.divIcon({className:'s-icon', iconSize:[22,22], iconAnchor:[11,11], html: badge(s.level, TYPE_CLASS[s.type])}), title: s.name})
+      const m = L.marker([s.lat, s.lng], {icon: L.divIcon({className:'s-icon', iconSize:[24,24], iconAnchor:[12,12], html: badge(s.level, TYPE_CLASS[s.type])}), title: s.name})
         .on('click', () => openModal(s));
       m._school = s;
       markerLayer.addLayer(m); markerByUid.set(s.uid, m);
@@ -736,7 +761,7 @@ function render(){
   }
   if (!q) listScope = scope;
 
-  $('legend').innerHTML = TYPES.map(t => `<div class="tchip ${state.types.has(t) ? '' : 'off'}" data-type="${t}" title="클릭하여 표시/숨김"><span class="dot ${TYPE_CLASS[t]}"></span>${t}<small>${tCount[t]}</small></div>`).join('');
+  $('legend').innerHTML = TYPES.map(t => `<div class="tchip ${state.types.has(t) ? '' : 'off'}" data-type="${t}" title="클릭하여 표시/숨김">${badge('', TYPE_CLASS[t])}${t}<small>${tCount[t]}</small></div>`).join('');
   $('levels').innerHTML = ['전체', ...LEVELS].map(l => `<button class="lchip ${state.level === l ? 'on' : ''}" data-level="${l}">${l === '전체' ? '' : badge(l, 'neutral')}${LEVEL_SHORT[l]}<small>${lCount[l] || 0}</small></button>`).join('');
   $('distGrid').innerHTML = DISTRICTS.map(d => `<button class="dchip ${state.district === d ? 'on' : ''} ${dCount[d] ? '' : 'zero'}" data-dist="${d}" title="${d}">${d.replace('광주 ', '광주·')} ${dCount[d] || 0}</button>`).join('');
   $('distGrid').classList.toggle('hide', !state.gridOpen);
