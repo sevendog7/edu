@@ -61,6 +61,7 @@ button{cursor:pointer}
 .detail dl{display:grid;grid-template-columns:64px 1fr;gap:6px 10px;margin:0}
 .detail dt{color:var(--sub)}
 .detail dd{margin:0;word-break:keep-all;overflow-wrap:anywhere}
+.detail a.tel{display:inline-block;padding:4px 0;color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .detail .x{position:absolute;right:10px;top:10px;width:28px;height:28px;border:0;border-radius:6px;background:none;font-size:18px;line-height:1;color:var(--sub)}
 .detail .x:hover{background:var(--bg)}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -240,7 +241,10 @@ function select(i, move){
   const h=document.createElement("h2"); h.textContent=d.name;
   const dl=document.createElement("dl");
   [["소재지",d.gu+" "+d.dong],["주소",d.addr],["전화",d.tel||"일람표에 없음"]].forEach(([k,v])=>{
-    const dt=document.createElement("dt"), dd=document.createElement("dd"); dt.textContent=k; dd.textContent=v; dl.append(dt,dd);
+    const dt=document.createElement("dt"), dd=document.createElement("dd"); dt.textContent=k;
+    if(k==="전화" && d.tel){ const a=document.createElement("a"); a.className="tel"; a.href="tel:"+d.tel.replace(/[^0-9+]/g,""); a.textContent=v; a.setAttribute("aria-label",d.name+" 전화 걸기 "+v); dd.append(a); }
+    else dd.textContent=v;
+    dl.append(dt,dd);
   });
   const act=document.createElement("div"); act.className="actions";
   const cp=document.createElement("button"); cp.type="button"; cp.textContent="주소 복사";
