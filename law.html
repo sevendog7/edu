@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>통합교육청 자치법규 128</title>
+<title>통합교육청 자치법규 현황</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
@@ -109,6 +109,7 @@ button.chip:active{box-shadow:var(--shadow-press)}
 .ttl{font-size:15px;font-weight:500;line-height:1.45;overflow-wrap:anywhere}
 .meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:12px;color:var(--muted);align-items:center}
 .meta .no{font-variant-numeric:tabular-nums}
+.meta .note.new{background:var(--forest);color:var(--forest-ink)}
 .meta .note{color:var(--forest);background:var(--mint-soft);border-radius:6px;padding:0 7px}
 .meta .cat{border:1px solid var(--line);border-radius:6px;padding:0 7px}
 .ext{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--forest);background:var(--mint-soft);flex:none}
@@ -152,9 +153,9 @@ footer p{margin:0;max-width:64ch}
 
 <div class="wrap">
   <header class="hero">
-    <div class="kicker">Jeonnam-Gwangju · Local Laws (2026.11.1.기준)</div>
-    <h1>전남광주통합특별시교육청 자치법규 <span class="num">128</span></h1>
-    <p>분야를 누르면 해당 법규 목록이 열리고, 법규명을 누르면 국가법령정보센터 원문으로 이동합니다.[byST]</p>
+    <div class="kicker">Jeonnam-Gwangju · Local Laws</div>
+    <h1>통합교육청 자치법규 <span class="num" id="total">150</span></h1>
+    <p>의회 의결 또는 법제심의를 거쳐 확정된 자치법규를 9개 업무 분야로 정리했습니다. 분야를 누르면 해당 법규 목록이 열리고, 법규명을 누르면 국가법령정보센터 원문으로 이동합니다.</p>
     <div class="rule"></div>
   </header>
 
@@ -169,16 +170,47 @@ footer p{margin:0;max-width:64ch}
 
   <footer>
     <div class="line">Source</div>
-    <p>목록 기준: <a href="https://www.jge.go.kr/jgelaw/na/ntt/selectNttList.do?mi=2514&amp;bbsId=906" target="_blank" rel="noopener">전남광주통합특별시교육청 법무행정서비스 › 자치법규</a> 게시판(전체 128건), 2026. 11. 1. 확인. 법규 원문 링크와 정식 명칭은 국가법령정보센터 등재 자료로 대조했습니다.</p>
-    <p>개정조례·개정규칙(125·126·105·104번)은 국가법령정보센터에서 개정 반영된 본 법규로 연결됩니다.</p>
+    <p>목록 기준: <a href="https://www.jge.go.kr/jgelaw/na/ntt/selectNttList.do?mi=2514&amp;bbsId=906" target="_blank" rel="noopener">전남광주통합특별시교육청 법무행정서비스 › 자치법규</a> 게시판(전체 150건), 2026. 11. 13. 확인. 법규 원문 링크는 게시판에 연결된 국가법령정보센터 주소를 그대로 사용했습니다.</p>
+    <p>개정조례·개정규칙(142·126·125·105·104번)은 국가법령정보센터에서 개정 반영된 본 법규로 연결됩니다. 분야 구분은 업무 성격에 따른 편의 분류입니다.</p>
   </footer>
 </div>
 
 <script>
-const LAW = n => "https://www.law.go.kr/" + encodeURIComponent("자치법규") + "/" + encodeURIComponent(n);
+// 법무행정서비스 게시판이 각 법규에 걸어 둔 국가법령정보센터 연결 정보(2026. 11. 13. 기준)
+const SEQ={"150": 2184141, "149": 2184109, "148": 2184107, "147": 2184139, "146": 2184105, "145": 2184097, "144": 2184095, "143": 2181551, "142": 2181549, "141": 2181587, "140": 2181585, "139": 2180933, "138": 2180923, "137": 2180921, "136": 2180879, "135": 2180919, "134": 2180917, "133": 2180877, "132": 2180915, "131": 2180913, "130": 2180911, "129": 2180369, "128": 2176283, "127": 2176281, "126": 2176321, "125": 2176285, "124": 2176319, "123": 2176317, "122": 2176315, "121": 2176313, "120": 2176311, "119": 2176309, "118": 2176307, "117": 2176305, "116": 2176303, "115": 2176301, "114": 2176299, "113": 2176217, "112": 2176215, "111": 2176213, "110": 2176279, "109": 2176211, "108": 2176209, "107": 2176277, "106": 2176207, "105": 2176321, "104": 2166895, "102": 2095923, "101": 1813675, "100": 2133411, "99": 1188907};
+const LOC={"98": 34, "97": 33, "96": 32, "95": 31, "94": 29, "93": 28, "92": 27, "91": 30, "90": 26, "89": 25, "88": 3, "87": 2, "86": 1, "85": 3, "84": 7, "83": 21, "82": 2, "81": 4, "80": 11, "79": 18, "78": 23, "77": 24, "76": 15, "75": 22, "74": 9, "73": 10, "72": 12, "71": 14, "70": 16, "69": 17, "68": 6, "67": 13, "66": 5, "65": 19, "64": 20, "63": 8, "62": 317, "45": 1, "103": 289, "1": 257, "2": 258, "3": 259, "4": 260, "5": 261, "6": 262, "7": 263, "8": 264, "9": 265, "10": 266, "11": 267, "12": 268, "13": 269, "14": 270, "15": 271, "16": 272, "17": 273, "18": 274, "19": 275, "20": 276, "21": 277, "22": 278, "23": 279, "24": 280, "25": 281, "26": 282, "27": 283, "28": 284, "29": 285, "30": 286, "31": 287, "32": 288, "33": 289, "34": 290, "35": 291, "36": 292, "37": 293, "38": 294, "39": 295, "40": 296, "41": 297, "42": 298, "43": 299, "44": 300, "46": 301, "47": 302, "48": 303, "49": 304, "50": 305, "51": 306, "52": 307, "53": 308, "54": 309, "55": 310, "56": 311, "57": 312, "58": 313, "59": 314, "60": 315, "61": 316};
+const LAW_PATH = n => "https://www.law.go.kr/" + encodeURIComponent("자치법규") + "/" + encodeURIComponent(n);
+function lawUrl(d){
+  if(SEQ[d.no]) return "https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq="+SEQ[d.no];
+  const base=d.no===103?byNo.get(33).target:d.target;
+  if(LOC[d.no]) return LAW_PATH(base.replace(/\s+/g,"")) + "/(" + LOC[d.no] + ",20260701)";
+  return LAW_PATH(base);
+}
 const A="전남광주통합특별시교육청 ", B="전남광주통합특별시교육감 ", C="전남광주통합특별시 ", G="광주광역시교육청 ";
 // [번호, 소관과, 구분, 법규명(국가법령정보센터 정식 명칭), 게시판 표기(다를 때), 연결 대상(다를 때), 비고]
 const DATA = [
+[150,"행정과","조례",A+"학력인정 평생교육시설 보조금 등 지원에 관한 조례",,,"신규"],
+[149,"대외협력담당관","조례",A+"학교 학부모회 설치 및 운영에 관한 조례",,,"신규"],
+[148,"미래교육전략기획관","조례",A+"정책연구용역 관리 조례",,,"신규"],
+[147,"진로교육과","조례",A+"다문화교육 활성화 및 이주배경학생 지원 조례",,,"신규"],
+[146,"진로교육과","조례",A+"탈북가정청소년 교육지원 조례",,,"신규"],
+[145,"체육건강과","조례",A+"학생 건강증진에 관한 조례",,,"신규"],
+[144,"체육건강과","조례",A+"여학생 생리용품 지원 조례",,,"신규"],
+[143,"미래교육전략기획관","규칙",A+"민간전문가 정책 참여 및 지원에 관한 규칙"],
+[142,"미래교육전략기획관","규칙",B+"소속 공무원 제안 규칙 일부개정규칙",,,"개정규칙"],
+[141,"조직기획담당관","규칙",A+"직무대리 규칙"],
+[140,"미래교육전략기획관","규칙",B+"공약사항 관리 규칙"],
+[139,"홍보담당관","규칙",A+"교육ㆍ학예에 관한 소식지 발행 규칙"],
+[138,"교육시설과","조례",A+"학교복합시설 설치 및 운영 조례"],
+[137,"교육시설과","조례",A+"군용비행장ㆍ군사격장 소음피해 학교 지원 조례"],
+[136,"재무관리과","조례",A+"공공시설 내의 매점 및 자동판매기 설치 허가ㆍ위탁에 관한 조례"],
+[135,"민주생활교육과","조례",A+"효행교육 진흥 조례"],
+[134,"체육건강과","조례",A+"학교 스마트체육 활성화 조례"],
+[133,"체육건강과","조례",A+"흡연 예방 및 금연 지원 조례"],
+[132,"체육건강과","조례",A+"학교 청소 지원 조례"],
+[131,"체육건강과","조례",A+"헌혈교육 활성화 조례"],
+[130,"체육건강과","조례",A+"교육환경보호구역 내 마약류 용어 오남용 개선 조례"],
+[129,"글로컬미래교육과","조례",A+"4차 산업혁명 교육진흥 및 창의ㆍ융합형 인재양성 조례"],
 [128,"예산과","규칙",C+"공립학교회계 규칙",,,"2027. 3. 1. 시행"],
 [127,"감사관","규칙",A+"공무원 행동강령"],
 [126,"조직기획담당관","규칙",A+"행정기구 설치 조례 시행규칙 일부개정규칙",,A+"행정기구 설치 조례 시행규칙","개정규칙"],
@@ -310,15 +342,15 @@ const DATA = [
 ].map(([no,dept,type,name,board,target,note])=>({no,dept,type,name,shown:(board||name).replace(/ㆍ/g,"·"),target:target||name,note}));
 
 const CATS = [
- {id:"org",tag:"Administration",name:"조직·법무·자치행정",desc:"행정기구·정원, 법제·행정심판, 출범 경과조치, 교육행정협의회·교육협력",nos:[126,125,105,104,97,95,88,85,82,69,68,62,45,39,20,14,13,5,4,2,1]},
- {id:"hr",tag:"Personnel",name:"인사·복무·후생",desc:"공무원 수당·여비·주택임차, 장애인공무원 편의지원, 교육공무직원 관리",nos:[124,119,102,101,100,99,90,15,12,11]},
+ {id:"org",tag:"Administration",name:"조직·법무·자치행정",desc:"행정기구·정원, 법제·행정심판, 출범 경과조치, 교육행정협의회·교육협력",nos:[149,148,143,142,140,139,126,125,105,104,97,95,88,85,82,69,68,62,45,39,20,14,13,5,4,2,1]},
+ {id:"hr",tag:"Personnel",name:"인사·복무·후생",desc:"공무원 수당·여비·주택임차, 장애인공무원 편의지원, 교육공무직원 관리",nos:[141,124,119,102,101,100,99,90,15,12,11]},
  {id:"audit",tag:"Integrity",name:"감사·청렴",desc:"행동강령, 공익제보, 이해충돌 방지, 자체감사, 적극행정",nos:[127,123,98,92,86,83,79,10,8,7,6]},
- {id:"fin",tag:"Finance",name:"예산·재무·회계",desc:"교육비특별회계, 학교회계, 기금, 공유재산, 계약, 수업료·수수료",nos:[128,120,96,94,93,91,87,70,65,64,30,29,28,27,26,25,24,23,22,21,19,18,17,16,3]},
- {id:"edu",tag:"Curriculum",name:"교육과정·학습지원",desc:"유아교육, 교육과정, 영재·자율학교, 특수교육, 기초학력, 미래교육",nos:[118,117,116,106,89,81,77,76,75,74,66,63,59,58,57,56,55,32,31,9]},
+ {id:"fin",tag:"Finance",name:"예산·재무·회계",desc:"교육비특별회계, 학교회계, 기금, 공유재산, 계약, 수업료·수수료",nos:[136,128,120,96,94,93,91,87,70,65,64,30,29,28,27,26,25,24,23,22,21,19,18,17,16,3]},
+ {id:"edu",tag:"Curriculum",name:"교육과정·학습지원",desc:"유아교육, 교육과정, 영재·자율학교, 특수교육, 기초학력, 미래교육",nos:[150,147,146,129,118,117,116,106,89,81,77,76,75,74,66,63,59,58,57,56,55,32,31,9]},
  {id:"career",tag:"Admissions",name:"진로·진학·입학",desc:"고입 전형·추첨, 입학전형료, 진로교육, 현장실습, 대학 진학",nos:[103,80,73,72,71,67,61,60,36,34,33]},
- {id:"life",tag:"Student Life",name:"학생생활·인성",desc:"학교폭력·아동학대 예방, 인성교육, 실종학생, 언어순화",nos:[115,114,52,51,50,35]},
- {id:"health",tag:"Health & Meals",name:"보건·급식·체육",desc:"학교급식, 보건교육, 감염병, 학교체육·학생선수",nos:[113,112,111,110,109,78,54,53,49,48,47,44,38,37]},
- {id:"safety",tag:"Safety",name:"안전·시설·환경",desc:"교육안전, 지진재해, 유해물질, 교육환경평가, 학교시설",nos:[122,121,108,107,84,46,43,42,41,40]}
+ {id:"life",tag:"Student Life",name:"학생생활·인성",desc:"학교폭력·아동학대 예방, 인성교육, 실종학생, 언어순화",nos:[135,115,114,52,51,50,35]},
+ {id:"health",tag:"Health & Meals",name:"보건·급식·체육",desc:"학교급식, 보건교육, 감염병, 학교체육·학생선수",nos:[145,144,134,133,132,131,130,113,112,111,110,109,78,54,53,49,48,47,44,38,37]},
+ {id:"safety",tag:"Safety",name:"안전·시설·환경",desc:"교육안전, 지진재해, 유해물질, 교육환경평가, 학교시설",nos:[138,137,122,121,108,107,84,46,43,42,41,40]}
 ];
 const TYPES=["조례","규칙","훈령"];
 const byNo=new Map(DATA.map(d=>[d.no,d]));
@@ -347,10 +379,10 @@ summary.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)ret
 
 function row(d,q,showCat){
   const c=catOf.get(d.no);
-  return `<li class="item"><a href="${LAW(d.target)}" target="_blank" rel="noopener" title="국가법령정보센터에서 ${esc(d.target)} 열기">
+  return `<li class="item"><a href="${lawUrl(d)}" target="_blank" rel="noopener" title="국가법령정보센터에서 열기">
     <span class="badge b-${d.type}">${d.type}</span>
     <span class="body"><span class="ttl">${hi(d.shown,q)}</span>
-      <span class="meta"><span class="tb t-${d.type}">${d.type}</span><span class="no">No. ${d.no}</span><span>${hi(d.dept,q)}</span>${d.note?`<span class="note">${esc(d.note)}</span>`:""}${showCat?`<span class="cat">${c.name}</span>`:""}</span></span>
+      <span class="meta"><span class="tb t-${d.type}">${d.type}</span><span class="no">No. ${d.no}</span><span>${hi(d.dept,q)}</span>${d.note?`<span class="note${d.note==="신규"?" new":""}">${esc(d.note)}</span>`:""}${showCat?`<span class="cat">${c.name}</span>`:""}</span></span>
     <span class="ext">${extIcon}</span></a></li>`;
 }
 
