@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="naver-site-verification" content="57ec73e2bb9a431d8e67f45db33040f4f2be5992" />
-<meta name="theme-color" content="#e8ecf1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#e8ecf1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181f" media="(prefers-color-scheme: dark)">
 <title>K-교육특별시 비서실</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,8 +49,8 @@
   .dd-btn{ display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 12px; border:0; border-radius:11px; background:transparent; font-size:13.5px; font-weight:500; color:var(--ink-2); white-space:nowrap; transition:background .15s, color .15s; }
   .dd-btn svg{ width:16px; height:16px; color:var(--mute); }
   .dd-btn .chev{ width:10px; height:10px; transition:transform .2s; }
-  .dd:hover .dd-btn, .dd.open .dd-btn{ background:rgba(255,255,255,.75); color:var(--ink); }
-  .dd-btn.on{ background:#fff; box-shadow:var(--shadow-sm); color:var(--ink); font-weight:700; }
+  .dd:hover .dd-btn, .dd.open .dd-btn{ color:var(--ink); }
+  .dd-btn.on{ color:var(--ink); font-weight:700; }
   .dd-btn.on svg{ color:var(--ink); }
   .dd.open .chev{ transform:rotate(180deg); }
   .dd-panel{ position:absolute; top:calc(100% + 10px); left:0; z-index:30; width:440px; padding:12px;
@@ -71,6 +73,7 @@
   .bar .cmd-btn{ margin-left:auto; }
   .nav-tog{ display:none; }
   .site-foot{ padding:6px 4px 0; text-align:center; font-size:12.5px; color:var(--mute); }
+  .site-foot .foot-warn{ color:var(--ink-2); }
   .site-foot a{ color:var(--ink); font:600 12.5px var(--num); }
   .site-foot a:hover{ text-decoration:underline; text-underline-offset:3px; }
 
@@ -169,6 +172,8 @@
   .aclock .hand.no-anim{ transition:none; }
   .cal-side{ flex:1; min-width:0; height:114px; display:flex; flex-direction:column; gap:4px; }
   .cal-side .eyebrow{ margin:0 2px; height:18px; letter-spacing:.06em; text-transform:none; font:600 12px var(--num); color:var(--ink-2); white-space:nowrap; overflow:hidden; }
+  .cal-side .gcal{ margin-left:auto; flex-shrink:0; padding:1px 8px; border-radius:6px; background:rgba(28,34,48,.06); font:600 11.5px 'Noto Sans KR'; letter-spacing:0; color:var(--ink-2); transition:background .15s, color .15s; }
+  .cal-side .gcal:hover{ background:var(--dark); color:#fff; }
   button.mini-cal{ flex:1; min-height:0; display:grid; grid-template-columns:repeat(7,1fr); grid-auto-rows:1fr; align-items:center; text-align:center; padding:4px 6px;
     border:1px solid rgba(255,255,255,.95); border-radius:12px; background:var(--card); box-shadow:var(--shadow-sm); font:500 10.5px/1 var(--num); color:var(--ink-2); transition:background .15s, transform .15s; }
   button.mini-cal:hover{ background:#fff; transform:translateY(-1px); }
@@ -193,19 +198,32 @@
   .cal-grid .sun{ color:#c0566b; } .cal-grid .sat{ color:#4a6fa5; } .cal-grid .out{ color:#c9ced6; }
   .cal-grid .today{ background:var(--dark); color:#fff; font-weight:700; box-shadow:0 6px 12px -6px rgba(27,34,48,.8); }
   .cal-foot{ margin:12px 4px 0; font-size:13px; color:var(--mute); text-align:center; }
-  .p-wx{ display:flex; flex-direction:column; gap:6px; }
-  .p-wx .wx{ flex:1; }
-  .news-row{ display:flex; flex-direction:column; }
-
-  .wx{ display:flex; align-items:center; gap:14px; padding:6px 10px; border-radius:16px; background:transparent; border:1px solid transparent; box-shadow:none; transition:background .15s; }
+  /* 날씨: 현재 + 시간대별 예보(네이버 날씨형), 웹검색 칸 높이 이내 */
+  .p-wx{ display:flex; flex-direction:column; gap:4px; }
+  .wx-top{ display:flex; align-items:center; gap:8px; height:18px; }
+  .wx-loc{ margin-left:auto; max-width:70%; text-align:right; font-size:12.5px; font-weight:700; color:#23795f; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .wx-loc .src{ font-weight:400; font-size:11px; color:var(--faint); }
+  .wx{ flex:1; display:grid; grid-template-columns:minmax(0,46%) minmax(0,1fr); align-items:center; gap:10px; height:92px; padding:2px 6px; border-radius:14px; transition:background .15s; }
   .wx:hover{ background:rgba(255,255,255,.55); }
-  .wx-ico{ font-size:34px; line-height:1; }
-  .wx-temp{ display:block; font:600 26px var(--num); letter-spacing:-.03em; line-height:1.1; }
-  .wx-cond{ font-size:13px; color:var(--ink-2); }
-  .wx-loc{ margin-left:auto; align-self:flex-start; max-width:50%; text-align:right; font-size:13px; font-weight:700; color:#23795f; line-height:1.4; word-break:keep-all; }
-  .wx-loc .src{ font-weight:400; font-size:11.5px; color:var(--faint); }
-  .wx-detail{ display:flex; flex-wrap:wrap; gap:2px 12px; margin:6px 4px 0; font-size:12px; color:var(--mute); }
-  .wx-detail b{ font:600 12px var(--num); color:var(--ink-2); }
+  .wx-now{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+  .wx-main{ display:flex; align-items:center; gap:8px; }
+  .wx-ico{ font-size:34px; line-height:1; flex-shrink:0; }
+  .wx-temp{ display:block; font:500 28px var(--num); letter-spacing:-.04em; line-height:1.05; }
+  .wx-cond{ display:block; font-size:12.5px; font-weight:700; color:var(--ink-2); white-space:nowrap; }
+  .wx-mm{ font:600 12.5px var(--num); color:var(--mute); }
+  .wx-mm .lo{ color:#3b6fd8; } .wx-mm .hi{ color:#d0453c; }
+  .wx-dust{ font-size:12px; color:var(--ink-2); white-space:nowrap; }
+  .wx-dust b{ font-weight:700; }
+  .g1{ color:#2f7fd1; } .g2{ color:#2f9d7c; } .g3{ color:#e08a1e; } .g4{ color:#d0453c; }
+  .wx-fc{ position:relative; height:88px; min-width:0; }
+  .wx-fc svg{ position:absolute; left:0; top:0; width:100%; height:46px; overflow:visible; }
+  .wx-fc .ln{ fill:none; stroke:#c3c9d3; stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
+  .wx-fc .ar{ fill:rgba(195,201,211,.18); stroke:none; }
+  .wx-fc .tv{ position:absolute; transform:translate(-50%,-100%); font:500 11.5px var(--num); color:var(--ink-2); white-space:nowrap; }
+  .wx-fc .row{ position:absolute; left:0; right:0; display:grid; grid-template-columns:repeat(5,1fr); text-align:center; }
+  .wx-fc .ic{ top:48px; font-size:16px; line-height:20px; }
+  .wx-fc .hr{ top:70px; font:500 11px var(--num); color:var(--mute); }
+  .wx-fc .hr span:first-child{ color:var(--ink); font-weight:700; }
   .sub-title{ display:flex; align-items:center; gap:8px; margin:16px 4px 6px; font-size:13px; color:var(--ink-2); }
   .sub-title .line{ flex:1; height:1px; background:var(--line); }
   .news-line{ display:flex; align-items:center; gap:8px; min-height:36px; padding:3px 4px; }
@@ -292,7 +310,8 @@
     .dd-panel::before{ display:none; }
     .dd-head{ display:none; }
     .dd-more{ margin-top:6px; }
-    .p-news{ order:1; } .p-ws{ order:2; } .p-clock{ order:3; } .p-wx{ order:4; } .p-find{ order:5; }
+    .info{ display:contents; }
+    .p-news{ order:1; } #tools{ order:2; } .p-find{ order:3; } .p-clock{ order:4; } .p-wx{ order:5; } .p-ws{ order:6; } .site-foot{ order:7; }
     .quick{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; }
     a.qk{ flex-direction:column; justify-content:center; gap:3px; height:54px; padding:5px 2px; border-radius:12px; }
     a.qk .g{ width:24px; height:24px; font-size:11.5px; border-radius:7px; }
@@ -321,7 +340,55 @@
     .sec-head .sub{ display:none; }
     #tools{ scroll-margin-top:170px; }
   }
+  /* PC: 업무 도구 칸이 남는 높이를 채워 화면 아래까지 꽉 차게 */
+  @media (min-width:761px){
+    .main{ min-height:100dvh; padding-bottom:12px; }
+    #tools{ flex:1 1 auto; display:flex; flex-direction:column; }
+    #tools .rows{ align-content:start; }
+    #tools .warn{ margin-top:auto; }
+    .site-foot{ padding-top:0; }
+  }
   @media (max-width:360px){ .rows{ grid-template-columns:1fr; } }
+
+  /* ---------- 다크 모드: PC·휴대전화의 화면 모드 설정을 그대로 따름 ---------- */
+  @media (prefers-color-scheme:dark){
+    :root{
+      color-scheme:dark;
+      --bg:#14181f; --ink:#e7eaf0; --ink-2:#c2c8d2; --mute:#8d96a5; --faint:#5f6878;
+      --line:rgba(255,255,255,.08);
+      --panel:rgba(32,38,48,.78); --card:rgba(44,51,63,.88); --dark:#4a5f84;
+      --shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 12px 32px -14px rgba(0,0,0,.6), 0 2px 6px -2px rgba(0,0,0,.3);
+      --shadow-sm:0 1px 0 rgba(255,255,255,.05) inset, 0 4px 12px -6px rgba(0,0,0,.5);
+    }
+    body{ background:radial-gradient(1200px 600px at 85% -10%, #1f2531 0%, transparent 60%), radial-gradient(900px 500px at -10% 110%, #191e27 0%, transparent 60%), var(--bg); }
+    .panel, a.qk, .finder, .cmd-btn, .doc, .find-btn, button.mini-cal, .ws, a.row, .nav-tog{ border-color:rgba(255,255,255,.06); }
+    .head{ background:linear-gradient(180deg, rgba(20,24,31,.96) 70%, rgba(20,24,31,0)); }
+    .crumb .num{ background:#2c333f; }
+    a.qk:hover, .cmd-btn:hover, .doc:hover, .find-btn:hover, button.mini-cal:hover, a.row:hover, .tab:hover, .cmd-list a.sel{ background:#353e4c; box-shadow:var(--shadow-sm); }
+    .wx:hover{ background:rgba(255,255,255,.05); }
+    a.qk .g, .dd-grid a i, a.row .chip{ background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.05); }
+    .dd-grid a:hover, .dd-grid a:focus-visible{ background:rgba(255,255,255,.07); }
+    .dd-panel{ background:rgba(34,40,51,.98); border-color:rgba(255,255,255,.06); box-shadow:0 24px 50px -18px rgba(0,0,0,.7); }
+    .dd-more{ border-color:rgba(255,255,255,.15); }
+    kbd, .dd-head .n, .r-head .n, .sec-head .n, .cal-side .gcal{ background:rgba(255,255,255,.08); }
+    .cmd-x:hover, .cmd-foot button:hover, .r-head button:hover, .cal-head button:hover, .news-ctrl button:hover{ background:rgba(255,255,255,.08); }
+    .cmd, .cal-modal{ background:rgba(0,0,0,.5); }
+    .cmd-box, .cal-box{ background:rgba(30,36,46,.98); border-color:rgba(255,255,255,.07); box-shadow:0 40px 90px -30px rgba(0,0,0,.8); }
+    .cmd-in{ background:rgba(255,255,255,.03); }
+    .note{ background:rgba(253,233,168,.1); }
+    mark{ background:#f2d77a; color:#1c2230; }
+    .tab{ background:rgba(255,255,255,.04); }
+    .ws-btns button{ background:rgba(255,255,255,.04); }
+    .cal-grid .sun, .mini-cal .sun{ color:#ec8597; } .cal-grid .sat, .mini-cal .sat{ color:#86a9df; } .cal-grid .out{ color:#4a5262; }
+    .cal-grid .today{ box-shadow:0 6px 12px -6px rgba(0,0,0,.8); }
+    .wx-loc{ color:#5fc4a2; }
+    .wx-mm .lo{ color:#7fa6f0; } .wx-mm .hi{ color:#f08378; }
+    .g1{ color:#6aaef0; } .g2{ color:#5fc4a2; } .g3{ color:#f0a94a; } .g4{ color:#f08378; }
+    .wx-fc .ln{ stroke:#5d6676; } .wx-fc .ar{ fill:rgba(140,150,168,.12); }
+    .news-badge.latest{ background:#56607a; }
+    .aclock{ filter:drop-shadow(0 8px 14px rgba(0,0,0,.5)); }
+    @media (max-width:760px){ .bar .nav{ background:rgba(34,40,51,.98); box-shadow:0 24px 50px -18px rgba(0,0,0,.7); } }
+  }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -372,20 +439,22 @@
             <circle cx="100" cy="100" r="6" fill="#2b2f38"/><circle cx="100" cy="100" r="2.6" fill="#c9a14a"/>
           </svg>
           <div class="cal-side">
-            <span class="eyebrow"><span class="live"></span><span id="now-date-txt"></span></span>
+            <span class="eyebrow"><span class="live"></span><span id="now-date-txt"></span><a class="gcal" href="https://calendar.google.com/calendar/" target="_blank" rel="noopener" title="구글캘린더 열기">구글캘린더 ↗</a></span>
             <button type="button" class="mini-cal" id="mini-cal" aria-haspopup="dialog" title="달력 크게 보기" aria-label="달력 크게 보기"></button>
           </div>
         </div>
       </section>
 
       <section class="panel p-wx" aria-label="날씨">
-        <span class="eyebrow">Weather</span>
+        <div class="wx-top"><span class="eyebrow">Weather</span><span class="wx-loc" id="wx-loc">위치 확인 중</span></div>
         <a class="wx" id="wx" href="https://www.weather.go.kr/w/index.do#dong/1230060200/35.17097/126.88475/%EC%A0%84%EB%82%A8%EA%B4%91%EC%A3%BC%ED%86%B5%ED%95%A9%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%B4%EC%95%942%EB%8F%99//" target="_blank" rel="noopener" aria-label="기상청 날씨누리 열기">
-          <span class="wx-ico" id="wx-ico">⛅</span>
-          <span><span class="wx-temp" id="wx-temp">--°</span><span class="wx-cond" id="wx-cond">날씨 불러오는 중</span></span>
-          <span class="wx-loc" id="wx-loc">위치 확인 중</span>
+          <div class="wx-now">
+            <div class="wx-main"><span class="wx-ico" id="wx-ico">⛅</span><span><span class="wx-temp" id="wx-temp">--°</span><span class="wx-cond" id="wx-cond">불러오는 중</span></span></div>
+            <div class="wx-mm" id="wx-mm"></div>
+            <div class="wx-dust" id="wx-dust"></div>
+          </div>
+          <div class="wx-fc" id="wx-fc" aria-label="시간대별 예보"></div>
         </a>
-        <div class="wx-detail" id="wx-detail" style="margin-top:0"></div>
       </section>
 
       <section class="panel p-news" aria-label="뉴스">
@@ -416,9 +485,8 @@
       <div class="tabs" id="tabs" role="tablist" aria-label="업무 도구 분류"></div>
       <div class="sec-head" id="sec-head"></div>
       <div class="rows" id="rows"></div>
-      <p class="warn">이 페이지가 외부로 유출되지 않도록 해주세요.</p>
     </section>
-    <footer class="site-foot">비서실 업무 도구 [UBUNTU·V3] [byST] · ☎ <a href="tel:0623804670">062)380-4670</a></footer>
+    <footer class="site-foot"><span class="foot-warn">이 페이지가 외부로 유출되지 않도록 해주세요.</span> · 비서실 업무 도구 [UBUNTU·V3] [byST] · ☎ <a href="tel:0623804670">062)380-4670</a></footer>
   </main>
 </div>
 
@@ -479,22 +547,23 @@ var SECTIONS = [
     ['예산편성지침','https://sevendog7.github.io/edu/budget.html'],
     ['사무분장과 조직개편 챗봇','https://notebook.google.com/notebook/90e57148-a283-4981-849c-c8f0c148af23/preview']
   ]},
-  { id:'office', nav:'교육청', title:'교육청관련', cap:'비서·법규·조직·복무', icon:'building', items:[
-    ['구글캘린더','https://calendar.google.com/calendar/'],
+  { id:'office', nav:'교육청', title:'교육청관련', cap:'비서·법규·조직', icon:'building', items:[
     ['본청과/기관방문','https://docs.google.com/spreadsheets/d/1_BlnLsFznWV5djLpMBRMqWPgnQXgTs2t-xtFecdbpDQ/edit?gid=0#gid=0'],
-    ['지방공무원 복무','https://sevendog7.github.io/edu/bok.html'],
-    ['지방공무원정원','https://sevendog7.github.io/edu/saram.html'],
     ['정책제안서','https://sevendog7.github.io/edu/jean.html'],
     ['준비위원회','https://sevendog7.github.io/edu/junbi.html'],
     ['교육감에게 바란다','https://www.jge.go.kr/jgemain/na/ntt/selectNttList.do?mi=3017&bbsId=1106'],
-    ['본문검색Anything','https://github.com/chrisryugj/Docufinder/releases'],
     ['업무포털','https://gen.eduptl.kr/bpm_lgn_lg00_001.do?noEpSession'],
     ['공직자통합메일','https://mail.korea.kr/'],
     ['교육청누리집','https://www.jge.go.kr/jgemain/main.do'],
     ['국가법령정보','https://www.law.go.kr/main.html'],
     ['자치법규','https://www.jge.go.kr/jgelaw/na/ntt/selectNttList.do?mi=2514&bbsId=906'],
-    ['광주교육연수원','https://eduup.gen.go.kr/'],
     ['교육부업무','https://sevendog7.github.io/edu/moe.html']
+  ]},
+  { id:'civil', nav:'지방공무원', title:'지방공무원', cap:'복무·정원·연수·문서검색', icon:'user', items:[
+    ['지방공무원 복무','https://sevendog7.github.io/edu/bok.html'],
+    ['지방공무원정원','https://sevendog7.github.io/edu/saram.html'],
+    ['광주교육연수원','https://eduup.gen.go.kr/'],
+    ['본문검색Anything','https://github.com/chrisryugj/Docufinder/releases']
   ]},
   { id:'news', nav:'언론보도', title:'언론보도', cap:'뉴스·보도·이슈', icon:'paper', items:[
     ['전남광주교육 통','https://www.jngjedu.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm'],
@@ -543,12 +612,13 @@ var ICONS = {
   paper:'<rect x="4" y="5" width="13" height="15" rx="2"/><path d="M17 9h3v9a2 2 0 0 1-2 2M8 9h5M8 13h5M8 16h3"/>',
   ballot:'<path d="M4 20h16M6 20V10M10 20V10M14 20V10M18 20V10M3 10l9-6 9 6"/>',
   spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+  user:'<circle cx="12" cy="8" r="3.8"/><path d="M4.5 20.5c.8-4 3.8-6.2 7.5-6.2s6.7 2.2 7.5 6.2"/>',
   doc:'<path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14 3.5V8h4M9 12h6M9 16h6"/>'
 };
 function svg(name){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ICONS[name]+'</svg>'; }
 var ARROW = '<svg class="ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l6-6M6 5h5v5"/></svg>';
 var CHEV_R = '<svg class="ch" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4.5 2.5L8 6l-3.5 3.5"/></svg>';
-var ICON_OF = {audit:'flag', essential:'chat', office:'building', news:'paper', election:'ballot', ai:'spark'};
+var ICON_OF = {audit:'flag', essential:'chat', office:'building', civil:'user', news:'paper', election:'ballot', ai:'spark'};
 
 (function(){
   function $(id){ return document.getElementById(id); }
@@ -858,7 +928,8 @@ var ICON_OF = {audit:'flag', essential:'chat', office:'building', news:'paper', 
 
 /* ===== 날씨: 접속 지역 기준 (인증키·별도 서버 불필요) =====
    위치: 브라우저 위치 권한 → 거부 시 접속 IP 기준 지역 → 실패 시 운암2동
-   날씨: Open-Meteo 현재 날씨(무료·인증키 없음) */
+   날씨: Open-Meteo 현재·시간별 예보 / 미세먼지: Open-Meteo 대기질(CAMS 모델값)
+   등급: 환경부 기준 PM10 0~30 좋음·31~80 보통·81~150 나쁨·151~ 매우나쁨, PM2.5 0~15·16~35·36~75·76~ */
 (function(){
   var DEF={lat:35.17097, lon:126.88475, name:'북구 운암2동'};
   function $(id){ return document.getElementById(id); }
@@ -885,22 +956,44 @@ var ICON_OF = {audit:'flag', essential:'chat', office:'building', news:'paper', 
     71:['🌨️','약한 눈'],73:['🌨️','눈'],75:['❄️','강한 눈'],77:['🌨️','싸락눈'],
     80:['🌦️','소나기'],81:['🌧️','소나기'],82:['⛈️','강한 소나기'],85:['🌨️','눈 소나기'],86:['❄️','강한 눈 소나기'],
     95:['⛈️','뇌우'],96:['⛈️','뇌우·우박'],99:['⛈️','뇌우·우박']};
+  function icon(code, day){ var w=WMO[code]||['🌡️','-']; if(day===0 && code<=1) return ['🌙', w[1]]; if(day===0 && code===2) return ['☁️', w[1]]; return w; }
   function wxUrl(pos){
     return 'https://api.open-meteo.com/v1/forecast?latitude='+pos.lat+'&longitude='+pos.lon+
       '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day'+
+      '&hourly=temperature_2m,weather_code,is_day'+
       '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max'+
-      '&wind_speed_unit=ms&timezone=Asia%2FSeoul&forecast_days=1';
+      '&wind_speed_unit=ms&timezone=Asia%2FSeoul&forecast_days=2';
+  }
+  function aqUrl(pos){ return 'https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+pos.lat+'&longitude='+pos.lon+'&current=pm10,pm2_5&timezone=Asia%2FSeoul'; }
+  function grade(v, cut){ if(v==null||isNaN(v)) return ['-','']; var n=['좋음','보통','나쁨','매우나쁨']; for(var i=0;i<3;i++){ if(v<=cut[i]) return [n[i],'g'+(i+1)]; } return [n[3],'g4']; }
+  function dust(aq){
+    var c=aq&&aq.current||{}, a=grade(c.pm10,[30,80,150]), b=grade(c.pm2_5,[15,35,75]);
+    $('wx-dust').innerHTML='미세 <b class="'+a[1]+'">'+a[0]+'</b> · 초미세 <b class="'+b[1]+'">'+b[0]+'</b>';
+    $('wx-dust').title='PM10 '+r(c.pm10)+'㎍/㎥ · PM2.5 '+r(c.pm2_5)+'㎍/㎥ (예측 모델값, 참고용)';
+  }
+  function forecast(h, nowKey){
+    var k=-1; for(var i=0;i<h.time.length;i++){ if(h.time[i].slice(0,13)===nowKey){ k=i; break; } }
+    var pts=[]; for(var s=k+1; s<h.time.length && pts.length<5; s+=2){ if(s>=0) pts.push({hr:+h.time[s].slice(11,13), t:h.temperature_2m[s], c:h.weather_code[s], d:h.is_day[s]}); }
+    if(pts.length<2){ $('wx-fc').innerHTML=''; return; }
+    var lo=Math.min.apply(null, pts.map(function(p){ return p.t; })), hi=Math.max.apply(null, pts.map(function(p){ return p.t; })), rg=(hi-lo)||1;
+    var n=pts.length, xy=pts.map(function(p,i){ return {x:(i+.5)/n*100, y:18+(hi-p.t)/rg*24}; });   // y: 18(최고)~42(최저)
+    var line=xy.map(function(q){ return q.x.toFixed(2)+','+q.y.toFixed(1); }).join(' ');
+    var area='0,46 0,'+xy[0].y.toFixed(1)+' '+line+' 100,'+xy[n-1].y.toFixed(1)+' 100,46';
+    var html='<svg viewBox="0 0 100 46" preserveAspectRatio="none" aria-hidden="true"><polygon class="ar" points="'+area+'"/><polyline class="ln" vector-effect="non-scaling-stroke" points="'+line+'"/></svg>';
+    xy.forEach(function(q,i){ html+='<span class="tv" style="left:'+q.x.toFixed(2)+'%;top:'+(q.y-3).toFixed(1)+'px">'+r(pts[i].t)+'°</span>'; });
+    html+='<div class="row ic" style="grid-template-columns:repeat('+n+',1fr)">'+pts.map(function(p){ return '<span>'+icon(p.c,p.d)[0]+'</span>'; }).join('')+'</div>';
+    html+='<div class="row hr" style="grid-template-columns:repeat('+n+',1fr)">'+pts.map(function(p,i){ return '<span>'+p.hr+(i===0?'시':'')+'</span>'; }).join('')+'</div>';
+    $('wx-fc').innerHTML=html;
   }
   function render(d){
-    var c=d.current, y=d.daily, w=WMO[c.weather_code]||['🌡️','-'];
-    if(c.is_day===0 && c.weather_code<=1) w=['🌙', w[1]];
-    $('wx-ico').textContent=w[0]; $('wx-temp').textContent=r(c.temperature_2m)+'°'; $('wx-cond').textContent=w[1];
+    var c=d.current, y=d.daily, w=icon(c.weather_code, c.is_day);
+    $('wx-ico').textContent=w[0];
+    $('wx-temp').textContent=(c.temperature_2m==null?'-':c.temperature_2m.toFixed(1))+'°';
+    $('wx-cond').textContent=w[1];
+    $('wx-mm').innerHTML='<span class="lo">'+r(y.temperature_2m_min[0])+'°</span> / <span class="hi">'+r(y.temperature_2m_max[0])+'°</span>';
     var pp=y.precipitation_probability_max?y.precipitation_probability_max[0]:null;
-    $('wx-detail').innerHTML=
-      '<span>최고 <b>'+r(y.temperature_2m_max[0])+'°</b> 최저 <b>'+r(y.temperature_2m_min[0])+'°</b></span>'+
-      '<span>강수 <b>'+r(pp)+'%</b></span><span>습도 <b>'+r(c.relative_humidity_2m)+'%</b></span>'+
-      '<span>바람 <b>'+(c.wind_speed_10m==null?'-':c.wind_speed_10m.toFixed(1))+'m/s</b></span>'+
-      '<span>'+String(c.time||'').slice(11,16)+' 기준</span>';
+    $('wx').title='강수확률 '+r(pp)+'% · 습도 '+r(c.relative_humidity_2m)+'% · 바람 '+(c.wind_speed_10m==null?'-':c.wind_speed_10m.toFixed(1))+'m/s · '+String(c.time||'').slice(11,16)+' 기준 (누르면 기상청 날씨누리)';
+    forecast(d.hourly, String(c.time||'').slice(0,13));
   }
   var pos=null;
   function load(){
@@ -909,9 +1002,10 @@ var ICON_OF = {audit:'flag', essential:'chat', office:'building', news:'paper', 
       var el=$('wx-loc'), m=String(p.name).match(/^(.*?)\s*(\(접속지역\))$/);
       el.textContent=m?m[1]+' ':p.name;
       if(m){ var s=document.createElement('span'); s.className='src'; s.textContent=m[2]; el.appendChild(s); }
+      j(aqUrl(p)).then(dust, function(){ $('wx-dust').textContent=''; });
       return j(wxUrl(p)); })
     .then(render)
-    .catch(function(){ $('wx-cond').textContent='기상청 날씨 보기'; $('wx-detail').textContent='날씨 정보를 불러오지 못했습니다'; });
+    .catch(function(){ $('wx-cond').textContent='기상청 날씨 보기'; $('wx-mm').textContent='날씨 정보를 불러오지 못했습니다'; });
   }
   load(); setInterval(load, 30*60*1000);
 })();
