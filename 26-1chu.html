@@ -17,6 +17,9 @@
 html,body{margin:0;height:100%}
 body{font-family:"Noto Sans KR","Pretendard","Malgun Gothic","Apple SD Gothic Neo",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6;word-break:keep-all}
 button{font:inherit;cursor:pointer}
+.topnav{background:#14263f;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;padding:7px 12px}
+.topnav a{color:#fff;text-decoration:none;font-size:13px;padding:4px 14px;border-radius:999px;background:rgba(255,255,255,.12)}
+.topnav a[aria-current]{background:#fff;color:var(--navy);font-weight:700}
 header{background:var(--navy);color:#fff;padding:14px 24px;position:sticky;top:0;z-index:20;box-shadow:0 1px 0 rgba(0,0,0,.1)}
 .hrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;max-width:1440px;margin:0 auto}
 .brand{min-width:260px}
@@ -59,7 +62,7 @@ main{min-width:0}
 .ch:hover{background:#fafbfc}
 .qno{font-size:12px;font-weight:700;color:#fff;background:var(--navy2);border-radius:6px;padding:3px 8px;white-space:nowrap;margin-top:2px}
 .qt{font-weight:700;font-size:16px;line-height:1.45}
-.meta{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:5px;font-size:12.5px;color:var(--mute)}
+.meta{display:block;margin-top:5px;font-size:12.5px;color:var(--mute)}
 .tag{display:inline-block;font-size:11.5px;font-weight:500;border-radius:4px;padding:1px 7px;margin-right:4px;vertical-align:1px}
 .t-in{background:#efe9fb;color:#5b3fa0}.t-out{background:var(--neu-bg);color:var(--neu)}.t-etc{background:#fff4e0;color:#8a5a00}
 .k-inc{background:var(--inc-bg);color:var(--inc)}.k-dec{background:var(--dec-bg);color:var(--dec)}.k-neu{background:var(--neu-bg);color:var(--neu)}
@@ -91,12 +94,21 @@ main{min-width:0}
 .tw{overflow-x:auto;margin:8px 0 10px}
 .body table{border-collapse:collapse;font-size:13.5px;min-width:60%;border-top:2px solid var(--navy)}
 .body td{border:1px solid var(--line);padding:6px 9px;vertical-align:middle;text-align:center}
+.body th{border:1px solid var(--line);padding:6px 9px;background:#f1f4f8;font-weight:700;color:var(--navy);text-align:center;vertical-align:middle}
+.body .l3{padding-left:44px;color:#3e4c59;font-size:14px}
+.amt{color:var(--ink);font-weight:500}
+.k-new{background:#e5f6ec;color:#12804a}
 .body td.th{background:#f1f4f8;font-weight:700;color:var(--navy)}
 .body td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .body td.minus{color:var(--dec)}
 .cfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .cfoot button{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:5px 11px;font-size:12.5px;color:var(--sub)}
 .cfoot button:hover{border-color:var(--accent);color:var(--accent)}
+em.n{font-style:normal;font-weight:700;color:var(--ink)}
+em.up{font-style:normal;font-weight:700;color:var(--inc)}
+em.dn{font-style:normal;font-weight:700;color:var(--dec)}
+em.k{font-style:normal;font-weight:700}
+b.lb{color:var(--navy)}
 mark{background:var(--hl);color:inherit;padding:0 1px;border-radius:2px}
 .empty{background:var(--panel);border:1px dashed var(--line);border-radius:10px;padding:40px;text-align:center;color:var(--mute)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:8px 16px;border-radius:6px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:50}
@@ -108,6 +120,10 @@ mark{background:var(--hl);color:inherit;padding:0 1px;border-radius:2px}
   aside.show{transform:none;box-shadow:4px 0 20px rgba(0,0,0,.2)}
   .menu-btn{display:inline-block}
   .brand{min-width:0}
+  .brand small{display:none}
+  .hbtn:not(.menu-btn){display:none}
+  header{padding:10px 14px}
+  .hrow{gap:10px}
   .search .kbd{display:none}
   .ch{padding:12px 14px;gap:10px}
   .body{padding:4px 14px 18px}
@@ -122,7 +138,7 @@ mark{background:var(--hl);color:inherit;padding:0 1px;border-radius:2px}
 </style>
 </head>
 <body>
-<nav aria-label="예상질의답변서 바로가기" style="background:#0b1f44;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;gap:6px;justify-content:center;flex-wrap:wrap;font-family:inherit;line-height:1"><a href="https://sevendog7.github.io/edu/26-1chu.html" aria-current="page" style="background:#fff;color:#0b1f44;font-weight:800;display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;text-decoration:none;font-size:13px;white-space:nowrap">2026년도 제1회 추경</a><a href="https://sevendog7.github.io/edu/27bon.html" style="background:rgba(255,255,255,.12);color:#fff;font-weight:600;display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:999px;text-decoration:none;font-size:13px;white-space:nowrap">2027년도 본예산</a></nav>
+<nav class="topnav" aria-label="예상질의답변서 바로가기"><a href="https://sevendog7.github.io/edu/26-1chu.html" aria-current="page">2026년도 제1회 추경</a><a href="https://sevendog7.github.io/edu/27bon.html">2027년도 본예산</a></nav>
 <header>
   <div class="hrow">
     <button class="hbtn menu-btn" id="menuBtn" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;padding:6px 10px">목차</button>
@@ -155,8 +171,9 @@ const DATA = {"bureaus": ["직속기관(관·단)", "미래정책국", "학교�
 const items = DATA.items;
 const state = {q:'', bureau:null, dept:null, type:null, kind:null, open:new Set()};
 const $ = s => document.querySelector(s);
-const KINDMAP = {'증액':'증액','신규':'증액','감액':'감액','증감':'증감·조정','조정':'증감·조정','미집행':'미집행','이월':'이월','반환':'기타','반영액':'감액','현황':'현황·내역','내역':'현황·내역','내용':'현황·내역','편성':'증액'};
-const KINDCLS = {'증액':'k-inc','감액':'k-dec'};
+const AMT_LABEL = "";
+const KINDMAP = null || {'증액':'증액','신규':'증액','감액':'감액','증감':'증감·조정','조정':'증감·조정','미집행':'미집행','이월':'이월','반환':'기타','반영액':'감액','현황':'현황·내역','내역':'현황·내역','내용':'현황·내역','편성':'증액'};
+const KINDCLS = {'증액':'k-inc','감액':'k-dec','신규':'k-new'};
 items.forEach(it=>{
   it.kgroup = KINDMAP[it.kind] || '기타';
   it.tgroup = it.type.includes('세입')&&it.type.includes('세출') ? '세입·세출' : it.type.includes('세입') ? '세입' : it.type.includes('세출') ? '세출' : '요구자료 등';
@@ -188,7 +205,7 @@ function buildSide(){
   });
 }
 function buildChips(){
-  const tOrder=['세입','세출','세입·세출','요구자료 등'], kOrder=['증액','감액','증감·조정','미집행','이월','현황·내역','기타'];
+  const tOrder=['세입','세출','세입·세출','요구자료 등'], kOrder=['증액','감액','신규','증감·조정','편성','미집행','이월','현황·내역','기타'];
   const mk=(el,order,key,field)=>{
     order.filter(v=>items.some(i=>i[field]===v)).forEach(v=>{
       const n=items.filter(i=>i[field]===v).length;
@@ -219,17 +236,26 @@ function hlNode(root){
   nodes.forEach(n=>{const span=document.createElement('span'); span.innerHTML=esc(n.nodeValue).replace(re,'<mark>$1</mark>'); n.replaceWith(...span.childNodes)});
 }
 function summaryHtml(it){
-  if(!it.summary) return '';
-  const m = it.body.match(/<ul class="summary">[\s\S]*?<\/ul>/);
-  if(!m) return '';
-  const tmp=document.createElement('div'); tmp.innerHTML=m[0];
-  const lis=[...tmp.querySelectorAll('li')].slice(0,3);
-  return '<ul>'+lis.map(li=>`<li>${li.innerHTML}</li>`).join('')+'</ul>';
+  const lines = summaryLines(it).slice(0,3);
+  if(!lines.length) return '';
+  return '<ul>'+lines.map(s=>`<li>${fmtLine(s)}</li>`).join('')+'</ul>';
 }
+function summaryLines(it){
+  if(it._sl) return it._sl;
+  const tmp=document.createElement('div'); tmp.innerHTML=it.body;
+  let out=[...tmp.querySelectorAll('ul.summary li')].map(li=>li.textContent.trim());
+  if(!out.length){
+    const h=[...tmp.querySelectorAll('h4')].find(e=>e.textContent.includes('답변요지'));
+    if(h){let n=h.nextElementSibling; while(n&&n.tagName!=='H4'){ if(n.tagName==='P'&&!n.classList.contains('note')&&!n.classList.contains('unit')) out.push(n.textContent.trim()); n=n.nextElementSibling; }}
+  }
+  if(!out.length&&it.summary) out.push(it.summary);
+  return it._sl=out.filter(Boolean);
+}
+function fmtLine(s){const m=s.match(/^(☞\s*)?(\([^)]{1,20}\))\s*([\s\S]*)$/); return m?`<b>${esc(m[2])}</b> ${esc(m[3])}`:esc(s)}
 function card(it){
   const tcls = it.tgroup==='세입'?'t-in':it.tgroup==='세출'?'t-out':'t-etc';
   const kcls = KINDCLS[it.kgroup]||'k-neu';
-  const meta = [`${esc(it.dept)}`, it.staff?`담당 ${hlText(it.staff)}`:'', it.phone?`☎ ${esc(it.phone)}`:'', it.pages?esc(it.pages):''].filter(Boolean).join(' · ');
+  const meta = [`${esc(it.dept)}`, it.amount?`<span class="amt">${esc(AMT_LABEL)} ${esc(it.amount)}</span>`:'', it.staff?`담당 ${hlText(it.staff)}`:'', it.phone?`☎ ${esc(it.phone)}`:'', it.pages?esc(it.pages):''].filter(Boolean).join(' · ');
   return `<article class="card${state.open.has(it.id)?' open':''}" id="q${it.id}" data-id="${it.id}">
     <div class="ch"><span class="qno">질의 ${it.no}</span>
       <div><div class="qt"><span class="tag ${tcls}">${esc(it.type||'기타')}</span><span class="tag ${kcls}">${esc(it.kgroup)}</span>${hlText(it.title)}</div>
@@ -237,11 +263,28 @@ function card(it){
     <div class="pre">${summaryHtml(it)}</div>
     <div class="body"></div></article>`;
 }
+const EMRE=/((?:[△▲]\s?)?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s?(?:천\s?원|백만\s?원|억\s?원|만\s?원|원)|(?:[△▲]\s?)?\d+(?:\.\d+)?\s?%(?:\s?(?:증|감)(?![가-힣]))?)|(증액|신규\s?편성|신규|증가)|(감액|감소|삭감|불용)|(명시이월|이월|미집행|반환)/g;
+function emphasize(root){
+  root.querySelectorAll('p, li').forEach(p=>{
+    if(p.closest('table')||p.classList.contains('unit')||p.classList.contains('pg')) return;
+    const f=p.firstChild;
+    if(f&&f.nodeType===3){const m=f.nodeValue.match(/^(\s*(?:☞\s*)?)(\([^)]{1,20}\))/); if(m){const b=document.createElement('b'); b.className='lb'; b.textContent=m[2]; const rest=document.createTextNode(f.nodeValue.slice(m[0].length)); f.replaceWith(document.createTextNode(m[1]),b,rest);}}
+    const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT); const ns=[];
+    while(w.nextNode()){if(w.currentNode.parentNode.closest('b')) continue; EMRE.lastIndex=0; if(EMRE.test(w.currentNode.nodeValue)) ns.push(w.currentNode)}
+    ns.forEach(n=>{
+      const s=esc(n.nodeValue).replace(EMRE,(all,num,up,dn,k)=>{
+        if(num){const c=/^[△▲]|감$/.test(num)?'dn':/증$/.test(num)?'up':'n'; return `<em class="${c}">${num}</em>`}
+        return `<em class="${up?'up':dn?'dn':'k'}">${all}</em>`;
+      });
+      const sp=document.createElement('span'); sp.innerHTML=s; n.replaceWith(...sp.childNodes);
+    });
+  });
+}
 function fillBody(el){
   const it = items.find(i=>i.id==el.dataset.id);
   const b = el.querySelector('.body');
   b.innerHTML = it.body + `<div class="cfoot"><button data-act="copy">답변요지 복사</button><button data-act="link">이 질의 링크 복사</button><button data-act="close">접기</button></div>`;
-  hlNode(b); hlNode(el.querySelector('.pre'));
+  emphasize(b); hlNode(b); hlNode(el.querySelector('.pre'));
 }
 function render(){
   const list = filtered();
@@ -258,6 +301,7 @@ function render(){
     h+=card(it);
   }
   $('#list').innerHTML=h;
+  document.querySelectorAll('.card .pre').forEach(emphasize);
   document.querySelectorAll('.card.open').forEach(fillBody);
   if(state.q.trim()) document.querySelectorAll('.card:not(.open) .pre').forEach(hlNode);
 }
@@ -267,7 +311,7 @@ $('#list').addEventListener('click',e=>{
   const it=items.find(i=>i.id==c.dataset.id);
   if(act){
     if(act.dataset.act==='close'){toggle(c,false); c.scrollIntoView({block:'nearest'}); return}
-    if(act.dataset.act==='copy'){const lis=[...c.querySelectorAll('.body ul.summary li')].map(li=>'○ '+li.textContent.trim()); copy(`[${it.dept}] ${it.title}\n`+lis.join('\n'), '답변요지를 복사했습니다'); return}
+    if(act.dataset.act==='copy'){copy(`[${it.dept}] 질의 ${it.no}. ${it.title}\n`+summaryLines(it).map(s=>'○ '+s).join('\n'), '답변요지를 복사했습니다'); return}
     if(act.dataset.act==='link'){location.hash='q'+it.id; copy(location.href,'링크를 복사했습니다 (공유 화면에서는 주소가 다를 수 있습니다)'); return}
   }
   if(e.target.closest('.ch')||e.target.closest('.pre')) toggle(c);
