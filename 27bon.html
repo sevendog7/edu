@@ -104,6 +104,11 @@ main{min-width:0}
 .cfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .cfoot button{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:5px 11px;font-size:12.5px;color:var(--sub)}
 .cfoot button:hover{border-color:var(--accent);color:var(--accent)}
+em.n{font-style:normal;font-weight:700;color:var(--ink)}
+em.up{font-style:normal;font-weight:700;color:var(--inc)}
+em.dn{font-style:normal;font-weight:700;color:var(--dec)}
+em.k{font-style:normal;font-weight:700}
+b.lb{color:var(--navy)}
 mark{background:var(--hl);color:inherit;padding:0 1px;border-radius:2px}
 .empty{background:var(--panel);border:1px dashed var(--line);border-radius:10px;padding:40px;text-align:center;color:var(--mute)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:8px 16px;border-radius:6px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:50}
@@ -258,11 +263,28 @@ function card(it){
     <div class="pre">${summaryHtml(it)}</div>
     <div class="body"></div></article>`;
 }
+const EMRE=/((?:[△▲]\s?)?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s?(?:천\s?원|백만\s?원|억\s?원|만\s?원|원)|(?:[△▲]\s?)?\d+(?:\.\d+)?\s?%(?:\s?(?:증|감)(?![가-힣]))?)|(증액|신규\s?편성|신규|증가)|(감액|감소|삭감|불용)|(명시이월|이월|미집행|반환)/g;
+function emphasize(root){
+  root.querySelectorAll('p, li').forEach(p=>{
+    if(p.closest('table')||p.classList.contains('unit')||p.classList.contains('pg')) return;
+    const f=p.firstChild;
+    if(f&&f.nodeType===3){const m=f.nodeValue.match(/^(\s*(?:☞\s*)?)(\([^)]{1,20}\))/); if(m){const b=document.createElement('b'); b.className='lb'; b.textContent=m[2]; const rest=document.createTextNode(f.nodeValue.slice(m[0].length)); f.replaceWith(document.createTextNode(m[1]),b,rest);}}
+    const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT); const ns=[];
+    while(w.nextNode()){if(w.currentNode.parentNode.closest('b')) continue; EMRE.lastIndex=0; if(EMRE.test(w.currentNode.nodeValue)) ns.push(w.currentNode)}
+    ns.forEach(n=>{
+      const s=esc(n.nodeValue).replace(EMRE,(all,num,up,dn,k)=>{
+        if(num){const c=/^[△▲]|감$/.test(num)?'dn':/증$/.test(num)?'up':'n'; return `<em class="${c}">${num}</em>`}
+        return `<em class="${up?'up':dn?'dn':'k'}">${all}</em>`;
+      });
+      const sp=document.createElement('span'); sp.innerHTML=s; n.replaceWith(...sp.childNodes);
+    });
+  });
+}
 function fillBody(el){
   const it = items.find(i=>i.id==el.dataset.id);
   const b = el.querySelector('.body');
   b.innerHTML = it.body + `<div class="cfoot"><button data-act="copy">답변요지 복사</button><button data-act="link">이 질의 링크 복사</button><button data-act="close">접기</button></div>`;
-  hlNode(b); hlNode(el.querySelector('.pre'));
+  emphasize(b); hlNode(b); hlNode(el.querySelector('.pre'));
 }
 function render(){
   const list = filtered();
@@ -279,6 +301,7 @@ function render(){
     h+=card(it);
   }
   $('#list').innerHTML=h;
+  document.querySelectorAll('.card .pre').forEach(emphasize);
   document.querySelectorAll('.card.open').forEach(fillBody);
   if(state.q.trim()) document.querySelectorAll('.card:not(.open) .pre').forEach(hlNode);
 }
