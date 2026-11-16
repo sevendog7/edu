@@ -389,6 +389,56 @@
     .aclock{ filter:drop-shadow(0 8px 14px rgba(0,0,0,.5)); }
     @media (max-width:760px){ .bar .nav{ background:rgba(34,40,51,.98); box-shadow:0 24px 50px -18px rgba(0,0,0,.7); } }
   }
+  /* ---------- PC: 웹검색·시계·날씨 칸 높이 조금 더 여유 있게 ---------- */
+  @media (min-width:761px){
+    .p-ws, .p-clock, .p-wx{ padding:20px 20px; }
+    .p-ws .ws{ height:44px; margin-top:14px !important; }
+    .ws-btns{ margin-top:12px; }
+    .ws-btns button{ height:42px; }
+    .clock-body, .cal-side{ height:132px; }
+    .aclock{ width:132px; height:132px; }
+    .cal-side{ gap:6px; }
+    .mini-cal span{ max-height:17px; }
+    .p-wx{ gap:8px; }
+    .wx{ height:106px; }
+    .wx-fc{ height:100px; }
+    .wx-fc svg{ height:54px; }
+    .wx-fc .ic{ top:56px; }
+    .wx-fc .hr{ top:80px; }
+  }
+
+  /* ---------- 왼쪽 상단 제목: 미래지향형 ---------- */
+  .brand{ gap:11px; }
+  .logo{ position:relative; isolation:isolate; width:40px; height:40px; border-radius:12px; overflow:hidden;
+    background:radial-gradient(circle at 30% 25%, #26324a 0%, #0c111b 70%); color:transparent;
+    box-shadow:0 0 0 1px rgba(120,220,255,.25), 0 8px 22px -8px rgba(40,150,255,.65), 0 0 18px -6px rgba(95,243,210,.6); }
+  .logo::before{ content:""; position:absolute; inset:-40%; z-index:-2;
+    background:conic-gradient(from 0deg, #5ff3d2, #4cc9ff, #8b7bff, #ff6fae, #5ff3d2); animation:brand-spin 6s linear infinite; }
+  .logo::after{ content:""; position:absolute; inset:1.5px; z-index:-1; border-radius:10.5px;
+    background:radial-gradient(circle at 30% 25%, #26324a 0%, #0c111b 72%); }
+  .logo{ font:800 17px var(--num); }
+  .logo{ background-clip:padding-box; }
+  .logo-k{ background:linear-gradient(135deg, #ffffff 10%, #9fe9ff 55%, #b9a6ff); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 6px rgba(120,220,255,.55)); }
+  @keyframes brand-spin{ to{ transform:rotate(1turn); } }
+  .crumb{ gap:8px; font-size:15.5px; letter-spacing:-.02em; }
+  .crumb .pre{ font-weight:800; background:linear-gradient(100deg, #2f6fe0 0%, #7b5cff 55%, #19a88a 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .crumb .main-t{ font-weight:800; color:var(--ink); }
+  .crumb .num{ position:relative; display:inline-flex; align-items:center; gap:6px; padding:3px 9px 3px 8px; border-radius:8px;
+    font:600 12px/1.2 var(--num); letter-spacing:.16em; font-variant-numeric:tabular-nums; color:#5ff3d2;
+    background:linear-gradient(#0e1420, #0e1420) padding-box, linear-gradient(120deg, #5ff3d2, #4cc9ff 50%, #8b7bff) border-box;
+    border:1px solid transparent; box-shadow:0 0 14px -4px rgba(95,243,210,.75); text-shadow:0 0 8px rgba(95,243,210,.6); }
+  .crumb .num::before{ content:""; width:6px; height:6px; border-radius:50%; background:#5ff3d2; box-shadow:0 0 8px #5ff3d2; animation:brand-blink 1.8s ease-in-out infinite; }
+  @keyframes brand-blink{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+  @media (prefers-color-scheme:dark){
+    .crumb .pre{ background:linear-gradient(100deg, #7fb2ff 0%, #b7a6ff 55%, #5ff3d2 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .crumb .num{ background:linear-gradient(#0b1018, #0b1018) padding-box, linear-gradient(120deg, #5ff3d2, #4cc9ff 50%, #8b7bff) border-box; }
+  }
+  @media (max-width:760px){
+    .logo{ width:32px; height:32px; font-size:14px; border-radius:10px; }
+    .logo::after{ border-radius:8.5px; }
+    .crumb{ gap:6px; font-size:14px; }
+    .crumb .num{ padding:2px 7px 2px 6px; font-size:11px; letter-spacing:.12em; }
+  }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -398,7 +448,7 @@
     <!-- ① 상단 고정: 제목 · 업무 도구 드롭다운 · 바로가기 8개 -->
     <div class="head">
       <div class="bar">
-        <span class="brand"><span class="logo">K</span><span class="crumb"><span class="pre">K-교육특별시</span>비서실<span class="num">4670</span></span></span>
+        <span class="brand"><span class="logo"><span class="logo-k">K</span></span><span class="crumb"><span class="pre">K-교육특별시</span><span class="main-t">비서실</span><span class="num">4670</span></span></span>
         <button type="button" class="nav-tog" id="nav-tog" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>업무 메뉴</button>
         <nav class="nav" id="nav" aria-label="업무 도구"></nav>
       </div>
