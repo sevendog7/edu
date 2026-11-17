@@ -756,6 +756,82 @@
   }
   /* PC: '아래 업무 도구 영역에 펼쳐 보기' 버튼 없음(메뉴를 누르면 바로 펼침) */
   @media (min-width:761px){ .dd-more{ display:none; } }
+  /* ---------- 제목: K 로고 없이 글자 크게 ---------- */
+  .crumb{ font-size:17px; gap:9px; }
+  .crumb .num{ font-size:13px; padding:4px 11px 4px 10px; }
+  @media (min-width:1181px){
+    .brand{ padding:2px 8px 16px; justify-content:center; }
+    .crumb{ font-size:18px; row-gap:6px; justify-content:center; text-align:center; }
+    .nav::before{ display:none; }
+  }
+
+  /* ---------- 휴대전화: 기본 글자 크기 키움 ---------- */
+  @media (max-width:760px){
+    body{ font-size:15.5px; }
+    .crumb{ font-size:17px; gap:8px; }
+    .crumb .num{ font-size:12.5px; padding:3px 9px 3px 8px; letter-spacing:.12em; }
+    .brand{ flex:1 1 auto; min-width:0; }
+    .crumb{ flex-wrap:wrap; row-gap:3px; }
+    .nav-tog{ flex-shrink:0; width:42px; height:42px; padding:0; justify-content:center; font-size:0; gap:0; }
+    .nav-tog svg{ width:20px; height:20px; }
+    .dd-btn{ height:48px; font-size:16px; }
+    .dd-btn svg{ width:18px; height:18px; }
+    .dd-grid a{ font-size:15px; padding:11px 10px; }
+    .dd-grid a i{ font-size:11.5px; }
+    .dd-more{ font-size:14px; }
+    .quick a.qk{ height:46px; }
+    .quick a.qk{ padding:0 2px; }
+    .quick a.qk .t{ font-size:12.5px; letter-spacing:-.05em; }
+    .feat-tag .en{ font-size:11.5px; } .feat-tag b{ font-size:14px; }
+    .feat-list a{ font-size:15px; padding:7px 1px; }
+    .feat-list a i{ font-size:11.5px; }
+    .eyebrow{ font-size:15.5px; }
+    a.news-title{ font-size:15px; }
+    .news-line{ min-height:44px; }
+    .news-badge{ font-size:12.5px; }
+    .news-time{ font-size:13px; }
+    .news-ctrl button{ width:30px; height:30px; font-size:16px; }
+    .tab{ height:40px; font-size:14.5px; }
+    .tab svg{ width:17px; height:17px; }
+    .sec-head h2{ font-size:19px; }
+    .sec-head .n{ font-size:12.5px; }
+    a.row{ min-height:54px; }
+    a.row .t{ font-size:15px; }
+    a.row .chip{ min-width:32px; height:25px; font-size:12px; }
+    .find-btn{ height:48px; }
+    .find-btn .ph{ font-size:15.5px; }
+    .ws{ height:46px; }
+    .ws input{ font-size:16px; }
+    .ws-btns button{ height:44px; font-size:15px !important; }
+    .cal-side .eyebrow, .p-clock .cal-side .eyebrow{ font-size:13px; gap:5px; letter-spacing:.02em; }
+    .p-clock .live{ display:none; }
+    .cal-side .gcal, .p-clock .cal-side .gcal{ font-size:12px; padding:1px 7px; }
+    button.mini-cal{ font-size:12.5px; }
+    .mini-cal .dow{ font-size:11.5px; }
+    .clock-body, .cal-side{ height:132px; }
+    .clock-body{ gap:12px; }
+    .aclock{ width:116px; height:116px; }
+    .wx-loc{ font-size:14px; } .wx-loc .src{ font-size:12.5px; }
+    .wx{ height:112px; }
+    .wx-temp{ font-size:32px; }
+    .wx-cond{ font-size:14.5px; }
+    .wx-mm{ font-size:14.5px; }
+    .wx-dust{ font-size:13.5px; }
+    .wx-fc{ height:106px; }
+    .wx-fc svg{ height:56px; }
+    .wx-fc .tv{ font-size:13px; }
+    .wx-fc .ic{ top:58px; font-size:18px; line-height:22px; }
+    .wx-fc .hr{ top:82px; font-size:12.5px; }
+    .cmd-in input{ font-size:17px; }
+    .cmd-list a.row .t, .doc .d-snip{ font-size:15px; }
+    .doc .d-title{ font-size:16px; }
+    .r-head{ font-size:14.5px; }
+    .note{ font-size:14px; }
+    .cal-grid{ font-size:16.5px; }
+    .site-foot, .site-foot a{ font-size:13.5px; }
+    .tabbar button{ font-size:14.5px; }
+  }
+  @media (max-width:380px){ .aclock{ width:98px !important; height:98px !important; } .clock-body{ gap:10px !important; } .cal-side .gcal, .p-clock .cal-side .gcal{ font-size:11.5px; padding:1px 6px; } }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -765,7 +841,7 @@
     <!-- ① 상단 고정: 제목 · 업무 도구 드롭다운 · 바로가기 8개 -->
     <div class="head">
       <div class="bar">
-        <span class="brand"><span class="logo"><span class="logo-k">K</span></span><span class="crumb"><span class="pre">K-교육특별시</span><span class="main-t">비서실</span><span class="num">UBUNTU·4670</span></span></span>
+        <span class="brand"><span class="crumb"><span class="pre">K-교육특별시</span><span class="main-t">비서실</span><span class="num">UBUNTU·4670</span></span></span>
         <button type="button" class="nav-tog" id="nav-tog" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>업무 메뉴</button>
         <nav class="nav" id="nav" aria-label="업무 도구"></nav>
       </div>
