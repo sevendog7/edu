@@ -754,6 +754,8 @@
     .tabbar button.on{ background:#141414; color:var(--lime); }
     @media (min-width:1181px){ .bar{ background:rgba(26,26,25,.78); } .dd-panel{ background:#1d1d1b; } }
   }
+  /* PC: '아래 업무 도구 영역에 펼쳐 보기' 버튼 없음(메뉴를 누르면 바로 펼침) */
+  @media (min-width:761px){ .dd-more{ display:none; } }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -1053,7 +1055,14 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
   function closeDD(except){ dds.forEach(function(d){ if(d!==except){ d.classList.remove('open'); d.querySelector('.dd-btn').setAttribute('aria-expanded','false'); } }); }
   dds.forEach(function(d){
     var b=d.querySelector('.dd-btn');
-    b.addEventListener('click', function(e){ e.stopPropagation(); var o=!d.classList.contains('open'); closeDD(d); d.classList.toggle('open', o); b.setAttribute('aria-expanded', o?'true':'false'); });
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(isMobile()){   /* 휴대전화: 눌러서 세부 도구 펼치기·접기 */
+        var o=!d.classList.contains('open'); closeDD(d); d.classList.toggle('open', o); b.setAttribute('aria-expanded', o?'true':'false');
+      } else {          /* PC: 마우스를 대면 세부 도구, 누르면 아래 업무 도구 영역에 펼침 */
+        closeDD(); select(b.getAttribute('data-sel'), true);
+      }
+    });
     d.querySelector('.dd-panel').addEventListener('click', function(e){ e.stopPropagation(); if(e.target.closest('a')){ closeDD(); closeNav(); } });
   });
   var bar=document.querySelector('.bar'), tog=$('nav-tog');
