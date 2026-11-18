@@ -844,6 +844,18 @@
   .sched-day span{ font:600 12.5px var(--num); color:var(--mute); }
   .sched-box{ height:240px; border-radius:16px; overflow:hidden; background:#fff; border:1px solid var(--line); }
   .sched-box iframe{ display:block; width:100%; height:100%; border:0; }
+  .sched-box{ position:relative; }
+  .sched-relog{ margin-left:auto; padding:1px 10px; border:0; border-radius:999px; background:var(--card); font-size:11.5px; font-weight:600; color:var(--mute); }
+  .sched-relog:hover{ background:var(--gloss); color:var(--gloss-ink); }
+  .sched-login{ height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:16px 20px; text-align:center; background:var(--panel); }
+  .sched-login b{ font-size:16px; color:var(--ink); }
+  .sched-login p{ max-width:440px; font-size:13px; line-height:1.6; color:var(--mute); word-break:keep-all; }
+  .sl-btns{ display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; justify-content:center; }
+  .sl-btns a, .sl-btns button{ height:38px; padding:0 18px; border-radius:999px; font-size:13.5px; font-weight:700; display:inline-flex; align-items:center; }
+  .sl-go{ background:var(--lime); color:#141414; }
+  .sl-go:hover{ filter:brightness(.95); }
+  .sl-ok{ border:1px solid var(--line); background:var(--card); color:var(--ink-2); }
+  .sl-ok:hover{ background:var(--gloss); color:var(--gloss-ink); }
   .sched-empty{ padding:24px 18px; font-size:13px; color:#8a8883; text-align:center; }
   @media (max-width:760px){ .p-sched{ order:1; } .sched-cols{ grid-template-columns:1fr; } .sched-box{ height:220px; } }
   @media (prefers-color-scheme:dark){ .sched-box{ background:#1b1b1a; } .sched-box iframe{ filter:invert(.92) hue-rotate(180deg); } }
@@ -955,7 +967,7 @@
       <section class="panel p-sched" aria-label="교육감님 주요일정">
         <div class="sched-head"><span class="eyebrow">교육감님 주요일정</span></div>
         <div class="sched-cols">
-          <div class="sched-col"><div class="sched-day"><b>오늘</b><span id="sched-d0"></span></div><div class="sched-box" id="sched-b0"></div></div>
+          <div class="sched-col"><div class="sched-day"><b>오늘</b><span id="sched-d0"></span><button type="button" class="sched-relog" id="sched-relog" title="구글 로그인 화면 다시 보기">구글 로그인</button></div><div class="sched-box" id="sched-b0"></div></div>
           <div class="sched-col sched-tools"><div class="sched-day"><b>바로가기</b></div><div class="lc-btns" id="lc-btns"></div></div>
         </div>
       </section>
@@ -1166,17 +1178,33 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
     var W=['일','월','화','수','목','금','토'], day=-1;
     function ymd(d){ return d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate()); }
     function addDay(d,n){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()+n); }
+    /* 구글 로그인 안내: 라이블리 월페이퍼처럼 구글 로그인이 안 된 화면에서는 일정이 보이지 않으므로
+       처음에는 로그인 안내를 보여 주고, '일정 보기'를 누르면 그 뒤로는 바로 일정을 보여 줌(이 화면에서 기억) */
+    var OK='kbs-gcal-ok';
+    function okGet(){ try{ return localStorage.getItem(OK)==='1'; }catch(e){ return false; } }
+    function okSet(v){ try{ if(v) localStorage.setItem(OK,'1'); else localStorage.removeItem(OK); }catch(e){} }
+    function loginUrl(){ return 'https://accounts.google.com/ServiceLogin?hl=ko&continue='+encodeURIComponent(location.href.split('#')[0]); }
+    function frame(){
+      var d=new Date(), box=$('sched-b0');
+      if(!GCAL_ID){ box.innerHTML='<p class="sched-empty">캘린더 ID가 등록되지 않았습니다.</p>'; return; }
+      if(!okGet()){
+        box.innerHTML='<div class="sched-login"><b>구글 계정 로그인이 필요합니다</b>'+
+          '<p>교육감님 주요일정 캘린더 권한이 있는 구글 계정으로 로그인하면 오늘 일정이 표시됩니다.</p>'+
+          '<div class="sl-btns"><a class="sl-go" href="'+esc(loginUrl())+'">구글 로그인</a>'+
+          '<button type="button" class="sl-ok" id="sl-ok">로그인 완료 · 일정 보기</button></div></div>';
+        $('sl-ok').addEventListener('click', function(){ okSet(true); frame(); });
+        return;
+      }
+      var src='https://calendar.google.com/calendar/embed?src='+encodeURIComponent(GCAL_ID)+
+        '&ctz=Asia%2FSeoul&hl=ko&mode=AGENDA&dates='+ymd(d)+'%2F'+ymd(addDay(d,1))+
+        '&showTitle=0&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&wkst=1';
+      box.innerHTML='<iframe title="교육감님 오늘 일정" src="'+esc(src)+'" loading="lazy"></iframe>';
+    }
+    $('sched-relog').addEventListener('click', function(){ okSet(false); frame(); });
     function draw(){
       var now=new Date(); if(now.getDate()===day) return; day=now.getDate();
-      [0].forEach(function(k){   // 0: 오늘(왼쪽). 오른쪽은 윈도 프로그램 바로가기
-        var d=addDay(now,k), box=$('sched-b'+k);
-        $('sched-d'+k).textContent=(d.getMonth()+1)+'. '+d.getDate()+'.('+W[d.getDay()]+')';
-        if(!GCAL_ID){ box.innerHTML='<p class="sched-empty">캘린더 ID가 등록되지 않았습니다.</p>'; return; }
-        var src='https://calendar.google.com/calendar/embed?src='+encodeURIComponent(GCAL_ID)+
-          '&ctz=Asia%2FSeoul&hl=ko&mode=AGENDA&dates='+ymd(d)+'%2F'+ymd(addDay(d,1))+
-          '&showTitle=0&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&wkst=1';
-        box.innerHTML='<iframe title="교육감님 '+(k?'내일':'오늘')+' 일정" src="'+esc(src)+'" loading="lazy"></iframe>';
-      });
+      $('sched-d0').textContent=(now.getMonth()+1)+'. '+now.getDate()+'.('+W[now.getDay()]+')';
+      frame();
     }
     draw(); setInterval(draw, 60*1000);   // 날짜가 바뀌면 새로 불러옴
   })();
