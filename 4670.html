@@ -855,6 +855,38 @@
     .dd-grid a:hover, .dd-grid a:focus-visible{ background:var(--gloss); color:var(--gloss-ink); box-shadow:var(--gloss-shadow); }
     .dd-grid a:hover i, .dd-grid a:focus-visible i{ background:var(--gloss-tile); color:var(--gloss-ink); }
   }
+  /* ---------- 업무 도구 칸: 왼쪽 바로가기(윈도 프로그램) · 오른쪽 주요 자료, 낮고 간결하게 ---------- */
+  #tools{ display:grid; grid-template-columns:1fr 1fr; gap:0; padding:14px 16px; }
+  @media (min-width:761px){ #tools{ flex:0 0 auto; display:grid; } }
+  .hub-sec{ display:flex; align-items:center; gap:14px; min-width:0; padding:0 16px; }
+  .hub-sec:first-child{ padding-left:4px; }
+  .hub-sec + .hub-sec{ border-left:1px solid var(--line); padding-right:4px; }
+  .hub-head{ flex:0 0 64px; display:flex; flex-direction:column; gap:2px; }
+  .hub-head b{ font-size:14.5px; font-weight:800; letter-spacing:-.02em; color:var(--ink); white-space:nowrap; }
+  .hub-head span{ font-size:11.5px; color:var(--mute); white-space:nowrap; }
+  .hub-grid{ flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  a.hub-tile{ display:flex; align-items:center; gap:8px; height:38px; padding:0 12px 0 5px; border-radius:999px;
+    background:var(--card); border:1px solid rgba(255,255,255,.7); transition:background .15s, color .15s, box-shadow .15s; }
+  a.hub-tile .hi{ flex-shrink:0; width:28px; height:28px; display:grid; place-items:center; border-radius:50%; background:rgba(255,255,255,.95); color:var(--ink); }
+  a.hub-tile .hi svg{ width:15px; height:15px; }
+  a.hub-tile .ht{ flex:1; min-width:0; }
+  a.hub-tile .ht b{ display:block; font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  a.hub-tile:hover{ background:var(--gloss); color:var(--gloss-ink); border-color:transparent; box-shadow:var(--gloss-shadow); }
+  a.hub-tile:hover .hi{ background:var(--gloss-tile); color:var(--gloss-ink); }
+  @media (prefers-color-scheme:dark){ a.hub-tile{ border-color:transparent; } a.hub-tile .hi{ background:rgba(255,255,255,.08); } }
+  /* 휴대전화: 윈도 프로그램 바로가기는 열 수 없으므로 숨기고 주요 자료만 */
+  @media (max-width:760px){
+    #tools{ grid-template-columns:1fr; padding:14px; }
+    #tools .hub-pc{ display:none; }
+    .hub-sec, .hub-sec + .hub-sec{ padding:0; border-left:0; flex-direction:column; align-items:stretch; gap:10px; }
+    .hub-head{ flex:none; flex-direction:row; align-items:baseline; gap:8px; margin:0 2px; }
+    .hub-head b{ font-size:16px; }
+    a.hub-tile{ height:44px; }
+    a.hub-tile .ht b{ font-size:14.5px; }
+  }
+  /* 웹검색 버튼 4개(구글·네이버·지도·법령) */
+  .ws-btns{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; }
+  .ws-btns button{ padding:0 4px; gap:5px; }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -886,6 +918,7 @@
           <button type="button" data-eng="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5M12 3.5C9.6 5.9 8.4 8.7 8.4 12s1.2 6.1 3.6 8.5"/></svg>구글</button>
           <button type="button" data-eng="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>네이버</button>
           <button type="button" data-eng="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5c-3.9 0-7 3-7 6.9 0 5 7 12.1 7 12.1s7-7.1 7-12.1c0-3.9-3.1-6.9-7-6.9z"/><circle cx="12" cy="9.4" r="2.6"/></svg>지도</button>
+          <button type="button" data-eng="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M8 20h8M5 7h14"/><path d="M5 7l-2.5 6a3 3 0 0 0 5 0zM19 7l-2.5 6a3 3 0 0 0 5 0z"/></svg>법령</button>
         </div>
       </section>
 
@@ -950,14 +983,14 @@
     </div>
 
     <!-- ③ 업무 도구 (상단 드롭다운·아래 탭에서 선택) -->
-    <section class="panel" id="tools" aria-live="polite">
-      <div class="tools-cols">
-        <div class="tools-main">
-          <div class="tabs" id="tabs" role="tablist" aria-label="업무 도구 분류"></div>
-          <div class="sec-head" id="sec-head"></div>
-          <div class="rows" id="rows"></div>
-        </div>
-        <div class="tools-side" aria-label="윈도 프로그램 바로가기"><b class="side-label">바로가기</b><div class="lc-btns" id="lc-btns"></div></div>
+    <section class="panel" id="tools" aria-label="바로가기와 주요 자료">
+      <div class="hub-sec hub-pc">
+        <div class="hub-head"><b>바로가기</b><span>윈도 PC</span></div>
+        <div class="hub-grid" id="hub-launch"></div>
+      </div>
+      <div class="hub-sec">
+        <div class="hub-head"><b>주요 자료</b><span>업무 자료</span></div>
+        <div class="hub-grid" id="hub-links"></div>
       </div>
     </section>
     <footer class="site-foot"><span class="foot-warn"> [UBUNTU·V3] [byST]· </span>이 페이지가 외부로 유출되지 않도록 해주세요. · ☎ <a href="tel:0623804670">062)380-4670</a></footer>
@@ -1100,10 +1133,18 @@ var LAUNCH = [
   ['그림판','ms-paint:','paint'],
   ['파일탐색기','search-ms:','folder']
 ];
+/* 주요 자료: 업무 도구 메뉴에서 자주 쓰는 링크를 복사해 둔 것 [이름, 주소, 아이콘, 원래 메뉴] */
+var KEYLINKS = [
+  ['예산편성지침','https://sevendog7.github.io/edu/budget.html','wallet','검색'],
+  ['업무추진비','https://sevendog7.github.io/edu/upmu.html','receipt','검색'],
+  ['지방공무원 복무','https://sevendog7.github.io/edu/bok.html','badge','지방공무원'],
+  ['공직선거법','https://sevendog7.github.io/edu/sungeo.html','vote','선거의회']
+];
 var WEB = [
   {u:'https://www.google.com', s:'https://www.google.com/search?q='},
   {u:'https://www.naver.com/', s:'https://search.naver.com/search.naver?query='},
-  {u:'https://map.naver.com/p?c=15.00,0,0,2,dh', s:'https://map.naver.com/p/search/'}
+  {u:'https://map.naver.com/p?c=15.00,0,0,2,dh', s:'https://map.naver.com/p/search/'},
+  {u:'https://www.law.go.kr/', s:'https://www.law.go.kr/lsSc.do?menuId=1&subMenuId=15&tabMenuId=81&query='}   // 국가법령정보센터 법령 검색
 ];
 /* edu 폴더 검색 설정 */
 var EDU = {
@@ -1127,7 +1168,13 @@ var ICONS = {
   cut:'<circle cx="6.5" cy="17" r="2.5"/><circle cx="17.5" cy="17" r="2.5"/><path d="M8.3 15.2L18 4.5M15.7 15.2L6 4.5"/>',
   calc:'<rect x="5" y="3.5" width="14" height="17" rx="2.5"/><rect x="8" y="6.5" width="8" height="3.5" rx="1"/><path d="M8.5 13.5h.01M12 13.5h.01M15.5 13.5h.01M8.5 17h.01M12 17h.01M15.5 17h.01" stroke-width="2.4"/>',
   paint:'<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.8 1.8-1.7 0-1.3-1.1-1.6-1.1-2.7 0-.9.7-1.6 1.6-1.6h2.1a3.6 3.6 0 0 0 3.6-3.6C20 6.8 16.4 3.5 12 3.5z"/><circle cx="7.8" cy="11" r="1.1" fill="currentColor"/><circle cx="10.3" cy="7.4" r="1.1" fill="currentColor"/><circle cx="14.6" cy="7.6" r="1.1" fill="currentColor"/>',
-  folder:'<path d="M3.5 7.5A2 2 0 0 1 5.5 5.5h4l2 2.5h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M3.5 10.5h17"/>'
+  folder:'<path d="M3.5 7.5A2 2 0 0 1 5.5 5.5h4l2 2.5h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><path d="M3.5 10.5h17"/>',
+  wallet:'<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H17v3"/><rect x="4" y="8" width="16" height="11.5" rx="2.5"/><path d="M15.5 13.75h2"/>',
+  receipt:'<path d="M6 3.5h12v17l-2.5-1.6-2 1.6-2-1.6-2 1.6-2-1.6L6 20.5z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/>',
+  target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/>',
+  scale:'<path d="M12 4v16M8 20h8M5 7h14"/><path d="M5 7l-2.5 6a3 3 0 0 0 5 0z M19 7l-2.5 6a3 3 0 0 0 5 0z"/>',
+  badge:'<rect x="5" y="3.5" width="14" height="17" rx="2.5"/><circle cx="12" cy="10" r="2.6"/><path d="M8.5 16.5c.6-1.7 1.9-2.6 3.5-2.6s2.9.9 3.5 2.6M10 3.5v2h4v-2"/>',
+  vote:'<path d="M4 13h16v7H4z"/><path d="M8 13V5.5h8V13"/><path d="M10 9.2l1.5 1.5 3-3"/>'
 };
 function svg(name){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+ICONS[name]+'</svg>'; }
 var ARROW = '<svg class="ar" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l6-6M6 5h5v5"/></svg>';
@@ -1146,10 +1193,12 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
     return '<a class="qk" href="'+esc(q[1])+'"'+EXT+'><span class="g">'+esc(q[2])+'</span><span class="t">'+esc(q[0])+'</span></a>';
   }).join('');
 
-  /* ①-3 윈도 프로그램 바로가기 */
-  $('lc-btns').innerHTML = LAUNCH.map(function(l){
-    return '<a class="lc-btn" href="'+esc(l[1])+'" title="'+esc(l[0])+' 열기 (윈도 PC)">'+svg(l[2])+'<span>'+esc(l[0])+'</span></a>';
-  }).join('');
+  /* ①-3 바로가기(윈도 프로그램) + 주요 자료: 업무 도구 칸 */
+  function tile(name, url, ic, cap, ext){
+    return '<a class="hub-tile" href="'+esc(url)+'"'+(ext?EXT:'')+' title="'+esc(name)+' 열기 ('+esc(cap)+')"><span class="hi">'+svg(ic)+'</span><span class="ht"><b>'+esc(name)+'</b></span></a>';
+  }
+  $('hub-launch').innerHTML = LAUNCH.map(function(l){ return tile(l[0], l[1], l[2], '윈도 프로그램', false); }).join('');
+  $('hub-links').innerHTML = KEYLINKS.map(function(k){ return tile(k[0], k[1], k[2], k[3], true); }).join('');
 
   /* ①-2 특집 */
   $('feat-list').innerHTML = FEATURE.map(function(f,i){
@@ -1164,7 +1213,7 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
       '<div class="dd-grid">'+s.items.map(function(it,i){ return '<a href="'+esc(it[1])+'"'+EXT+'><i>'+pad(i+1)+'</i>'+esc(it[0])+'</a>'; }).join('')+'</div>'+
       '<button type="button" class="dd-more" data-show="'+s.id+'">아래 업무 도구 영역에 펼쳐 보기 ↓</button></div></div>';
   }).join('');
-  $('tabs').innerHTML = SECTIONS.map(function(s){
+  if($('tabs')) $('tabs').innerHTML = SECTIONS.map(function(s){
     return '<button type="button" class="tab" role="tab" data-sel="'+s.id+'">'+svg(ICON_OF[s.id])+esc(s.nav)+'</button>';
   }).join('');
 
@@ -1172,6 +1221,7 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
     var s = SECTIONS.filter(function(x){ return x.id===id; })[0] || SECTIONS[0];
     try{ localStorage.setItem('kbs-sec', s.id); }catch(e){}
     [].forEach.call(document.querySelectorAll('[data-sel]'), function(b){ var on=b.getAttribute('data-sel')===s.id; b.classList.toggle('on', on); if(b.classList.contains('tab')) b.setAttribute('aria-selected', on?'true':'false'); });
+    if(!$('rows')) return;   // 업무 도구 칸은 바로가기·주요 자료로 바뀜(메뉴 강조만 유지)
     $('sec-head').innerHTML = svg(ICON_OF[s.id])+'<h2>'+esc(s.title)+'</h2><span class="n">'+s.items.length+'</span><span class="sub">'+esc(s.cap)+'</span>';
     $('rows').innerHTML = s.items.map(function(it,i){
       return '<a class="row" href="'+esc(it[1])+'"'+EXT+'><span class="chip">'+pad(i+1)+'</span><span class="t">'+esc(it[0])+'</span>'+ARROW+'</a>';
@@ -1187,7 +1237,7 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
       if(isMobile()){   /* 휴대전화: 눌러서 세부 도구 펼치기·접기 */
         var o=!d.classList.contains('open'); closeDD(d); d.classList.toggle('open', o); b.setAttribute('aria-expanded', o?'true':'false');
       } else {          /* PC: 마우스를 대면 세부 도구, 누르면 아래 업무 도구 영역에 펼침 */
-        closeDD(); select(b.getAttribute('data-sel'), true);
+        closeDD(); select(b.getAttribute('data-sel'), false);
       }
     });
     d.querySelector('.dd-panel').addEventListener('click', function(e){ e.stopPropagation(); if(e.target.closest('a')){ closeDD(); closeNav(); } });
