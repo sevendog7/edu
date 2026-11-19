@@ -849,6 +849,12 @@
   @media (prefers-color-scheme:dark){ a.lc-btn{ border-color:transparent; } }
   /* 휴대전화에서는 윈도 프로그램을 열 수 없으므로 숨김 */
   @media (max-width:760px){ .tools-side{ display:none; } }
+  /* PC 메뉴 세부 도구: 마우스를 올리면 선택 색(라임/검정)으로 바뀜 (휴대전화는 그대로) */
+  @media (min-width:761px){
+    .dd-grid a{ transition:background .12s, color .12s, box-shadow .12s; }
+    .dd-grid a:hover, .dd-grid a:focus-visible{ background:var(--gloss); color:var(--gloss-ink); box-shadow:var(--gloss-shadow); }
+    .dd-grid a:hover i, .dd-grid a:focus-visible i{ background:var(--gloss-tile); color:var(--gloss-ink); }
+  }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
