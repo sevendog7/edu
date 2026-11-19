@@ -884,6 +884,9 @@
     a.hub-tile{ height:44px; }
     a.hub-tile .ht b{ font-size:14.5px; }
   }
+  /* 뉴스 3줄째: 교육부 배지 */
+  .news-badge.moe{ background:#141414; color:#fff; box-shadow:none; }
+  @media (prefers-color-scheme:dark){ .news-badge.moe{ background:#f1f1ee; color:#141414; } }
   /* 웹검색 버튼 4개(구글·네이버·지도·법령) */
   .ws-btns{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; }
   .ws-btns button{ padding:0 4px; gap:5px; }
@@ -971,6 +974,12 @@
           <a class="news-title" id="local-title" href="https://www.newsis.com/" target="_blank" rel="noopener">지역 기사를 불러오는 중입니다…</a>
           <span class="news-time" id="local-time"></span>
           <span class="news-ctrl"><button type="button" id="local-prev" aria-label="이전 지역 기사">‹</button><button type="button" id="local-next" aria-label="다음 지역 기사">›</button></span>
+        </div>
+        <div class="news-line" id="moe-line" aria-live="polite">
+          <span class="news-badge moe" id="moe-badge">교육부</span><span class="news-src">교육부 보도자료</span>
+          <a class="news-title" id="moe-title" href="https://www.moe.go.kr/boardCnts/listRenew.do?boardID=294&amp;m=020402&amp;s=moe" target="_blank" rel="noopener">교육부 보도자료를 불러오는 중입니다…</a>
+          <span class="news-time" id="moe-time"></span>
+          <span class="news-ctrl"><button type="button" id="moe-prev" aria-label="이전 보도자료">‹</button><button type="button" id="moe-next" aria-label="다음 보도자료">›</button></span>
         </div>
       </section>
       <section class="panel p-find" aria-label="메뉴 통합검색">
@@ -1146,6 +1155,10 @@ var WEB = [
   {u:'https://map.naver.com/p?c=15.00,0,0,2,dh', s:'https://map.naver.com/p/search/'},
   {u:'https://www.law.go.kr/', s:'https://www.law.go.kr/lsSc.do?menuId=1&subMenuId=15&tabMenuId=81&query='}   // 국가법령정보센터 법령 검색
 ];
+/* 교육부 보도자료 줄: 구글 Apps Script 웹 앱 주소(…/exec)를 따옴표 안에 붙여 넣기
+   (교육부 누리집은 다른 사이트가 직접 읽을 수 없어 Apps Script가 대신 읽어 전달) */
+var MOE_FEED = 'https://script.google.com/macros/s/AKfycbxUN41Wrmu_kuc7y61Yg6JIGNVOWPOwPKHVDIzHdMdIaIblRBfJInm81VtL9_M1Y3_f8Q/exec';
+var MOE_BOARD = 'https://www.moe.go.kr/boardCnts/listRenew.do?boardID=294&m=020402&s=moe';
 /* edu 폴더 검색 설정 */
 var EDU = {
   base:'https://sevendog7.github.io/edu/',
@@ -1670,6 +1683,38 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
         return all;
       });
     } });
+})();
+
+/* ===== 뉴스 3줄째: 교육부 보도자료 (Apps Script 중계, 최신 글 순) ===== */
+(function(){
+  function $(id){ return document.getElementById(id); }
+  function md(t){ if(!t||isNaN(t)) return ''; var d=new Date(t), p=function(n){ return (n<10?'0':'')+n; }; return p(d.getMonth()+1)+'.'+p(d.getDate()); }
+  var items=[], idx=0, timer=null, paused=false;
+  var a=$('moe-title'), tm=$('moe-time'), box=$('moe-line');
+  function show(i){
+    if(!items.length) return;
+    idx=(i+items.length)%items.length;
+    var it=items[idx];
+    a.classList.add('fade');
+    setTimeout(function(){ a.classList.remove('news-empty'); a.textContent=it.title; a.href=it.link; a.title=it.title+(it.date?' ('+it.date+')':''); tm.textContent=md(it.t); a.classList.remove('fade'); }, 250);
+  }
+  function start(){ clearInterval(timer); timer=setInterval(function(){ if(!paused) show(idx+1); }, 6000); }
+  function fail(msg){ if(items.length) return; a.textContent=msg; a.href=MOE_BOARD; a.classList.add('news-empty'); }
+  function load(){
+    if(!MOE_FEED){ fail('교육부 보도자료 바로가기 (자동 표시는 Apps Script 주소 등록 필요)'); return; }
+    fetch(MOE_FEED+(MOE_FEED.indexOf('?')<0?'?':'&')+'_='+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+      var list=(d&&d.items||[]).map(function(x){ var p=String(x.date||'').split(/[.\-]/); return {title:x.title, link:x.link, date:x.date, t:p.length===3?new Date(+p[0],+p[1]-1,+p[2]).getTime():0}; }).filter(function(x){ return x.title&&x.link; });
+      if(!list.length) throw 0;
+      var cur=items[idx]&&items[idx].link; items=list.slice(0,30);
+      var k=0; for(var i=0;i<items.length;i++){ if(items[i].link===cur){ k=i; break; } }
+      if(!cur){ show(0); start(); } else { idx=k; }
+    }).catch(function(){ fail('교육부 보도자료를 불러오지 못했습니다 · 교육부 바로가기'); });
+  }
+  box.addEventListener('mouseenter', function(){ paused=true; });
+  box.addEventListener('mouseleave', function(){ paused=false; });
+  $('moe-prev').addEventListener('click', function(){ show(idx-1); start(); });
+  $('moe-next').addEventListener('click', function(){ show(idx+1); start(); });
+  load(); setInterval(load, 5*60*1000);   // 5분마다 새로 읽음
 })();
 
 /* ===== 휴대전화 아래 탭 막대 ===== */
