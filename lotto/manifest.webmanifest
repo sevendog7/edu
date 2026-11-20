@@ -1,0 +1,19 @@
+{
+  "name": "말랑 로또 6/45 추첨기",
+  "short_name": "로또 추첨기",
+  "description": "공 45개를 바람으로 섞어 6개와 보너스 1개를 뽑는 귀여운 로또 번호 추첨기",
+  "lang": "ko",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#e8f7ff",
+  "theme_color": "#7ec8e3",
+  "categories": ["entertainment", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
