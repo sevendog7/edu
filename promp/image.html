@@ -4,394 +4,659 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>교육 이미지 프롬프트 스튜디오</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /*
-VOICE: 포트폴리오 케이스 스터디처럼 차분하고 단정한 편집 디자인
-IDEA: 잘 짜인 디자인 리뷰 문서 한 권, 큰 세리프 제목과 여백, 흰 카드에 담긴 작업 단계
-PICTURE: 표지 같은 대형 세리프 제목과 요약 지표, 단계별 흰 카드, 엔진별 결과 카드
-COLOUR and TYPE: 따뜻한 미색 바탕, 흰 카드, 먹색 글자, 딥블루 1색 강조 / Noto Serif KR 제목 + Noto Sans KR 본문 + JetBrains Mono 프롬프트
-LAYOUT: 표지 띠, 아래 2단(입력 단계 카드 : 결과 고정), 좁은 화면은 위아래로 쌓기
+VOICE: AI 네이티브 도구. 군더더기 없는 화면, 빛나는 포커스, 차분한 보라 계열
+IDEA: 프롬프트 조립 콘솔. 왼쪽 단계 내비, 가운데 설정 모듈, 오른쪽 어두운 출력 콘솔
+PICTURE: 실시간으로 바뀌는 출력 콘솔과 적용 설정 토큰, AI 다듬기 중 펄스 표시
+COLOUR and TYPE: ui-ux-pro-max AI-Native 팔레트(바이올렛 #7C3AED, 인디고 #6366F1, 핑크 #EC4899) / Space Grotesk + Noto Sans KR + JetBrains Mono
+LAYOUT: 1200px 이상 3단(단계 내비·설정·콘솔), 960~1200px 2단 + 상단 단계 바, 좁은 화면은 1단 + 하단 고정 실행 바
 */
 :root{color-scheme:light dark;
---bg:light-dark(#f6f5f1,#121212);--card:light-dark(#ffffff,#1c1c1e);--ink:light-dark(#17171a,#ededea);--sub:light-dark(#6b6b70,#a3a3a8);
---line:light-dark(#e6e4de,#2c2c30);--fill:light-dark(#faf9f6,#232326);--accent:light-dark(#1f3fbf,#8ea6ff);--accent-s:light-dark(#eef1fc,#20264a);
---chip-on:light-dark(#17171a,#ededea);--chip-on-ink:light-dark(#ffffff,#17171a);--serif:'Noto Serif KR',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+--bg:light-dark(#f7f5fc,#09090f);--surface:light-dark(rgba(255,255,255,.82),rgba(22,20,36,.82));--solid:light-dark(#ffffff,#15131f);
+--fg:light-dark(#0f172a,#ecebf5);--muted:light-dark(#475569,#a9a6bd);--border:light-dark(#e7e0f7,#2a2640);--field:light-dark(#faf8ff,#1c1a2a);
+--primary:light-dark(#7c3aed,#a78bfa);--primary-solid:#7c3aed;--on-primary:#ffffff;--secondary:#6366f1;--accent:#ec4899;
+--primary-soft:light-dark(#f1eafe,#251c40);--ring:color-mix(in srgb,var(--primary) 40%,transparent);--ok:light-dark(#0f8a6a,#4ad6a8);
+--console:#0e0d1a;--console-2:#17152a;--console-fg:#e9e7f7;--console-muted:#a6a2c4;--console-line:#2b2846;
+--display:'Space Grotesk','Noto Sans KR',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+--r-lg:20px;--r-md:14px;--r-sm:10px;--t-fast:150ms;--t-med:220ms;--ease:cubic-bezier(.2,.7,.2,1)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.65 'Noto Sans KR',system-ui,sans-serif;overflow-x:clip}
-button{font:inherit;cursor:pointer;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+html{scroll-padding-top:84px}
+body{margin:0;color:var(--fg);font:16px/1.6 'Noto Sans KR',system-ui,sans-serif;overflow-x:clip;
+background:radial-gradient(900px 420px at 12% -8%,light-dark(rgba(124,58,237,.14),rgba(124,58,237,.22)),transparent 65%),
+radial-gradient(800px 380px at 92% 0%,light-dark(rgba(99,102,241,.12),rgba(99,102,241,.18)),transparent 65%),
+radial-gradient(circle,light-dark(rgba(124,58,237,.10),rgba(167,139,250,.08)) 1px,transparent 1.2px) 0 0/22px 22px,var(--bg)}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-/* cover */
-.cover{max-width:1240px;margin:0 auto;padding:clamp(36px,6vw,72px) max(4vw,18px) clamp(24px,4vw,40px);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px;align-items:end;border-bottom:1px solid var(--line)}
-@media(max-width:860px){.cover{grid-template-columns:minmax(0,1fr)}}
-.kicker{font-size:14px;color:var(--sub);margin:0 0 14px}
-.cover h1{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(36px,5.4vw,60px);line-height:1.08;letter-spacing:-.03em;text-wrap:balance}
-.cover .lede{margin:18px 0 0;max-width:600px;font-size:17px;color:var(--sub)}
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink)}
-.facts div{padding:14px 12px 0 0}
-.facts b{display:block;font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.1}
-.facts span{font-size:13px;color:var(--sub)}
-.status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:13px;color:var(--sub)}
-.dot{width:8px;height:8px;border-radius:50%;background:#b5b5ba}
-.status.ai .dot{background:#1a9b6c}
+/* header */
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);background:light-dark(rgba(247,245,252,.78),rgba(9,9,15,.78));border-bottom:1px solid var(--border)}
+.top-in{max-width:1480px;margin:0 auto;padding:12px max(3vw,16px);display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,var(--primary-solid),var(--secondary));color:#fff;box-shadow:0 6px 18px -6px var(--primary-solid)}
+.mark svg{width:22px;height:22px}
+.logo h1{margin:0;font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo p{margin:0;font-size:12.5px;color:var(--muted)}
+.status{margin-left:auto;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:13px;color:var(--muted);white-space:nowrap}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 60%,transparent);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.kbd{font:12px var(--mono);padding:2px 6px;border-radius:6px;border:1px solid var(--border);background:var(--field);color:var(--muted)}
+@media(max-width:720px){.logo p,.status .lbl{display:none}}
 
 /* layout */
-.wrap{max-width:1240px;margin:0 auto;padding:32px max(4vw,18px) 72px;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:28px;align-items:start}
-@media(max-width:960px){.wrap{grid-template-columns:minmax(0,1fr)}}
-.col-title{font-family:var(--serif);font-size:26px;font-weight:700;margin:0 0 14px;letter-spacing:-.02em}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -22px rgba(0,0,0,.18)}
-.step{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
-.step em{font-style:normal;font-family:var(--serif);font-size:15px;color:var(--accent);font-weight:700}
-.step h3{margin:0;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:-.01em}
-.desc{margin:0 0 14px;color:var(--sub);font-size:14px}
-textarea,input[type=text]{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--fill);border:1px solid var(--line);border-radius:12px;padding:11px 14px;min-height:46px;transition:border-color .15s,background .15s}
-textarea{min-height:100px;resize:vertical}
-textarea:focus,input[type=text]:focus{outline:none;border-color:var(--ink);background:var(--card)}
-input.own{margin-top:10px;font-size:15px;min-height:44px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{min-height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:14px;transition:background .12s,border-color .12s}
-.chip:hover{border-color:var(--ink)}
-.chip[aria-pressed=true]{background:var(--chip-on);border-color:var(--chip-on);color:var(--chip-on-ink)}
-.ex{margin-top:10px}
-.ex .chip{min-height:34px;font-size:13px;color:var(--sub);background:var(--fill)}
-.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-@media(max-width:420px){.tiles{grid-template-columns:minmax(0,1fr)}}
-.tile{text-align:left;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);min-height:64px;transition:border-color .12s,background .12s}
-.tile b{display:block;font-family:var(--serif);font-size:16px;font-weight:700}
-.tile span{display:block;font-size:12.5px;color:var(--sub);margin-top:2px}
-.tile:hover{border-color:var(--ink)}
-.tile[aria-pressed=true]{border-color:var(--accent);background:var(--accent-s);box-shadow:inset 0 0 0 1px var(--accent)}
-.group{padding-top:14px;margin-top:14px;border-top:1px solid var(--line)}
-.group:first-of-type{border-top:0;margin-top:0;padding-top:0}
-.glabel{margin:0 0 8px;font-size:13.5px;font-weight:700}
-.switch{display:flex;align-items:center;gap:12px;min-height:44px;font-size:14.5px;cursor:pointer}
-.switch input{appearance:none;width:42px;height:24px;border-radius:99px;background:var(--line);position:relative;flex:none;cursor:pointer;transition:background .15s}
-.switch input::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.switch input:checked{background:var(--ink)}
-.switch input:checked::after{left:21px}
-.hint{font-size:13px;color:var(--sub);margin:2px 0 0}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.go{flex:1 1 240px;min-height:54px;border:0;border-radius:14px;background:var(--ink);color:var(--card);font-size:16px;font-weight:700}
-.go:disabled{opacity:.55;cursor:wait}
-.ghost{min-height:54px;padding:0 20px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-weight:500}
+.shell{max-width:1480px;margin:0 auto;padding:20px max(3vw,16px) 96px;display:grid;grid-template-columns:200px minmax(0,1fr) minmax(0,520px);gap:24px;align-items:start}
+@media(max-width:1200px){.shell{grid-template-columns:minmax(0,1fr) minmax(0,460px)}.rail{grid-column:1/-1}}
+@media(max-width:960px){.shell{grid-template-columns:minmax(0,1fr)}}
 
-/* output */
-@media(min-width:961px){.out{position:sticky;top:20px}}
-.ohead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
-.mode{font-size:13px;color:var(--sub)}
-.res{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -22px rgba(0,0,0,.18)}
-.rtop{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
-.rtop h3{margin:0;font-family:var(--serif);font-size:20px;font-weight:700}
-.rtop span{font-size:13px;color:var(--sub)}
-.cp{margin-left:auto;min-height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--ink);background:var(--card);font-size:14px;font-weight:700;transition:background .12s}
-.cp:hover,.cp.ok{background:var(--ink);color:var(--card)}
-.code{margin:0;padding:18px 20px;font:13.5px/1.75 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto}
-.busy .code{opacity:.4;transition:opacity .2s}
-.notes{padding:20px 24px}
-.notes h3{margin:0 0 10px;font-family:var(--serif);font-size:20px}
-.notes ol{margin:0;padding-left:1.2em}
-.notes li{margin:5px 0;color:var(--ink)}
-.notes li::marker{font-family:var(--serif);color:var(--accent);font-weight:700}
-.hist{padding:20px 24px}
-.hist .hh{display:flex;justify-content:space-between;align-items:baseline}
-.hist h3{margin:0 0 8px;font-family:var(--serif);font-size:20px}
-.hist .hh button{border:0;background:none;color:var(--sub);font-size:13px;min-height:40px}
-.hitem{display:flex;width:100%;gap:12px;align-items:center;text-align:left;min-height:46px;padding:8px 0;border:0;border-top:1px solid var(--line);background:none}
-.hitem:hover span{text-decoration:underline}
+/* step rail */
+.rail{position:sticky;top:84px}
+.rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.rail a{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 10px;border-radius:12px;color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;transition:background var(--t-fast),color var(--t-fast)}
+.rail a:hover{background:var(--primary-soft);color:var(--fg)}
+.rail a.cur{background:var(--solid);color:var(--fg);box-shadow:0 1px 0 var(--border),0 8px 20px -14px rgba(76,29,149,.4)}
+.rail .no{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font:600 13px var(--display);border:1px solid var(--border);background:var(--field)}
+.rail a.done .no{background:var(--primary-solid);border-color:var(--primary-solid);color:#fff}
+.rail .no svg{width:14px;height:14px;stroke-width:2.6}
+.rail .help{margin:16px 4px 0;font-size:12.5px;color:var(--muted);line-height:1.55}
+@media(max-width:1200px){
+ .rail{top:65px;z-index:15;margin:-8px 0 0;padding:6px;border:1px solid var(--border);border-radius:16px;background:var(--surface);backdrop-filter:blur(14px)}
+ .rail ol{flex-direction:row;overflow-x:auto;scrollbar-width:none}
+ .rail a{white-space:nowrap}.rail .help{display:none}}
+
+/* modules */
+.mod{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:16px;backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 18px 40px -30px rgba(76,29,149,.45)}
+.mh{display:flex;align-items:center;gap:12px;margin:0 0 4px}
+.mh .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:none;background:var(--primary-soft);color:var(--primary)}
+.mh h2{margin:0;font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.01em}
+.mh .meta{margin-left:auto;font-size:13px;color:var(--muted)}
+.desc{margin:0 0 16px 48px;font-size:14px;color:var(--muted)}
+@media(max-width:520px){.desc{margin-left:0}}
+label.lb{display:block;font-size:14px;font-weight:700;margin:0 0 6px}
+textarea,input[type=text],input[type=search],select{width:100%;font-size:16px;background:var(--field);border:1px solid var(--border);border-radius:var(--r-md);padding:11px 14px;min-height:48px;transition:border-color var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
+textarea{min-height:104px;resize:vertical;line-height:1.55}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary);background:var(--solid);box-shadow:0 0 0 4px var(--ring)}
+.counter{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--border);background:var(--solid);font-size:14px;display:inline-flex;align-items:center;gap:6px;transition:background var(--t-fast),border-color var(--t-fast),color var(--t-fast),box-shadow var(--t-fast)}
+.chip:hover{border-color:var(--primary)}
+.chip[aria-pressed=true]{background:var(--primary-solid);border-color:var(--primary-solid);color:var(--on-primary);box-shadow:0 6px 16px -8px var(--primary-solid)}
+.chip[aria-pressed=true]::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.ex{margin-top:12px}
+.ex .chip{min-height:36px;font-size:13px;color:var(--muted);background:transparent;border-style:dashed}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:1380px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{text-align:left;padding:14px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--solid);min-height:76px;display:flex;flex-direction:column;gap:6px;transition:border-color var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
+.tile svg{color:var(--primary)}
+.tile b{font-size:15px;font-weight:700}
+.tile span{font-size:12.5px;color:var(--muted);line-height:1.4}
+.tile:hover{border-color:var(--primary)}
+.tile[aria-pressed=true]{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 1px var(--primary) inset,0 10px 24px -16px var(--primary-solid)}
+.picked{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);background:linear-gradient(135deg,var(--primary-soft),transparent);border:1px solid var(--border);margin-bottom:12px}
+.picked b{font-family:var(--display);font-size:17px}
+.picked span{font-size:13px;color:var(--muted)}
+.tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--field);border:1px solid var(--border);overflow-x:auto;scrollbar-width:none;margin-bottom:10px}
+.tab{flex:1 0 auto;min-height:40px;padding:0 14px;border-radius:9px;border:0;background:none;font-size:14px;color:var(--muted);font-weight:500;transition:background var(--t-fast),color var(--t-fast)}
+.tab[aria-selected=true]{background:var(--solid);color:var(--fg);font-weight:700;box-shadow:0 2px 8px -4px rgba(76,29,149,.35)}
+.searchwrap{position:relative;margin-bottom:10px}
+.searchwrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);width:18px;height:18px}
+.searchwrap input{padding-left:40px;min-height:44px;font-size:15px}
+.scrollbox{max-height:248px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;padding:2px;scrollbar-width:thin}
+.gh{flex-basis:100%;margin:8px 0 0;font-size:12.5px;font-weight:700;color:var(--muted)}
+.gh:first-child{margin-top:0}
+.nomatch{font-size:14px;color:var(--muted);margin:4px}
+.own{margin-top:10px}
+.acc{border-top:1px solid var(--border)}
+.acc:first-of-type{border-top:0}
+.acc summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:56px;cursor:pointer;border-radius:10px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .t{flex:none;width:96px;font-weight:700;font-size:14.5px}
+.acc summary .v{flex:1;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc summary .v.on{color:var(--fg)}
+.acc summary .n{flex:none;min-width:24px;height:24px;padding:0 7px;border-radius:99px;background:var(--primary-soft);color:var(--primary);font:600 12.5px var(--display);display:grid;place-items:center}
+.acc summary .n:empty{display:none}
+.acc summary .chev{color:var(--muted);transition:transform var(--t-med) var(--ease)}
+.acc[open] summary .chev{transform:rotate(180deg)}
+.acc-body{padding:0 0 16px}
+.tip{font-size:12.5px;color:var(--muted);margin:0 0 10px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:560px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.ratio{display:flex;gap:14px;align-items:flex-end;margin-bottom:12px}
+.ratio>div{flex:1}
+.preview{flex:none;width:104px;height:76px;border-radius:var(--r-md);background:var(--field);border:1px solid var(--border);display:grid;place-items:center}
+.preview i{display:block;border-radius:4px;background:linear-gradient(135deg,var(--primary-solid),var(--secondary));transition:width var(--t-med) var(--ease),height var(--t-med) var(--ease)}
+.hint{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.switch{display:flex;align-items:flex-start;gap:12px;min-height:48px;padding:10px 0;font-size:15px;cursor:pointer}
+.switch input{appearance:none;width:44px;height:26px;border-radius:99px;background:var(--border);position:relative;flex:none;cursor:pointer;margin:0;transition:background var(--t-fast)}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform var(--t-med) var(--ease);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.switch input:checked{background:var(--primary-solid)}
+.switch input:checked::after{transform:translateX(18px)}
+.switch small{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+
+/* console */
+.console{position:sticky;top:84px;border-radius:24px;background:var(--console);color:var(--console-fg);border:1px solid #2b2846;box-shadow:0 30px 60px -30px rgba(46,16,101,.65);overflow:hidden}
+@media(max-width:960px){.console{position:static}}
+.c-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--console-line);background:linear-gradient(180deg,#16142a,transparent)}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#3a3658}
+.c-title{font:600 14px var(--display);color:var(--console-fg)}
+.c-mode{margin-left:auto;font-size:12.5px;color:var(--console-muted)}
+.c-tabs{display:flex;gap:4px;padding:10px 12px 0}
+.c-tab{min-height:42px;padding:0 16px;border-radius:10px 10px 0 0;border:1px solid transparent;border-bottom:0;background:none;color:var(--console-muted);font-weight:600;font-size:14px}
+.c-tab[aria-selected=true]{background:var(--console-2);border-color:var(--console-line);color:#fff}
+.c-body{background:var(--console-2);border-top:1px solid var(--console-line);margin-top:-1px}
+.code{margin:0;padding:18px 18px 8px;font:13.5px/1.8 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;max-height:42vh;min-height:180px;overflow:auto;color:var(--console-fg);transition:opacity var(--t-med)}
+.code.flash{animation:flash .6s var(--ease)}
+@keyframes flash{from{background:rgba(167,139,250,.12)}to{background:transparent}}
+.c-meta{display:flex;gap:14px;padding:6px 18px 14px;font-size:12.5px;color:var(--console-muted)}
+.c-actions{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--console-line)}
+.btn-copy{flex:1;min-height:46px;border-radius:12px;border:0;background:#fff;color:#14112a;font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform var(--t-fast),background var(--t-fast)}
+.btn-copy:hover{transform:translateY(-1px)}
+.btn-copy.ok{background:#4ad6a8}
+.btn-sub{min-height:46px;padding:0 14px;border-radius:12px;border:1px solid var(--console-line);background:transparent;color:var(--console-fg);font-weight:600;font-size:14px}
+.btn-sub:hover{border-color:#6b64a8}
+.tokens{padding:14px 16px;border-top:1px solid var(--console-line)}
+.tokens h3,.notes h3{margin:0 0 10px;font:600 13px var(--display);color:var(--console-muted)}
+.tok{display:inline-flex;align-items:center;gap:6px;min-height:32px;margin:0 6px 6px 0;padding:0 10px;border-radius:8px;border:1px solid var(--console-line);background:#1d1a33;color:var(--console-fg);font-size:13px}
+.tok:hover{border-color:#8b7cf6}
+.tok em{font-style:normal;color:var(--console-muted)}
+.notes{padding:14px 16px 18px;border-top:1px solid var(--console-line)}
+.notes ul{margin:0;padding-left:1.1em;font-size:13.5px;line-height:1.65;color:#d6d3ea}
+.notes li{margin:3px 0}
+.typing{display:none;align-items:center;gap:8px;padding:0 18px 12px;font-size:13px;color:#c4b5fd}
+.typing i{width:6px;height:6px;border-radius:50%;background:#c4b5fd;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.busy .typing{display:flex}.busy .code{opacity:.35}
+.hist{margin-top:16px}
+.hist .hh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.hist h3{margin:0;font-family:var(--display);font-size:16px}
+.linkbtn{border:0;background:none;color:var(--muted);font-size:13px;min-height:40px;padding:0 6px}
+.hitem{display:flex;width:100%;gap:12px;align-items:center;text-align:left;min-height:48px;padding:8px 10px;border-radius:10px;border:0;background:none}
+.hitem:hover{background:var(--primary-soft)}
 .hitem span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14.5px}
-.hitem time{font-size:12.5px;color:var(--sub);flex:none}
-.empty{color:var(--sub);font-size:14px;margin:0}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);opacity:0;background:var(--ink);color:var(--card);padding:12px 20px;border-radius:12px;font-size:14.5px;box-shadow:0 12px 30px rgba(0,0,0,.22);pointer-events:none;transition:all .2s;max-width:calc(100% - 32px);text-align:center;z-index:9}
+.hitem time{font-size:12.5px;color:var(--muted);flex:none}
+.empty{font-size:14px;color:var(--muted);margin:4px 2px}
+
+/* action bar */
+.actionbar{position:sticky;bottom:12px;z-index:12;display:flex;gap:10px;padding:10px;border-radius:18px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(16px);box-shadow:0 18px 40px -20px rgba(76,29,149,.55)}
+.go{flex:1 1 220px;min-height:52px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--primary-solid),var(--secondary));color:#fff;font-weight:700;font-size:16px;display:inline-flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 24px -12px var(--primary-solid);transition:transform var(--t-fast),filter var(--t-fast)}
+.go:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.go .kbd{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff}
+.ai{position:relative;flex:0 1 auto;min-height:52px;padding:0 18px;border-radius:13px;border:0;background:var(--solid);color:var(--fg);font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px;isolation:isolate}
+.ai::before{content:"";position:absolute;inset:-1.5px;border-radius:14px;background:conic-gradient(from var(--a,0deg),var(--primary-solid),var(--accent),var(--secondary),var(--primary-solid));z-index:-2;animation:spin 6s linear infinite}
+.ai::after{content:"";position:absolute;inset:0;border-radius:12px;background:var(--solid);z-index:-1}
+.ai svg{color:var(--accent)}
+.ai:disabled,.go:disabled{opacity:.55;cursor:wait}
+@property --a{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes spin{to{--a:360deg}}
+.ghost{min-height:52px;padding:0 14px;border-radius:13px;border:1px solid var(--border);background:var(--solid);font-weight:500;display:inline-flex;align-items:center;gap:6px}
+@media(max-width:560px){.ghost .lbl{display:none}.go .kbd{display:none}}
+
+.ai[hidden]{display:none}
+.rail li{flex:none}
+.ai,.go,.ghost{white-space:nowrap}
+@media(max-width:720px){.status .kbd{display:none}}
+@media(max-width:400px){.ai{padding:0 12px}}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,12px);opacity:0;background:#14112a;color:#fff;padding:12px 18px;border-radius:12px;font-size:14.5px;box-shadow:0 14px 34px rgba(0,0,0,.3);pointer-events:none;transition:opacity var(--t-med),transform var(--t-med) var(--ease);max-width:calc(100% - 32px);text-align:center;z-index:40;display:flex;gap:8px;align-items:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 4.9L19 9.7l-5.2 1.8L12 16.5l-1.8-5L5 9.7l5.2-1.8z"/><path d="M19 15l.8 2.1 2.2.9-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.9z"/></symbol>
+<symbol id="i-idea" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+<symbol id="i-brush" viewBox="0 0 24 24"><path d="M18.4 2.6a2 2 0 0 1 2.9 2.9L11 15.8 8.2 13z"/><path d="M7 14c-2 0-3 1.5-3 3s-1 2.5-2 3c3 1 7 0 7-3z"/></symbol>
+<symbol id="i-scene" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="8.5" r="1.5"/></symbol>
+<symbol id="i-frame" viewBox="0 0 24 24"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+<symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="p-banner" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M9 12h6"/></symbol>
+<symbol id="p-poster" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 15l3-3 2 2 3-3"/></symbol>
+<symbol id="p-sns" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="11" r="3"/><path d="M7.5 18a5 5 0 0 1 9 0"/></symbol>
+<symbol id="p-event" viewBox="0 0 24 24"><path d="M4 20l4-12 8 8z"/><path d="M14 4l1 2M19 5l-2 1M20 10l-2-.5M13 9c2-2 4-1.5 5-1"/></symbol>
+<symbol id="p-class" viewBox="0 0 24 24"><path d="M2 6l10-4 10 4-10 4z"/><path d="M6 8v5c0 2 3 3.5 6 3.5s6-1.5 6-3.5V8"/></symbol>
+<symbol id="p-press" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="4"/><path d="M8 6l1.5-2h5L16 6"/></symbol>
+<symbol id="p-web" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2.5"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></symbol>
+<symbol id="p-info" viewBox="0 0 24 24"><path d="M12 2l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></symbol>
+</svg>
 
-<header class="cover">
-<div>
-<p class="kicker">교육청 · 학교 홍보물 제작 도구</p>
-<h1>교육 이미지<br>프롬프트 스튜디오</h1>
-<p class="lede">아이디어를 적고 용도와 장면을 고르면, GPT·Gemini와 Midjourney에 바로 붙여 넣을 영어 프롬프트를 만들어 드립니다.</p>
-<span class="status" id="status"><span class="dot"></span><span id="statusText">조합 모드</span></span>
-</div>
-<div class="facts" aria-label="도구 요약">
-<div><b>2</b><span>지원 엔진</span></div>
-<div><b>8</b><span>교육 홍보 용도</span></div>
-<div><b>9</b><span>화면 비율</span></div>
-</div>
-</header>
+<header class="top"><div class="top-in">
+<div class="logo"><span class="mark"><svg class="i"><use href="#i-spark"/></svg></span>
+<div><h1>교육 이미지 프롬프트 스튜디오</h1><p>교육청·학교 홍보물용 GPT·Gemini / Midjourney 프롬프트</p></div></div>
+<span class="status" id="status"><span class="pulse" aria-hidden="true"></span><span class="lbl" id="statusText">AI 없이 즉시 생성</span><span class="kbd" title="단축키">Ctrl + Enter</span></span>
+</div></header>
 
-<main class="wrap">
-<section aria-label="입력">
-<h2 class="col-title">작업 단계</h2>
+<div class="shell">
+<nav class="rail" aria-label="작업 단계">
+<ol id="rail"></ol>
+<p class="help">선택을 바꿀 때마다 오른쪽 콘솔이 바로 갱신됩니다. 마음에 들면 복사해서 이미지 생성 AI에 붙여 넣으세요.</p>
+</nav>
 
-<div class="card">
-<div class="step"><em>1</em><h3>아이디어</h3></div>
-<p class="desc">만들고 싶은 장면을 한국어로 편하게 적어 주세요.</p>
-<textarea id="idea" placeholder="예: 학생과 지역주민이 함께 텃밭을 가꾸며 웃는 모습"></textarea>
-<div class="chips ex" id="exChips"></div>
-</div>
+<main>
+<section class="mod" id="s-idea" aria-labelledby="h-idea">
+<div class="mh"><span class="ic"><svg class="i"><use href="#i-idea"/></svg></span><h2 id="h-idea">아이디어</h2></div>
+<p class="desc">만들고 싶은 장면을 편하게 적어 주세요. 비워 두어도 선택한 항목만으로 프롬프트가 만들어집니다.</p>
+<label class="lb" for="idea">장면 설명</label>
+<textarea id="idea" maxlength="300" placeholder="예: 학생과 지역주민이 함께 텃밭을 가꾸며 웃는 모습"></textarea>
+<div class="counter"><span>한국어로 적어도 됩니다. Midjourney용은 'AI로 다듬기'를 쓰면 영어로 바뀝니다.</span><span id="ideaCount">0/300</span></div>
+<div class="chips ex" id="exChips" aria-label="예시 아이디어"></div>
+</section>
 
-<div class="card">
-<div class="step"><em>2</em><h3>용도</h3></div>
-<p class="desc">고르면 화풍·장면·비율이 용도에 맞게 한꺼번에 바뀝니다. 인물의 행동, 구도, 색 설계도 용도마다 다르게 들어갑니다.</p>
+<section class="mod" id="s-purpose" aria-labelledby="h-purpose">
+<div class="mh"><span class="ic"><svg class="i"><use href="#i-target"/></svg></span><h2 id="h-purpose">용도</h2></div>
+<p class="desc">고르면 화풍·장면·비율·화질이 한꺼번에 맞춰집니다. 그다음 필요한 것만 바꾸면 됩니다.</p>
 <div class="tiles" id="purpose"></div>
-</div>
-
-<div class="card">
-<div class="step"><em>3</em><h3>화풍</h3></div>
-<p class="desc">하나를 고르거나, 원하는 화풍을 직접 적으세요. 직접 적으면 그 내용이 우선합니다.</p>
-<div class="chips" id="style"></div>
-<input type="text" class="own" id="own-style" aria-label="화풍 직접 입력" placeholder="직접 입력 (예: 따뜻한 색연필 그림책 느낌)">
-</div>
-
-<div class="card">
-<div class="step"><em>4</em><h3>장면 구성</h3></div>
-<p class="desc">여러 개 고를 수 있고, 목록에 없는 내용은 각 칸에 직접 적으면 함께 들어갑니다.</p>
-<div class="group"><p class="glabel">등장인물</p><div class="chips" id="people"></div><input type="text" class="own" id="own-people" aria-label="등장인물 직접 입력" placeholder="직접 입력 (예: 방과후 강사, 급식 조리사)"></div>
-<div class="group"><p class="glabel">장소</p><div class="chips" id="place"></div><input type="text" class="own" id="own-place" aria-label="장소 직접 입력" placeholder="직접 입력 (예: 학교 텃밭, 메이커 스페이스)"></div>
-<div class="group"><p class="glabel">빛과 분위기</p><div class="chips" id="mood"></div><input type="text" class="own" id="own-mood" aria-label="빛과 분위기 직접 입력" placeholder="직접 입력 (예: 벚꽃이 흩날리는 봄날)"></div>
-<div class="group"><p class="glabel">카메라 앵글</p><div class="chips" id="camera"></div><input type="text" class="own" id="own-camera" aria-label="카메라 앵글 직접 입력" placeholder="직접 입력 (예: 드론으로 내려다본 전경)"></div>
-</div>
-
-<div class="card">
-<div class="step"><em>5</em><h3>비율과 글자</h3></div>
-<div class="chips" id="ratio" style="margin-top:12px"></div>
-<label class="switch" style="margin-top:12px"><input type="checkbox" id="noText" checked>이미지 안에 글자 넣지 않기 (권장)</label>
-<p class="hint">이미지 생성 AI는 한글을 자주 틀립니다. 제목은 완성 이미지 위에 따로 얹는 편이 안전합니다.</p>
-<div id="textBox" hidden style="margin-top:10px"><input type="text" id="headline" aria-label="이미지에 넣을 문구" placeholder="이미지에 넣을 문구 (GPT·Gemini에만 반영)"></div>
-</div>
-
-<div class="card">
-<div class="step"><em>6</em><h3>공공기관 기준</h3></div>
-<label class="switch" style="margin-top:8px"><input type="checkbox" id="safe" checked>실존 인물·로고·저작권 캐릭터·학교명·명찰 배제, 성별·연령 균형</label>
-</div>
-
-<div class="actions">
-<button class="go" id="go" type="button"><span id="goText">프롬프트 만들기</span></button>
-<button class="ghost" id="reset" type="button">초기화</button>
-</div>
 </section>
 
-<section class="out" aria-label="결과">
-<div class="ohead"><h2 class="col-title">결과</h2><span class="mode" id="modeNote"></span></div>
-<div id="outPanel">
-<article class="res"><div class="rtop"><h3>GPT · Gemini</h3><span>자연어 2~4문장</span><button type="button" class="cp" data-t="gpt">복사</button></div><pre class="code" id="o-gpt"></pre></article>
-<article class="res"><div class="rtop"><h3>Midjourney</h3><span>/imagine + 파라미터</span><button type="button" class="cp" data-t="mj">복사</button></div><pre class="code" id="o-mj"></pre></article>
-<article class="res notes"><h3>구성 설명</h3><ol id="notes"></ol></article>
-</div>
-<article class="res hist"><div class="hh"><h3>최근 기록</h3><button type="button" id="clearHist">기록 지우기</button></div><div id="hist"></div></article>
+<section class="mod" id="s-style" aria-labelledby="h-style">
+<div class="mh"><span class="ic"><svg class="i"><use href="#i-brush"/></svg></span><h2 id="h-style">화풍</h2><span class="meta" id="styleCount"></span></div>
+<p class="desc">분류를 고르거나 검색하세요. 목록에 없으면 아래 칸에 직접 적으면 그 내용이 우선합니다.</p>
+<div class="picked" id="stylePicked" aria-live="polite"></div>
+<div class="tabs" id="styleTabs" role="tablist" aria-label="화풍 분류"></div>
+<div class="searchwrap"><svg class="i"><use href="#i-search"/></svg><input type="search" id="styleSearch" placeholder="화풍 검색 (예: 수채, 3D, 사진)" aria-label="화풍 검색"></div>
+<div class="scrollbox" id="styleList"></div>
+<label class="lb own" for="own-style">직접 입력</label>
+<input type="text" id="own-style" placeholder="예: 따뜻한 색연필 그림책 느낌">
 </section>
+
+<section class="mod" id="s-scene" aria-labelledby="h-scene">
+<div class="mh"><span class="ic"><svg class="i"><use href="#i-scene"/></svg></span><h2 id="h-scene">장면 구성</h2></div>
+<p class="desc">항목을 누르면 펼쳐집니다. 접혀 있어도 현재 선택과 개수가 보입니다.</p>
+<div id="scene"></div>
+</section>
+
+<section class="mod" id="s-output" aria-labelledby="h-output">
+<div class="mh"><span class="ic"><svg class="i"><use href="#i-frame"/></svg></span><h2 id="h-output">비율 · 화질</h2></div>
+<p class="desc">어디에 쓸지에 맞춰 고르세요. 비율 옆 사각형이 모양을 보여 줍니다.</p>
+<div class="ratio"><div><label class="lb" for="ratioSel">화면 비율</label><select id="ratioSel"></select></div><div class="preview" aria-hidden="true"><i id="ratioBox"></i></div></div>
+<div class="grid2">
+<div><label class="lb" for="qualSel">해상도 · 화질</label><select id="qualSel"></select></div>
+<div><label class="lb" for="detailSel">디테일 수준</label><select id="detailSel"></select></div>
+</div>
+<p class="hint" id="ratioHint"></p>
+</section>
+
+<section class="mod" id="s-rule" aria-labelledby="h-rule">
+<div class="mh"><span class="ic"><svg class="i"><use href="#i-shield"/></svg></span><h2 id="h-rule">글자 · 공공기관 기준</h2></div>
+<label class="switch"><input type="checkbox" id="noText" checked><span>이미지 안에 글자 넣지 않기 (권장)<small>AI는 한글을 자주 틀립니다. 제목은 완성 이미지 위에 따로 얹으세요.</small></span></label>
+<div id="textBox" hidden><label class="lb" for="headline">이미지에 넣을 문구</label><input type="text" id="headline" placeholder="GPT·Gemini에만 큰따옴표로 원문 그대로 반영"></div>
+<label class="switch"><input type="checkbox" id="safe" checked><span>공공기관 안전 기준 적용<small>실존 인물·로고·저작권 캐릭터·학교명·명찰 배제, 성별·연령 균형</small></span></label>
+</section>
+
+<div class="actionbar">
+<button class="go" id="go" type="button"><svg class="i"><use href="#i-spark"/></svg><span>프롬프트 만들기</span><span class="kbd">Ctrl+Enter</span></button>
+<button class="ai" id="aiBtn" type="button" hidden><svg class="i"><use href="#i-spark"/></svg><span id="aiText">AI로 다듬기</span></button>
+<button class="ghost" id="reset" type="button" aria-label="초기화"><svg class="i"><use href="#i-reset"/></svg><span class="lbl">초기화</span></button>
+</div>
 </main>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<aside aria-label="결과">
+<div class="console" id="console">
+<div class="c-head"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="c-title">출력 콘솔</span><span class="c-mode" id="modeNote" aria-live="polite"></span></div>
+<div class="c-tabs" role="tablist" aria-label="엔진 선택">
+<button class="c-tab" role="tab" id="t-gpt" aria-selected="true" aria-controls="out" data-eng="gpt">GPT · Gemini</button>
+<button class="c-tab" role="tab" id="t-mj" aria-selected="false" aria-controls="out" data-eng="mj">Midjourney</button>
+</div>
+<div class="c-body">
+<pre class="code" id="out" role="tabpanel" tabindex="0" aria-labelledby="t-gpt"></pre>
+<div class="typing" aria-hidden="true"><i></i><i></i><i></i>AI가 다듬는 중</div>
+<div class="c-meta"><span id="wc"></span><span id="engHint"></span></div>
+</div>
+<div class="c-actions">
+<button class="btn-copy" id="copyBtn" type="button"><svg class="i"><use href="#i-copy"/></svg><span>복사</span></button>
+<button class="btn-sub" id="copyAll" type="button">둘 다 복사</button>
+</div>
+<div class="tokens"><h3>적용된 설정</h3><div id="tokens"></div></div>
+<div class="notes"><h3>구성 설명</h3><ul id="notes"></ul></div>
+</div>
+<div class="mod hist"><div class="hh"><h3>최근 기록</h3><button type="button" class="linkbtn" id="clearHist">기록 지우기</button></div><div id="hist"></div></div>
+</aside>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 {
 const EX = ['교육청 미래교육 정책 홍보 배너','학교 안전 캠페인 포스터','AI 디지털 교과서로 수업하는 교실','입학식을 축하하는 행사 안내','학생과 지역주민이 함께하는 마을교육','기후위기 대응 생태환경 교육'];
+/* ---------- 화풍 (분류별) ---------- */
+const st = (ko,grp,medium,color,light,tex,avoid,mj,kind='il',lens='') => ({ko,grp,medium,color,light,tex,avoid,mj,kind,lens});
+const STYLES = {
+ webtoon:st('한국형 웹툰풍','일러스트','polished Korean 2D digital promotional illustration, a refined blend of Korean webtoon and anime with soft clean dark-brown line art','vivid pastel colors with gentle cel shading','bright rim light on hair and shoulders','smooth polished digital finish','not photorealistic, not 3D','--niji 6 --s 250'),
+ anime:st('애니메이션 셀화','일러스트','Japanese-style 2D anime key visual with crisp line art and cel shading','clean saturated colors with hard-edged shadows','dramatic sky lighting with lens glints','clean cel-painted finish','not photorealistic','--niji 6 --s 300'),
+ bgart:st('손그림 애니 배경','일러스트','hand-painted 2D animation background art with lush detailed scenery and small characters','fresh greens and soft blues with painterly gradients','soft diffused sunlight through clouds','visible brushwork in the scenery','not photographic, no hard vector edges','--niji 6 --s 400'),
+ picture:st('그림책 일러스트','일러스트','warm children\'s picture book illustration with gentle rounded shapes','soft muted colors with a cozy feel','gentle even storybook lighting','light paper texture','not scary, no harsh contrast','--s 200'),
+ pencil:st('색연필','일러스트','colored pencil drawing with visible hatching strokes','soft layered pencil colors on white paper','gentle natural light','fine paper tooth and pencil grain','no digital gloss','--s 150'),
+ crayon:st('크레용 아동화','일러스트','naive crayon drawing as if made by a cheerful child, simple shapes','bright waxy primary colors','flat light with no shading','waxy crayon texture on paper','no realism, no perspective accuracy','--s 100'),
+ chibi:st('귀여운 캐릭터(SD)','일러스트','cute super-deformed chibi characters with big heads and small bodies','candy pastel colors','soft bright lighting','smooth sticker-like finish','not realistic proportions','--niji 6 --s 200'),
+ line:st('미니멀 라인아트','일러스트','minimal continuous line art illustration with lots of white space','mostly monochrome lines with one soft accent color','no shading','clean thin lines','no clutter, no heavy fills','--s 100'),
+ flat:st('플랫 벡터','그래픽','flat vector illustration in a modern public-sector infographic style, no outlines, crisp geometric shapes','a limited flat color palette','no realistic lighting, only simple long shadows','clean sharp vector edges','no texture, no realism, no 3D shading','--s 150'),
+ iso:st('아이소메트릭 3D','그래픽','isometric 3D illustration, a miniature diorama on a floating base with crisp clean edges','a soft palette with color-coded zones','soft global illumination with gentle contact shadows','smooth low-poly surfaces','no perspective distortion','--s 200','iso'),
+ icon:st('인포그래픽 아이콘','그래픽','infographic illustration built from simple pictogram-style icons and characters','two or three brand colors on white','flat lighting','clean vector finish','no photographic detail','--s 100'),
+ paper:st('페이퍼 컷아웃','그래픽','layered paper cut-out craft illustration with stacked paper depth','soft pastel paper colors','soft shadows between paper layers','visible paper fiber texture','no glossy surfaces','--s 250'),
+ retro:st('레트로 포스터','그래픽','retro mid-century screen-printed poster illustration with bold simple shapes','a limited vintage palette of four inks','flat graphic light','slight print misregistration and grain','no modern gloss','--s 250'),
+ pixel:st('픽셀 아트','그래픽','detailed 16-bit pixel art scene','bright retro game palette','simple pixel shading','crisp visible pixels','no anti-aliasing blur, no smooth gradients','--s 150'),
+ lowpoly:st('로우폴리','그래픽','low-poly 3D illustration made of faceted geometric polygons','fresh gradient colors across facets','soft directional light emphasizing facets','faceted flat-shaded surfaces','no organic texture','--s 200'),
+ neon:st('미래 네온','그래픽','futuristic digital illustration with holographic interfaces and glowing light lines','deep blue base with cyan and soft violet glow accents','glowing neon edge light','sleek glossy high-tech surfaces','not dark or gloomy, keep it bright and friendly','--s 300'),
+ clay:st('3D 클레이','3D','3D clay-style render of handmade plasticine characters with rounded chunky forms and subtle fingerprint marks','soft saturated candy colors','soft studio key light with gentle ambient occlusion','matte clay surfaces','no glossy plastic, no photographic humans','--s 300','il','tilt-shift miniature depth of field'),
+ cg:st('3D 애니메이션 영화풍','3D','high-quality 3D animated feature film style with expressive stylized characters','rich warm colors with subsurface skin glow','cinematic three-point lighting','detailed soft materials','not photorealistic humans','--s 300'),
+ mini:st('미니어처 디오라마','3D','tiny handcrafted miniature diorama photographed up close','bright toy-like colors','soft daylight from above','realistic miniature materials such as felt, wood and resin','no full-size realism','--s 250','il','tilt-shift lens with very shallow depth of field'),
+ glass:st('글래스 3D 아이콘','3D','glossy 3D glassmorphism render of objects and simple characters','translucent frosted glass with soft gradient tints','soft studio light with bright reflections','frosted glass and smooth plastic','no clutter','--s 250'),
+ water:st('수채화','회화','traditional watercolor illustration with a loose pencil underdrawing','transparent washes with soft bleeding edges','airy natural light with untouched white paper as highlights','cold-press paper grain','no hard digital edges, no heavy saturation','--s 200'),
+ oil:st('유화','회화','oil painting on canvas with confident impasto brushstrokes','rich warm colors with deep shadows','classic directional window light','thick visible brush texture','not digital-looking','--s 300'),
+ gouache:st('구아슈','회화','gouache painting with flat opaque color shapes','matte opaque colors with a vintage feel','soft even daylight','chalky matte paint texture','no glossy finish','--s 250'),
+ pastel:st('파스텔화','회화','soft pastel drawing with blended chalky strokes','gentle powdery pastel tones','dreamy diffused light','chalk pastel texture on toned paper','no hard edges','--s 200'),
+ ink:st('수묵 담채(한국화)','회화','Korean ink wash painting with light color washes in the sumukdamchae tradition','ink black with pale celadon green and soft ochre washes','misty atmospheric light','hanji paper texture with ink bleeding','no Western perspective excess, no neon colors','--s 300'),
+ minhwa:st('민화풍','회화','Korean folk painting (minhwa) style with flat decorative shapes and symbolic motifs','traditional obangsaek colors: red, blue, yellow, white and black','flat decorative light without cast shadows','aged hanji paper texture','no realistic shading','--s 300'),
+ sketch:st('연필 스케치','회화','graphite pencil sketch with expressive construction lines','monochrome grays with white paper','soft directional light shown through shading','graphite smudges and paper grain','no color','--s 100'),
+ cinematic:st('시네마틱 디지털 페인팅','회화','cinematic digital painting that looks like a film key frame','teal and warm amber color grading','volumetric god rays and soft atmospheric haze','rich painterly detail','not cartoonish','--s 400','il','anamorphic wide-lens feel with subtle depth of field'),
+ photo:st('다큐 사진','사진','documentary-style photograph','true-to-life colors and natural skin tones','available natural light','fine natural film grain','no illustration look, no plastic skin, no heavy retouching','--style raw --s 100','ph'),
+ studio:st('스튜디오 인물 사진','사진','professional studio portrait photograph','clean neutral background with natural skin tones','soft key light with a large softbox and gentle fill','crisp sharp detail','no harsh shadows, no over-retouching','--style raw --s 100','ph'),
+ drone:st('항공·드론 사진','사진','aerial drone photograph','clear natural colors with crisp atmosphere','bright midday sun with soft shadows','sharp landscape detail','no tilt distortion','--style raw --s 100','ph'),
+ film:st('필름 카메라 감성','사진','35mm film photograph with nostalgic everyday warmth','warm faded film colors with soft contrast','natural window or late-afternoon light','visible film grain and slight halation','no digital oversharpening','--style raw --s 150','ph'),
+ still:st('영화 스틸컷','사진','cinematic film still with realistic actors-like people','graded teal-orange color','motivated practical lighting with depth','anamorphic bokeh and fine grain','no illustration look','--style raw --s 200','ph'),
+ macro:st('매크로 사진','사진','macro photograph of small objects in extreme detail','crisp natural colors','soft diffused light','razor-thin focus with creamy blur','no wide scenes','--style raw --s 100','ph')
+};
+const STYLE_GROUPS = ['전체','일러스트','그래픽','3D','회화','사진'];
 
-/* 용도: 장면 기본값 + 인물 행동 + 구도 + 색 설계까지 통째로 바뀝니다 */
+/* ---------- 장면 구성 ---------- */
+const SCENE = {
+ people:{ko:'등장인물',multi:true,search:true,own:'예: 방과후 강사, 학교 보안관',items:{
+  '어린이':{'유치원생':'kindergarten children with bright smiles','초등 저학년':'lower elementary school children with small backpacks','초등 고학년':'upper elementary school students in casual clothes','중학생':'middle school students in neat school uniforms','고등학생':'high school students in school uniforms with blazers'},
+  '어른':{'대학생·청년':'young adults in their twenties','교사':'teachers with lanyards and tablets','교장선생님':'a kind school principal in his or her fifties','학부모':'parents in their thirties and forties','조부모':'grandparents with warm faces','지역주민':'local community members such as shop owners and volunteers','어르신':'elderly residents'},
+  '학교 사람들':{'교육청 직원':'education office staff in smart office wear','급식 조리사':'school cafeteria cooks in clean white uniforms and hairnets','영양교사':'a school nutrition teacher checking a balanced meal tray','돌봄 전담사':'after-school care teachers looking after young children','보건교사':'a school nurse teacher in a health room with a first-aid kit','특수학급교사':'a special education teacher gently supporting students','음악교사':'a music teacher leading students with instruments','과학교사':'a science teacher demonstrating an experiment','체육교사':'a physical education teacher in sportswear with a whistle','정보교사':'an informatics teacher guiding students through coding','기계실습교사':'a mechanical workshop teacher in safety goggles and work apron','컴퓨터교사':'a computer teacher helping students at desktop computers','시설관리직원':'a school facility manager in a work uniform maintaining the campus','경찰관':'a friendly police officer for school safety education','소방관':'a friendly firefighter for fire safety education'},
+  '포용':{'다문화 학생':'students from multicultural backgrounds','휠체어 학생':'a student using a wheelchair, fully included in the group','안경 쓴 학생':'a student with glasses'}}},
+ place:{ko:'장소',multi:true,search:true,own:'예: 학교 옥상 태양광 정원',items:{
+  '학교 안':{'미래형 교실':'a bright future-ready classroom with interactive smart boards, tablets and flexible seating','일반 교실':'a tidy ordinary classroom with wooden desks and a chalkboard','AI·컴퓨터실':'an AI and computer lab with laptops and robots','메이커스페이스':'a makerspace with 3D printers and tools','과학실':'a science lab with microscopes and experiment tools','도서관':'a modern school library with tall bookshelves and reading nooks','체육관':'a bright school gymnasium','강당':'a school auditorium decorated with flower garlands and balloons','급식실':'a clean bright school cafeteria'},
+  '학교 밖':{'친환경 캠퍼스':'a modern eco-friendly school campus with solar panels, rooftop gardens and wide glass walls','운동장':'a sunny school playground with a track and trees','학교 텃밭':'a school vegetable garden with raised beds','교문 등굣길':'the school gate on the way to school','통학로 횡단보도':'a safe crosswalk on a school route with a crossing guard'},
+  '지역·자연':{'교육청 청사':'a modern education office building with a public plaza','마을 골목':'a friendly local neighborhood street with small shops and murals','공원':'a green city park','숲과 계곡':'lush green forest with a clear stream','바닷가':'a clean seaside with gentle waves','도시 전경':'a modern Korean city skyline','논밭과 시골':'peaceful rural fields and farmhouses'},
+  '상상':{'우주':'an imaginative outer space scene with planets','미래 도시':'a bright imaginative future city with green towers'}}},
+ time:{ko:'시간·계절',multi:true,own:'예: 비 갠 오후',items:{'시간':{'이른 아침':'early morning','한낮':'bright midday','해질녘':'sunset','밤':'evening with city lights'},'계절':{'봄 벚꽃':'spring with cherry blossoms','여름 녹음':'lush summer greenery','가을 단풍':'autumn with colorful maple leaves','겨울 눈':'winter with soft snow'}}},
+ mood:{ko:'빛·분위기',multi:true,own:'예: 벚꽃이 흩날리는 설렘',items:{
+  '빛':{'맑은 하늘':'a clear blue sky with soft white clouds','아침 햇살':'crisp early-morning sunlight from the side','골든아워':'warm low golden-hour sunlight from behind','실내 자연광':'soft daylight from large windows','부드러운 확산광':'soft diffused overcast light','역광 실루엣':'strong backlight creating glowing silhouettes','스튜디오 조명':'clean studio lighting','단색 배경':'a plain soft pastel background'},
+  '분위기':{'따뜻하고 희망찬':'a warm, hopeful and welcoming mood','차분하고 신뢰감':'a calm and trustworthy mood','활기차고 역동적':'an energetic and dynamic mood','축제 분위기':'a festive mood with confetti and soft bokeh lights','감동적인':'a moving, heartfelt mood','미래적인':'a subtle futuristic glow with clean high-tech details'}}},
+ angle:{ko:'카메라 앵글',multi:false,own:'예: 창밖에서 들여다본 시점',items:{'':{'정면':'front-facing view','눈높이':'eye-level view','로우앵글':'low angle looking up, making the subjects feel confident','하이앵글':'high-angle view from above','버드아이':'top-down bird\'s-eye view','측면':'side view in profile','뒷모습':'over-the-shoulder view from behind','더치앵글':'slightly tilted dutch angle for energy'}}},
+ shot:{ko:'샷 크기',multi:false,items:{'':{'익스트림 와이드':['extreme wide shot with tiny figures in a vast setting','16mm ultra-wide lens, f/8'],'와이드':['wide shot showing the whole group and setting','24mm wide lens, f/8'],'풀샷':['full shot showing people head to toe','35mm lens, f/5.6'],'미디엄':['medium shot from the waist up','50mm lens, f/4'],'클로즈업':['close-up on faces and hands','85mm portrait lens, f/1.8, creamy background blur'],'익스트림 클로즈업':['extreme close-up on a small detail','100mm macro lens, f/2.8']}}},
+ palette:{ko:'색감',multi:false,items:{'':{'용도 기본':'','파스텔':'soft pastel colors','비비드 원색':'bold vivid primary colors','따뜻한 톤':'a warm palette of coral, peach and gold','차가운 톤':'a cool palette of blue, mint and silver','교육청 블루·그린':'trustworthy blue and fresh green with white','모노톤+포인트':'mostly monochrome with one strong accent color','어스 톤':'natural earth tones of olive, sand and terracotta','흑백':'black and white'}}},
+ comp:{ko:'구도',multi:false,items:{'':{'용도 기본':'','중앙 집중':'centered composition with one strong focal point','좌우 대칭':'symmetrical composition','3분할':'rule-of-thirds composition','왼쪽 여백':'subjects on the right, open space on the left for text','오른쪽 여백':'subjects on the left, open space on the right for text','위쪽 여백':'subjects in the lower half, open space at the top for a title','대각선':'dynamic diagonal composition','프레임 속 프레임':'frame-within-a-frame composition using a window or doorway'}}}
+};
+const flat = (k) => Object.assign({}, ...Object.values(SCENE[k].items));
+
+/* ---------- 비율·화질 ---------- */
+const RATIOS = [
+ ['가로',[['16:9','16:9 · PPT, 유튜브 썸네일, 모니터','16:9','horizontal 16:9',16,9],['3:2','3:2 · 보도사진, 카메라 기본','3:2','horizontal 3:2',3,2],['4:3','4:3 · 수업 자료, 태블릿','4:3','horizontal 4:3',4,3],['7:5','A4 가로 · 인쇄 안내문','7:5','horizontal A4 landscape',7,5],['2:1','2:1 · 웹 배너','2:1','wide horizontal 2:1',2,1],['21:9','21:9 · 홈페이지 메인','21:9','ultra-wide 21:9',21,9],['3.5:1','3.5:1 · 홈페이지 띠배너','7:2','very wide horizontal 3.5:1 banner',7,2],['5:1','5:1 · 현수막','5:1','extremely wide 5:1 street banner',5,1]]],
+ ['세로',[['9:16','9:16 · 쇼츠, 릴스, 스토리','9:16','vertical 9:16',9,16],['4:5','4:5 · 인스타그램 피드','4:5','vertical 4:5',4,5],['3:4','3:4 · 포스터','3:4','vertical 3:4',3,4],['2:3','2:3 · 세로 포스터','2:3','vertical 2:3',2,3],['5:7','A4 세로 · 인쇄 포스터','5:7','vertical A4 portrait',5,7],['1:3','1:3 · X배너','1:3','tall vertical 1:3 standing banner',1,3]]],
+ ['정사각',[['1:1','1:1 · 카드뉴스, 프로필','1:1','square 1:1',1,1]]]
+];
+const RMAP = Object.fromEntries(RATIOS.flatMap(([,a])=>a.map((r)=>[r[0],{label:r[1],ar:r[2],en:r[3],w:r[4],h:r[5]}])));
+const QUAL = {
+ std:{ko:'표준 (웹·SNS)',en:'clean web-ready quality',mj:''},
+ hi:{ko:'고화질 (홈페이지·PPT)',en:'high resolution, sharp clean detail',mj:'--q 2'},
+ uhd:{ko:'초고화질 4K',en:'ultra high resolution 4K, crisp fine detail throughout',mj:'--q 2'},
+ print:{ko:'인쇄용 고해상도',en:'print-ready high resolution with clean edges suitable for large-format printing',mj:'--q 2'}
+};
+const DETAIL = {
+ min:{ko:'단순하게 (아이콘·카드뉴스)',en:'minimal detail with simple readable shapes'},
+ mid:{ko:'균형 있게',en:''},
+ rich:{ko:'풍부하게 (배경 디테일 많이)',en:'richly detailed environment with many small storytelling elements'},
+ max:{ko:'매우 정교하게',en:'intricate, meticulous detail in every element'}
+};
+
+/* ---------- 용도 ---------- */
 const PURPOSE = [
- {id:'banner',ko:'정책 홍보 배너',d:'가로형, 중앙 여백',style:'webtoon',ratio:'16:9',
-  people:['초등학생','중고등학생','교사','학부모','지역주민'],place:['친환경 캠퍼스'],mood:['맑은 하늘','따뜻하고 희망찬'],camera:'정면 와이드',
-  en:'a wide public policy promotional banner',
-  act:'standing in two cheerful groups on the left and right, waving and looking up toward the open center as if greeting good news',
+ {id:'banner',ko:'정책 홍보 배너',d:'가로형, 중앙 여백',style:'webtoon',ratio:'16:9',qual:'hi',detail:'mid',
+  scene:{people:['초등 고학년','고등학생','교사','학부모','지역주민'],place:['친환경 캠퍼스'],time:['한낮'],mood:['맑은 하늘','따뜻하고 희망찬'],angle:'정면',shot:'와이드'},
+  en:'a wide public policy promotional banner',act:'standing in two cheerful groups on the left and right, waving and looking up toward the open center as if greeting good news',
   comp:'symmetrical layout with a wide empty sky in the center reserved for a headline, characters framing both sides, a clear strip at the bottom for event details',
-  palette:'sky blue, fresh green and warm white with small red and yellow accents',
-  tag:'wide banner layout, two character groups left and right, empty sky in center'},
- {id:'poster',ko:'캠페인 포스터',d:'세로형, 강한 한 장면',style:'cinematic',ratio:'3:4',
-  people:['중고등학생','교사'],place:['운동장'],mood:['아침 햇살'],camera:'로우앵글',
-  en:'a vertical public campaign poster with one powerful image',
-  act:'making one memorable, symbolic gesture together, such as raising their hands toward the sky',
+  palette:'sky blue, fresh green and warm white with small red and yellow accents',tag:'wide banner layout, two character groups left and right, empty sky in center'},
+ {id:'poster',ko:'캠페인 포스터',d:'세로형, 강한 한 장면',style:'cinematic',ratio:'3:4',qual:'print',detail:'mid',
+  scene:{people:['중학생','교사'],place:['운동장'],time:['이른 아침'],mood:['아침 햇살','활기차고 역동적'],angle:'로우앵글',shot:'풀샷'},
+  en:'a vertical public campaign poster with one powerful image',act:'making one memorable, symbolic gesture together, such as raising their hands toward the sky',
   comp:'strong vertical composition with a single focal point in the lower half, large open space at the top for a bold title, strong diagonal lines leading the eye upward',
-  palette:'a bold limited palette of three colors with strong contrast',
-  tag:'vertical poster, single symbolic gesture, strong diagonals, open space at top'},
- {id:'sns',ko:'카드뉴스 · SNS',d:'정사각, 캐릭터 1명',style:'flat',ratio:'1:1',
-  people:['초등학생'],place:[],mood:['단색 배경'],camera:'클로즈업',
-  en:'a square social media card illustration',
-  act:'shown as one single expressive character reacting with a big smile while holding one simple prop that symbolizes the topic',
+  palette:'a bold limited palette of three colors with strong contrast',tag:'vertical poster, single symbolic gesture, strong diagonals, open space at top'},
+ {id:'sns',ko:'카드뉴스 · SNS',d:'정사각, 캐릭터 1명',style:'flat',ratio:'1:1',qual:'std',detail:'min',
+  scene:{people:['초등 저학년'],place:[],time:[],mood:['단색 배경'],angle:'정면',shot:'미디엄'},
+  en:'a square social media card illustration',act:'shown as one single expressive character reacting with a big smile while holding one simple prop that symbolizes the topic',
   comp:'one centered character on a plain background, generous margins on all sides, no clutter so it reads instantly on a phone screen',
-  palette:'two soft pastel colors plus one bright accent',
-  tag:'single character, centered, plain background, mobile-friendly'},
- {id:'event',ko:'행사 안내',d:'입학·졸업·축제',style:'webtoon',ratio:'16:9',
-  people:['초등학생','학부모','교사'],place:['강당'],mood:['축제 분위기','따뜻하고 희망찬'],camera:'눈높이',
-  en:'a festive school ceremony announcement visual',
-  act:'celebrating together with bouquets of flowers, applause and proud hugs',
+  palette:'two soft pastel colors plus one bright accent',tag:'single character, centered, plain background, mobile-friendly'},
+ {id:'event',ko:'행사 안내',d:'입학·졸업·축제',style:'webtoon',ratio:'16:9',qual:'hi',detail:'rich',
+  scene:{people:['초등 저학년','학부모','교사'],place:['강당'],time:['봄 벚꽃'],mood:['축제 분위기','따뜻하고 희망찬'],angle:'눈높이',shot:'풀샷'},
+  en:'a festive school ceremony announcement visual',act:'celebrating together with bouquets of flowers, applause and proud hugs',
   comp:'balanced composition with the celebrating group in the lower half and decorations above, space on one side for date and place information',
-  palette:'warm coral, butter yellow and cream with gold accents',
-  tag:'school ceremony, flowers, applause, confetti, festive decorations'},
- {id:'class',ko:'수업 자료 삽화',d:'설명용, 배경 최소화',style:'flat',ratio:'4:3',
-  people:['초등학생','교사'],place:['미래형 교실'],mood:['실내 자연광'],camera:'눈높이',
-  en:'a clear educational illustration for lesson materials',
-  act:'doing one hands-on learning activity step by step, with the key object clearly visible in their hands',
+  palette:'warm coral, butter yellow and cream with gold accents',tag:'school ceremony, flowers, applause, confetti, festive decorations'},
+ {id:'class',ko:'수업 자료 삽화',d:'설명용, 배경 최소화',style:'picture',ratio:'4:3',qual:'std',detail:'min',
+  scene:{people:['초등 고학년','교사'],place:['미래형 교실'],time:[],mood:['실내 자연광','차분하고 신뢰감'],angle:'눈높이',shot:'미디엄'},
+  en:'a clear educational illustration for lesson materials',act:'doing one hands-on learning activity step by step, with the key object clearly visible in their hands',
   comp:'the learning action in the exact center, background simplified to a few shapes, each object distinct by color so it can be explained easily',
-  palette:'calm clear primary colors on an off-white background',
-  tag:'educational diagram-like illustration, key object centered, simplified background'},
- {id:'press',ko:'보도자료 사진',d:'실사, 연출 없는 현장',style:'photo',ratio:'3:2',
-  people:['중고등학생','교사'],place:['과학실'],mood:['실내 자연광'],camera:'눈높이',
-  en:'a realistic press photograph for an education office news release',
-  act:'fully absorbed in a real activity, unposed, looking at their work rather than at the camera',
+  palette:'calm clear primary colors on an off-white background',tag:'educational illustration, key object centered, simplified background'},
+ {id:'press',ko:'보도자료 사진',d:'실사, 연출 없는 현장',style:'photo',ratio:'3:2',qual:'hi',detail:'rich',
+  scene:{people:['고등학생','교사'],place:['과학실'],time:[],mood:['실내 자연광'],angle:'눈높이',shot:'미디엄'},
+  en:'a realistic press photograph for an education office news release',act:'fully absorbed in a real activity, unposed, looking at their work rather than at the camera',
   comp:'rule-of-thirds framing with the main subject slightly off-center, foreground elements adding depth, natural candid moment',
-  palette:'natural true-to-life colors',
-  tag:'candid press photo, unposed, rule of thirds'},
- {id:'web',ko:'홈페이지 메인',d:'한쪽을 비운 와이드',style:'cinematic',ratio:'21:9',
-  people:['중고등학생','교사'],place:['친환경 캠퍼스'],mood:['골든아워','미래적 분위기'],camera:'로우앵글',
-  en:'a website hero image for an education office homepage',
-  act:'walking forward together with confidence, gazing toward the horizon',
+  palette:'natural true-to-life colors',tag:'candid press photo, unposed, rule of thirds'},
+ {id:'web',ko:'홈페이지 메인',d:'한쪽을 비운 와이드',style:'cinematic',ratio:'21:9',qual:'uhd',detail:'rich',
+  scene:{people:['고등학생','교사'],place:['친환경 캠퍼스'],time:['해질녘'],mood:['골든아워','미래적인'],angle:'로우앵글',shot:'와이드'},
+  en:'a website hero image for an education office homepage',act:'walking forward together with confidence, gazing toward the horizon',
   comp:'subjects placed in the right third, the left two thirds kept as soft open sky and landscape for text overlay, wide panoramic depth',
-  palette:'deep blue to warm gold gradient sky',
-  tag:'panoramic hero image, subjects on right third, open space left'},
- {id:'info',ko:'인포그래픽 장면',d:'과정을 한눈에',style:'iso',ratio:'16:9',
-  people:['교육청 직원','중고등학생','지역주민'],place:['교육청 청사','마을 골목'],mood:['맑은 하늘'],camera:'하이앵글',
-  en:'an infographic-style scene that explains a process',
-  act:'shown as small figures performing each step of a process across connected zones, linked by paths and arrows',
+  palette:'deep blue to warm gold gradient sky',tag:'panoramic hero image, subjects on right third, open space left'},
+ {id:'info',ko:'인포그래픽 장면',d:'과정을 한눈에',style:'iso',ratio:'16:9',qual:'hi',detail:'rich',
+  scene:{people:['교육청 직원','중학생','지역주민'],place:['교육청 청사','마을 골목'],time:[],mood:['맑은 하늘'],angle:'하이앵글',shot:'와이드'},
+  en:'an infographic-style scene that explains a process',act:'shown as small figures performing each step of a process across connected zones, linked by paths and arrows',
   comp:'three to five clearly separated zones arranged in reading order from left to right, tidy spacing, each zone with one simple icon-like object',
-  palette:'clean white base with blue, teal and coral color-coding for each zone',
-  tag:'process diagram scene, connected zones, color-coded steps'}
+  palette:'clean white base with blue, teal and coral color-coding for each zone',tag:'process diagram scene, connected zones, color-coded steps'}
 ];
 
-/* 화풍: 매체·선·색·조명·질감·렌즈·MJ 파라미터까지 다르게 */
-const STYLE = {
- webtoon:{ko:'한국형 웹툰풍',medium:'polished Korean 2D digital promotional illustration, a refined blend of Korean webtoon and anime',line:'soft clean dark-brown line art',color:'vivid pastel colors with gentle cel shading',light:'bright rim light on hair and shoulders',tex:'smooth polished digital finish',avoid:'not photorealistic, not 3D',mj:'--niji 6 --s 250',photo:false},
- flat:{ko:'플랫 벡터',medium:'flat vector illustration in a modern public-sector infographic style',line:'no outlines, crisp geometric shapes',color:'a limited flat color palette',light:'no realistic lighting, only simple long shadows',tex:'clean sharp vector edges',avoid:'no texture, no realism, no 3D shading',mj:'--s 150',photo:false},
- clay:{ko:'3D 클레이',medium:'3D clay-style render of handmade plasticine characters and props',line:'rounded chunky forms with subtle fingerprint marks',color:'soft saturated candy colors',light:'soft studio key light with gentle ambient occlusion',tex:'matte clay surfaces',avoid:'no glossy plastic, no photographic humans',mj:'--s 300',photo:false,lens:'tilt-shift miniature depth of field'},
- water:{ko:'수채화',medium:'traditional watercolor illustration',line:'loose pencil underdrawing visible in places',color:'transparent washes with soft bleeding edges',light:'airy natural light with untouched white paper as highlights',tex:'cold-press paper grain',avoid:'no hard digital edges, no heavy saturation',mj:'--s 200',photo:false},
- photo:{ko:'실사 사진',medium:'documentary-style photograph',line:'',color:'true-to-life colors and natural skin tones',light:'available natural light',tex:'fine natural film grain',avoid:'no illustration look, no plastic skin, no heavy retouching',mj:'--style raw --s 100',photo:true},
- cinematic:{ko:'시네마틱',medium:'cinematic digital painting that looks like a film key frame',line:'',color:'teal and warm amber color grading',light:'volumetric god rays and soft atmospheric haze',tex:'rich painterly detail',avoid:'not cartoonish',mj:'--s 400',photo:false,lens:'anamorphic wide-lens feel with subtle depth of field'},
- iso:{ko:'아이소메트릭 3D',medium:'isometric 3D illustration, a miniature diorama on a floating base',line:'crisp clean edges',color:'a soft palette with color-coded zones',light:'soft global illumination with gentle contact shadows',tex:'smooth low-poly surfaces',avoid:'no perspective distortion',mj:'--s 200',photo:false,fixed:'orthographic isometric view from a 30-degree angle'}
-};
-const PEOPLE = {초등학생:'elementary school students in colorful casual clothes and small backpacks',중고등학생:'middle and high school students in neat school uniforms',교사:'teachers with lanyards and tablets',학부모:'parents in their thirties and forties',지역주민:'local community members such as shop owners and volunteers',어르신:'elderly residents with warm faces','다문화 학생':'students from multicultural backgrounds','휠체어 학생':'a student using a wheelchair, fully included in the group','교육청 직원':'education office staff in smart office wear'};
-const PLACE = {'미래형 교실':'a bright future-ready classroom with interactive smart boards, tablets and flexible seating','친환경 캠퍼스':'a modern eco-friendly school campus with solar panels, rooftop gardens and wide glass walls',운동장:'a sunny school playground with a track and trees',도서관:'a modern school library with tall bookshelves and reading nooks',과학실:'a science lab with microscopes and experiment tools',강당:'a school auditorium decorated with flower garlands and balloons','교육청 청사':'a modern education office building with a public plaza','마을 골목':'a friendly local neighborhood street with small shops and murals','숲과 자연':'lush green forest with a clear stream'};
-const MOOD = {'맑은 하늘':'a clear blue sky with soft white clouds','아침 햇살':'crisp early-morning sunlight from the side','골든아워':'warm low golden-hour sunlight from behind','실내 자연광':'soft daylight from large windows','미래적 분위기':'a subtle futuristic glow with clean high-tech details','따뜻하고 희망찬':'a warm, hopeful and welcoming mood','축제 분위기':'a festive mood with confetti and soft bokeh lights','단색 배경':'a plain soft pastel background'};
-const CAMERA = {
- '정면 와이드':{il:'wide front-facing view that shows the whole group and setting',ph:'shot on a 24mm wide lens at eye level, f/8, everything sharp'},
- '눈높이':{il:'eye-level medium shot',ph:'50mm lens at eye level, f/4'},
- '로우앵글':{il:'low angle looking up, making the subjects feel confident and uplifting',ph:'low angle, 35mm lens, f/5.6'},
- '하이앵글':{il:'high-angle overview from above',ph:'high angle from above, 24mm lens, f/8'},
- '클로즈업':{il:'close-up focusing on faces and hands',ph:'85mm portrait lens, f/1.8, creamy background blur'}
-};
-const RATIO = {'16:9':'horizontal 16:9','3.5:1':'very wide horizontal 3.5:1 banner','21:9':'ultra-wide 21:9','3:2':'horizontal 3:2','4:3':'horizontal 4:3','1:1':'square 1:1','4:5':'vertical 4:5','3:4':'vertical 3:4','9:16':'vertical 9:16'};
-const MJAR = {'3.5:1':'7:2'};
 
-const fromPurpose = (p) => ({purpose:p.id,style:p.style,ratio:p.ratio,people:new Set(p.people),place:new Set(p.place),mood:new Set(p.mood),camera:p.camera});
+const STEPS = [['s-idea','아이디어'],['s-purpose','용도'],['s-style','화풍'],['s-scene','장면 구성'],['s-output','비율 · 화질'],['s-rule','글자 · 기준']];
+
+const fromPurpose = (p) => ({purpose:p.id,style:p.style,ratio:p.ratio,qual:p.qual,detail:p.detail,
+  people:new Set(p.scene.people),place:new Set(p.scene.place),time:new Set(p.scene.time),mood:new Set(p.scene.mood),
+  angle:p.scene.angle,shot:p.scene.shot,palette:'용도 기본',comp:'용도 기본'});
 let S = fromPurpose(PURPOSE[0]);
-const OWN = ['style','people','place','mood','camera'];
+let styleTab = '전체', eng = 'gpt', touched = new Set();
+const OWN = ['style','people','place','time','mood','angle'];
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const own = (k) => $('own-'+k).value.trim();
-let OUT = {gpt:'',mj:'',notes:[]}, aiMode = false, sample = null;
+const own = (k) => { const el = $('own-'+k); return el ? el.value.trim() : ''; };
+let OUT = {gpt:'',mj:'',notes:[]}, sample = null;
+const isOn = (k,v) => SCENE[k].multi ? S[k].has(v) : S[k]===v;
+const chip = (label, on, k) => `<button type="button" class="chip" aria-pressed="${on}" data-k="${k}" data-v="${esc(label)}">${esc(label)}</button>`;
+const ico = (id, cls='i') => `<svg class="${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
 
-const chip = (label, on, v) => `<button type="button" class="chip" aria-pressed="${on}" data-v="${esc(v??label)}">${esc(label)}</button>`;
-const draw = () => {
+/* ---------- build once ---------- */
+const build = () => {
+  $('rail').innerHTML = STEPS.map(([id,ko],i)=>`<li><a href="#${id}" data-step="${id}"><span class="no" data-n="${i+1}">${i+1}</span>${ko}</a></li>`).join('');
   $('exChips').innerHTML = EX.map((e)=>`<button type="button" class="chip" data-ex="${esc(e)}">${esc(e)}</button>`).join('');
-  $('purpose').innerHTML = PURPOSE.map((p)=>`<button type="button" class="tile" aria-pressed="${S.purpose===p.id}" data-v="${p.id}"><b>${p.ko}</b><span>${p.d}</span></button>`).join('');
-  $('style').innerHTML = Object.entries(STYLE).map(([k,v])=>chip(v.ko,S.style===k,k)).join('');
-  $('people').innerHTML = Object.keys(PEOPLE).map((k)=>chip(k,S.people.has(k))).join('');
-  $('place').innerHTML = Object.keys(PLACE).map((k)=>chip(k,S.place.has(k))).join('');
-  $('mood').innerHTML = Object.keys(MOOD).map((k)=>chip(k,S.mood.has(k))).join('');
-  $('camera').innerHTML = Object.keys(CAMERA).map((k)=>chip(k,S.camera===k)).join('');
-  $('ratio').innerHTML = Object.keys(RATIO).map((k)=>chip(k,S.ratio===k)).join('');
+  $('scene').innerHTML = Object.entries(SCENE).map(([k,g]) => `
+<details class="acc" id="acc-${k}"><summary><span class="t">${g.ko}</span><span class="v" id="sum-${k}"></span><span class="n" id="cnt-${k}"></span>${ico('i-chev','i chev')}</summary>
+<div class="acc-body"><p class="tip">${g.multi?'여러 개 고를 수 있습니다.':'하나만 고릅니다. 다시 누르면 해제됩니다.'}</p>
+${g.search?`<div class="searchwrap">${ico('i-search')}<input type="search" data-filter="${k}" placeholder="${g.ko} 검색" aria-label="${g.ko} 검색"></div>`:''}
+<div class="scrollbox" id="box-${k}" role="group" aria-label="${g.ko} 선택"></div>
+${g.own?`<label class="lb own" for="own-${k}">직접 입력</label><input type="text" id="own-${k}" placeholder="${g.own}">`:''}
+</div></details>`).join('');
+  $('ratioSel').innerHTML = RATIOS.map(([g,a])=>`<optgroup label="${g}">${a.map((r)=>`<option value="${r[0]}">${esc(r[1])}</option>`).join('')}</optgroup>`).join('');
+  $('qualSel').innerHTML = Object.entries(QUAL).map(([k,v])=>`<option value="${k}">${v.ko}</option>`).join('');
+  $('detailSel').innerHTML = Object.entries(DETAIL).map(([k,v])=>`<option value="${k}">${v.ko}</option>`).join('');
 };
 
+/* ---------- render ---------- */
+const draw = () => {
+  $('purpose').innerHTML = PURPOSE.map((p)=>`<button type="button" class="tile" aria-pressed="${S.purpose===p.id}" data-p="${p.id}">${ico('p-'+p.id)}<b>${p.ko}</b><span>${p.d}</span></button>`).join('');
+  const q = $('styleSearch').value.trim();
+  $('styleTabs').innerHTML = STYLE_GROUPS.map((g)=>`<button type="button" class="tab" role="tab" aria-selected="${styleTab===g}" data-tab="${g}">${g}</button>`).join('');
+  const groups = styleTab==='전체' ? STYLE_GROUPS.slice(1) : [styleTab];
+  let html = '';
+  for (const g of groups) {
+    const items = Object.entries(STYLES).filter(([,v])=>v.grp===g && (!q || v.ko.includes(q) || v.grp.includes(q)));
+    if (!items.length) continue;
+    if (styleTab==='전체') html += `<p class="gh">${g}</p>`;
+    html += items.map(([k,v])=>`<button type="button" class="chip" aria-pressed="${S.style===k && !own('style')}" data-style="${k}">${esc(v.ko)}</button>`).join('');
+  }
+  $('styleList').innerHTML = html || '<p class="nomatch">맞는 화풍이 없습니다. 아래 직접 입력 칸을 써 보세요.</p>';
+  $('styleCount').textContent = `${Object.keys(STYLES).length}종`;
+  const cur = STYLES[S.style];
+  $('stylePicked').innerHTML = own('style') ? `<b>직접 입력</b><span>${esc(own('style'))}</span>` : `<b>${esc(cur.ko)}</b><span>${esc(cur.grp)} · Midjourney ${esc(cur.mj)}</span>`;
+  for (const [k,g] of Object.entries(SCENE)) {
+    const f = document.querySelector(`[data-filter="${k}"]`), fq = f ? f.value.trim() : '';
+    let h = '';
+    for (const [grp,items] of Object.entries(g.items)) {
+      const ks = Object.keys(items).filter((x)=>!fq || x.includes(fq));
+      if (!ks.length) continue;
+      if (grp) h += `<p class="gh">${grp}</p>`;
+      h += ks.map((x)=>chip(x,isOn(k,x),k)).join('');
+    }
+    $('box-'+k).innerHTML = h || '<p class="nomatch">검색 결과가 없습니다. 직접 입력 칸을 써 보세요.</p>';
+    const picked = (g.multi ? [...S[k]] : (S[k] ? [S[k]] : [])).filter((x)=>x!=='용도 기본');
+    if (own(k)) picked.push(own(k));
+    const sum = $('sum-'+k);
+    sum.textContent = picked.length ? picked.join(', ') : (k==='palette'||k==='comp' ? '용도 기본' : '선택 안 함');
+    sum.classList.toggle('on', picked.length>0);
+    $('cnt-'+k).textContent = g.multi && picked.length ? picked.length : '';
+  }
+  $('ratioSel').value = S.ratio; $('qualSel').value = S.qual; $('detailSel').value = S.detail;
+  const r = RMAP[S.ratio], k = Math.min(84/r.w, 56/r.h);
+  $('ratioBox').style.width = `${Math.round(r.w*k)}px`; $('ratioBox').style.height = `${Math.round(r.h*k)}px`;
+  $('ratioHint').textContent = r.ar!==S.ratio ? `Midjourney에는 --ar ${r.ar}로 들어갑니다.` : '';
+  const idea = $('idea').value;
+  $('ideaCount').textContent = `${idea.length}/300`;
+  /* rail completion */
+  const done = {'s-idea':!!idea.trim(),'s-purpose':true,'s-style':true,'s-scene':touched.has('scene'),'s-output':touched.has('output'),'s-rule':touched.has('rule')};
+  for (const a of document.querySelectorAll('#rail a')) {
+    const d = done[a.dataset.step], no = a.querySelector('.no');
+    a.classList.toggle('done', !!d);
+    no.innerHTML = d ? ico('i-check') : no.dataset.n;
+  }
+};
+
+/* ---------- compose ---------- */
 const list = (arr) => arr.length<=1 ? (arr[0]||'') : arr.slice(0,-1).join(', ')+' and '+arr[arr.length-1];
 const cap = (s) => s ? s.charAt(0).toUpperCase()+s.slice(1) : s;
+const pick = (k) => { const m = flat(k); const a = (SCENE[k].multi ? [...S[k]] : (S[k]?[S[k]]:[])).map((x)=>m[x]).filter(Boolean); if (own(k)) a.push(own(k)); return a; };
 
 const compose = () => {
-  const p = PURPOSE.find((x)=>x.id===S.purpose), st = STYLE[S.style];
+  const p = PURPOSE.find((x)=>x.id===S.purpose), sty = STYLES[S.style];
   const idea = $('idea').value.trim(), noText = $('noText').checked, safe = $('safe').checked, head = $('headline').value.trim();
   const oStyle = own('style');
-  const ppl = [...S.people].map((k)=>PEOPLE[k]); if (own('people')) ppl.push(own('people'));
-  const plc = [...S.place].map((k)=>PLACE[k]); if (own('place')) plc.push(own('place'));
-  const md = [...S.mood].map((k)=>MOOD[k]); if (own('mood')) md.push(own('mood'));
-  const camBase = S.camera ? (st.photo ? CAMERA[S.camera].ph : CAMERA[S.camera].il) : '';
-  const camera = [st.fixed || camBase, st.fixed ? '' : (st.lens||''), own('camera')].filter(Boolean).join(', ');
-  const ratio = RATIO[S.ratio], ar = MJAR[S.ratio]||S.ratio;
+  const ppl = pick('people'), plc = pick('place'), tm = pick('time'), md = pick('mood'), ang = pick('angle');
+  const shotV = S.shot ? flat('shot')[S.shot] : null;
+  const pal = S.palette!=='용도 기본' ? flat('palette')[S.palette] : p.palette;
+  const comp = S.comp!=='용도 기본' ? `${flat('comp')[S.comp]}, ${p.tag.split(',')[0]}` : p.comp;
+  const photo = sty.kind==='ph' && !oStyle;
+  const camParts = sty.kind==='iso' && !oStyle ? ['orthographic isometric view from a 30-degree angle'] :
+    [...ang, shotV ? (photo ? `${shotV[0]}, ${shotV[1]}` : shotV[0]) : '', !photo && sty.lens && !oStyle ? sty.lens : ''].filter(Boolean);
+  const camera = camParts.join(', ');
+  const r = RMAP[S.ratio], q = QUAL[S.qual], dt = DETAIL[S.detail];
   const human = ppl.length > 0;
   const who = human ? (ppl.length===1 ? ppl[0] : `a diverse group of Korean ${list(ppl)}`) : 'the main scene';
-
-  /* 1. Subject first */
   const s1 = `${cap(who)}${idea?`, in a scene about "${idea}",`:''}${human&&p.act.startsWith('shown')&&!idea?',':''} ${human?p.act:'arranged to show the topic clearly'}${human?', with natural, distinct faces, hairstyles and bright genuine expressions':''}.`;
-  /* 2. Style */
-  const s2 = oStyle
-    ? `Visual style for ${p.en}: ${oStyle}.`
-    : `Visual style for ${p.en}: ${st.medium}${st.line?`, ${st.line}`:''}, ${st.color}, ${st.tex}.`;
-  /* 3. Setting and light (back half) */
-  const s3 = `Setting: ${list(plc)||'a simple background that supports the subject'}${md.length?`, ${list(md)}`:''}${oStyle?'':`, ${st.light}`}; color scheme of ${p.palette}.`;
-  /* 4. Details and constraints */
-  const cons = [`${cap(camera||'balanced framing')}`, p.comp, `aspect ratio ${ratio}`];
-  if (!oStyle) cons.push(st.avoid);
+  const s2 = oStyle ? `Visual style for ${p.en}: ${oStyle}.` : `Visual style for ${p.en}: ${sty.medium}, ${sty.color}, ${sty.tex}.`;
+  const setting = [list(plc), tm.length?list(tm):'', md.length?list(md):''].filter(Boolean).join(', ');
+  const s3 = `Setting: ${setting||'a simple background that supports the subject'}${oStyle?'':`, ${sty.light}`}; color scheme of ${pal}.`;
+  const cons = [cap(camera||'balanced framing'), comp, `aspect ratio ${r.en}`, [q.en, dt.en].filter(Boolean).join(', ')].filter(Boolean);
+  if (!oStyle) cons.push(sty.avoid);
   if (noText) cons.push('no text, letters, logos or watermarks anywhere');
   else if (head) cons.push(`include only this headline, exactly as written: "${head}"`);
   if (safe) cons.push('all people fictional, no real persons, brand logos, copyrighted characters, school names or name tags'+(ppl.length>1?', balanced mix of genders and ages':''));
-  const s4 = cons.join('; ')+'.';
-  const gpt = [s1,s2,s3,s4].join(' ');
-
+  const gpt = [s1,s2,s3,cons.join('; ')+'.'].join(' ');
   const mjParts = [
-    human ? (ppl.length===1?ppl[0]:`diverse Korean ${ppl.join(', ')}`) : '',
-    human ? p.act.split(',')[0] : '',
-    idea ? `theme of ${idea}` : '',
-    oStyle || [st.medium.split(',')[0], st.line, st.color].filter(Boolean).join(', '),
-    plc.join(', '), md.join(', '), oStyle?'':st.light, camera, p.tag, p.palette
+    human ? (ppl.length===1?ppl[0]:`diverse Korean ${ppl.join(', ')}`) : '', human ? p.act.split(',')[0] : '', idea ? `theme of ${idea}` : '',
+    oStyle || [sty.medium.split(',')[0], sty.color].join(', '), plc.join(', '), tm.join(', '), md.join(', '), oStyle?'':sty.light,
+    camera, S.comp!=='용도 기본' ? flat('comp')[S.comp] : p.tag, pal, dt.en
   ].filter(Boolean);
-  let mj = `/imagine prompt: ${mjParts.join(', ')} --ar ${ar} ${oStyle?'--s 250':st.mj}`;
+  let mj = `/imagine prompt: ${mjParts.join(', ')} --ar ${r.ar} ${oStyle?'--s 250':sty.mj}${q.mj?' '+q.mj:''}`;
   const no = []; if (noText) no.push('text','letters','watermark','logo'); if (safe) no.push('brand logo','famous characters');
   if (no.length) mj += ` --no ${[...new Set(no)].join(', ')}`;
-
   const typed = [idea, ...OWN.map(own)].some((t)=>/[가-힣]/.test(t));
   const notes = [
-    `용도 「${p.ko}」: 인물 행동은 '${p.act.split(',')[0]}', 구도는 ${p.tag.split(',')[0]} 중심으로 잡았습니다.`,
-    oStyle ? `화풍은 직접 입력한 「${oStyle}」을 그대로 썼습니다.` : `화풍 「${st.ko}」: 매체·선·색·질감·조명 표현을 이 화풍 전용으로 넣었고, Midjourney 파라미터는 ${st.mj}입니다.`,
-    st.fixed && !oStyle ? '아이소메트릭은 시점이 고정이라 카메라 앵글 선택 대신 30도 등각 시점을 씁니다.' : (st.photo && !oStyle ? '실사 사진이라 카메라 앵글을 렌즈 화각·조리개 값으로 바꿔 넣었습니다.' : '카메라 앵글은 그림 구도 표현으로 넣었습니다.'),
-    `비율 ${S.ratio}${MJAR[S.ratio]?` (Midjourney는 --ar ${ar})`:''}. ${noText ? '이미지 속 글자는 빼도록 했습니다.' : (head ? '문구는 GPT·Gemini에만 큰따옴표로 넣었습니다.' : '문구가 비어 있어 텍스트 지시는 넣지 않았습니다.')}`
+    `용도 「${p.ko}」: 인물 행동은 '${p.act.split(',')[0]}', 구도는 ${S.comp!=='용도 기본'?`「${S.comp}」`:p.tag.split(',')[0]} 중심입니다.`,
+    oStyle ? `화풍은 직접 입력한 「${oStyle}」을 썼습니다.` : `화풍 「${sty.ko}」(${sty.grp}): 매체·채색·질감·조명 표현을 이 화풍 전용으로 넣었고, Midjourney 설정은 ${sty.mj}${q.mj?' '+q.mj:''}입니다.`,
+    sty.kind==='iso' && !oStyle ? '아이소메트릭은 시점이 고정이라 앵글·샷 대신 30도 등각 시점을 씁니다.' : (photo ? '사진 화풍이라 샷 크기를 렌즈 화각·조리개 값으로 바꿔 넣었습니다.' : '앵글과 샷 크기는 그림 구도 표현으로 넣었습니다.'),
+    `비율 ${r.label.split(' · ')[0]}${r.ar!==S.ratio?` (Midjourney --ar ${r.ar})`:''}, 화질 「${q.ko}」, 디테일 「${DETAIL[S.detail].ko}」. ${noText ? '이미지 속 글자는 빼도록 했습니다.' : (head ? '문구는 GPT·Gemini에만 큰따옴표로 넣었습니다.' : '문구가 비어 있어 텍스트 지시는 넣지 않았습니다.')}`
   ];
-  if (typed) notes.push('직접 적은 한국어는 조합 모드에서 그대로 들어갑니다. Midjourney는 영어로 바꿔야 결과가 좋습니다(AI 모드는 자동 번역).');
+  if (typed) notes.push('직접 적은 한국어는 그대로 들어갑니다. ChatGPT·Gemini는 알아듣지만 Midjourney는 \'AI로 다듬기\'로 영어로 바꾸는 편이 좋습니다.');
   return {gpt, mj, notes};
 };
 
-const show = (o, mode) => {
-  OUT = o;
-  $('o-gpt').textContent = o.gpt; $('o-mj').textContent = o.mj;
-  $('notes').innerHTML = (o.notes||[]).map((n)=>`<li>${esc(n)}</li>`).join('');
-  $('modeNote').textContent = mode;
+/* ---------- output ---------- */
+const tokens = () => {
+  const p = PURPOSE.find((x)=>x.id===S.purpose);
+  const t = [['s-purpose','용도',p.ko],['s-style','화풍',own('style')||STYLES[S.style].ko]];
+  for (const k of ['people','place','time','mood','angle','shot']) {
+    const v = (SCENE[k].multi ? [...S[k]] : (S[k]?[S[k]]:[])); if (own(k)) v.push(own(k));
+    if (v.length) t.push(['acc-'+k, SCENE[k].ko, v.length>2 ? `${v.slice(0,2).join(', ')} 외 ${v.length-2}` : v.join(', ')]);
+  }
+  if (S.palette!=='용도 기본') t.push(['acc-palette','색감',S.palette]);
+  if (S.comp!=='용도 기본') t.push(['acc-comp','구도',S.comp]);
+  t.push(['s-output','비율',S.ratio],['s-output','화질',QUAL[S.qual].ko.split(' (')[0]]);
+  $('tokens').innerHTML = t.map(([to,k,v])=>`<button type="button" class="tok" data-go="${to}"><em>${k}</em>${esc(v)}</button>`).join('');
 };
-const live = () => show(compose(), '선택을 바꾸면 바로 반영됩니다');
+const paint = (flash) => {
+  const text = OUT[eng] || '', o = $('out');
+  o.textContent = text;
+  if (flash) { o.classList.remove('flash'); void o.offsetWidth; o.classList.add('flash'); }
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  $('wc').textContent = `${words}단어 · ${text.length}자`;
+  $('engHint').textContent = eng==='gpt' ? 'ChatGPT·Gemini 입력창에 붙여 넣기' : 'Midjourney /imagine 명령으로 붙여 넣기';
+  for (const b of document.querySelectorAll('.c-tab')) b.setAttribute('aria-selected', b.dataset.eng===eng);
+  o.setAttribute('aria-labelledby', 't-'+eng);
+  $('notes').innerHTML = (OUT.notes||[]).map((n)=>`<li>${esc(n)}</li>`).join('');
+};
+const show = (o, mode, flash=true) => { OUT = o; $('modeNote').textContent = mode; paint(flash); tokens(); };
+let liveT;
+const live = () => { clearTimeout(liveT); liveT = setTimeout(()=>show(compose(),'실시간 미리보기'), 60); };
+const update = () => { draw(); live(); };
 
-const HK = 'edu-prompt-history-v3';
+/* ---------- history ---------- */
+const HK = 'edu-prompt-history-v5';
 const loadH = () => { try { return JSON.parse(localStorage.getItem(HK)||'[]'); } catch(e) { return []; } };
 const saveH = (h) => { try { localStorage.setItem(HK, JSON.stringify(h.slice(0,12))); } catch(e) {} };
 const drawH = () => {
   const h = loadH();
   $('hist').innerHTML = h.length ? h.map((x,i)=>`<button type="button" class="hitem" data-i="${i}"><span>${esc(x.title)}</span><time>${esc(x.at)}</time></button>`).join('') : '<p class="empty">프롬프트를 만들면 여기에 쌓입니다. 이 브라우저에만 저장됩니다.</p>';
 };
-const pushH = (o) => {
+const pushH = (o, tag) => {
   const d = new Date(), at = `${d.getMonth()+1}. ${d.getDate()}. ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-  const title = $('idea').value.trim() || PURPOSE.find((x)=>x.id===S.purpose).ko;
+  const title = (tag?'[AI] ':'') + ($('idea').value.trim() || PURPOSE.find((x)=>x.id===S.purpose).ko);
   const h = loadH(); h.unshift({title, at, o}); saveH(h); drawH();
 };
-const toast = (m) => { const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2300); };
+const toast = (m) => { const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2400); };
 
+const copyText = async (text) => {
+  try { await navigator.clipboard.writeText(text); return true; } catch (err) {
+    const ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+    let ok=false; try { ok = document.execCommand('copy'); } catch (e2) {} ta.remove(); return ok;
+  }
+};
+
+/* ---------- AI ---------- */
 const ask = async () => {
-  const o = compose(), p = PURPOSE.find((x)=>x.id===S.purpose), st = STYLE[S.style];
+  const o = compose(), p = PURPOSE.find((x)=>x.id===S.purpose), sty = STYLES[S.style];
+  const names = (k) => [...(SCENE[k].multi ? S[k] : (S[k]?[S[k]]:[])), own(k)].filter(Boolean);
   const sel = {
     idea: $('idea').value.trim(), purpose: p.ko, purpose_brief: {action:p.act, composition:p.comp, palette:p.palette},
-    style: own('style') || st.ko, style_brief: own('style') ? null : {medium:st.medium, line:st.line, color:st.color, light:st.light, texture:st.tex, avoid:st.avoid, mj_params:st.mj},
-    people: [...S.people, own('people')].filter(Boolean), place: [...S.place, own('place')].filter(Boolean),
-    mood: [...S.mood, own('mood')].filter(Boolean), camera: [S.camera, own('camera')].filter(Boolean), ratio: S.ratio,
+    style: own('style') || sty.ko, style_brief: own('style') ? null : {group:sty.grp, medium:sty.medium, color:sty.color, light:sty.light, texture:sty.tex, avoid:sty.avoid, mj_params:sty.mj},
+    people: names('people'), place: names('place'), time_season: names('time'), light_mood: names('mood'), angle: names('angle'), shot_size: S.shot||null,
+    palette: S.palette, composition: S.comp, ratio: S.ratio, mj_ar: RMAP[S.ratio].ar, quality: QUAL[S.qual].ko, quality_mj: QUAL[S.qual].mj, detail: DETAIL[S.detail].ko,
     text_in_image: $('noText').checked ? 'none' : ($('headline').value.trim()||'none'), public_safety: $('safe').checked
   };
   const prompt = `당신은 최고의 AI 이미지 프롬프트 엔지니어다. 한국 교육청·학교 등 공공기관 홍보물에 쓸 이미지 프롬프트를 만든다.
 [작성 규칙]
 1. 원본 의도 보존: 사용자의 핵심 주제와 동작을 왜곡하지 말고 구체적인 세부 묘사를 점진적으로 확장한다.
-2. 5대 요소 결합: Subject(구체적 명사·재질·형태·인물 디테일), Setting(배경·장소·시간대·공간 깊이), Style(단일 화풍), Details(조명 방향·무드·카메라 앵글·렌즈·심도), Constraints(화면 비율, 불필요한 텍스트 제거).
+2. 5대 요소 결합: Subject(구체적 명사·재질·형태·인물 디테일), Setting(배경·장소·시간대·공간 깊이), Style(단일 화풍), Details(조명 방향·무드·카메라 앵글·렌즈·심도), Constraints(화면 비율, 화질, 불필요한 텍스트 제거).
 3. 중요한 피사체 정체성과 형태를 문장 앞쪽에, 분위기·배경은 뒤쪽에 둔다.
-4. 차별화가 가장 중요하다. 용도(purpose_brief)의 인물 행동·구도·색 설계와 화풍(style_brief)의 매체·선·색·질감·조명 어휘를 그대로 살려, 다른 용도나 화풍을 골랐을 때와 결과가 확연히 달라 보이게 쓴다. 실사 화풍이면 렌즈 화각·조리개를, 일러스트면 선과 채색 기법을, 아이소메트릭이면 등각 시점을 명시한다. 어느 조합에나 통하는 일반적인 표현(beautiful, high quality 등)은 쓰지 않는다.
+4. 차별화가 가장 중요하다. purpose_brief의 행동·구도·색 설계와 style_brief의 매체·채색·질감·조명 어휘를 살려, 다른 선택을 했을 때와 결과가 확연히 달라 보이게 쓴다. 사진 화풍이면 렌즈 화각·조리개를, 일러스트·회화면 선과 채색 기법을, 아이소메트릭이면 등각 시점을 명시한다. palette나 composition이 '용도 기본'이 아니면 그것을 우선한다. 어느 조합에나 통하는 뻔한 표현은 쓰지 않는다.
 5. 프롬프트는 영어로 쓰고, 한국어 입력은 자연스러운 영어로 옮긴다. notes_ko는 이번 조합의 특징을 한국어 3~5개 문장으로 설명한다.
 6. 공공기관 기준: public_safety가 true면 실존 인물·로고·저작권 캐릭터·학교명·명찰을 배제하고 성별·연령 균형을 지시한다. 인물은 한국인으로 묘사한다.
 7. text_in_image가 none이면 이미지 속 글자를 금지한다. 문구가 있으면 GPT/Gemini 프롬프트에만 큰따옴표로 원문 그대로 넣고, 문구를 바꾸거나 새로 지어내지 않는다.
 [출력 형식] 아래 키만 가진 JSON 하나만 출력한다.
-{"gpt": "2~4문장 영어 자연어 프롬프트", "mj": "/imagine prompt: 핵심 명사구, 화풍, 조명, 구도 --ar 비율 + style_brief.mj_params (3.5:1은 --ar 7:2, 글자 금지 시 --no text, letters, watermark, logo)", "notes_ko": ["...", "..."]}
+{"gpt": "2~4문장 영어 자연어 프롬프트", "mj": "/imagine prompt: 핵심 명사구, 화풍, 조명, 구도 --ar {mj_ar} {style_brief.mj_params} {quality_mj} (글자 금지 시 --no text, letters, watermark, logo)", "notes_ko": ["...", "..."]}
 [사용자 선택]
 ${JSON.stringify(sel)}
 [참고: 규칙 기반 초안]
@@ -401,62 +666,93 @@ ${o.gpt}`;
   return {gpt:v.gpt, mj:v.mj||o.mj, notes:Array.isArray(v.notes_ko)?v.notes_ko:o.notes};
 };
 
-const toggleSet = (set, v) => set.has(v) ? set.delete(v) : set.add(v);
-document.addEventListener('click', async (e) => {
-  const b = e.target.closest('button'); if (!b) return;
-  const box = b.parentElement && b.parentElement.id;
-  if (b.dataset.ex) { $('idea').value = b.dataset.ex; live(); return; }
-  if (box==='purpose') {
-    const p = PURPOSE.find((x)=>x.id===b.dataset.v); S = fromPurpose(p);
-    draw(); live(); toast(`「${p.ko}」에 맞게 화풍·장면·비율을 바꿨습니다. 필요하면 고쳐 쓰세요.`); return;
-  }
-  if (box==='style') { S.style=b.dataset.v; $('own-style').value=''; draw(); live(); return; }
-  if (box==='people'||box==='place'||box==='mood') { toggleSet(S[box], b.dataset.v); draw(); live(); return; }
-  if (box==='camera') { S.camera = S.camera===b.dataset.v ? '' : b.dataset.v; draw(); live(); return; }
-  if (box==='ratio') { S.ratio=b.dataset.v; draw(); live(); return; }
-  if (b.classList.contains('cp')) {
-    const text = OUT[b.dataset.t]; let ok = false;
-    try { await navigator.clipboard.writeText(text); ok = true; } catch (err) {
-      const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
-      try { ok = document.execCommand('copy'); } catch (e2) {} ta.remove();
-    }
-    if (ok) { b.classList.add('ok'); b.textContent='복사 완료'; setTimeout(()=>{b.classList.remove('ok'); b.textContent='복사';},1600); toast('복사했습니다. 이미지 생성 AI에 붙여 넣으세요.'); }
-    else toast('복사가 막혔습니다. 프롬프트를 드래그해 직접 복사해 주세요.');
-    return;
-  }
-  if (b.classList.contains('hitem')) { const x = loadH()[+b.dataset.i]; if (x) { show(x.o, `기록 불러옴 · ${x.at}`); toast('기록을 불러왔습니다.'); } }
-});
-
-const setStatus = () => {
-  $('status').classList.toggle('ai', aiMode);
-  $('statusText').textContent = aiMode ? 'AI 연결됨 · 한국어 입력을 영어로 다듬습니다' : '조합 모드 · AI 없이 즉시 생성';
-  $('goText').textContent = aiMode ? 'AI로 프롬프트 만들기' : '프롬프트 만들기';
+/* ---------- events ---------- */
+const generate = () => { const o = compose(); show(o,'조합 모드로 완성'); pushH(o); toast('프롬프트를 만들었습니다. 복사해서 붙여 넣으세요.'); if (innerWidth<=960) goTo('console'); };
+const goTo = (id) => {
+  const el = $(id); if (!el) return;
+  if (el.tagName==='DETAILS') { el.open = true; }
+  el.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'});
 };
 
-$('go').addEventListener('click', async () => {
-  if (!aiMode) { const o = compose(); show(o,'조합 모드로 완성했습니다'); pushH(o); toast('프롬프트를 만들었습니다.'); return; }
-  const panel = $('outPanel'); $('go').disabled = true; $('goText').textContent = 'AI가 다듬는 중…'; panel.classList.add('busy');
-  try { const o = await ask(); show(o,'AI가 다듬은 프롬프트입니다'); pushH(o); toast('AI가 프롬프트를 완성했습니다.'); }
-  catch (err) {
-    const o = compose(); show(o,'AI 응답을 받지 못해 조합 모드로 만들었습니다'); pushH(o);
-    if (err && err.code==='not_granted') { aiMode=false; }
-    toast(err && err.code==='rate_limited' ? '요청이 많습니다. 잠시 뒤 다시 시도하세요.' : 'AI 연결이 안 돼 조합 모드로 만들었습니다.');
-  } finally { $('go').disabled=false; panel.classList.remove('busy'); setStatus(); }
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.ex) { $('idea').value = b.dataset.ex; update(); return; }
+  if (b.dataset.p) {
+    const p = PURPOSE.find((x)=>x.id===b.dataset.p); S = fromPurpose(p); $('own-style').value='';
+    update(); toast(`「${p.ko}」에 맞게 화풍·장면·비율·화질을 맞췄습니다.`); return;
+  }
+  if (b.dataset.tab) { styleTab = b.dataset.tab; draw(); return; }
+  if (b.dataset.style) { S.style = b.dataset.style; $('own-style').value=''; update(); return; }
+  if (b.dataset.k) {
+    const k = b.dataset.k, v = b.dataset.v; touched.add('scene');
+    if (SCENE[k].multi) { S[k].has(v) ? S[k].delete(v) : S[k].add(v); }
+    else { const base = (k==='palette'||k==='comp') ? '용도 기본' : ''; S[k] = S[k]===v ? base : v; }
+    update(); return;
+  }
+  if (b.dataset.eng) { eng = b.dataset.eng; paint(false); return; }
+  if (b.dataset.go) { goTo(b.dataset.go); return; }
+  if (b.classList.contains('hitem')) { const x = loadH()[+b.dataset.i]; if (x) { show(x.o, `기록 · ${x.at}`); toast('기록을 불러왔습니다.'); } }
+});
+document.addEventListener('input', (e) => {
+  const t = e.target;
+  if (t.dataset && t.dataset.filter) { draw(); return; }
+  if (t.id==='styleSearch') { if (t.value.trim()) styleTab='전체'; draw(); return; }
+  if (t.id && t.id.startsWith('own-')) { if (t.id!=='own-style') touched.add('scene'); update(); return; }
+  if (t.id==='idea' || t.id==='headline') update();
+});
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey||e.metaKey) && e.key==='Enter') { e.preventDefault(); generate(); }
+  if (e.target.classList && e.target.classList.contains('c-tab') && (e.key==='ArrowRight'||e.key==='ArrowLeft')) {
+    eng = eng==='gpt' ? 'mj' : 'gpt'; paint(false); $('t-'+eng).focus();
+  }
 });
 
+$('go').addEventListener('click', generate);
+$('copyBtn').addEventListener('click', async () => {
+  const ok = await copyText(OUT[eng]); const b = $('copyBtn');
+  if (ok) { b.classList.add('ok'); b.querySelector('span').textContent='복사 완료'; setTimeout(()=>{b.classList.remove('ok'); b.querySelector('span').textContent='복사';},1600); toast(`${eng==='gpt'?'GPT · Gemini':'Midjourney'} 프롬프트를 복사했습니다.`); }
+  else toast('복사가 막혔습니다. 콘솔의 글자를 드래그해 복사해 주세요.');
+});
+$('copyAll').addEventListener('click', async () => {
+  const ok = await copyText(`[GPT · Gemini]\n${OUT.gpt}\n\n[Midjourney]\n${OUT.mj}`);
+  toast(ok ? '두 프롬프트를 함께 복사했습니다.' : '복사가 막혔습니다. 직접 드래그해 복사해 주세요.');
+});
+$('aiBtn').addEventListener('click', async () => {
+  if (!sample) return;
+  const c = $('console'); $('aiBtn').disabled = true; $('go').disabled = true; $('aiText').textContent = '다듬는 중…'; c.classList.add('busy'); $('modeNote').textContent='AI가 다듬는 중';
+  try { const o = await ask(); show(o,'AI가 다듬음'); pushH(o, true); toast('AI가 프롬프트를 다듬었습니다.'); }
+  catch (err) {
+    if (err && err.code==='not_granted') { sample=null; }
+    $('modeNote').textContent='이전 결과 유지';
+    toast(err && err.code==='rate_limited' ? '요청이 많습니다. 잠시 뒤 다시 시도하세요.' : 'AI를 쓸 수 없어 기존 결과를 그대로 두었습니다.');
+  } finally { $('aiBtn').disabled=false; $('go').disabled=false; $('aiText').textContent='AI로 다듬기'; c.classList.remove('busy'); setStatus(); }
+});
 $('reset').addEventListener('click', () => {
   $('idea').value=''; $('headline').value=''; $('noText').checked=true; $('safe').checked=true; $('textBox').hidden=true;
-  for (const k of OWN) $('own-'+k).value='';
-  S = fromPurpose(PURPOSE[0]); draw(); live(); toast('처음 상태로 되돌렸습니다.');
+  for (const el of document.querySelectorAll('input[type=text], input[type=search]')) el.value='';
+  for (const d of document.querySelectorAll('details.acc')) d.open=false;
+  S = fromPurpose(PURPOSE[0]); styleTab='전체'; touched = new Set(); update(); toast('처음 상태로 되돌렸습니다.');
 });
-$('noText').addEventListener('change', () => { $('textBox').hidden = $('noText').checked; live(); });
-for (const id of ['idea','headline', ...OWN.map((k)=>'own-'+k)]) $(id).addEventListener('input', live);
-$('safe').addEventListener('change', live);
+for (const [id,key] of [['ratioSel','ratio'],['qualSel','qual'],['detailSel','detail']]) $(id).addEventListener('change', (e) => { S[key]=e.target.value; touched.add('output'); update(); });
+$('noText').addEventListener('change', () => { $('textBox').hidden = $('noText').checked; touched.add('rule'); update(); });
+$('safe').addEventListener('change', () => { touched.add('rule'); update(); });
 $('clearHist').addEventListener('click', () => { saveH([]); drawH(); toast('기록을 지웠습니다.'); });
 
-draw(); live(); drawH(); setStatus();
-if (window.claude && claude.use) claude.use('sample').then((s) => { sample = s; aiMode = !!s; setStatus(); }).catch(()=>{});
+/* current step highlight */
+const io = new IntersectionObserver((ents) => {
+  for (const en of ents) if (en.isIntersecting) for (const a of document.querySelectorAll('#rail a')) a.classList.toggle('cur', a.dataset.step===en.target.id);
+}, {rootMargin:'-30% 0px -60% 0px'});
+for (const [id] of STEPS) io.observe($(id));
+
+const setStatus = () => {
+  $('statusText').textContent = sample ? '즉시 생성 · AI 다듬기 사용 가능' : 'AI 없이 즉시 생성';
+  $('aiBtn').hidden = !sample;
+};
+
+build(); draw(); show(compose(),'실시간 미리보기',false); drawH(); setStatus();
+if (window.claude && claude.use) claude.use('sample').then((s) => { sample = s; setStatus(); }).catch(()=>{});
 }
+
 </script>
 </body>
 </html>
