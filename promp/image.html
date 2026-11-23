@@ -137,7 +137,7 @@ input.own{margin-top:10px;font-size:15px;min-height:44px}
 
 <div class="card">
 <div class="step"><em>2</em><h3>용도</h3></div>
-<p class="desc">고르면 화풍과 비율이 함께 맞춰집니다.</p>
+<p class="desc">고르면 화풍·장면·비율이 용도에 맞게 한꺼번에 바뀝니다. 인물의 행동, 구도, 색 설계도 용도마다 다르게 들어갑니다.</p>
 <div class="tiles" id="purpose"></div>
 </div>
 
@@ -191,33 +191,92 @@ input.own{margin-top:10px;font-size:15px;min-height:44px}
 <script>
 {
 const EX = ['교육청 미래교육 정책 홍보 배너','학교 안전 캠페인 포스터','AI 디지털 교과서로 수업하는 교실','입학식을 축하하는 행사 안내','학생과 지역주민이 함께하는 마을교육','기후위기 대응 생태환경 교육'];
+
+/* 용도: 장면 기본값 + 인물 행동 + 구도 + 색 설계까지 통째로 바뀝니다 */
 const PURPOSE = [
- {id:'banner',ko:'정책 홍보 배너',d:'가로형, 중앙 여백',style:'webtoon',ratio:'16:9',en:'a wide horizontal public policy promotional banner',comp:'wide empty space in the center for a headline, characters grouped on the left and right sides, room at the top and bottom for supporting text',tag:'wide banner composition, empty center space'},
- {id:'poster',ko:'캠페인 포스터',d:'세로형, 상단 제목 공간',style:'webtoon',ratio:'3:4',en:'a vertical public campaign poster',comp:'one clear focal scene in the lower two thirds, open sky area at the top reserved for a title',tag:'vertical poster composition, open space at top'},
- {id:'sns',ko:'카드뉴스 · SNS',d:'정사각, 단순 구도',style:'flat',ratio:'1:1',en:'a square social media card visual',comp:'bold simple composition, one main subject, generous margins',tag:'square card composition, bold simple layout'},
- {id:'event',ko:'행사 안내',d:'입학·졸업·축제',style:'webtoon',ratio:'16:9',en:'a festive school event announcement visual',comp:'celebratory yet formal mood, balanced composition with space for event details',tag:'festive event visual, balanced composition'},
- {id:'class',ko:'수업 자료 삽화',d:'설명용, 깔끔한 배경',style:'flat',ratio:'4:3',en:'a clear educational illustration for class materials',comp:'easy to understand at a glance, uncluttered plain background, key action in the center',tag:'educational illustration, clean background'},
- {id:'press',ko:'보도자료 사진',d:'실사, 현장감',style:'photo',ratio:'3:2',en:'a realistic press photo for an education office news release',comp:'candid moment, natural expressions, subjects slightly off-center',tag:'press photo, candid moment'},
- {id:'web',ko:'홈페이지 메인',d:'한쪽 비운 와이드',style:'cinematic',ratio:'21:9',en:'a website hero image for a school or education office',comp:'main subjects on the right third, soft open space on the left for text overlay',tag:'website hero image, open space on left'},
- {id:'info',ko:'인포그래픽 장면',d:'아이소메트릭',style:'iso',ratio:'16:9',en:'an isometric infographic-style scene',comp:'organized zones that show a process step by step, tidy spacing between elements',tag:'isometric infographic scene, organized zones'}
+ {id:'banner',ko:'정책 홍보 배너',d:'가로형, 중앙 여백',style:'webtoon',ratio:'16:9',
+  people:['초등학생','중고등학생','교사','학부모','지역주민'],place:['친환경 캠퍼스'],mood:['맑은 하늘','따뜻하고 희망찬'],camera:'정면 와이드',
+  en:'a wide public policy promotional banner',
+  act:'standing in two cheerful groups on the left and right, waving and looking up toward the open center as if greeting good news',
+  comp:'symmetrical layout with a wide empty sky in the center reserved for a headline, characters framing both sides, a clear strip at the bottom for event details',
+  palette:'sky blue, fresh green and warm white with small red and yellow accents',
+  tag:'wide banner layout, two character groups left and right, empty sky in center'},
+ {id:'poster',ko:'캠페인 포스터',d:'세로형, 강한 한 장면',style:'cinematic',ratio:'3:4',
+  people:['중고등학생','교사'],place:['운동장'],mood:['아침 햇살'],camera:'로우앵글',
+  en:'a vertical public campaign poster with one powerful image',
+  act:'making one memorable, symbolic gesture together, such as raising their hands toward the sky',
+  comp:'strong vertical composition with a single focal point in the lower half, large open space at the top for a bold title, strong diagonal lines leading the eye upward',
+  palette:'a bold limited palette of three colors with strong contrast',
+  tag:'vertical poster, single symbolic gesture, strong diagonals, open space at top'},
+ {id:'sns',ko:'카드뉴스 · SNS',d:'정사각, 캐릭터 1명',style:'flat',ratio:'1:1',
+  people:['초등학생'],place:[],mood:['단색 배경'],camera:'클로즈업',
+  en:'a square social media card illustration',
+  act:'shown as one single expressive character reacting with a big smile while holding one simple prop that symbolizes the topic',
+  comp:'one centered character on a plain background, generous margins on all sides, no clutter so it reads instantly on a phone screen',
+  palette:'two soft pastel colors plus one bright accent',
+  tag:'single character, centered, plain background, mobile-friendly'},
+ {id:'event',ko:'행사 안내',d:'입학·졸업·축제',style:'webtoon',ratio:'16:9',
+  people:['초등학생','학부모','교사'],place:['강당'],mood:['축제 분위기','따뜻하고 희망찬'],camera:'눈높이',
+  en:'a festive school ceremony announcement visual',
+  act:'celebrating together with bouquets of flowers, applause and proud hugs',
+  comp:'balanced composition with the celebrating group in the lower half and decorations above, space on one side for date and place information',
+  palette:'warm coral, butter yellow and cream with gold accents',
+  tag:'school ceremony, flowers, applause, confetti, festive decorations'},
+ {id:'class',ko:'수업 자료 삽화',d:'설명용, 배경 최소화',style:'flat',ratio:'4:3',
+  people:['초등학생','교사'],place:['미래형 교실'],mood:['실내 자연광'],camera:'눈높이',
+  en:'a clear educational illustration for lesson materials',
+  act:'doing one hands-on learning activity step by step, with the key object clearly visible in their hands',
+  comp:'the learning action in the exact center, background simplified to a few shapes, each object distinct by color so it can be explained easily',
+  palette:'calm clear primary colors on an off-white background',
+  tag:'educational diagram-like illustration, key object centered, simplified background'},
+ {id:'press',ko:'보도자료 사진',d:'실사, 연출 없는 현장',style:'photo',ratio:'3:2',
+  people:['중고등학생','교사'],place:['과학실'],mood:['실내 자연광'],camera:'눈높이',
+  en:'a realistic press photograph for an education office news release',
+  act:'fully absorbed in a real activity, unposed, looking at their work rather than at the camera',
+  comp:'rule-of-thirds framing with the main subject slightly off-center, foreground elements adding depth, natural candid moment',
+  palette:'natural true-to-life colors',
+  tag:'candid press photo, unposed, rule of thirds'},
+ {id:'web',ko:'홈페이지 메인',d:'한쪽을 비운 와이드',style:'cinematic',ratio:'21:9',
+  people:['중고등학생','교사'],place:['친환경 캠퍼스'],mood:['골든아워','미래적 분위기'],camera:'로우앵글',
+  en:'a website hero image for an education office homepage',
+  act:'walking forward together with confidence, gazing toward the horizon',
+  comp:'subjects placed in the right third, the left two thirds kept as soft open sky and landscape for text overlay, wide panoramic depth',
+  palette:'deep blue to warm gold gradient sky',
+  tag:'panoramic hero image, subjects on right third, open space left'},
+ {id:'info',ko:'인포그래픽 장면',d:'과정을 한눈에',style:'iso',ratio:'16:9',
+  people:['교육청 직원','중고등학생','지역주민'],place:['교육청 청사','마을 골목'],mood:['맑은 하늘'],camera:'하이앵글',
+  en:'an infographic-style scene that explains a process',
+  act:'shown as small figures performing each step of a process across connected zones, linked by paths and arrows',
+  comp:'three to five clearly separated zones arranged in reading order from left to right, tidy spacing, each zone with one simple icon-like object',
+  palette:'clean white base with blue, teal and coral color-coding for each zone',
+  tag:'process diagram scene, connected zones, color-coded steps'}
 ];
+
+/* 화풍: 매체·선·색·조명·질감·렌즈·MJ 파라미터까지 다르게 */
 const STYLE = {
- webtoon:{ko:'한국형 웹툰풍',en:'polished Korean 2D digital promotional illustration, between refined Korean webtoon and anime style, soft clean outlines, delicate coloring with natural shading, vivid pastel colors',tag:'Korean webtoon style promotional illustration, clean outlines, soft shading, vivid pastel colors'},
- flat:{ko:'플랫 벡터',en:'clean flat vector illustration with simple shapes, soft gradients and a modern public-sector look',tag:'flat vector illustration, simple shapes, soft gradients'},
- clay:{ko:'3D 클레이',en:'soft 3D clay-style render with rounded friendly forms and matte materials',tag:'3D clay render, rounded forms, matte materials'},
- water:{ko:'수채화',en:'gentle watercolor illustration with soft washes and light paper texture',tag:'watercolor illustration, soft washes, paper texture'},
- photo:{ko:'실사 사진',en:'natural documentary photograph, realistic and candid',tag:'documentary photo, realistic, natural skin tones'},
- cinematic:{ko:'시네마틱',en:'cinematic digital art with rich depth and hopeful light',tag:'cinematic digital art, rich depth, hopeful light'},
- iso:{ko:'아이소메트릭 3D',en:'isometric 3D illustration like a clean miniature diorama',tag:'isometric 3D illustration, miniature diorama'}
+ webtoon:{ko:'한국형 웹툰풍',medium:'polished Korean 2D digital promotional illustration, a refined blend of Korean webtoon and anime',line:'soft clean dark-brown line art',color:'vivid pastel colors with gentle cel shading',light:'bright rim light on hair and shoulders',tex:'smooth polished digital finish',avoid:'not photorealistic, not 3D',mj:'--niji 6 --s 250',photo:false},
+ flat:{ko:'플랫 벡터',medium:'flat vector illustration in a modern public-sector infographic style',line:'no outlines, crisp geometric shapes',color:'a limited flat color palette',light:'no realistic lighting, only simple long shadows',tex:'clean sharp vector edges',avoid:'no texture, no realism, no 3D shading',mj:'--s 150',photo:false},
+ clay:{ko:'3D 클레이',medium:'3D clay-style render of handmade plasticine characters and props',line:'rounded chunky forms with subtle fingerprint marks',color:'soft saturated candy colors',light:'soft studio key light with gentle ambient occlusion',tex:'matte clay surfaces',avoid:'no glossy plastic, no photographic humans',mj:'--s 300',photo:false,lens:'tilt-shift miniature depth of field'},
+ water:{ko:'수채화',medium:'traditional watercolor illustration',line:'loose pencil underdrawing visible in places',color:'transparent washes with soft bleeding edges',light:'airy natural light with untouched white paper as highlights',tex:'cold-press paper grain',avoid:'no hard digital edges, no heavy saturation',mj:'--s 200',photo:false},
+ photo:{ko:'실사 사진',medium:'documentary-style photograph',line:'',color:'true-to-life colors and natural skin tones',light:'available natural light',tex:'fine natural film grain',avoid:'no illustration look, no plastic skin, no heavy retouching',mj:'--style raw --s 100',photo:true},
+ cinematic:{ko:'시네마틱',medium:'cinematic digital painting that looks like a film key frame',line:'',color:'teal and warm amber color grading',light:'volumetric god rays and soft atmospheric haze',tex:'rich painterly detail',avoid:'not cartoonish',mj:'--s 400',photo:false,lens:'anamorphic wide-lens feel with subtle depth of field'},
+ iso:{ko:'아이소메트릭 3D',medium:'isometric 3D illustration, a miniature diorama on a floating base',line:'crisp clean edges',color:'a soft palette with color-coded zones',light:'soft global illumination with gentle contact shadows',tex:'smooth low-poly surfaces',avoid:'no perspective distortion',mj:'--s 200',photo:false,fixed:'orthographic isometric view from a 30-degree angle'}
 };
-const PEOPLE = {초등학생:'elementary school students',중고등학생:'middle and high school students in neat school uniforms',교사:'teachers',학부모:'parents',지역주민:'local community members',어르신:'elderly residents','다문화 학생':'students from multicultural backgrounds','휠체어 학생':'a student using a wheelchair','교육청 직원':'education office staff'};
-const PLACE = {'미래형 교실':'a bright future-ready classroom with smart boards and flexible seating','친환경 캠퍼스':'a modern eco-friendly school campus with solar panels and rooftop gardens',운동장:'a sunny school playground',도서관:'a modern school library',과학실:'a science lab with experiment tools','교육청 청사':'a modern education office building with a public plaza','마을 골목':'a friendly local neighborhood street','숲과 자연':'lush green nature with trees and a stream'};
-const MOOD = {'맑은 하늘':'clear blue sky with soft white clouds','아침 햇살':'bright morning sunlight','골든아워':'warm golden-hour light','실내 자연광':'soft natural indoor daylight','미래적 분위기':'subtle futuristic glow with clean high-tech details','따뜻하고 희망찬':'warm, hopeful and welcoming atmosphere'};
-const CAMERA = {'정면 와이드':['wide front-facing shot','wide shot, eye level'],'눈높이':['eye-level medium shot','eye level, medium shot'],'로우앵글':['slightly low angle that feels uplifting','low angle shot'],'하이앵글':['high-angle overview','high angle, overview'],'클로즈업':['close-up with shallow depth of field','close-up, shallow depth of field, 85mm lens']};
+const PEOPLE = {초등학생:'elementary school students in colorful casual clothes and small backpacks',중고등학생:'middle and high school students in neat school uniforms',교사:'teachers with lanyards and tablets',학부모:'parents in their thirties and forties',지역주민:'local community members such as shop owners and volunteers',어르신:'elderly residents with warm faces','다문화 학생':'students from multicultural backgrounds','휠체어 학생':'a student using a wheelchair, fully included in the group','교육청 직원':'education office staff in smart office wear'};
+const PLACE = {'미래형 교실':'a bright future-ready classroom with interactive smart boards, tablets and flexible seating','친환경 캠퍼스':'a modern eco-friendly school campus with solar panels, rooftop gardens and wide glass walls',운동장:'a sunny school playground with a track and trees',도서관:'a modern school library with tall bookshelves and reading nooks',과학실:'a science lab with microscopes and experiment tools',강당:'a school auditorium decorated with flower garlands and balloons','교육청 청사':'a modern education office building with a public plaza','마을 골목':'a friendly local neighborhood street with small shops and murals','숲과 자연':'lush green forest with a clear stream'};
+const MOOD = {'맑은 하늘':'a clear blue sky with soft white clouds','아침 햇살':'crisp early-morning sunlight from the side','골든아워':'warm low golden-hour sunlight from behind','실내 자연광':'soft daylight from large windows','미래적 분위기':'a subtle futuristic glow with clean high-tech details','따뜻하고 희망찬':'a warm, hopeful and welcoming mood','축제 분위기':'a festive mood with confetti and soft bokeh lights','단색 배경':'a plain soft pastel background'};
+const CAMERA = {
+ '정면 와이드':{il:'wide front-facing view that shows the whole group and setting',ph:'shot on a 24mm wide lens at eye level, f/8, everything sharp'},
+ '눈높이':{il:'eye-level medium shot',ph:'50mm lens at eye level, f/4'},
+ '로우앵글':{il:'low angle looking up, making the subjects feel confident and uplifting',ph:'low angle, 35mm lens, f/5.6'},
+ '하이앵글':{il:'high-angle overview from above',ph:'high angle from above, 24mm lens, f/8'},
+ '클로즈업':{il:'close-up focusing on faces and hands',ph:'85mm portrait lens, f/1.8, creamy background blur'}
+};
 const RATIO = {'16:9':'horizontal 16:9','3.5:1':'very wide horizontal 3.5:1 banner','21:9':'ultra-wide 21:9','3:2':'horizontal 3:2','4:3':'horizontal 4:3','1:1':'square 1:1','4:5':'vertical 4:5','3:4':'vertical 3:4','9:16':'vertical 9:16'};
 const MJAR = {'3.5:1':'7:2'};
-const DEF = () => ({purpose:'banner',style:'webtoon',people:new Set(['중고등학생','교사','학부모','지역주민']),place:new Set(['친환경 캠퍼스']),mood:new Set(['맑은 하늘','따뜻하고 희망찬']),camera:'정면 와이드',ratio:'16:9'});
-let S = DEF();
+
+const fromPurpose = (p) => ({purpose:p.id,style:p.style,ratio:p.ratio,people:new Set(p.people),place:new Set(p.place),mood:new Set(p.mood),camera:p.camera});
+let S = fromPurpose(PURPOSE[0]);
 const OWN = ['style','people','place','mood','camera'];
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -237,41 +296,58 @@ const draw = () => {
 };
 
 const list = (arr) => arr.length<=1 ? (arr[0]||'') : arr.slice(0,-1).join(', ')+' and '+arr[arr.length-1];
-const cap = (s) => s.charAt(0).toUpperCase()+s.slice(1);
+const cap = (s) => s ? s.charAt(0).toUpperCase()+s.slice(1) : s;
 
 const compose = () => {
   const p = PURPOSE.find((x)=>x.id===S.purpose), st = STYLE[S.style];
   const idea = $('idea').value.trim(), noText = $('noText').checked, safe = $('safe').checked, head = $('headline').value.trim();
   const oStyle = own('style');
-  const styleEn = oStyle ? `illustration in this style: ${oStyle}` : st.en, styleTag = oStyle || st.tag;
   const ppl = [...S.people].map((k)=>PEOPLE[k]); if (own('people')) ppl.push(own('people'));
   const plc = [...S.place].map((k)=>PLACE[k]); if (own('place')) plc.push(own('place'));
   const md = [...S.mood].map((k)=>MOOD[k]); if (own('mood')) md.push(own('mood'));
-  const cam = S.camera ? [...CAMERA[S.camera]] : ['balanced shot','balanced framing'];
-  if (own('camera')) { cam[0] = S.camera ? `${cam[0]}, ${own('camera')}` : own('camera'); cam[1] = S.camera ? `${cam[1]}, ${own('camera')}` : own('camera'); }
+  const camBase = S.camera ? (st.photo ? CAMERA[S.camera].ph : CAMERA[S.camera].il) : '';
+  const camera = [st.fixed || camBase, st.fixed ? '' : (st.lens||''), own('camera')].filter(Boolean).join(', ');
   const ratio = RATIO[S.ratio], ar = MJAR[S.ratio]||S.ratio;
-  const who = ppl.length ? `diverse, friendly Korean ${list(ppl)} with bright natural smiles and lively, natural poses` : 'the main subject';
-  const g = [];
-  g.push(`${cap(styleEn)} for ${p.en}, featuring ${who}${idea?`, depicting this theme: ${idea}`:''}.`);
-  if (plc.length||md.length) g.push(`The scene is set in ${list(plc)||'a modern educational setting'}${md.length?`, with ${list(md)}`:''}, rich in detail but never distracting from the people and message.`);
-  g.push(`Use a ${cam[0]}, ${p.comp}.`);
-  const cons = [`Aspect ratio ${ratio}`];
-  if (noText) cons.push('no text, letters, logos or watermarks anywhere in the image');
-  else if (head) cons.push(`render only this headline, exactly as written: "${head}"`);
-  if (safe) cons.push('all people are fictional, no real persons, brand logos, copyrighted characters, school names or name tags, with a balanced mix of genders and ages');
-  g.push(cap(cons.join('; '))+'.');
-  const mjParts = [ppl.length?`diverse Korean ${ppl.join(', ')}, bright smiles`:'', idea?`theme: ${idea}`:'', plc.join(', '), styleTag, md.join(', '), cam[1], p.tag].filter(Boolean);
-  let mj = `/imagine prompt: ${mjParts.join(', ')} --ar ${ar} --s 250`;
+  const human = ppl.length > 0;
+  const who = human ? (ppl.length===1 ? ppl[0] : `a diverse group of Korean ${list(ppl)}`) : 'the main scene';
+
+  /* 1. Subject first */
+  const s1 = `${cap(who)}${idea?`, in a scene about "${idea}",`:''}${human&&p.act.startsWith('shown')&&!idea?',':''} ${human?p.act:'arranged to show the topic clearly'}${human?', with natural, distinct faces, hairstyles and bright genuine expressions':''}.`;
+  /* 2. Style */
+  const s2 = oStyle
+    ? `Visual style for ${p.en}: ${oStyle}.`
+    : `Visual style for ${p.en}: ${st.medium}${st.line?`, ${st.line}`:''}, ${st.color}, ${st.tex}.`;
+  /* 3. Setting and light (back half) */
+  const s3 = `Setting: ${list(plc)||'a simple background that supports the subject'}${md.length?`, ${list(md)}`:''}${oStyle?'':`, ${st.light}`}; color scheme of ${p.palette}.`;
+  /* 4. Details and constraints */
+  const cons = [`${cap(camera||'balanced framing')}`, p.comp, `aspect ratio ${ratio}`];
+  if (!oStyle) cons.push(st.avoid);
+  if (noText) cons.push('no text, letters, logos or watermarks anywhere');
+  else if (head) cons.push(`include only this headline, exactly as written: "${head}"`);
+  if (safe) cons.push('all people fictional, no real persons, brand logos, copyrighted characters, school names or name tags'+(ppl.length>1?', balanced mix of genders and ages':''));
+  const s4 = cons.join('; ')+'.';
+  const gpt = [s1,s2,s3,s4].join(' ');
+
+  const mjParts = [
+    human ? (ppl.length===1?ppl[0]:`diverse Korean ${ppl.join(', ')}`) : '',
+    human ? p.act.split(',')[0] : '',
+    idea ? `theme of ${idea}` : '',
+    oStyle || [st.medium.split(',')[0], st.line, st.color].filter(Boolean).join(', '),
+    plc.join(', '), md.join(', '), oStyle?'':st.light, camera, p.tag, p.palette
+  ].filter(Boolean);
+  let mj = `/imagine prompt: ${mjParts.join(', ')} --ar ${ar} ${oStyle?'--s 250':st.mj}`;
   const no = []; if (noText) no.push('text','letters','watermark','logo'); if (safe) no.push('brand logo','famous characters');
   if (no.length) mj += ` --no ${[...new Set(no)].join(', ')}`;
+
   const typed = [idea, ...OWN.map(own)].some((t)=>/[가-힣]/.test(t));
   const notes = [
-    `용도 「${p.ko}」와 화풍 「${oStyle||st.ko}」을 기준으로 주제와 인물을 문장 앞에, 배경과 분위기를 뒤에 배치했습니다.`,
-    `비율은 ${S.ratio}입니다.${MJAR[S.ratio]?` Midjourney는 정수 비율만 받으므로 --ar ${ar}로 적었습니다.`:''}`,
-    noText ? '이미지 안 글자는 빼도록 지시했습니다. 제목은 완성 이미지 위에 따로 얹으세요.' : (head ? 'GPT·Gemini에는 문구를 큰따옴표로 원문 그대로 넣었습니다. Midjourney는 한글 표현이 불안정해 문구를 넣지 않았습니다.' : '글자 넣기를 켰지만 문구가 비어 있어 텍스트 지시는 넣지 않았습니다.'),
-    typed ? '직접 적은 한국어 내용은 조합 모드에서 그대로 들어갑니다. GPT·Gemini는 알아듣지만, Midjourney는 영어로 바꿔야 결과가 좋습니다(AI 연결 시 자동 번역).' : '선택한 항목을 영어 표현으로 바꿔 조합했습니다.'
+    `용도 「${p.ko}」: 인물 행동은 '${p.act.split(',')[0]}', 구도는 ${p.tag.split(',')[0]} 중심으로 잡았습니다.`,
+    oStyle ? `화풍은 직접 입력한 「${oStyle}」을 그대로 썼습니다.` : `화풍 「${st.ko}」: 매체·선·색·질감·조명 표현을 이 화풍 전용으로 넣었고, Midjourney 파라미터는 ${st.mj}입니다.`,
+    st.fixed && !oStyle ? '아이소메트릭은 시점이 고정이라 카메라 앵글 선택 대신 30도 등각 시점을 씁니다.' : (st.photo && !oStyle ? '실사 사진이라 카메라 앵글을 렌즈 화각·조리개 값으로 바꿔 넣었습니다.' : '카메라 앵글은 그림 구도 표현으로 넣었습니다.'),
+    `비율 ${S.ratio}${MJAR[S.ratio]?` (Midjourney는 --ar ${ar})`:''}. ${noText ? '이미지 속 글자는 빼도록 했습니다.' : (head ? '문구는 GPT·Gemini에만 큰따옴표로 넣었습니다.' : '문구가 비어 있어 텍스트 지시는 넣지 않았습니다.')}`
   ];
-  return {gpt:g.join(' '), mj, notes};
+  if (typed) notes.push('직접 적은 한국어는 조합 모드에서 그대로 들어갑니다. Midjourney는 영어로 바꿔야 결과가 좋습니다(AI 모드는 자동 번역).');
+  return {gpt, mj, notes};
 };
 
 const show = (o, mode) => {
@@ -282,7 +358,7 @@ const show = (o, mode) => {
 };
 const live = () => show(compose(), '선택을 바꾸면 바로 반영됩니다');
 
-const HK = 'edu-prompt-history-v2';
+const HK = 'edu-prompt-history-v3';
 const loadH = () => { try { return JSON.parse(localStorage.getItem(HK)||'[]'); } catch(e) { return []; } };
 const saveH = (h) => { try { localStorage.setItem(HK, JSON.stringify(h.slice(0,12))); } catch(e) {} };
 const drawH = () => {
@@ -297,10 +373,10 @@ const pushH = (o) => {
 const toast = (m) => { const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2300); };
 
 const ask = async () => {
-  const o = compose();
+  const o = compose(), p = PURPOSE.find((x)=>x.id===S.purpose), st = STYLE[S.style];
   const sel = {
-    idea: $('idea').value.trim(), purpose: PURPOSE.find((x)=>x.id===S.purpose).ko,
-    style: own('style') || STYLE[S.style].ko,
+    idea: $('idea').value.trim(), purpose: p.ko, purpose_brief: {action:p.act, composition:p.comp, palette:p.palette},
+    style: own('style') || st.ko, style_brief: own('style') ? null : {medium:st.medium, line:st.line, color:st.color, light:st.light, texture:st.tex, avoid:st.avoid, mj_params:st.mj},
     people: [...S.people, own('people')].filter(Boolean), place: [...S.place, own('place')].filter(Boolean),
     mood: [...S.mood, own('mood')].filter(Boolean), camera: [S.camera, own('camera')].filter(Boolean), ratio: S.ratio,
     text_in_image: $('noText').checked ? 'none' : ($('headline').value.trim()||'none'), public_safety: $('safe').checked
@@ -310,11 +386,12 @@ const ask = async () => {
 1. 원본 의도 보존: 사용자의 핵심 주제와 동작을 왜곡하지 말고 구체적인 세부 묘사를 점진적으로 확장한다.
 2. 5대 요소 결합: Subject(구체적 명사·재질·형태·인물 디테일), Setting(배경·장소·시간대·공간 깊이), Style(단일 화풍), Details(조명 방향·무드·카메라 앵글·렌즈·심도), Constraints(화면 비율, 불필요한 텍스트 제거).
 3. 중요한 피사체 정체성과 형태를 문장 앞쪽에, 분위기·배경은 뒤쪽에 둔다.
-4. 프롬프트는 영어로 쓰고, 한국어로 입력된 항목은 자연스러운 영어로 옮긴다. 설명(notes_ko)은 한국어 3~5개 문장으로 쓴다.
-5. 공공기관 기준: public_safety가 true면 실존 인물·로고·저작권 캐릭터·학교명·명찰을 배제하고 성별·연령 균형을 지시한다. 인물은 한국인으로 묘사한다.
-6. text_in_image가 none이면 이미지 속 글자를 금지한다. 문구가 있으면 GPT/Gemini 프롬프트에만 큰따옴표로 원문 그대로 넣고, 문구를 바꾸거나 새로 지어내지 않는다.
+4. 차별화가 가장 중요하다. 용도(purpose_brief)의 인물 행동·구도·색 설계와 화풍(style_brief)의 매체·선·색·질감·조명 어휘를 그대로 살려, 다른 용도나 화풍을 골랐을 때와 결과가 확연히 달라 보이게 쓴다. 실사 화풍이면 렌즈 화각·조리개를, 일러스트면 선과 채색 기법을, 아이소메트릭이면 등각 시점을 명시한다. 어느 조합에나 통하는 일반적인 표현(beautiful, high quality 등)은 쓰지 않는다.
+5. 프롬프트는 영어로 쓰고, 한국어 입력은 자연스러운 영어로 옮긴다. notes_ko는 이번 조합의 특징을 한국어 3~5개 문장으로 설명한다.
+6. 공공기관 기준: public_safety가 true면 실존 인물·로고·저작권 캐릭터·학교명·명찰을 배제하고 성별·연령 균형을 지시한다. 인물은 한국인으로 묘사한다.
+7. text_in_image가 none이면 이미지 속 글자를 금지한다. 문구가 있으면 GPT/Gemini 프롬프트에만 큰따옴표로 원문 그대로 넣고, 문구를 바꾸거나 새로 지어내지 않는다.
 [출력 형식] 아래 키만 가진 JSON 하나만 출력한다.
-{"gpt": "2~4문장 영어 자연어 프롬프트", "mj": "/imagine prompt: 핵심 명사구, 스타일, 조명 묘사 --ar 비율 --s 250 (3.5:1은 --ar 7:2, 글자 금지 시 --no text, letters, watermark, logo 추가)", "notes_ko": ["...", "..."]}
+{"gpt": "2~4문장 영어 자연어 프롬프트", "mj": "/imagine prompt: 핵심 명사구, 화풍, 조명, 구도 --ar 비율 + style_brief.mj_params (3.5:1은 --ar 7:2, 글자 금지 시 --no text, letters, watermark, logo)", "notes_ko": ["...", "..."]}
 [사용자 선택]
 ${JSON.stringify(sel)}
 [참고: 규칙 기반 초안]
@@ -329,7 +406,10 @@ document.addEventListener('click', async (e) => {
   const b = e.target.closest('button'); if (!b) return;
   const box = b.parentElement && b.parentElement.id;
   if (b.dataset.ex) { $('idea').value = b.dataset.ex; live(); return; }
-  if (box==='purpose') { const p = PURPOSE.find((x)=>x.id===b.dataset.v); S.purpose=p.id; S.style=p.style; S.ratio=p.ratio; draw(); live(); return; }
+  if (box==='purpose') {
+    const p = PURPOSE.find((x)=>x.id===b.dataset.v); S = fromPurpose(p);
+    draw(); live(); toast(`「${p.ko}」에 맞게 화풍·장면·비율을 바꿨습니다. 필요하면 고쳐 쓰세요.`); return;
+  }
   if (box==='style') { S.style=b.dataset.v; $('own-style').value=''; draw(); live(); return; }
   if (box==='people'||box==='place'||box==='mood') { toggleSet(S[box], b.dataset.v); draw(); live(); return; }
   if (box==='camera') { S.camera = S.camera===b.dataset.v ? '' : b.dataset.v; draw(); live(); return; }
@@ -367,7 +447,7 @@ $('go').addEventListener('click', async () => {
 $('reset').addEventListener('click', () => {
   $('idea').value=''; $('headline').value=''; $('noText').checked=true; $('safe').checked=true; $('textBox').hidden=true;
   for (const k of OWN) $('own-'+k).value='';
-  S = DEF(); draw(); live(); toast('처음 상태로 되돌렸습니다.');
+  S = fromPurpose(PURPOSE[0]); draw(); live(); toast('처음 상태로 되돌렸습니다.');
 });
 $('noText').addEventListener('change', () => { $('textBox').hidden = $('noText').checked; live(); });
 for (const id of ['idea','headline', ...OWN.map((k)=>'own-'+k)]) $(id).addEventListener('input', live);
