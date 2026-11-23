@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교육 이미지 프롬프트 스튜디오</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/*
+VOICE: 포트폴리오 케이스 스터디처럼 차분하고 단정한 편집 디자인
+IDEA: 잘 짜인 디자인 리뷰 문서 한 권, 큰 세리프 제목과 여백, 흰 카드에 담긴 작업 단계
+PICTURE: 표지 같은 대형 세리프 제목과 요약 지표, 단계별 흰 카드, 엔진별 결과 카드
+COLOUR and TYPE: 따뜻한 미색 바탕, 흰 카드, 먹색 글자, 딥블루 1색 강조 / Noto Serif KR 제목 + Noto Sans KR 본문 + JetBrains Mono 프롬프트
+LAYOUT: 표지 띠, 아래 2단(입력 단계 카드 : 결과 고정), 좁은 화면은 위아래로 쌓기
+*/
+:root{color-scheme:light dark;
+--bg:light-dark(#f6f5f1,#121212);--card:light-dark(#ffffff,#1c1c1e);--ink:light-dark(#17171a,#ededea);--sub:light-dark(#6b6b70,#a3a3a8);
+--line:light-dark(#e6e4de,#2c2c30);--fill:light-dark(#faf9f6,#232326);--accent:light-dark(#1f3fbf,#8ea6ff);--accent-s:light-dark(#eef1fc,#20264a);
+--chip-on:light-dark(#17171a,#ededea);--chip-on-ink:light-dark(#ffffff,#17171a);--serif:'Noto Serif KR',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.65 'Noto Sans KR',system-ui,sans-serif;overflow-x:clip}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* cover */
+.cover{max-width:1240px;margin:0 auto;padding:clamp(36px,6vw,72px) max(4vw,18px) clamp(24px,4vw,40px);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px;align-items:end;border-bottom:1px solid var(--line)}
+@media(max-width:860px){.cover{grid-template-columns:minmax(0,1fr)}}
+.kicker{font-size:14px;color:var(--sub);margin:0 0 14px}
+.cover h1{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(36px,5.4vw,60px);line-height:1.08;letter-spacing:-.03em;text-wrap:balance}
+.cover .lede{margin:18px 0 0;max-width:600px;font-size:17px;color:var(--sub)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--ink)}
+.facts div{padding:14px 12px 0 0}
+.facts b{display:block;font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.1}
+.facts span{font-size:13px;color:var(--sub)}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:13px;color:var(--sub)}
+.dot{width:8px;height:8px;border-radius:50%;background:#b5b5ba}
+.status.ai .dot{background:#1a9b6c}
+
+/* layout */
+.wrap{max-width:1240px;margin:0 auto;padding:32px max(4vw,18px) 72px;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:28px;align-items:start}
+@media(max-width:960px){.wrap{grid-template-columns:minmax(0,1fr)}}
+.col-title{font-family:var(--serif);font-size:26px;font-weight:700;margin:0 0 14px;letter-spacing:-.02em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -22px rgba(0,0,0,.18)}
+.step{display:flex;align-items:baseline;gap:12px;margin:0 0 4px}
+.step em{font-style:normal;font-family:var(--serif);font-size:15px;color:var(--accent);font-weight:700}
+.step h3{margin:0;font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:-.01em}
+.desc{margin:0 0 14px;color:var(--sub);font-size:14px}
+textarea,input[type=text]{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--fill);border:1px solid var(--line);border-radius:12px;padding:11px 14px;min-height:46px;transition:border-color .15s,background .15s}
+textarea{min-height:100px;resize:vertical}
+textarea:focus,input[type=text]:focus{outline:none;border-color:var(--ink);background:var(--card)}
+input.own{margin-top:10px;font-size:15px;min-height:44px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:14px;transition:background .12s,border-color .12s}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--chip-on);border-color:var(--chip-on);color:var(--chip-on-ink)}
+.ex{margin-top:10px}
+.ex .chip{min-height:34px;font-size:13px;color:var(--sub);background:var(--fill)}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(max-width:420px){.tiles{grid-template-columns:minmax(0,1fr)}}
+.tile{text-align:left;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);min-height:64px;transition:border-color .12s,background .12s}
+.tile b{display:block;font-family:var(--serif);font-size:16px;font-weight:700}
+.tile span{display:block;font-size:12.5px;color:var(--sub);margin-top:2px}
+.tile:hover{border-color:var(--ink)}
+.tile[aria-pressed=true]{border-color:var(--accent);background:var(--accent-s);box-shadow:inset 0 0 0 1px var(--accent)}
+.group{padding-top:14px;margin-top:14px;border-top:1px solid var(--line)}
+.group:first-of-type{border-top:0;margin-top:0;padding-top:0}
+.glabel{margin:0 0 8px;font-size:13.5px;font-weight:700}
+.switch{display:flex;align-items:center;gap:12px;min-height:44px;font-size:14.5px;cursor:pointer}
+.switch input{appearance:none;width:42px;height:24px;border-radius:99px;background:var(--line);position:relative;flex:none;cursor:pointer;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch input:checked{background:var(--ink)}
+.switch input:checked::after{left:21px}
+.hint{font-size:13px;color:var(--sub);margin:2px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.go{flex:1 1 240px;min-height:54px;border:0;border-radius:14px;background:var(--ink);color:var(--card);font-size:16px;font-weight:700}
+.go:disabled{opacity:.55;cursor:wait}
+.ghost{min-height:54px;padding:0 20px;border-radius:14px;border:1px solid var(--line);background:var(--card);font-weight:500}
+
+/* output */
+@media(min-width:961px){.out{position:sticky;top:20px}}
+.ohead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
+.mode{font-size:13px;color:var(--sub)}
+.res{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-bottom:14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03),0 12px 32px -22px rgba(0,0,0,.18)}
+.rtop{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.rtop h3{margin:0;font-family:var(--serif);font-size:20px;font-weight:700}
+.rtop span{font-size:13px;color:var(--sub)}
+.cp{margin-left:auto;min-height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--ink);background:var(--card);font-size:14px;font-weight:700;transition:background .12s}
+.cp:hover,.cp.ok{background:var(--ink);color:var(--card)}
+.code{margin:0;padding:18px 20px;font:13.5px/1.75 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;max-height:300px;overflow:auto}
+.busy .code{opacity:.4;transition:opacity .2s}
+.notes{padding:20px 24px}
+.notes h3{margin:0 0 10px;font-family:var(--serif);font-size:20px}
+.notes ol{margin:0;padding-left:1.2em}
+.notes li{margin:5px 0;color:var(--ink)}
+.notes li::marker{font-family:var(--serif);color:var(--accent);font-weight:700}
+.hist{padding:20px 24px}
+.hist .hh{display:flex;justify-content:space-between;align-items:baseline}
+.hist h3{margin:0 0 8px;font-family:var(--serif);font-size:20px}
+.hist .hh button{border:0;background:none;color:var(--sub);font-size:13px;min-height:40px}
+.hitem{display:flex;width:100%;gap:12px;align-items:center;text-align:left;min-height:46px;padding:8px 0;border:0;border-top:1px solid var(--line);background:none}
+.hitem:hover span{text-decoration:underline}
+.hitem span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14.5px}
+.hitem time{font-size:12.5px;color:var(--sub);flex:none}
+.empty{color:var(--sub);font-size:14px;margin:0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);opacity:0;background:var(--ink);color:var(--card);padding:12px 20px;border-radius:12px;font-size:14.5px;box-shadow:0 12px 30px rgba(0,0,0,.22);pointer-events:none;transition:all .2s;max-width:calc(100% - 32px);text-align:center;z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="cover">
+<div>
+<p class="kicker">교육청 · 학교 홍보물 제작 도구</p>
+<h1>교육 이미지<br>프롬프트 스튜디오</h1>
+<p class="lede">아이디어를 적고 용도와 장면을 고르면, GPT·Gemini와 Midjourney에 바로 붙여 넣을 영어 프롬프트를 만들어 드립니다.</p>
+<span class="status" id="status"><span class="dot"></span><span id="statusText">조합 모드</span></span>
+</div>
+<div class="facts" aria-label="도구 요약">
+<div><b>2</b><span>지원 엔진</span></div>
+<div><b>8</b><span>교육 홍보 용도</span></div>
+<div><b>9</b><span>화면 비율</span></div>
+</div>
+</header>
+
+<main class="wrap">
+<section aria-label="입력">
+<h2 class="col-title">작업 단계</h2>
+
+<div class="card">
+<div class="step"><em>1</em><h3>아이디어</h3></div>
+<p class="desc">만들고 싶은 장면을 한국어로 편하게 적어 주세요.</p>
+<textarea id="idea" placeholder="예: 학생과 지역주민이 함께 텃밭을 가꾸며 웃는 모습"></textarea>
+<div class="chips ex" id="exChips"></div>
+</div>
+
+<div class="card">
+<div class="step"><em>2</em><h3>용도</h3></div>
+<p class="desc">고르면 화풍과 비율이 함께 맞춰집니다.</p>
+<div class="tiles" id="purpose"></div>
+</div>
+
+<div class="card">
+<div class="step"><em>3</em><h3>화풍</h3></div>
+<p class="desc">하나를 고르거나, 원하는 화풍을 직접 적으세요. 직접 적으면 그 내용이 우선합니다.</p>
+<div class="chips" id="style"></div>
+<input type="text" class="own" id="own-style" aria-label="화풍 직접 입력" placeholder="직접 입력 (예: 따뜻한 색연필 그림책 느낌)">
+</div>
+
+<div class="card">
+<div class="step"><em>4</em><h3>장면 구성</h3></div>
+<p class="desc">여러 개 고를 수 있고, 목록에 없는 내용은 각 칸에 직접 적으면 함께 들어갑니다.</p>
+<div class="group"><p class="glabel">등장인물</p><div class="chips" id="people"></div><input type="text" class="own" id="own-people" aria-label="등장인물 직접 입력" placeholder="직접 입력 (예: 방과후 강사, 급식 조리사)"></div>
+<div class="group"><p class="glabel">장소</p><div class="chips" id="place"></div><input type="text" class="own" id="own-place" aria-label="장소 직접 입력" placeholder="직접 입력 (예: 학교 텃밭, 메이커 스페이스)"></div>
+<div class="group"><p class="glabel">빛과 분위기</p><div class="chips" id="mood"></div><input type="text" class="own" id="own-mood" aria-label="빛과 분위기 직접 입력" placeholder="직접 입력 (예: 벚꽃이 흩날리는 봄날)"></div>
+<div class="group"><p class="glabel">카메라 앵글</p><div class="chips" id="camera"></div><input type="text" class="own" id="own-camera" aria-label="카메라 앵글 직접 입력" placeholder="직접 입력 (예: 드론으로 내려다본 전경)"></div>
+</div>
+
+<div class="card">
+<div class="step"><em>5</em><h3>비율과 글자</h3></div>
+<div class="chips" id="ratio" style="margin-top:12px"></div>
+<label class="switch" style="margin-top:12px"><input type="checkbox" id="noText" checked>이미지 안에 글자 넣지 않기 (권장)</label>
+<p class="hint">이미지 생성 AI는 한글을 자주 틀립니다. 제목은 완성 이미지 위에 따로 얹는 편이 안전합니다.</p>
+<div id="textBox" hidden style="margin-top:10px"><input type="text" id="headline" aria-label="이미지에 넣을 문구" placeholder="이미지에 넣을 문구 (GPT·Gemini에만 반영)"></div>
+</div>
+
+<div class="card">
+<div class="step"><em>6</em><h3>공공기관 기준</h3></div>
+<label class="switch" style="margin-top:8px"><input type="checkbox" id="safe" checked>실존 인물·로고·저작권 캐릭터·학교명·명찰 배제, 성별·연령 균형</label>
+</div>
+
+<div class="actions">
+<button class="go" id="go" type="button"><span id="goText">프롬프트 만들기</span></button>
+<button class="ghost" id="reset" type="button">초기화</button>
+</div>
+</section>
+
+<section class="out" aria-label="결과">
+<div class="ohead"><h2 class="col-title">결과</h2><span class="mode" id="modeNote"></span></div>
+<div id="outPanel">
+<article class="res"><div class="rtop"><h3>GPT · Gemini</h3><span>자연어 2~4문장</span><button type="button" class="cp" data-t="gpt">복사</button></div><pre class="code" id="o-gpt"></pre></article>
+<article class="res"><div class="rtop"><h3>Midjourney</h3><span>/imagine + 파라미터</span><button type="button" class="cp" data-t="mj">복사</button></div><pre class="code" id="o-mj"></pre></article>
+<article class="res notes"><h3>구성 설명</h3><ol id="notes"></ol></article>
+</div>
+<article class="res hist"><div class="hh"><h3>최근 기록</h3><button type="button" id="clearHist">기록 지우기</button></div><div id="hist"></div></article>
+</section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+{
+const EX = ['교육청 미래교육 정책 홍보 배너','학교 안전 캠페인 포스터','AI 디지털 교과서로 수업하는 교실','입학식을 축하하는 행사 안내','학생과 지역주민이 함께하는 마을교육','기후위기 대응 생태환경 교육'];
+const PURPOSE = [
+ {id:'banner',ko:'정책 홍보 배너',d:'가로형, 중앙 여백',style:'webtoon',ratio:'16:9',en:'a wide horizontal public policy promotional banner',comp:'wide empty space in the center for a headline, characters grouped on the left and right sides, room at the top and bottom for supporting text',tag:'wide banner composition, empty center space'},
+ {id:'poster',ko:'캠페인 포스터',d:'세로형, 상단 제목 공간',style:'webtoon',ratio:'3:4',en:'a vertical public campaign poster',comp:'one clear focal scene in the lower two thirds, open sky area at the top reserved for a title',tag:'vertical poster composition, open space at top'},
+ {id:'sns',ko:'카드뉴스 · SNS',d:'정사각, 단순 구도',style:'flat',ratio:'1:1',en:'a square social media card visual',comp:'bold simple composition, one main subject, generous margins',tag:'square card composition, bold simple layout'},
+ {id:'event',ko:'행사 안내',d:'입학·졸업·축제',style:'webtoon',ratio:'16:9',en:'a festive school event announcement visual',comp:'celebratory yet formal mood, balanced composition with space for event details',tag:'festive event visual, balanced composition'},
+ {id:'class',ko:'수업 자료 삽화',d:'설명용, 깔끔한 배경',style:'flat',ratio:'4:3',en:'a clear educational illustration for class materials',comp:'easy to understand at a glance, uncluttered plain background, key action in the center',tag:'educational illustration, clean background'},
+ {id:'press',ko:'보도자료 사진',d:'실사, 현장감',style:'photo',ratio:'3:2',en:'a realistic press photo for an education office news release',comp:'candid moment, natural expressions, subjects slightly off-center',tag:'press photo, candid moment'},
+ {id:'web',ko:'홈페이지 메인',d:'한쪽 비운 와이드',style:'cinematic',ratio:'21:9',en:'a website hero image for a school or education office',comp:'main subjects on the right third, soft open space on the left for text overlay',tag:'website hero image, open space on left'},
+ {id:'info',ko:'인포그래픽 장면',d:'아이소메트릭',style:'iso',ratio:'16:9',en:'an isometric infographic-style scene',comp:'organized zones that show a process step by step, tidy spacing between elements',tag:'isometric infographic scene, organized zones'}
+];
+const STYLE = {
+ webtoon:{ko:'한국형 웹툰풍',en:'polished Korean 2D digital promotional illustration, between refined Korean webtoon and anime style, soft clean outlines, delicate coloring with natural shading, vivid pastel colors',tag:'Korean webtoon style promotional illustration, clean outlines, soft shading, vivid pastel colors'},
+ flat:{ko:'플랫 벡터',en:'clean flat vector illustration with simple shapes, soft gradients and a modern public-sector look',tag:'flat vector illustration, simple shapes, soft gradients'},
+ clay:{ko:'3D 클레이',en:'soft 3D clay-style render with rounded friendly forms and matte materials',tag:'3D clay render, rounded forms, matte materials'},
+ water:{ko:'수채화',en:'gentle watercolor illustration with soft washes and light paper texture',tag:'watercolor illustration, soft washes, paper texture'},
+ photo:{ko:'실사 사진',en:'natural documentary photograph, realistic and candid',tag:'documentary photo, realistic, natural skin tones'},
+ cinematic:{ko:'시네마틱',en:'cinematic digital art with rich depth and hopeful light',tag:'cinematic digital art, rich depth, hopeful light'},
+ iso:{ko:'아이소메트릭 3D',en:'isometric 3D illustration like a clean miniature diorama',tag:'isometric 3D illustration, miniature diorama'}
+};
+const PEOPLE = {초등학생:'elementary school students',중고등학생:'middle and high school students in neat school uniforms',교사:'teachers',학부모:'parents',지역주민:'local community members',어르신:'elderly residents','다문화 학생':'students from multicultural backgrounds','휠체어 학생':'a student using a wheelchair','교육청 직원':'education office staff'};
+const PLACE = {'미래형 교실':'a bright future-ready classroom with smart boards and flexible seating','친환경 캠퍼스':'a modern eco-friendly school campus with solar panels and rooftop gardens',운동장:'a sunny school playground',도서관:'a modern school library',과학실:'a science lab with experiment tools','교육청 청사':'a modern education office building with a public plaza','마을 골목':'a friendly local neighborhood street','숲과 자연':'lush green nature with trees and a stream'};
+const MOOD = {'맑은 하늘':'clear blue sky with soft white clouds','아침 햇살':'bright morning sunlight','골든아워':'warm golden-hour light','실내 자연광':'soft natural indoor daylight','미래적 분위기':'subtle futuristic glow with clean high-tech details','따뜻하고 희망찬':'warm, hopeful and welcoming atmosphere'};
+const CAMERA = {'정면 와이드':['wide front-facing shot','wide shot, eye level'],'눈높이':['eye-level medium shot','eye level, medium shot'],'로우앵글':['slightly low angle that feels uplifting','low angle shot'],'하이앵글':['high-angle overview','high angle, overview'],'클로즈업':['close-up with shallow depth of field','close-up, shallow depth of field, 85mm lens']};
+const RATIO = {'16:9':'horizontal 16:9','3.5:1':'very wide horizontal 3.5:1 banner','21:9':'ultra-wide 21:9','3:2':'horizontal 3:2','4:3':'horizontal 4:3','1:1':'square 1:1','4:5':'vertical 4:5','3:4':'vertical 3:4','9:16':'vertical 9:16'};
+const MJAR = {'3.5:1':'7:2'};
+const DEF = () => ({purpose:'banner',style:'webtoon',people:new Set(['중고등학생','교사','학부모','지역주민']),place:new Set(['친환경 캠퍼스']),mood:new Set(['맑은 하늘','따뜻하고 희망찬']),camera:'정면 와이드',ratio:'16:9'});
+let S = DEF();
+const OWN = ['style','people','place','mood','camera'];
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const own = (k) => $('own-'+k).value.trim();
+let OUT = {gpt:'',mj:'',notes:[]}, aiMode = false, sample = null;
+
+const chip = (label, on, v) => `<button type="button" class="chip" aria-pressed="${on}" data-v="${esc(v??label)}">${esc(label)}</button>`;
+const draw = () => {
+  $('exChips').innerHTML = EX.map((e)=>`<button type="button" class="chip" data-ex="${esc(e)}">${esc(e)}</button>`).join('');
+  $('purpose').innerHTML = PURPOSE.map((p)=>`<button type="button" class="tile" aria-pressed="${S.purpose===p.id}" data-v="${p.id}"><b>${p.ko}</b><span>${p.d}</span></button>`).join('');
+  $('style').innerHTML = Object.entries(STYLE).map(([k,v])=>chip(v.ko,S.style===k,k)).join('');
+  $('people').innerHTML = Object.keys(PEOPLE).map((k)=>chip(k,S.people.has(k))).join('');
+  $('place').innerHTML = Object.keys(PLACE).map((k)=>chip(k,S.place.has(k))).join('');
+  $('mood').innerHTML = Object.keys(MOOD).map((k)=>chip(k,S.mood.has(k))).join('');
+  $('camera').innerHTML = Object.keys(CAMERA).map((k)=>chip(k,S.camera===k)).join('');
+  $('ratio').innerHTML = Object.keys(RATIO).map((k)=>chip(k,S.ratio===k)).join('');
+};
+
+const list = (arr) => arr.length<=1 ? (arr[0]||'') : arr.slice(0,-1).join(', ')+' and '+arr[arr.length-1];
+const cap = (s) => s.charAt(0).toUpperCase()+s.slice(1);
+
+const compose = () => {
+  const p = PURPOSE.find((x)=>x.id===S.purpose), st = STYLE[S.style];
+  const idea = $('idea').value.trim(), noText = $('noText').checked, safe = $('safe').checked, head = $('headline').value.trim();
+  const oStyle = own('style');
+  const styleEn = oStyle ? `illustration in this style: ${oStyle}` : st.en, styleTag = oStyle || st.tag;
+  const ppl = [...S.people].map((k)=>PEOPLE[k]); if (own('people')) ppl.push(own('people'));
+  const plc = [...S.place].map((k)=>PLACE[k]); if (own('place')) plc.push(own('place'));
+  const md = [...S.mood].map((k)=>MOOD[k]); if (own('mood')) md.push(own('mood'));
+  const cam = S.camera ? [...CAMERA[S.camera]] : ['balanced shot','balanced framing'];
+  if (own('camera')) { cam[0] = S.camera ? `${cam[0]}, ${own('camera')}` : own('camera'); cam[1] = S.camera ? `${cam[1]}, ${own('camera')}` : own('camera'); }
+  const ratio = RATIO[S.ratio], ar = MJAR[S.ratio]||S.ratio;
+  const who = ppl.length ? `diverse, friendly Korean ${list(ppl)} with bright natural smiles and lively, natural poses` : 'the main subject';
+  const g = [];
+  g.push(`${cap(styleEn)} for ${p.en}, featuring ${who}${idea?`, depicting this theme: ${idea}`:''}.`);
+  if (plc.length||md.length) g.push(`The scene is set in ${list(plc)||'a modern educational setting'}${md.length?`, with ${list(md)}`:''}, rich in detail but never distracting from the people and message.`);
+  g.push(`Use a ${cam[0]}, ${p.comp}.`);
+  const cons = [`Aspect ratio ${ratio}`];
+  if (noText) cons.push('no text, letters, logos or watermarks anywhere in the image');
+  else if (head) cons.push(`render only this headline, exactly as written: "${head}"`);
+  if (safe) cons.push('all people are fictional, no real persons, brand logos, copyrighted characters, school names or name tags, with a balanced mix of genders and ages');
+  g.push(cap(cons.join('; '))+'.');
+  const mjParts = [ppl.length?`diverse Korean ${ppl.join(', ')}, bright smiles`:'', idea?`theme: ${idea}`:'', plc.join(', '), styleTag, md.join(', '), cam[1], p.tag].filter(Boolean);
+  let mj = `/imagine prompt: ${mjParts.join(', ')} --ar ${ar} --s 250`;
+  const no = []; if (noText) no.push('text','letters','watermark','logo'); if (safe) no.push('brand logo','famous characters');
+  if (no.length) mj += ` --no ${[...new Set(no)].join(', ')}`;
+  const typed = [idea, ...OWN.map(own)].some((t)=>/[가-힣]/.test(t));
+  const notes = [
+    `용도 「${p.ko}」와 화풍 「${oStyle||st.ko}」을 기준으로 주제와 인물을 문장 앞에, 배경과 분위기를 뒤에 배치했습니다.`,
+    `비율은 ${S.ratio}입니다.${MJAR[S.ratio]?` Midjourney는 정수 비율만 받으므로 --ar ${ar}로 적었습니다.`:''}`,
+    noText ? '이미지 안 글자는 빼도록 지시했습니다. 제목은 완성 이미지 위에 따로 얹으세요.' : (head ? 'GPT·Gemini에는 문구를 큰따옴표로 원문 그대로 넣었습니다. Midjourney는 한글 표현이 불안정해 문구를 넣지 않았습니다.' : '글자 넣기를 켰지만 문구가 비어 있어 텍스트 지시는 넣지 않았습니다.'),
+    typed ? '직접 적은 한국어 내용은 조합 모드에서 그대로 들어갑니다. GPT·Gemini는 알아듣지만, Midjourney는 영어로 바꿔야 결과가 좋습니다(AI 연결 시 자동 번역).' : '선택한 항목을 영어 표현으로 바꿔 조합했습니다.'
+  ];
+  return {gpt:g.join(' '), mj, notes};
+};
+
+const show = (o, mode) => {
+  OUT = o;
+  $('o-gpt').textContent = o.gpt; $('o-mj').textContent = o.mj;
+  $('notes').innerHTML = (o.notes||[]).map((n)=>`<li>${esc(n)}</li>`).join('');
+  $('modeNote').textContent = mode;
+};
+const live = () => show(compose(), '선택을 바꾸면 바로 반영됩니다');
+
+const HK = 'edu-prompt-history-v2';
+const loadH = () => { try { return JSON.parse(localStorage.getItem(HK)||'[]'); } catch(e) { return []; } };
+const saveH = (h) => { try { localStorage.setItem(HK, JSON.stringify(h.slice(0,12))); } catch(e) {} };
+const drawH = () => {
+  const h = loadH();
+  $('hist').innerHTML = h.length ? h.map((x,i)=>`<button type="button" class="hitem" data-i="${i}"><span>${esc(x.title)}</span><time>${esc(x.at)}</time></button>`).join('') : '<p class="empty">프롬프트를 만들면 여기에 쌓입니다. 이 브라우저에만 저장됩니다.</p>';
+};
+const pushH = (o) => {
+  const d = new Date(), at = `${d.getMonth()+1}. ${d.getDate()}. ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  const title = $('idea').value.trim() || PURPOSE.find((x)=>x.id===S.purpose).ko;
+  const h = loadH(); h.unshift({title, at, o}); saveH(h); drawH();
+};
+const toast = (m) => { const t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2300); };
+
+const ask = async () => {
+  const o = compose();
+  const sel = {
+    idea: $('idea').value.trim(), purpose: PURPOSE.find((x)=>x.id===S.purpose).ko,
+    style: own('style') || STYLE[S.style].ko,
+    people: [...S.people, own('people')].filter(Boolean), place: [...S.place, own('place')].filter(Boolean),
+    mood: [...S.mood, own('mood')].filter(Boolean), camera: [S.camera, own('camera')].filter(Boolean), ratio: S.ratio,
+    text_in_image: $('noText').checked ? 'none' : ($('headline').value.trim()||'none'), public_safety: $('safe').checked
+  };
+  const prompt = `당신은 최고의 AI 이미지 프롬프트 엔지니어다. 한국 교육청·학교 등 공공기관 홍보물에 쓸 이미지 프롬프트를 만든다.
+[작성 규칙]
+1. 원본 의도 보존: 사용자의 핵심 주제와 동작을 왜곡하지 말고 구체적인 세부 묘사를 점진적으로 확장한다.
+2. 5대 요소 결합: Subject(구체적 명사·재질·형태·인물 디테일), Setting(배경·장소·시간대·공간 깊이), Style(단일 화풍), Details(조명 방향·무드·카메라 앵글·렌즈·심도), Constraints(화면 비율, 불필요한 텍스트 제거).
+3. 중요한 피사체 정체성과 형태를 문장 앞쪽에, 분위기·배경은 뒤쪽에 둔다.
+4. 프롬프트는 영어로 쓰고, 한국어로 입력된 항목은 자연스러운 영어로 옮긴다. 설명(notes_ko)은 한국어 3~5개 문장으로 쓴다.
+5. 공공기관 기준: public_safety가 true면 실존 인물·로고·저작권 캐릭터·학교명·명찰을 배제하고 성별·연령 균형을 지시한다. 인물은 한국인으로 묘사한다.
+6. text_in_image가 none이면 이미지 속 글자를 금지한다. 문구가 있으면 GPT/Gemini 프롬프트에만 큰따옴표로 원문 그대로 넣고, 문구를 바꾸거나 새로 지어내지 않는다.
+[출력 형식] 아래 키만 가진 JSON 하나만 출력한다.
+{"gpt": "2~4문장 영어 자연어 프롬프트", "mj": "/imagine prompt: 핵심 명사구, 스타일, 조명 묘사 --ar 비율 --s 250 (3.5:1은 --ar 7:2, 글자 금지 시 --no text, letters, watermark, logo 추가)", "notes_ko": ["...", "..."]}
+[사용자 선택]
+${JSON.stringify(sel)}
+[참고: 규칙 기반 초안]
+${o.gpt}`;
+  const v = await sample.json(prompt, {modelTier:'default'});
+  if (!v || !v.gpt) throw new Error('empty');
+  return {gpt:v.gpt, mj:v.mj||o.mj, notes:Array.isArray(v.notes_ko)?v.notes_ko:o.notes};
+};
+
+const toggleSet = (set, v) => set.has(v) ? set.delete(v) : set.add(v);
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const box = b.parentElement && b.parentElement.id;
+  if (b.dataset.ex) { $('idea').value = b.dataset.ex; live(); return; }
+  if (box==='purpose') { const p = PURPOSE.find((x)=>x.id===b.dataset.v); S.purpose=p.id; S.style=p.style; S.ratio=p.ratio; draw(); live(); return; }
+  if (box==='style') { S.style=b.dataset.v; $('own-style').value=''; draw(); live(); return; }
+  if (box==='people'||box==='place'||box==='mood') { toggleSet(S[box], b.dataset.v); draw(); live(); return; }
+  if (box==='camera') { S.camera = S.camera===b.dataset.v ? '' : b.dataset.v; draw(); live(); return; }
+  if (box==='ratio') { S.ratio=b.dataset.v; draw(); live(); return; }
+  if (b.classList.contains('cp')) {
+    const text = OUT[b.dataset.t]; let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (err) {
+      const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select();
+      try { ok = document.execCommand('copy'); } catch (e2) {} ta.remove();
+    }
+    if (ok) { b.classList.add('ok'); b.textContent='복사 완료'; setTimeout(()=>{b.classList.remove('ok'); b.textContent='복사';},1600); toast('복사했습니다. 이미지 생성 AI에 붙여 넣으세요.'); }
+    else toast('복사가 막혔습니다. 프롬프트를 드래그해 직접 복사해 주세요.');
+    return;
+  }
+  if (b.classList.contains('hitem')) { const x = loadH()[+b.dataset.i]; if (x) { show(x.o, `기록 불러옴 · ${x.at}`); toast('기록을 불러왔습니다.'); } }
+});
+
+const setStatus = () => {
+  $('status').classList.toggle('ai', aiMode);
+  $('statusText').textContent = aiMode ? 'AI 연결됨 · 한국어 입력을 영어로 다듬습니다' : '조합 모드 · AI 없이 즉시 생성';
+  $('goText').textContent = aiMode ? 'AI로 프롬프트 만들기' : '프롬프트 만들기';
+};
+
+$('go').addEventListener('click', async () => {
+  if (!aiMode) { const o = compose(); show(o,'조합 모드로 완성했습니다'); pushH(o); toast('프롬프트를 만들었습니다.'); return; }
+  const panel = $('outPanel'); $('go').disabled = true; $('goText').textContent = 'AI가 다듬는 중…'; panel.classList.add('busy');
+  try { const o = await ask(); show(o,'AI가 다듬은 프롬프트입니다'); pushH(o); toast('AI가 프롬프트를 완성했습니다.'); }
+  catch (err) {
+    const o = compose(); show(o,'AI 응답을 받지 못해 조합 모드로 만들었습니다'); pushH(o);
+    if (err && err.code==='not_granted') { aiMode=false; }
+    toast(err && err.code==='rate_limited' ? '요청이 많습니다. 잠시 뒤 다시 시도하세요.' : 'AI 연결이 안 돼 조합 모드로 만들었습니다.');
+  } finally { $('go').disabled=false; panel.classList.remove('busy'); setStatus(); }
+});
+
+$('reset').addEventListener('click', () => {
+  $('idea').value=''; $('headline').value=''; $('noText').checked=true; $('safe').checked=true; $('textBox').hidden=true;
+  for (const k of OWN) $('own-'+k).value='';
+  S = DEF(); draw(); live(); toast('처음 상태로 되돌렸습니다.');
+});
+$('noText').addEventListener('change', () => { $('textBox').hidden = $('noText').checked; live(); });
+for (const id of ['idea','headline', ...OWN.map((k)=>'own-'+k)]) $(id).addEventListener('input', live);
+$('safe').addEventListener('change', live);
+$('clearHist').addEventListener('click', () => { saveH([]); drawH(); toast('기록을 지웠습니다.'); });
+
+draw(); live(); drawH(); setStatus();
+if (window.claude && claude.use) claude.use('sample').then((s) => { sample = s; aiMode = !!s; setStatus(); }).catch(()=>{});
+}
+</script>
+</body>
+</html>
