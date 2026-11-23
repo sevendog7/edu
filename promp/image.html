@@ -49,8 +49,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 @media(max-width:720px){.logo p,.status .lbl{display:none}}
 
 /* layout */
-.shell{max-width:1480px;margin:0 auto;padding:20px max(3vw,16px) 96px;display:grid;grid-template-columns:200px minmax(0,1fr) minmax(0,520px);gap:24px;align-items:start}
-@media(max-width:1200px){.shell{grid-template-columns:minmax(0,1fr) minmax(0,460px)}.rail{grid-column:1/-1}}
+.shell{max-width:1120px;margin:0 auto;padding:20px max(3vw,16px) 64px;display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;align-items:start}
 @media(max-width:960px){.shell{grid-template-columns:minmax(0,1fr)}}
 
 /* step rail */
@@ -63,7 +62,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .rail a.done .no{background:var(--primary-solid);border-color:var(--primary-solid);color:#fff}
 .rail .no svg{width:14px;height:14px;stroke-width:2.6}
 .rail .help{margin:16px 4px 0;font-size:12.5px;color:var(--muted);line-height:1.55}
-@media(max-width:1200px){
+@media(max-width:960px){
  .rail{top:65px;z-index:15;margin:-8px 0 0;padding:6px;border:1px solid var(--border);border-radius:16px;background:var(--surface);backdrop-filter:blur(14px)}
  .rail ol{flex-direction:row;overflow-x:auto;scrollbar-width:none}
  .rail a{white-space:nowrap}.rail .help{display:none}}
@@ -89,7 +88,7 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 .ex{margin-top:12px}
 .ex .chip{min-height:36px;font-size:13px;color:var(--muted);background:transparent;border-style:dashed}
 .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-@media(max-width:1380px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1080px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tile{text-align:left;padding:14px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--solid);min-height:76px;display:flex;flex-direction:column;gap:6px;transition:border-color var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
 .tile svg{color:var(--primary)}
 .tile b{font-size:15px;font-weight:700}
@@ -138,8 +137,7 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 .switch small{display:block;font-size:13px;color:var(--muted);margin-top:2px}
 
 /* console */
-.console{position:sticky;top:84px;border-radius:24px;background:var(--console);color:var(--console-fg);border:1px solid #2b2846;box-shadow:0 30px 60px -30px rgba(46,16,101,.65);overflow:hidden}
-@media(max-width:960px){.console{position:static}}
+.console{position:relative;border-radius:24px;background:var(--console);color:var(--console-fg);border:1px solid #2b2846;box-shadow:0 30px 60px -30px rgba(46,16,101,.65);overflow:hidden}
 .c-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--console-line);background:linear-gradient(180deg,#16142a,transparent)}
 .dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#3a3658}
 .c-title{font:600 14px var(--display);color:var(--console-fg)}
@@ -182,7 +180,7 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 .empty{font-size:14px;color:var(--muted);margin:4px 2px}
 
 /* action bar */
-.actionbar{position:sticky;bottom:12px;z-index:12;display:flex;gap:10px;padding:10px;border-radius:18px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(16px);box-shadow:0 18px 40px -20px rgba(76,29,149,.55)}
+.actionbar{position:relative;margin-bottom:8px;display:flex;gap:10px;padding:10px;border-radius:18px;border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(16px);box-shadow:0 18px 40px -20px rgba(76,29,149,.55)}
 .go{flex:1 1 220px;min-height:52px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--primary-solid),var(--secondary));color:#fff;font-weight:700;font-size:16px;display:inline-flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 24px -12px var(--primary-solid);transition:transform var(--t-fast),filter var(--t-fast)}
 .go:hover{filter:brightness(1.07);transform:translateY(-1px)}
 .go .kbd{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff}
@@ -196,6 +194,11 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 .ghost{min-height:52px;padding:0 14px;border-radius:13px;border:1px solid var(--border);background:var(--solid);font-weight:500;display:inline-flex;align-items:center;gap:6px}
 @media(max-width:560px){.ghost .lbl{display:none}.go .kbd{display:none}}
 
+.flow{display:flex;justify-content:center;margin:2px 0 10px;color:var(--primary)}
+.flow svg{width:22px;height:22px}
+.result{scroll-margin-top:84px}
+.flow-h{margin:8px 0 12px}
+.code{max-height:none}
 .ai[hidden]{display:none}
 .rail li{flex:none}
 .ai,.go,.ghost{white-space:nowrap}
@@ -239,7 +242,7 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 <div class="shell">
 <nav class="rail" aria-label="작업 단계">
 <ol id="rail"></ol>
-<p class="help">선택을 바꿀 때마다 오른쪽 콘솔이 바로 갱신됩니다. 마음에 들면 복사해서 이미지 생성 AI에 붙여 넣으세요.</p>
+<p class="help">위에서부터 차례로 고른 뒤 '프롬프트 만들기'를 누르면, 바로 아래 결과 창에서 확인하고 복사할 수 있습니다.</p>
 </nav>
 
 <main>
@@ -298,9 +301,9 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 <button class="ai" id="aiBtn" type="button" hidden><svg class="i"><use href="#i-spark"/></svg><span id="aiText">AI로 다듬기</span></button>
 <button class="ghost" id="reset" type="button" aria-label="초기화"><svg class="i"><use href="#i-reset"/></svg><span class="lbl">초기화</span></button>
 </div>
-</main>
-
-<aside aria-label="결과">
+<div class="flow" aria-hidden="true"><svg class="i"><use href="#i-chev"/></svg></div>
+<section id="s-result" class="result" aria-labelledby="h-result">
+<div class="mh flow-h"><span class="ic"><svg class="i"><use href="#i-copy"/></svg></span><h2 id="h-result">결과 확인 · 복사</h2></div>
 <div class="console" id="console">
 <div class="c-head"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="c-title">출력 콘솔</span><span class="c-mode" id="modeNote" aria-live="polite"></span></div>
 <div class="c-tabs" role="tablist" aria-label="엔진 선택">
@@ -320,7 +323,10 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--primary)
 <div class="notes"><h3>구성 설명</h3><ul id="notes"></ul></div>
 </div>
 <div class="mod hist"><div class="hh"><h3>최근 기록</h3><button type="button" class="linkbtn" id="clearHist">기록 지우기</button></div><div id="hist"></div></div>
-</aside>
+</section>
+</main>
+
+
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -454,13 +460,13 @@ const PURPOSE = [
 ];
 
 
-const STEPS = [['s-idea','아이디어'],['s-purpose','용도'],['s-style','화풍'],['s-scene','장면 구성'],['s-output','비율 · 화질'],['s-rule','글자 · 기준']];
+const STEPS = [['s-idea','아이디어'],['s-purpose','용도'],['s-style','화풍'],['s-scene','장면 구성'],['s-output','비율 · 화질'],['s-rule','글자 · 기준'],['s-result','결과 · 복사']];
 
 const fromPurpose = (p) => ({purpose:p.id,style:p.style,ratio:p.ratio,qual:p.qual,detail:p.detail,
   people:new Set(p.scene.people),place:new Set(p.scene.place),time:new Set(p.scene.time),mood:new Set(p.scene.mood),
   angle:p.scene.angle,shot:p.scene.shot,palette:'용도 기본',comp:'용도 기본'});
 let S = fromPurpose(PURPOSE[0]);
-let styleTab = '전체', eng = 'gpt', touched = new Set();
+let styleTab = '전체', eng = 'gpt', touched = new Set(), generated = false;
 const OWN = ['style','people','place','time','mood','angle'];
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -527,7 +533,7 @@ const draw = () => {
   const idea = $('idea').value;
   $('ideaCount').textContent = `${idea.length}/300`;
   /* rail completion */
-  const done = {'s-idea':!!idea.trim(),'s-purpose':true,'s-style':true,'s-scene':touched.has('scene'),'s-output':touched.has('output'),'s-rule':touched.has('rule')};
+  const done = {'s-idea':!!idea.trim(),'s-purpose':true,'s-style':true,'s-scene':touched.has('scene'),'s-output':touched.has('output'),'s-rule':touched.has('rule'),'s-result':generated};
   for (const a of document.querySelectorAll('#rail a')) {
     const d = done[a.dataset.step], no = a.querySelector('.no');
     a.classList.toggle('done', !!d);
@@ -667,7 +673,7 @@ ${o.gpt}`;
 };
 
 /* ---------- events ---------- */
-const generate = () => { const o = compose(); show(o,'조합 모드로 완성'); pushH(o); toast('프롬프트를 만들었습니다. 복사해서 붙여 넣으세요.'); if (innerWidth<=960) goTo('console'); };
+const generate = () => { const o = compose(); show(o,'조합 모드로 완성'); pushH(o); generated = true; draw(); toast('프롬프트를 만들었습니다. 복사해서 붙여 넣으세요.'); goTo('s-result'); };
 const goTo = (id) => {
   const el = $(id); if (!el) return;
   if (el.tagName==='DETAILS') { el.open = true; }
@@ -720,7 +726,7 @@ $('copyAll').addEventListener('click', async () => {
 $('aiBtn').addEventListener('click', async () => {
   if (!sample) return;
   const c = $('console'); $('aiBtn').disabled = true; $('go').disabled = true; $('aiText').textContent = '다듬는 중…'; c.classList.add('busy'); $('modeNote').textContent='AI가 다듬는 중';
-  try { const o = await ask(); show(o,'AI가 다듬음'); pushH(o, true); toast('AI가 프롬프트를 다듬었습니다.'); }
+  try { const o = await ask(); show(o,'AI가 다듬음'); pushH(o, true); generated = true; draw(); goTo('s-result'); toast('AI가 프롬프트를 다듬었습니다.'); }
   catch (err) {
     if (err && err.code==='not_granted') { sample=null; }
     $('modeNote').textContent='이전 결과 유지';
@@ -731,7 +737,7 @@ $('reset').addEventListener('click', () => {
   $('idea').value=''; $('headline').value=''; $('noText').checked=true; $('safe').checked=true; $('textBox').hidden=true;
   for (const el of document.querySelectorAll('input[type=text], input[type=search]')) el.value='';
   for (const d of document.querySelectorAll('details.acc')) d.open=false;
-  S = fromPurpose(PURPOSE[0]); styleTab='전체'; touched = new Set(); update(); toast('처음 상태로 되돌렸습니다.');
+  S = fromPurpose(PURPOSE[0]); styleTab='전체'; touched = new Set(); generated = false; update(); window.scrollTo({top:0}); toast('처음 상태로 되돌렸습니다.');
 });
 for (const [id,key] of [['ratioSel','ratio'],['qualSel','qual'],['detailSel','detail']]) $(id).addEventListener('change', (e) => { S[key]=e.target.value; touched.add('output'); update(); });
 $('noText').addEventListener('change', () => { $('textBox').hidden = $('noText').checked; touched.add('rule'); update(); });
