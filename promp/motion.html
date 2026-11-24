@@ -6,7 +6,7 @@
 <title>모션·UI 레퍼런스</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700&family=Jua&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700&family=Jua&family=Gaegu:wght@700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 /* VOICE: 실무자용 효과 사전. 차분하고 정확하게, 데모가 주인공
    IDEA: 디자이너의 견본첩(스와치북). 한 장마다 효과 하나, 시연과 주문서(프롬프트)가 붙어 있음
@@ -164,6 +164,25 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
 .links{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:14px;margin:-6px 0 14px}
 .combo .pr{border:0;padding:0}
 .combo ol{margin:0;padding-left:20px;color:var(--mut);font-size:14px}
+/* UI·UX 디자인 */
+.uxgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:18px}
+.ux{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 24px rgba(15,23,42,.06)}
+.ux .uh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.ux .heart{margin:0;flex:none}
+.ux .cat{font-size:12px;font-weight:900;color:var(--acc)}
+.ux h3{margin:2px 0 0;font-size:17px;line-height:1.35}.ux h3 em{display:block;font-style:normal;font-weight:500;color:var(--mut);font-size:13px}
+.ux p.d{margin:0;color:var(--mut);font-size:13.5px}
+.ux .en{display:block;max-height:calc(4.8em + 24px);overflow:hidden;width:100%;text-align:start;border:0;color:inherit;cursor:pointer;position:relative;margin:0;font:13px/1.6 "IBM Plex Mono",ui-monospace,monospace;background:var(--stage);border-radius:10px;padding:12px;overflow-wrap:anywhere}
+.ux .neg{margin:0;font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}.ux .neg b{color:#c2410c;margin-right:4px}
+.ux .acts{margin-top:auto}
+.ux .en:hover{outline:1px solid var(--line)}
+.ux .en::after{content:"전체 보기 ▾";position:absolute;right:8px;bottom:6px;z-index:1;padding:0 6px;border-radius:6px;background:var(--stage);color:var(--acc);font:700 12px/1.6 "Noto Sans KR",sans-serif}
+.ux .en[aria-expanded=false]::before{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(transparent,var(--stage) 80%);pointer-events:none}
+.ux .en[aria-expanded=true]{max-height:none;padding-bottom:30px}
+.ux .en[aria-expanded=true]::after{content:"접기 ▴"}
+.exl{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:13px}.exl span{color:var(--mut)}.exl a{min-height:32px;display:inline-flex;align-items:center;font-weight:700;text-decoration:none}.exl a:hover{text-decoration:underline}
+.pc{min-height:44px;flex:1;border:0;border-radius:12px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:900;cursor:pointer}
+.pc:hover{opacity:.88}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:sticky;z-index:5;height:auto;flex-direction:row;align-items:center;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);background:var(--bg);overflow-x:auto}.brand{margin:0 8px 0 0;font-size:0;gap:0}.nav-h,.side-note{display:none}.nav{display:flex;gap:4px}.nav a{flex:none;gap:8px;white-space:nowrap}html{scroll-padding-top:76px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.mq>div,.sh,.gl::before,.gl::after{animation-duration:30s}}
 </style>
@@ -174,16 +193,23 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
   <div class="brand"><i></i>모션 사전</div>
   <div class="nav-h">카테고리</div>
   <nav class="nav" id="nav"></nav>
-  <p class="side-note">효과는 프롬프트와 코드를 각각 복사할 수 있습니다. 폰트 링크는 눈누 상세 페이지로 연결됩니다.</p>
+  <p class="side-note">효과는 프롬프트와 코드를 각각 복사할 수 있습니다. 폰트 링크는 눈누와 각 배포처로 연결됩니다.</p>
 </aside>
 <main>
   <div class="top">
     <div>
-      <h1>UI 모션·효과·폰트 레퍼런스</h1>
-      <p class="lead">화면을 만들 때 필요한 텍스트 모션, 입력 컨트롤, 커서 인터랙션을 직접 움직여 보고, 프롬프트나 코드를 그대로 복사해 쓰는 사전입니다.</p>
-    </div>
-    <input class="search" id="q" type="search" placeholder="효과 이름으로 찾기 (예: 마스크, 토글)" aria-label="효과 검색">
+      <h1>UI·UX·모션·폰트 레퍼런스</h1>
+      <p class="lead">UI·UX 디자인 스타일, 텍스트 모션, 입력 컨트롤, 커서 인터랙션, 무료 폰트를 직접 보고 움직여 본 뒤, 프롬프트나 코드를 그대로 복사해 쓰는 사전입니다.</p>
+      <input class="search" id="q" type="search" placeholder="효과 이름으로 찾기 (예: 마스크, 토글)" aria-label="효과 검색">
   </div>
+  </div>
+  
+  <section id="uiux">
+    <h2>UI·UX 디자인 <small>13</small></h2>
+    <p class="sdesc">화면 시안과 디자인 이미지를 만들 때 쓰는 스타일 프롬프트입니다. 주제, 구도, 색상 코드, 조명, 질감, 비율을 모두 담았고 스타일마다 제외 프롬프트(Negative)를 붙였습니다. 프롬프트 상자를 누르면 전체 내용이 펼쳐지고, 예시 보기 링크를 누르면 해당 스타일의 작품 검색 결과가 새 창에서 열립니다.</p>
+    <div class="sbar" style="display:flex;margin-bottom:16px"><input class="inp" id="uxsub" style="flex:1" placeholder="그릴 주제를 영어로 적으면 모든 프롬프트 맨 앞에 들어갑니다 (예: A school library app). 비워 두면 스타일별 예시 주제가 들어갑니다." aria-label="프롬프트 주제"></div>
+    <div class="uxgrid" id="uxgrid"></div>
+  </section>
   <div id="sections"></div>
   <section id="combos">
     <h2>조합 예시 <small>04</small></h2>
@@ -192,12 +218,13 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
   </section>
   <section id="fonts">
     <h2>무료 폰트 <small id="fcount"></small></h2>
-    <p class="sdesc">눈누 인기 무료 폰트입니다. 버튼을 누르면 눈누 상세 페이지에서 내려받을 수 있습니다.</p>
+    <p class="sdesc">눈누 인기 무료 폰트 24종과 공유마당 인기글꼴 TOP20입니다. 버튼을 누르면 눈누 상세 페이지나 각 배포처에서 내려받을 수 있습니다.</p>
     <div class="links">
       <a href="https://noonnu.cc/index" target="_blank" rel="noopener">눈누 전체 목록 ↗</a>
       <a href="https://noonnu.cc/index?tag=%EC%A0%9C%EB%AA%A9%EC%9A%A9" target="_blank" rel="noopener">제목용 태그 ↗</a>
       <a href="https://noonnu.cc/index?tag=%EA%B8%B0%EB%B3%B8+%EA%B3%A0%EB%94%95" target="_blank" rel="noopener">기본 고딕 태그 ↗</a>
       <a href="https://noonnu.cc/index?tag=English" target="_blank" rel="noopener">영문 폰트 태그 ↗</a>
+      <a href="https://gongu.copyright.or.kr/gongu/bbs/B0000018/list.do?menuNo=200001&amp;bbsSeCd=01" target="_blank" rel="noopener">공유마당 인기글꼴 TOP20 ↗</a>
     </div>
     <div class="fbar">
       <input class="inp" id="ftext" placeholder="미리 볼 문구를 입력하세요" aria-label="미리보기 문구">
@@ -205,11 +232,12 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
     </div>
     <div class="chips" id="fchips"></div>
     <div class="fgrid" id="fgrid"></div>
-    <p class="note">미리보기는 구글 폰트로 제공되는 주아체·본고딕만 실제 글꼴로 표시하고, 나머지는 기본 글꼴로 보여 줍니다. 실제 모양과 상업적 이용 범위(라이선스)는 폰트마다 다르므로 눈누 상세 페이지에서 확인하세요. 분류는 참고용이며 목록 기준일은 2026. 11. 24.입니다.</p>
+    <p class="note">미리보기는 구글 폰트로 제공되는 주아체·본고딕·본명조만 실제 글꼴로 표시하고, 나머지는 기본 글꼴로 보여 줍니다. 공유마당 TOP20은 매월 1일 갱신되며, 일부는 공유마당이 아닌 제작 기관 사이트에서 내려받습니다. 실제 모양과 상업적 이용 범위(라이선스)는 폰트마다 다르므로 각 배포 페이지에서 확인하세요. 분류는 참고용이며 목록 기준일은 2026. 11. 24.입니다.</p>
   </section>
 </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
+
 <script>
 {
 const CATS=[
@@ -405,7 +433,7 @@ const COMBOS=[
  {n:'참가 신청서',u:['라벨','플레이스홀더','입력 마스크','토글 스위치'],p:'신청서 입력칸마다 위에 라벨을 두고 안에는 예시 문구를 넣어줘. 전화번호는 하이픈이 자동으로 들어가게 하고, 맨 아래 문자 알림 수신은 토글 스위치로 만들어줘.'},
  {n:'사업 소개 카드 목록',u:['틸트 카드','커서 라벨','리플'],p:'사업 소개 카드는 커서 방향으로 살짝 기울고, 카드 위에서는 커서가 "자세히 보기" 라벨로 바뀌게 해줘. 카드를 누르면 누른 자리에서 물결이 퍼지게.'}];
 
-const FONTS=[
+const NOONNU=[
  ['프리텐다드','길형진 (orioncactus)',694,'고딕'],['페이퍼로지','이주임 X 김도균',1456,'고딕'],['G마켓 산스','G마켓',366,'고딕'],
  ['여기어때 잘난체','여기어때컴퍼니',115,'제목용'],['메모먼트 꾹꾹체','메모먼트',1663,'손글씨'],['에스코어드림','S-Core',223,'고딕'],
  ['느좋체','AI올컷',1966,'기타'],['빗썸고딕 Original','빗썸',1978,'고딕'],['프리젠테이션','이주임',1369,'고딕'],
@@ -414,8 +442,30 @@ const FONTS=[
  ['카페24 써라운드','Cafe24',669,'제목용'],['나눔스퀘어','네이버',37,'고딕'],['마루 부리','네이버',487,'명조·궁서'],
  ['온글잎 박다현체','온글잎',1541,'손글씨'],['조선굴림체','조선일보',415,'고딕'],['떡상체','AI올컷',1993,'기타'],
  ['조선궁서체','조선일보',416,'명조·궁서'],['본고딕 (Source Han Sans)','Google X Adobe',34,'고딕'],['주아체','우아한형제들',53,'제목용']];
-const GF={'주아체':'"Jua"','본고딕 (Source Han Sans)':'"Noto Sans KR"'};
-const SERIF=new Set(['부크크 명조','마루 부리','조선궁서체']);
+const GONGU=[
+ ['학교안심 포스터 B','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13383120&menuNo=200195','기타'],
+ ['학교안심 어항꾸미기 B','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13383113&menuNo=200195','기타'],
+ ['문화체육관광부 바탕체','문화체육관광부·세종대왕기념사업회','http://sejongkorea.org/main/sub.html?Mode=view&boardID=www102&num=597&page=0&keyfield=&key=&bCate=','명조·궁서'],
+ ['바뚜보루희망체','사회복지법인 가정복지회','https://www.fwa.or.kr/freefont/freefont_04.html','기타'],
+ ['학교안심 칠판지우개 B','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13372636&menuNo=200195','기타'],
+ ['학교안심 날개 R','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13383101&menuNo=200195','기타'],
+ ['광복 이은숙체','기념사업위원회·이화영기념관','https://korea815.go.kr/kor/contents/40','기타'],
+ ['문화체육관광부 훈민정음체','문화체육관광부·세종대왕기념사업회','http://sejongkorea.org/main/sub.html?Mode=view&boardID=www102&num=597&page=0&keyfield=&key=&bCate=','기타'],
+ ['교보 손글씨 2019','교보문고','https://store.kyobobook.co.kr/handwriting/font','손글씨'],
+ ['학교안심 시간표 R','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13383112&menuNo=200195','기타'],
+ ['본명조 (Noto Serif KR)','Google·Adobe','https://fonts.google.com/noto/specimen/Noto+Serif+KR','명조·궁서'],
+ ['문화재돌봄체 B','문화재청','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13288426&menuNo=200195','기타'],
+ ['다문화가정함께체','사회복지법인 가정복지회','https://www.fwa.or.kr/freefont/freefont_04.html','기타'],
+ ['김제시체','김제시','https://www.gimje.go.kr/index.gimje?menuCd=DOM_000000101004002000','기타'],
+ ['문화체육관광부 쓰기 정체','문화체육관광부·세종대왕기념사업회','http://sejongkorea.org/main/sub.html?Mode=view&boardID=www102&num=597&page=0&keyfield=&key=&bCate=','기타'],
+ ['본고딕 (Noto Sans KR)','Google·Adobe','https://fonts.google.com/noto/specimen/Noto+Sans+KR','고딕'],
+ ['학교안심 떡볶이 B','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13383102&menuNo=200195','기타'],
+ ['학교안심 오카리나 R','한국교육학술정보원','https://gongu.copyright.or.kr/gongu/wrt/wrt/view.do?wrtSn=13383114&menuNo=200195','기타'],
+ ['쿠키런','데브시스터즈','https://www.cookierunfont.com/','제목용'],
+ ['디자인하우스체','디자인하우스','https://www.designhouse.co.kr/service/dhfont','기타']];
+const FONTS=NOONNU.map(([n,m,id,k])=>({n,m,k,src:'눈누',url:'https://noonnu.cc/font_page/'+id})).concat(GONGU.map(([n,m,url,k],i)=>({n,m,k,src:'공유마당',url,rank:i+1})));
+const GF={'주아체':'"Jua"','본고딕 (Source Han Sans)':'"Noto Sans KR"','본고딕 (Noto Sans KR)':'"Noto Sans KR"','본명조 (Noto Serif KR)':'"Noto Serif KR"'};
+const SERIF=new Set(['부크크 명조','마루 부리','조선궁서체','문화체육관광부 바탕체']);
 
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -433,7 +483,7 @@ async function copy(t,label){
 }
 
 /* 내비게이션 */
-const navItems=CATS.map(c=>[c.id,c.name,FX.filter(f=>f.c===c.id).length]).concat([['combos','조합 예시',COMBOS.length],['fonts','무료 폰트',FONTS.length]]);
+const navItems=[['uiux','UI·UX 디자인',13]].concat(CATS.map(c=>[c.id,c.name,FX.filter(f=>f.c===c.id).length]).concat([['combos','조합 예시',COMBOS.length],['fonts','무료 폰트',FONTS.length]]));
 $('#nav').innerHTML=navItems.map(([id,n,k])=>'<a href="#'+id+'" data-id="'+id+'">'+n+'<span>'+String(k).padStart(2,'0')+'</span></a>').join('');
 
 /* 효과 카드 */
@@ -448,6 +498,67 @@ $('#sections').innerHTML=CATS.map(c=>{
     '<div class="acts"><button class="cp pri" data-cp="p" data-i="'+i+'">프롬프트 복사</button><button class="cp" data-cp="k" data-i="'+i+'">코드 복사</button></div></article>'}).join('')+'</div></section>'}).join('');
 
 $('#comboGrid').innerHTML=COMBOS.map((c,i)=>'<article class="card combo"><h3>'+c.n+'</h3><ol>'+c.u.map(u=>'<li>'+u+'</li>').join('')+'</ol><div class="pr">'+esc(c.p)+'</div><div class="acts"><button class="cp pri" data-cb="'+i+'">프롬프트 복사</button></div></article>').join('');
+
+const UX=[
+{id:'grid',c:'기술·도식',n:'모듈러 블루 그리드',e:'Modular Grid / Blue Accents',ds:'A school administration dashboard redesign',k:'12열 그리드·간격 수치, 색상 코드, 히어로 카드, 화면 정면 구도',
+ p:'{S}, presented as a modern UI portfolio case study layout. Strict 12-column modular grid with consistent 24px gutters, every element snapped to the grid. Minimal pure white background (#FFFFFF), cards in cobalt blue (#2F5BEA) and pale blue (#E8EEFF) with 12px rounded corners, one large hero card highlighting the key result. Crisp geometric sans-serif UI typography with clear hierarchy, small labels and bold metric numbers. Flat front-facing screen design, generous whitespace, pixel-perfect alignment, professional UX case study presentation, high resolution, 16:9 aspect ratio.',
+ x:'3D perspective, clutter, heavy gradients, drop shadows, stock photos, distorted text, watermark'},
+{id:'modux',c:'그래픽',n:'모던 UX 포트폴리오',e:'Modern UI/UX Portfolio',ds:'A personal UI/UX designer portfolio',k:'세리프 대비, 그림자 수치, 배경·글자 색상, 브라우저 프레임',
+ p:'{S}, as a modern UI/UX portfolio landing page. A huge elegant high-contrast serif headline filling the top third, refined editorial layout, a minimalist card grid below with soft diffuse shadows, off-white background (#F7F7F5), near-black text (#111111) and one muted accent color. Thin divider lines, ample negative space, precise alignment, shown inside a clean desktop browser frame, straight-on view, editorial design style, high resolution, 16:9 aspect ratio.',
+ x:'busy background, neon colors, 3D objects, clip art, cluttered layout, low resolution, watermark'},
+{id:'editux',c:'콘셉트',n:'에디토리얼 UX 리디자인',e:'Editorial UX / Redesign',ds:'A civil complaint web service redesign',k:'전후 비교, 기기 목업, 주석·지시선, 잡지형 비대칭 구성',
+ p:'{S}, shown as an editorial UX redesign case study spread. Large serif titles with tight leading, magazine-style asymmetric layout, a before-and-after comparison of clean white UI cards, laptop and smartphone mockups floating with subtle shadows, annotation callouts and thin rule lines explaining key changes. Neutral white and light gray palette with a single blue accent, soft daylight, professional portfolio presentation, high resolution, 16:9 aspect ratio.',
+ x:'dark theme, cluttered screens, unreadable tiny UI, heavy shadows, photorealistic people, watermark'},
+{id:'doodle',c:'회화·드로잉',n:'낙서 노트',e:'Doodle / Notebook',ds:'Brainstorming ideas for a school event',k:'펜 압력 표현, 아이콘 종류, 5mm 모눈, 위에서 내려다본 구도',
+ p:'{S}, explained as hand-drawn doodles on grid notebook paper, top-down flat lay. Blue ballpoint pen ink with visible pressure variation, messy arrows connecting ideas, light bulb, star and checkmark icons, circled keywords, handwritten notes in the margins and a few cross-outs. White paper with a light blue 5mm grid, high contrast, natural even lighting, subtle paper texture, authentic sketchbook feel, 16:9 aspect ratio.',
+ x:'color pencils, digital vector look, perfect straight lines, 3D, photorealistic objects, watermark'},
+{id:'flat',c:'그래픽',n:'플랫 일러스트',e:'Flat Illustration / Memphis',ds:'Teachers and students collaborating in a classroom',k:'멤피스 장식 종류, 파스텔 색상 코드, 5색 제한, 초점 구성',
+ p:'{S}, in a modern flat vector illustration, corporate style. Simple geometric characters and objects, Memphis design accents such as squiggles, dots, triangles and confetti, soft pastel background (#FDE2F3, #DDEBFF), a limited palette of five colors with one strong accent, clean uniform outlines, no gradients or textures, balanced composition with a clear focal point, crisp edges, high quality digital art, 16:9 aspect ratio.',
+ x:'realistic shading, 3D render, photo, gradients, grain texture, messy lines, text, watermark'},
+{id:'iso',c:'기술·도식',n:'인포그래픽 입체',e:'Infographic / Isometric',ds:'A digital learning platform ecosystem',k:'30도 등각 시점, 흐름 연결선, 그라데이션 색상 코드, 라벨 여백',
+ p:'{S}, visualized as an isometric 3D infographic. True isometric 30-degree view, floating data blocks and platforms at different heights, thin glowing connecting lines and nodes showing the flow between stages, small floating UI icons, vibrant gradient colors from cyan (#22D3EE) to violet (#8B5CF6) to pink (#EC4899), soft ambient occlusion, light gradient background, clean tech aesthetic, smooth 3D render, plenty of empty space for labels, 16:9 aspect ratio.',
+ x:'perspective distortion, realistic city, people, dark background, clutter, text, watermark'},
+{id:'clay',c:'3D',n:'클레이 애니메이션',e:'Clay / Stop-motion',ds:'Friendly characters reading books together',k:'점토 질감·지문, 미니어처 세트, 소프트박스 조명, 얕은 심도',
+ p:'{S}, featuring cute 3D characters made of colorful modeling clay. Rounded chunky shapes, big simple eyes, visible fingerprint textures and tiny imperfections on the surface, matte plasticine finish, handmade miniature props on a small tabletop set. Soft studio lighting from a large softbox, gentle shadows, pastel backdrop, shallow depth of field, tilt-shift miniature feel, stop-motion animation aesthetic, 16:9 aspect ratio.',
+ x:'glossy plastic, realistic humans, sharp hard edges, dark horror mood, text, watermark'},
+{id:'chalk',c:'회화·드로잉',n:'칠판 드로잉',e:'Chalkboard',ds:'A weekly school lunch menu board',k:'칠판 지움 자국, 분필 색 지정, 장식 타이포 요소, 나무 테두리',
+ p:'{S}, as a chalkboard drawing. Dark slate blackboard background with faint eraser smudges, white chalk plus pastel colored chalk in yellow, pink and mint, hand-drawn decorative typography with banners and flourishes, simple line illustrations, floating chalk dust particles, slightly uneven strokes, wooden frame edge, vintage cafe menu style layout, front view, even lighting, 16:9 aspect ratio.',
+ x:'digital font, clean vector lines, glossy surface, photoreal objects, bright white background, watermark'},
+{id:'shoujo',c:'만화',n:'순정 만화',e:'Shoujo Manga',ds:'Two students under cherry blossoms after school',k:'펜 선 굵기·해칭, 눈 하이라이트, 스크린톤, 컷 구성',
+ p:'{S}, in classic shoujo manga style. High quality fine ink lines with delicate hatching, characters with large sparkling eyes and glossy highlights, flowing hair, scattered flower petals and sparkles in the background, screen tone gradients and dot patterns, soft pink and lavender accents over mostly monochrome art, dreamy romantic atmosphere, manga panel composition, 16:9 aspect ratio.',
+ x:'3D render, photorealistic, western comic style, thick outlines, gore, text, watermark'},
+{id:'knit',c:'공예',n:'뜨개질 인형',e:'Knitted / Amigurumi',ds:'A cozy reading corner',k:'털실 색 지정, 뜨개 코 질감, 창가 조명, 접사 촬영 표현',
+ p:'{S}, imagined as a collection of adorable handmade amigurumi dolls crafted from chunky pastel yarn in peach, baby blue, mint and lavender, with visible crochet stitches, soft fuzz and tiny embroidered faces, nestled together on a cozy knitted blanket. Soft warm window light, gentle shadows, shallow depth of field. Beside them a handwritten knitting pattern note with rounded friendly lettering, a crochet hook and a yarn ball. Cozy and heartwarming, high detail macro photography, 16:9 aspect ratio.',
+ x:'plastic toys, felt, harsh flash, dark scene, creepy faces, watermark'},
+{id:'cyber',c:'디지털',n:'사이버펑크 네온 거리',e:'Cyberpunk / Neon Street',ds:'A futuristic smart city street',k:'네온 색상 코드, 젖은 노면 반사, 안개·볼류메트릭 광, 낮은 광각 시점',
+ p:'{S}, set on a cyberpunk city street at night. Glowing neon signs in vibrant pink (#FF2BD6) and cyan (#22E3FF), wet pavement with mirror-like reflections after rain, light fog and rising steam, retro-futuristic architecture with dense signage and hanging cables. Cinematic wide-angle shot from a low camera height, strong rim light, high contrast, volumetric light beams, subtle film grain, 16:9 aspect ratio.',
+ x:'daylight, dry street, pastel colors, cartoon style, readable brand logos, watermark'},
+{id:'pixel',c:'디지털',n:'픽셀 아트',e:'Pixel Art / 8-bit',ds:'A school on a hill at sunset',k:'캔버스 해상도, 16색 제한, 디더링, 시차 레이어',
+ p:'{S}, as 8-bit pixel art of a scenic landscape. Low-resolution 160x90 pixel canvas scaled up with crisp hard edges, a limited 16-color retro palette, small square blocks, simple dithering for the sky gradient, parallax layers of sky, mountains, trees and ground, side-scrolling game composition, retro gaming aesthetic, 16:9 aspect ratio.',
+ x:'anti-aliasing, blur, smooth gradients, high resolution detail, 3D, realistic lighting, watermark'},
+{id:'paper',c:'공예',n:'종이 공예 레이어',e:'Paper Cutout / Depth',ds:'A green campus with trees and a river',k:'레이어 수, 앞뒤 색 단계, 종이 섬유 질감, 디오라마 구도',
+ p:'{S}, as layered paper cutout art. Six to eight stacked layers of cut cardstock creating 3D depth, soft drop shadows between each paper layer, vibrant colors stepping from light in the back to saturated in the front, clean precise edges, subtle paper fiber texture, gentle top lighting, diorama-like composition with a clear foreground, middle ground and background, handcrafted look, 16:9 aspect ratio.',
+ x:'flat print, photographic scene, torn rough edges, dull colors, text, watermark'}
+];
+const UXQ={"grid": "modular grid UI portfolio blue", "modux": "UX portfolio landing page serif typography", "editux": "editorial UX case study redesign", "doodle": "doodle notebook grid paper ballpoint", "flat": "flat vector illustration memphis pastel", "iso": "isometric 3D infographic", "clay": "claymation 3D clay characters", "chalk": "chalkboard drawing cafe menu", "shoujo": "shoujo manga illustration", "knit": "amigurumi crochet dolls pastel", "cyber": "cyberpunk neon street", "pixel": "8-bit pixel art landscape", "paper": "layered paper cutout art"};
+const exLinks=u=>{const q=encodeURIComponent(UXQ[u.id]);return '<div class="exl"><span>예시 보기</span><a href="https://www.pinterest.com/search/pins/?q='+q+'" target="_blank" rel="noopener">Pinterest ↗</a><a href="https://www.behance.net/search/projects?search='+q+'" target="_blank" rel="noopener">Behance ↗</a><a href="https://www.google.com/search?tbm=isch&amp;q='+q+'" target="_blank" rel="noopener">Google 이미지 ↗</a></div>'};
+store.uxfav=store.uxfav||[];
+const uxs=$('#uxsub');uxs.value=store.uxsub||'';
+const fillUX=u=>u.p.replace('{S}',uxs.value.trim()||u.ds);
+function drawUX(){
+  $('#uxgrid').innerHTML=UX.map((u,i)=>{const fav=store.uxfav.includes(u.id);
+    return '<article class="ux"><div class="uh"><div><span class="cat">'+u.c+'</span><h3>'+u.n+'<em>'+u.e+'</em></h3></div>'+
+    '<button class="heart'+(fav?' on':'')+'" data-uxf="'+u.id+'" aria-pressed="'+fav+'" aria-label="'+u.n+' 즐겨찾기">'+(fav?'♥':'♡')+'</button></div>'+
+    '<p class="d">강화 요소: '+u.k+'</p>'+exLinks(u)+'<button class="en" aria-expanded="false" title="눌러서 전체 보기">'+esc(fillUX(u))+'</button><p class="neg"><b>Negative</b> '+esc(u.x)+'</p>'+
+    '<div class="acts"><button class="pc" data-ux="'+i+'">PROMPT COPY</button><button class="cp" data-uxn="'+i+'">Negative 복사</button></div></article>'}).join('');
+}
+drawUX();
+uxs.addEventListener('input',()=>{store.uxsub=uxs.value;save();drawUX()});
+$('#uxgrid').addEventListener('click',e=>{
+  const en=e.target.closest('.en');if(en){en.setAttribute('aria-expanded',en.getAttribute('aria-expanded')!=='true');return}
+  const f=e.target.closest('[data-uxf]');if(f){const id=f.dataset.uxf;store.uxfav=store.uxfav.includes(id)?store.uxfav.filter(x=>x!==id):store.uxfav.concat(id);save();drawUX();return}
+  const c=e.target.closest('[data-ux]');if(c){copy(fillUX(UX[+c.dataset.ux]),'프롬프트를');return}
+  const n=e.target.closest('[data-uxn]');if(n)copy(UX[+n.dataset.uxn].x,'제외 프롬프트를')});
 
 /* 데모 초기화 */
 const rel=(e,el)=>{const r=el.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top,w:r.width,h:r.height}};
@@ -519,23 +630,23 @@ const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)docu
 document.querySelectorAll('main section').forEach(s=>secIO.observe(s));
 
 /* 폰트 */
-const KINDS=['전체','고딕','명조·궁서','손글씨','제목용','기타','즐겨찾기'];let kind='전체';
+const KINDS=['전체','눈누','공유마당','고딕','명조·궁서','손글씨','제목용','기타','즐겨찾기'];let kind='전체';
 const ft=$('#ftext'),fs=$('#fsize');ft.value=store.ft||'';fs.value=store.fs||28;$('#fsv').textContent=fs.value;
 $('#fchips').innerHTML=KINDS.map(k=>'<button class="chip'+(k===kind?' on':'')+'" data-k="'+k+'">'+k+'</button>').join('');
 function drawFonts(){
-  const txt=ft.value.trim(),list=FONTS.filter(f=>kind==='전체'||(kind==='즐겨찾기'?store.fav.includes(f[2]):f[3]===kind));
-  $('#fcount').textContent=String(FONTS.length).padStart(2,'0');
-  $('#fgrid').innerHTML=list.length?list.map(([n,m,id,k])=>{const fam=GF[n]||(SERIF.has(n)?'"Noto Serif KR",serif':'inherit');const fav=store.fav.includes(id);
-    return '<div class="fc"><div class="fs" style="font-family:'+esc(fam)+';font-size:'+fs.value+'px">'+esc(txt||n)+'</div>'+
-    '<div class="fn"><div><b>'+esc(n)+'</b><br><span>'+esc(m)+'</span></div><span class="tag">'+k+'</span></div>'+
-    '<div class="fa"><a href="https://noonnu.cc/font_page/'+id+'" target="_blank" rel="noopener">눈누에서 받기 ↗</a><button class="cp" data-fn="'+esc(n)+'">이름 복사</button>'+
-    '<button class="heart'+(fav?' on':'')+'" data-fav="'+id+'" aria-pressed="'+fav+'" aria-label="'+esc(n)+' 즐겨찾기">'+(fav?'♥':'♡')+'</button></div></div>'}).join(''):'<div class="empty">즐겨찾기한 폰트가 없습니다. 카드의 ♡ 버튼을 눌러 추가하세요.</div>';
+  const txt=ft.value.trim(),list=FONTS.filter(f=>kind==='전체'||(kind==='즐겨찾기'?store.fav.includes(f.url):kind===f.src||f.k===kind));
+  $('#fcount').textContent=FONTS.length;
+  $('#fgrid').innerHTML=list.length?list.map(f=>{const fam=GF[f.n]||(SERIF.has(f.n)?'"Noto Serif KR",serif':'inherit');const fav=store.fav.includes(f.url);
+    return '<div class="fc"><div class="fs" style="font-family:'+esc(fam)+';font-size:'+fs.value+'px">'+esc(txt||f.n)+'</div>'+
+    '<div class="fn"><div><b>'+esc(f.n)+'</b><br><span>'+esc(f.m)+(f.rank?' · 공유마당 인기 '+f.rank+'위':'')+'</span></div><span class="tag">'+f.k+'</span></div>'+
+    '<div class="fa"><a href="'+esc(f.url)+'" target="_blank" rel="noopener">'+(f.src==='눈누'?'눈누에서 받기':'배포처에서 받기')+' ↗</a><button class="cp" data-fn="'+esc(f.n)+'">이름 복사</button>'+
+    '<button class="heart'+(fav?' on':'')+'" data-fav="'+esc(f.url)+'" aria-pressed="'+fav+'" aria-label="'+esc(f.n)+' 즐겨찾기">'+(fav?'♥':'♡')+'</button></div></div>'}).join(''):'<div class="empty">조건에 맞는 폰트가 없습니다. 즐겨찾기는 카드의 ♡ 버튼으로 추가하세요.</div>';
 }
 ft.addEventListener('input',()=>{store.ft=ft.value;save();drawFonts()});
 fs.addEventListener('input',()=>{$('#fsv').textContent=fs.value;store.fs=fs.value;save();document.querySelectorAll('.fs').forEach(e=>e.style.fontSize=fs.value+'px')});
 $('#fchips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;kind=b.dataset.k;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b));drawFonts()});
 $('#fgrid').addEventListener('click',e=>{
-  const h=e.target.closest('[data-fav]');if(h){const id=+h.dataset.fav;store.fav=store.fav.includes(id)?store.fav.filter(x=>x!==id):store.fav.concat(id);save();drawFonts();return}
+  const h=e.target.closest('[data-fav]');if(h){const id=h.dataset.fav;store.fav=store.fav.includes(id)?store.fav.filter(x=>x!==id):store.fav.concat(id);save();drawFonts();return}
   const c=e.target.closest('[data-fn]');if(c)copy(c.dataset.fn,'폰트 이름을')});
 drawFonts();
 }
