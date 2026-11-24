@@ -183,6 +183,40 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
 .exl{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font-size:13px}.exl span{color:var(--mut)}.exl a{min-height:32px;display:inline-flex;align-items:center;font-weight:700;text-decoration:none}.exl a:hover{text-decoration:underline}
 .pc{min-height:44px;flex:1;border:0;border-radius:12px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:900;cursor:pointer}
 .pc:hover{opacity:.88}
+/* 슬라이드 PPT */
+.ux .en.ko{font:14px/1.7 "Noto Sans KR",sans-serif;white-space:pre-line;max-height:calc(5.1em + 24px)}
+.ux .en.ko[aria-expanded=true]{max-height:none}
+mark.ph{background:#fff1a8;color:#3a2e00;border-radius:3px;padding:0 2px}
+.psub{padding-top:22px}
+.subh{display:flex;align-items:baseline;gap:8px;margin:0 0 12px;font-size:19px;font-weight:900}
+.subh span{color:var(--acc);font-size:15px}.subh small{font-size:13px;color:var(--mut);font-weight:500}
+.nav a.sub{min-height:36px;padding-left:26px;font-size:14px;font-weight:400;color:var(--mut)}
+.nav a.sub.on{color:#fff}
+.psel{flex:none;min-height:44px;padding:0 18px;border-radius:12px;border:2px solid var(--acc);background:var(--accbg);color:var(--acc);font-size:15px;font-weight:900;cursor:pointer;white-space:nowrap;transition:transform .15s,box-shadow .15s}
+.psel:hover{background:var(--acc);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px color-mix(in srgb,var(--acc) 35%,transparent)}
+.psel.on{background:var(--acc);border-color:var(--acc);color:#fff;box-shadow:0 6px 16px color-mix(in srgb,var(--acc) 35%,transparent)}
+.ux.picked{border-color:var(--acc);box-shadow:0 0 0 2px color-mix(in srgb,var(--acc) 30%,transparent)}
+.ptray{position:fixed;left:50%;bottom:16px;translate:-50% 0;width:min(760px,calc(100vw - 24px));max-height:min(70vh,560px);display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 18px 40px rgba(15,23,42,.22);z-index:8}
+.ptray[hidden]{display:none}
+.pt-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pt-h strong{font-size:15px;margin-right:auto}
+.pt-h .cp{min-height:40px}
+.ptray .pc{flex:none;padding:0 18px;min-height:40px}
+.ptlist{list-style:none;margin:0;padding:0;display:grid;gap:4px;overflow:auto;max-height:150px}
+.ptlist li{display:flex;align-items:center;gap:6px;font-size:14px;padding:4px 6px;border-radius:8px;background:var(--stage)}
+.ptlist li b{width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-size:12px;flex:none}
+.ptlist li em{font-style:normal;font-size:12px;color:var(--acc);margin-left:4px}
+.ptlist li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ptlist li button{width:32px;height:32px;border:0;border-radius:8px;background:none;cursor:pointer;color:var(--mut)}
+.ptlist li button:hover:not(:disabled){background:var(--card);color:var(--ink)}
+.ptlist li button:disabled{opacity:.3;cursor:default}
+.ptray details{font-size:13px}
+.ptray pre{max-height:180px;white-space:pre-wrap;font:12.5px/1.6 "Noto Sans KR",sans-serif}
+.ptray.min .ptlist,.ptray.min details{display:none}
+body.has-tray main{padding-bottom:300px}
+body.has-tray .toast{bottom:auto;top:20px}
+@media(max-width:900px){.nav a.sub{display:none}}
+.rules{margin-top:18px}.rules h3{margin:0;font-size:17px}.rules ul{margin:0;padding-left:20px;font-size:15px;display:grid;gap:4px}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}aside{position:sticky;z-index:5;height:auto;flex-direction:row;align-items:center;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);background:var(--bg);overflow-x:auto}.brand{margin:0 8px 0 0;font-size:0;gap:0}.nav-h,.side-note{display:none}.nav{display:flex;gap:4px}.nav a{flex:none;gap:8px;white-space:nowrap}html{scroll-padding-top:76px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.mq>div,.sh,.gl::before,.gl::after{animation-duration:30s}}
 </style>
@@ -198,8 +232,8 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
 <main>
   <div class="top">
     <div>
-      <h1>UI·UX·모션·폰트 레퍼런스</h1>
-      <p class="lead">UI·UX 디자인 스타일, 텍스트 모션, 입력 컨트롤, 커서 인터랙션, 무료 폰트를 직접 보고 움직여 본 뒤, 프롬프트나 코드를 그대로 복사해 쓰는 사전입니다.</p>
+      <h1>UI·UX·슬라이드·모션 레퍼런스</h1>
+      <p class="lead">UI·UX 디자인 스타일, 슬라이드 PPT 프롬프트, 텍스트 모션, 입력 컨트롤, 커서 인터랙션, 무료 폰트를 직접 보고 움직여 본 뒤, 프롬프트나 코드를 그대로 복사해 쓰는 사전입니다.</p>
       <input class="search" id="q" type="search" placeholder="효과 이름으로 찾기 (예: 마스크, 토글)" aria-label="효과 검색">
   </div>
   </div>
@@ -210,7 +244,20 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
     <div class="sbar" style="display:flex;margin-bottom:16px"><input class="inp" id="uxsub" style="flex:1" placeholder="그릴 주제를 영어로 적으면 모든 프롬프트 맨 앞에 들어갑니다 (예: A school library app). 비워 두면 스타일별 예시 주제가 들어갑니다." aria-label="프롬프트 주제"></div>
     <div class="uxgrid" id="uxgrid"></div>
   </section>
-  <div id="sections"></div>
+<section id="ppt">
+    <h2>슬라이드 PPT <small>22</small></h2>
+    <p class="sdesc">교육청·학교·공공기관 발표 자료를 기획부터 마무리까지 6단계로 나눈 AI 프롬프트입니다. 노란색 [대괄호] 부분을 내 내용으로 바꿔 쓰고, 프롬프트 상자를 누르면 전체가 펼쳐집니다. 카드의 + 선택을 차례로 누르면 기본 정보와 공통 작성 규칙을 한 번만 넣고 단계를 이어 붙인 최종 프롬프트를 아래 상자에서 복사할 수 있습니다. 점검 카드는 최종 프롬프트의 마지막 점검 항목으로 들어갑니다.</p>
+    <div id="pgrid"></div>
+    <div class="card rules">
+      <h3>AI 슬라이드 프롬프트 작성 요령</h3>
+      <ul>
+        <li>바꿀 것과 지킬 것을 함께 적습니다. "깔끔하게 해줘" 대신 바꿀 범위와 내용, 절대 바꾸면 안 되는 것(핵심 숫자, 단위, 고유명사)을 밝혀야 데이터 왜곡을 막을 수 있습니다.</li>
+        <li>공공기관 자료는 결론형 제목, □ ○ - 개조식, 「법령명」 제○조와 2026. 11. 25.(수) 같은 표기, 개인정보 비식별을 기본으로 지시합니다.</li>
+        <li>형식 제약을 구체적으로 줍니다. 글머리 개수(예: 3~4개), 글자 수 제한, 색상 코드(예: #1B2A4A)를 정할수록 원하는 분량과 디자인에 맞는 결과가 나옵니다.</li>
+      </ul>
+    </div>
+  </section>
+<div id="sections"></div>
   <section id="combos">
     <h2>조합 예시 <small>04</small></h2>
     <p class="sdesc">효과 여러 개를 한 번에 요청할 때 쓰는 프롬프트입니다.</p>
@@ -237,6 +284,11 @@ pre{overflow-x:auto;background:light-dark(#141824,#0b0d12);color:#dfe5f2;border-
 </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="ptray" id="ptray" hidden aria-label="선택한 슬라이드 프롬프트">
+  <div class="pt-h"><strong>선택한 프롬프트 <span id="ptcount">0</span>개</strong><button class="cp" id="ptfold">접기 ▾</button><button class="cp" id="ptsort">번호순 정렬</button><button class="cp" id="ptclear">선택 해제</button><button class="pc" id="ptcopy">최종 프롬프트 복사</button></div>
+  <ol class="ptlist" id="ptlist"></ol>
+  <details><summary>최종 프롬프트 미리보기</summary><pre id="ptprev"></pre></details>
+</div>
 
 <script>
 {
@@ -483,8 +535,8 @@ async function copy(t,label){
 }
 
 /* 내비게이션 */
-const navItems=[['uiux','UI·UX 디자인',13]].concat(CATS.map(c=>[c.id,c.name,FX.filter(f=>f.c===c.id).length]).concat([['combos','조합 예시',COMBOS.length],['fonts','무료 폰트',FONTS.length]]));
-$('#nav').innerHTML=navItems.map(([id,n,k])=>'<a href="#'+id+'" data-id="'+id+'">'+n+'<span>'+String(k).padStart(2,'0')+'</span></a>').join('');
+const navItems=[['uiux','UI·UX 디자인',13],['ppt','슬라이드 PPT',22],['ppt-intro','도입·기획',4,1],['ppt-report','보고·구조화',5,1],['ppt-pitch','정책·사업 계획',4,1],['ppt-data','데이터·차트',3,1],['ppt-layout','레이아웃·분량',3,1],['ppt-close','마무리',3,1]].concat(CATS.map(c=>[c.id,c.name,FX.filter(f=>f.c===c.id).length]).concat([['combos','조합 예시',COMBOS.length],['fonts','무료 폰트',FONTS.length]]));
+$('#nav').innerHTML=navItems.map(([id,n,k,sub])=>'<a'+(sub?' class="sub"':'')+' href="#'+id+'" data-id="'+id+'">'+n+'<span>'+String(k).padStart(2,'0')+'</span></a>').join('');
 
 /* 효과 카드 */
 $('#sections').innerHTML=CATS.map(c=>{
@@ -541,7 +593,7 @@ const UX=[
  x:'flat print, photographic scene, torn rough edges, dull colors, text, watermark'}
 ];
 const UXQ={"grid": "modular grid UI portfolio blue", "modux": "UX portfolio landing page serif typography", "editux": "editorial UX case study redesign", "doodle": "doodle notebook grid paper ballpoint", "flat": "flat vector illustration memphis pastel", "iso": "isometric 3D infographic", "clay": "claymation 3D clay characters", "chalk": "chalkboard drawing cafe menu", "shoujo": "shoujo manga illustration", "knit": "amigurumi crochet dolls pastel", "cyber": "cyberpunk neon street", "pixel": "8-bit pixel art landscape", "paper": "layered paper cutout art"};
-const exLinks=u=>{const q=encodeURIComponent(UXQ[u.id]);return '<div class="exl"><span>예시 보기</span><a href="https://www.pinterest.com/search/pins/?q='+q+'" target="_blank" rel="noopener">Pinterest ↗</a><a href="https://www.behance.net/search/projects?search='+q+'" target="_blank" rel="noopener">Behance ↗</a><a href="https://www.google.com/search?tbm=isch&amp;q='+q+'" target="_blank" rel="noopener">Google 이미지 ↗</a></div>'};
+const exLinks=u=>{const q=encodeURIComponent(UXQ[u.id]);return '<div class="exl"><span>예시 보기</span><a href="https://www.pinterest.com/search/pins/?q='+q+'" target="_blank" rel="noopener">Pinterest ↗</a><a href="https://www.google.com/search?tbm=isch&amp;q='+q+'" target="_blank" rel="noopener">Google 이미지 ↗</a></div>'};
 store.uxfav=store.uxfav||[];
 const uxs=$('#uxsub');uxs.value=store.uxsub||'';
 const fillUX=u=>u.p.replace('{S}',uxs.value.trim()||u.ds);
@@ -559,6 +611,187 @@ $('#uxgrid').addEventListener('click',e=>{
   const f=e.target.closest('[data-uxf]');if(f){const id=f.dataset.uxf;store.uxfav=store.uxfav.includes(id)?store.uxfav.filter(x=>x!==id):store.uxfav.concat(id);save();drawUX();return}
   const c=e.target.closest('[data-ux]');if(c){copy(fillUX(UX[+c.dataset.ux]),'프롬프트를');return}
   const n=e.target.closest('[data-uxn]');if(n)copy(UX[+n.dataset.uxn].x,'제외 프롬프트를')});
+
+const PG=['도입·기획','보고·구조화','정책·사업 계획','데이터·차트','레이아웃·분량','마무리'];
+const PT={make:'작성',edit:'점검',ask:'질문'};
+const PPT=[
+[0,'make','표지 슬라이드','발표 주제와 기관을 한눈에 보여 주는 첫 장',
+`너는 교육청 정책 발표 자료를 만드는 프레젠테이션 기획 담당자야.
+[발표 주제: 예시 - 2027 AI 디지털 교육 추진계획] 발표의 표지 슬라이드를 만들어줘.
+- 청중: [교육감·간부 / 교육위원회 / 학교 관리자 / 학부모]
+- 기관·부서: [전남광주통합특별시교육청 ○○과]
+- 발표 일자: [2026. 11. 25.(수)]
+핵심을 담은 제목 1개(20자 이내), 부제 1줄, 기관·부서명과 발표 일자, 배경 이미지 묘사 1줄을 제시해줘.
+과장된 홍보 문구는 쓰지 말고, 배경 이미지에는 학생 얼굴이 식별되지 않게 해줘.`,
+'표지 슬라이드: 발표 주제의 핵심을 담은 제목 1개(20자 이내), 부제 1줄, 기관·부서명과 발표 일자, 배경 이미지 묘사 1줄(학생 얼굴이 식별되지 않게)을 작성.'],
+[0,'make','목차(보고 순서) 슬라이드','보고 흐름과 안건별 시간 배분을 보여 주는 목차',
+`아래 내용으로 발표 목차 슬라이드를 구성해줘.
+- 발표 유형: [정책 보고 / 사업 설명회 / 업무협의회 / 간부회의]
+- 결정·확인할 사항: [핵심 사항]
+- 총 시간: [XX분]
+- 주요 안건: [안건 1, 안건 2, 안건 3]
+목차는 '추진 배경 → 현황 및 문제점 → 추진 계획 → 기대효과 → 협조·결정 사항' 흐름을 기본으로 하고, 항목별 소요 시간, 기대 결과물, 담당자를 표로 정리해줘.`,
+"목차 슬라이드: '추진 배경 → 현황 및 문제점 → 추진 계획 → 기대효과 → 협조·결정 사항' 흐름을 기본으로 항목별 소요 시간과 기대 결과물을 표로 정리."],
+[0,'make','전체 구성안(AI 슬라이드 도구용)','Gamma 등 AI 슬라이드 도구에 넣을 장별 구성표',
+`아래 발표 내용을 Gamma 같은 AI 슬라이드 도구에 넣을 수 있는 구성안으로 만들어줘.
+- 발표 주제: [주제] / 청중: [대상] / 슬라이드 수: [10장] / 핵심 메시지: [1문장]
+슬라이드 번호 | 제목(결론형 문장) | 핵심 내용 2~3줄(개조식) | 추천 시각 자료(표·차트·도식·사진) 형식의 표로 정리해줘.
+확인되지 않은 수치는 넣지 말고 "(자료 확인 필요)"로 표시해줘.`,
+'전체 구성안: 슬라이드 번호 | 제목(결론형) | 핵심 내용 2~3줄 | 추천 시각 자료 형식의 표를 먼저 제시하고, 이후 단계는 이 구성안에 맞춰 작성.'],
+[0,'ask','기획 정보 먼저 묻기','작성 전에 AI가 빠진 정보를 먼저 질문하게 하는 프롬프트',
+`너는 공공기관 발표 자료 기획 담당자야. 내가 요청할 슬라이드를 제대로 구성하는 데 필요한 정보를 먼저 질문해줘.
+질문 항목: 발표 주제, 청중(교육감·간부, 의회, 학교, 학부모 등), 발표 목적(보고·제안·안내·의사결정 요청), 발표 시간과 장수, 참고 자료와 핵심 수치, 톤앤매너.
+한 번에 5개 이내로 묻고, 내 답을 받은 뒤 슬라이드별 제목과 본문 뼈대를 단계별로 작성해줘.`,
+''],
+[1,'make','결론 먼저 보고 슬라이드','상단에 결론 한 문장, 아래에 근거 3가지를 두는 보고 슬라이드',
+`너는 교육청 정책 보고서를 쓰는 기획 담당자야.
+[주제/보고 내용]에 대한 보고 슬라이드를 작성해줘.
+상단에는 현황 나열이 아닌 결론을 담은 헤드 메시지 1문장을 두고, 아래에는 이를 뒷받침하는 근거 3가지를 [법령·지침 / 통계·실적 / 현장 의견] 중심으로 개조식으로 정리해줘.
+근거마다 출처와 기준일을 밝히고, 확인되지 않은 수치는 만들지 마.`,
+'핵심 보고 슬라이드: 상단에 결론을 담은 헤드 메시지 1문장, 아래에 근거 3가지(법령·지침, 통계·실적, 현장 의견)를 출처·기준일과 함께 정리.'],
+[1,'edit','간부 보고용 개조식 다듬기','문장을 □ ○ - 기호 체계의 개조식으로 바꾸기',
+`이 슬라이드(또는 첨부 내용)의 문장을 간부 보고용 개조식으로 바꿔줘.
+- 기호 체계는 □(대항목) ○(중항목) -(세부)로 맞추고, 문장은 '~함', '~임'으로 끝내줘.
+- 한 항목은 2줄을 넘기지 말고, 핵심 수치·고유명사·법령명은 바꾸거나 빼지 마.`,
+"전체 본문이 □ ○ - 기호 체계의 개조식이고 '~함', '~임'으로 끝나는지 점검."],
+[1,'make','대안 비교(1안·2안) 슬라이드','두 안을 같은 기준으로 나란히 비교하고 검토 의견을 붙이는 슬라이드',
+`이 내용을 왼쪽 [1안], 오른쪽 [2안]으로 나눈 비교 슬라이드로 재구성해줘.
+비교 기준은 [소요 예산 / 추진 기간 / 법적 근거 / 현장 수용성 / 기대효과]를 같은 순서로 맞추고, 원자료의 수치는 그대로 유지해줘.
+마지막 줄에 검토 의견(추천안과 그 이유 1줄)을 붙여줘.`,
+'대안 비교 슬라이드: [1안]과 [2안]을 좌우로 나눠 예산, 추진 기간, 법적 근거, 현장 수용성, 기대효과를 같은 순서로 비교하고 검토 의견(추천안과 이유 1줄)을 덧붙임.'],
+[1,'make','장애요인 및 극복방안 슬라이드','예상 장애요인과 대응을 3열 카드로 정리하는 슬라이드',
+`이 사업의 주요 장애요인 3가지를 가로 3열 카드 슬라이드로 정리해줘.
+카드마다 [① 장애요인 - ② 극복 방안 - ③ 담당 부서·협조 기관] 순서로 쓰고, 원자료에 없는 사실은 덧붙이지 마.`,
+'장애요인 및 극복방안 슬라이드: 주요 장애요인 3가지를 3열 카드로, 카드마다 장애요인, 극복 방안, 담당 부서·협조 기관 순으로 정리.'],
+[1,'make','추진 일정(로드맵) 슬라이드','단계별 추진 내용과 시기, 추진 주체를 보여 주는 일정표',
+`[사업명] 추진 일정을 4단계 로드맵 슬라이드로 구성해줘.
+단계마다 번호(1~4단계), 단계명, 주요 추진 내용, 추진 시기(예: 2027. 3.~5.), 추진 주체를 정리하고, 단계 사이 흐름이 드러나게 해줘.
+학사일정과 예산 편성 시기를 고려해줘.`,
+'추진 일정 슬라이드: 4단계 로드맵으로 단계명, 주요 추진 내용, 추진 시기(2027. 3.~5. 형식), 추진 주체를 정리하고 학사일정·예산 편성 시기를 반영.'],
+[2,'make','추진 배경 및 필요성 슬라이드','법령·상위 계획·현장 요구로 "왜 지금 필요한가"를 보여 주는 슬라이드',
+`[사업·정책명]의 추진 배경 및 필요성 슬라이드를 작성해줘.
+- 정책 환경: [관련 법령·상위 계획·정부 정책]
+- 현장 요구: [학교·학부모·교원 의견]
+- 현황 데이터: [관련 통계와 기준일]
+'왜 지금 필요한가'를 보여 주는 핵심 메시지 1줄과 근거 3가지로 정리해줘.
+법령은 「법령명」 제○조 형식으로 쓰고, 확인되지 않은 통계는 만들지 마.`,
+"추진 배경 및 필요성 슬라이드: 관련 법령·상위 계획, 현장 요구, 현황 데이터를 근거로 '왜 지금 필요한가'를 핵심 메시지 1줄과 근거 3가지로 정리."],
+[2,'make','사업 개요 및 추진 체계 슬라이드','목적·대상·기간과 기관별 역할을 정리하는 슬라이드',
+`[사업명]의 사업 개요와 추진 체계 슬라이드를 구성해줘.
+- 개요: 목적, 대상, 기간, 주요 내용을 표로 정리
+- 추진 체계: [교육청 - 교육지원청 - 학교 - 유관기관]의 역할을 도식으로 표현할 수 있게 구조화
+기관별 역할은 1줄로 쓰고, 총괄 부서와 협조 부서를 구분해줘.`,
+'사업 개요 및 추진 체계 슬라이드: 목적·대상·기간·주요 내용을 표로, 교육청·교육지원청·학교·유관기관의 역할을 도식용으로 1줄씩 정리하고 총괄·협조 부서를 구분.'],
+[2,'make','소요 예산 및 재원 슬라이드','항목별 금액과 산출 근거, 재원을 정리하는 예산 슬라이드',
+`[사업명]의 소요 예산 슬라이드를 작성해줘.
+- 예산 항목과 금액: [항목별 금액]
+- 재원: [교육비특별회계 / 국고 / 지자체 대응투자 등]
+항목별 산출 근거를 1줄씩 붙인 표로 정리하고, 총액과 연도별 소요를 따로 보여 줘.
+내가 주지 않은 금액은 만들지 말고 "(산출 필요)"로 비워 둬.`,
+'소요 예산 및 재원 슬라이드: 항목별 금액과 산출 근거, 재원, 총액·연도별 소요를 표로 정리하고, 주어지지 않은 금액은 "(산출 필요)"로 표시.'],
+[2,'make','기대효과 및 성과지표 슬라이드','대상별 기대효과와 측정 가능한 성과지표를 제시하는 슬라이드',
+`[사업명]의 기대효과와 성과지표 슬라이드를 작성해줘.
+기대효과는 학생·교원·학교(또는 학부모) 측면으로 나눠 1줄씩 쓰고, 성과지표는 지표명 | 측정 방법 | 현재값 | 목표값 | 측정 시기 표로 정리해줘.
+현재값을 모르면 "(조사 필요)"로 표시해줘.`,
+'기대효과 및 성과지표 슬라이드: 학생·교원·학교 측면 기대효과 1줄씩과 지표명|측정 방법|현재값|목표값|측정 시기 표를 작성.'],
+[3,'edit','차트 핵심 항목 강조','막대 차트에서 핵심 항목만 강조색으로 바꾸기',
+`이 슬라이드의 막대 차트에서 데이터 숫자는 그대로 두고, [올해(또는 특정 항목)] 막대만 기관 대표색 [#1B2A4A]로 강조해줘.
+나머지 막대는 회색 [#7B8494]로 낮추고, 범례 대신 막대 위에 값을 직접 표시하고, 왼쪽 아래에 자료 출처와 기준일을 적어줘.`,
+'차트는 핵심 항목 1개만 강조색, 나머지는 회색이고 범례 대신 값을 직접 표기했으며 출처·기준일이 있는지 점검.'],
+[3,'make','통계 기반 시사점 슬라이드','통계·실적에서 시사점 3가지를 뽑는 분석 슬라이드',
+`아래 [통계·실적 자료]를 분석해서 슬라이드에 넣을 핵심 시사점 3가지를 뽑아줘.
+숫자를 읽기만 하지 말고 전년 대비 증감, 학교급·지역별 차이, 그 원인을 연결해 '데이터로 본 시사점' 형태로 쓰고, 각 시사점 끝에 근거 수치와 출처·기준일을 밝혀줘.
+원인이 자료로 확인되지 않으면 "(추정)"으로 표시해줘.`,
+'데이터 분석 슬라이드: 제공 자료에서 전년 대비 증감, 학교급·지역별 차이, 원인을 연결한 시사점 3가지를 근거 수치·출처와 함께 제시.'],
+[3,'make','성과지표 달성 현황 슬라이드','목표 대비 실적과 미달 지표의 보완 방안을 보여 주는 점검 슬라이드',
+`[사업명]의 성과지표 달성 현황 슬라이드를 만들어줘.
+지표명 | 목표 | 실적 | 달성률 | 전년 대비 표로 정리하고, 달성률이 가장 낮은 지표 1개를 골라 미달 원인과 보완 방안을 하단에 1줄씩 적어줘.
+달성률은 내가 준 수치로만 계산해줘.`,
+'성과 점검 슬라이드: 지표명|목표|실적|달성률|전년 대비 표와 달성률이 가장 낮은 지표의 미달 원인·보완 방안 1줄씩.'],
+[4,'edit','글이 많은 슬라이드 줄이기','본문을 항목당 1줄, 25자 이내로 줄이기',
+`이 슬라이드의 텍스트가 너무 많아.
+본문을 항목당 1줄, 25자 이내로 줄여줘. 행동이 드러나는 동사를 쓰고, 숫자·단위·법령명·자료 출처는 지우지 마.`,
+'본문 항목이 1줄, 25자 이내인지 점검하고 넘치면 줄이되 숫자·단위·법령명·출처는 유지.'],
+[4,'edit','한 장을 두 장으로 나누기','주제가 섞인 슬라이드를 논리 순서대로 나누기',
+`이 슬라이드는 내용이 너무 많아.
+[주제 A: 예 - 현황 및 문제점]과 [주제 B: 예 - 개선 방안]을 각각 독립된 슬라이드 2장으로 나눠줘. 원래 논리 순서와 수치는 그대로 유지해줘.`,
+'한 장에 주제가 둘 이상 섞인 슬라이드는 2장으로 나누고 논리 순서와 수치는 유지.'],
+[4,'edit','발표 시간에 맞춰 장수 줄이기','정해진 시간에 맞게 전체 장수를 줄이고 사유 밝히기',
+`발표 시간이 [10분]으로 정해졌어. 전체 [15장] 자료를 핵심 [7장]으로 줄여줘.
+표지와 마무리(협조 요청) 슬라이드는 남기고, 합치거나 뺀 슬라이드와 그 이유를 표로 알려줘. 빠진 내용을 부록으로 옮길지도 제안해줘.`,
+'전체 장수가 발표 시간에 맞는지 점검하고(1장당 약 1분), 넘치면 합치거나 부록으로 옮긴 뒤 그 내역을 알려줌.'],
+[5,'make','결론 및 협조 요청 슬라이드','핵심 메시지와 결정·협조 사항, 향후 일정으로 끝맺는 마지막 장',
+`발표 자료의 마무리 슬라이드를 작성해줘.
+- 핵심 메시지: [발표 전체를 요약하는 1문장]
+- 결정·협조가 필요한 사항: [예산 지원 / 부서 협조 / 학교 참여 등]
+- 향후 일정: [다음 단계와 시기]
+핵심 메시지 1줄, 협조·결정 요청 사항 2~3개(요청 대상 부서·기관 명시), 향후 일정 순서로 개조식 정리해줘.
+"감사합니다" 같은 인사만 있는 슬라이드는 만들지 마.`,
+'마무리 슬라이드: 핵심 메시지 1줄, 협조·결정 요청 사항 2~3개(대상 부서·기관 명시), 향후 일정 순으로 정리.'],
+[5,'make','예상 질의응답(부록)','청중별 예상 질문과 근거를 밝힌 답변',
+`이 발표 자료를 바탕으로 예상 질문과 답변을 정리해줘.
+- 질문자: [교육감·간부 / 교육위원회 의원 / 학교 관리자 / 학부모·교원단체]
+- 분야별 3개씩: 내용 이해, 실행 가능성·일정, 예산·재원, 형평성·부작용
+답변은 2~3줄로 쓰고, 근거가 되는 법령·자료를 함께 적어줘. 자료에서 확인되지 않는 답변은 "(확인 필요)"로 표시해줘.`,
+'부록(예상 질의응답): 청중을 고려해 내용 이해, 실행 가능성·일정, 예산·재원, 형평성·부작용 분야별 질문 3개씩과 근거를 밝힌 2~3줄 답변.'],
+[5,'make','발표 대본','슬라이드별로 읽을 수 있는 말하기 원고',
+`이 발표 자료의 슬라이드별 발표 대본을 써줘.
+장당 [30~40초] 분량의 말하기 문장으로 쓰고, 첫 문장에서 그 장의 결론을 말해줘.
+전체 시간은 [10분] 이내로 맞추고, 숫자는 천천히 읽기 좋게 풀어 쓰고, 장 사이 연결 문장을 넣어줘.`,
+'발표 대본: 슬라이드마다 30~40초 분량의 말하기 문장을 쓰되 첫 문장에 결론을 말하고 장 사이 연결 문장을 넣음(대본에는 개조식 규칙을 적용하지 않음).']
+].map(([g,t,n,u,p,s],i)=>({g,t,n,u,p,s,no:String(i+1).padStart(2,'0')}));
+const PSUB=['ppt-intro','ppt-report','ppt-pitch','ppt-data','ppt-layout','ppt-close'];
+const markPh=t=>esc(t).replace(/\[([^\]\n]+)\]/g,(m,x)=>/^(작성|출력) 형식$/.test(x)?m:'<mark class="ph">'+m+'</mark>');
+let psel=[];try{psel=(store.psel||[]).filter(i=>PPT[i])}catch(e){psel=[]}
+const pcard=x=>{const i=PPT.indexOf(x),k=psel.indexOf(i);
+  return '<article class="ux'+(k>=0?' picked':'')+'"><div class="uh"><div><span class="cat">'+x.no+' · '+PG[x.g]+(x.t!=='make'?' · '+PT[x.t]:'')+'</span><h3>'+x.n+'</h3></div>'+
+  '<button class="psel'+(k>=0?' on':'')+'" data-psel="'+i+'" aria-pressed="'+(k>=0)+'">'+(k>=0?'✓ '+(k+1)+'번째':'+ 선택')+'</button></div>'+
+  '<p class="d">'+x.u+'</p><button class="en ko" aria-expanded="false" title="눌러서 전체 보기">'+markPh(x.p)+'</button>'+
+  '<div class="acts"><button class="pc" data-pp="'+i+'">PROMPT COPY</button></div></article>'};
+function finalPrompt(){
+  if(!psel.length)return '';
+  const sel=psel.map(i=>PPT[i]),mk=sel.filter(x=>x.t==='make'),ed=sel.filter(x=>x.t==='edit'),ask=sel.some(x=>x.t==='ask');
+  const info='[기본 정보]\n- 기관·부서: [전남광주통합특별시교육청 ○○과]\n- 발표 주제: [주제]\n- 청중: [교육감·간부 / 교육위원회 / 학교 관리자 / 학부모]\n- 발표 목적: [보고 / 정책 제안 / 설명·안내 / 의사결정 요청]\n- 발표 시간과 장수: [10분 / 10장 내외]\n- 참고 자료와 핵심 수치: [첨부 자료 또는 수치]';
+  const rules='[공통 작성 규칙]\n- 슬라이드 제목은 결론을 담은 한 문장으로 쓴다.\n- 본문은 □ ○ - 기호의 개조식으로 쓰고 문장은 \'~함\', \'~임\'으로 끝낸다.\n- 숫자·단위·고유명사·법령명은 바꾸지 않고, 확인되지 않은 통계·금액·사례는 만들지 않는다. 확인이 필요한 곳은 "(확인 필요)"로 표시한다.\n- 법령은 「법령명」 제○조 형식, 날짜는 2026. 11. 25.(수) 형식으로 쓴다.\n- 학생·민원인 등 개인을 알아볼 수 있는 정보는 넣지 않는다.\n- 과장된 홍보 표현과 불필요한 영어 약어는 쓰지 않는다.';
+  const askLine=ask?'작성을 시작하기 전에 [기본 정보] 중 비어 있거나 판단에 필요한 내용을 한 번에 5개 이내로 먼저 질문하고, 내 답을 받은 뒤 진행해줘.':'[기본 정보]에 비어 있거나 판단에 꼭 필요한 내용이 빠져 있으면, 작성 전에 먼저 질문해줘.';
+  if(!mk.length){
+    return '너는 교육청 발표 자료를 다듬는 편집 담당자야. 첨부한 발표 자료를 아래 [점검 기준]에 맞춰 고쳐줘.\n'+askLine+'\n\n'+info+'\n\n'+rules+'\n\n[점검 기준]\n'+ed.map((x,n)=>(n+1)+'. '+x.s).join('\n')+'\n\n[출력 형식]\n고친 슬라이드를 순서대로 제시하고, 마지막에 무엇을 어떻게 바꿨는지 장별로 1줄씩 정리해줘.';
+  }
+  return '너는 교육청 정책 발표 자료를 만드는 프레젠테이션 기획 담당자야.\n아래 [기본 정보]를 바탕으로 [작성 단계]를 순서대로 수행해 한 벌의 발표 자료를 만들어줘. 앞 단계의 결과를 다음 단계에 이어서 반영해줘.\n'+askLine+'\n\n'+info+'\n\n'+rules+'\n\n[작성 단계]\n'+
+    mk.map((x,n)=>(n+1)+'단계. '+x.s).join('\n')+
+    (ed.length?'\n\n[마지막 점검]\n모든 단계를 마친 뒤 아래 기준으로 전체를 다시 점검하고 고쳐줘.\n'+ed.map(x=>'- '+x.s).join('\n'):'')+
+    '\n\n[출력 형식]\n슬라이드마다 "슬라이드 번호 | 제목(결론형) | 본문(개조식) | 시각 자료 제안" 순서로 정리해줘. 단계에서 따로 정한 형식(표, 카드, 대본 등)이 있으면 그 형식을 따라줘.';
+}
+function drawPPT(){
+  $('#pgrid').innerHTML=PG.map((g,gi)=>{const list=PPT.filter(x=>x.g===gi);
+    return '<section class="psub" id="'+PSUB[gi]+'"><h3 class="subh"><span>'+String(gi+1).padStart(2,'0')+'</span>'+g+' <small>'+list.length+'</small></h3><div class="uxgrid">'+list.map(pcard).join('')+'</div></section>'}).join('');
+  if(window.__obs)document.querySelectorAll('.psub').forEach(x=>window.__obs.observe(x));
+  drawTray();
+}
+function drawTray(){
+  const t=$('#ptray');document.body.classList.toggle('has-tray',psel.length>0);
+  if(!psel.length){t.hidden=true;return}
+  t.hidden=false;
+  $('#ptcount').textContent=psel.length;
+  $('#ptlist').innerHTML=psel.map((i,n)=>'<li><b>'+(n+1)+'</b><span>'+PPT[i].no+' '+PPT[i].n+(PPT[i].t!=='make'?' <em>'+PT[PPT[i].t]+'</em>':'')+'</span>'+
+    '<button data-pmv="'+n+'" data-d="-1" aria-label="위로" '+(n===0?'disabled':'')+'>▲</button><button data-pmv="'+n+'" data-d="1" aria-label="아래로" '+(n===psel.length-1?'disabled':'')+'>▼</button><button data-prm="'+n+'" aria-label="빼기">✕</button></li>').join('');
+  $('#ptprev').textContent=finalPrompt();
+}
+const savePsel=()=>{store.psel=psel;save()};
+drawPPT();
+$('#pgrid').addEventListener('click',e=>{
+  const s=e.target.closest('[data-psel]');if(s){const i=+s.dataset.psel,k=psel.indexOf(i);k>=0?psel.splice(k,1):psel.push(i);savePsel();drawPPT();return}
+  const en=e.target.closest('.en');if(en){en.setAttribute('aria-expanded',en.getAttribute('aria-expanded')!=='true');return}
+  const c=e.target.closest('[data-pp]');if(c)copy(PPT[+c.dataset.pp].p,'프롬프트를')});
+$('#ptray').addEventListener('click',e=>{
+  const mv=e.target.closest('[data-pmv]');if(mv){const n=+mv.dataset.pmv,d=+mv.dataset.d,m=n+d;if(m<0||m>=psel.length)return;[psel[n],psel[m]]=[psel[m],psel[n]];savePsel();drawPPT();return}
+  const rm=e.target.closest('[data-prm]');if(rm){psel.splice(+rm.dataset.prm,1);savePsel();drawPPT();return}
+  if(e.target.closest('#ptcopy')){copy(finalPrompt(),'최종 프롬프트를');return}
+  if(e.target.closest('#ptsort')){psel.sort((a,b)=>a-b);savePsel();drawPPT();return}
+  if(e.target.closest('#ptclear')){psel=[];savePsel();drawPPT();return}
+  if(e.target.closest('#ptfold')){const t=$('#ptray');t.classList.toggle('min');$('#ptfold').textContent=t.classList.contains('min')?'펼치기 ▴':'접기 ▾'}
+});
+
 
 /* 데모 초기화 */
 const rel=(e,el)=>{const r=el.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top,w:r.width,h:r.height}};
@@ -627,7 +860,7 @@ $('#q').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase()
 
 /* 목차 활성화 */
 const secIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.id===e.target.id))}),{rootMargin:'-30% 0px -60% 0px'});
-document.querySelectorAll('main section').forEach(s=>secIO.observe(s));
+document.querySelectorAll('main section:not(#ppt)').forEach(s=>secIO.observe(s));window.__obs=secIO;
 
 /* 폰트 */
 const KINDS=['전체','눈누','공유마당','고딕','명조·궁서','손글씨','제목용','기타','즐겨찾기'];let kind='전체';
