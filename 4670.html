@@ -59,7 +59,7 @@
     opacity:0; visibility:hidden; transform:translateY(6px); transition:opacity .18s, transform .18s, visibility .18s; }
   .dd-panel::before{ content:""; position:absolute; left:0; right:0; top:-12px; height:12px; }
   .dd.open .dd-panel{ opacity:1; visibility:visible; transform:none; }
-  @media (hover:hover) and (min-width:761px){ .dd:hover .dd-panel{ opacity:1; visibility:visible; transform:none; } .dd:hover .chev{ transform:rotate(180deg); } }
+  @media (hover:hover) and (min-width:761px) and (min-height:501px), (hover:hover) and (min-width:761px) and (pointer:fine){ .dd:hover .dd-panel{ opacity:1; visibility:visible; transform:none; } .dd:hover .chev{ transform:rotate(180deg); } }
   .dd:nth-last-child(-n+2) .dd-panel{ left:auto; right:0; }
   .dd-head{ display:flex; align-items:center; gap:8px; padding:4px 8px 10px; margin-bottom:6px; border-bottom:1px solid var(--line); font-size:13.5px; font-weight:700; }
   .dd-head .n{ font:600 11px var(--num); color:var(--mute); background:rgba(28,34,48,.06); padding:1px 7px; border-radius:6px; }
@@ -287,8 +287,8 @@
     .p-news{ grid-column:span 7; }
     .p-find{ grid-column:span 5; }
   }
-  @media (max-width:1180px) and (min-width:761px){ .quick{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); } }
-  @media (max-width:760px){
+  @media (max-width:1180px) and (min-width:761px) and (min-height:501px), (max-width:1180px) and (min-width:761px) and (pointer:fine){ .quick{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); } }
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
     .main{ padding:0 12px 28px; gap:12px; }
     .head{ padding:10px 4px; }
     .bar{ gap:6px 10px; margin-bottom:8px; }
@@ -341,7 +341,7 @@
     #tools{ scroll-margin-top:170px; }
   }
   /* PC: 업무 도구 칸이 남는 높이를 채워 화면 아래까지 꽉 차게 */
-  @media (min-width:761px){
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){
     .main{ min-height:100dvh; padding-bottom:12px; }
     #tools{ flex:1 1 auto; display:flex; flex-direction:column; }
     #tools .rows{ align-content:start; }
@@ -387,10 +387,10 @@
     .wx-fc .ln{ stroke:#5d6676; } .wx-fc .ar{ fill:rgba(140,150,168,.12); }
     .news-badge.latest{ background:#56607a; }
     .aclock{ filter:drop-shadow(0 8px 14px rgba(0,0,0,.5)); }
-    @media (max-width:760px){ .bar .nav{ background:rgba(34,40,51,.98); box-shadow:0 24px 50px -18px rgba(0,0,0,.7); } }
+    @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){ .bar .nav{ background:rgba(34,40,51,.98); box-shadow:0 24px 50px -18px rgba(0,0,0,.7); } }
   }
   /* ---------- PC: 웹검색·시계·날씨 칸 높이 조금 더 여유 있게 ---------- */
-  @media (min-width:761px){
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){
     .p-ws, .p-clock, .p-wx{ padding:20px 20px; }
     .p-ws .ws{ height:44px; margin-top:14px !important; }
     .ws-btns{ margin-top:12px; }
@@ -433,7 +433,7 @@
     .crumb .pre{ background:linear-gradient(100deg, #7fb2ff 0%, #b7a6ff 55%, #5ff3d2 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
     .crumb .num{ background:linear-gradient(#0b1018, #0b1018) padding-box, linear-gradient(120deg, #5ff3d2, #4cc9ff 50%, #8b7bff) border-box; }
   }
-  @media (max-width:760px){
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
     .logo{ width:32px; height:32px; font-size:14px; border-radius:10px; }
     .logo::after{ border-radius:8.5px; }
     .crumb{ gap:6px; font-size:14px; }
@@ -459,8 +459,8 @@
     .feat-tag .en{ background:linear-gradient(100deg, #7fb2ff, #b7a6ff 55%, #5ff3d2); -webkit-background-clip:text; background-clip:text; color:transparent; }
     .feat-list a i{ color:#5ff3d2; text-shadow:0 0 8px rgba(95,243,210,.55); }
   }
-  @media (max-width:1180px) and (min-width:761px){ .feat-list{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:2px 16px; } }
-  @media (max-width:760px){
+  @media (max-width:1180px) and (min-width:761px) and (min-height:501px), (max-width:1180px) and (min-width:761px) and (pointer:fine){ .feat-list{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:2px 16px; } }
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
     .feat{ flex-direction:column; align-items:stretch; gap:8px; margin-top:-2px; padding:10px 14px 8px; }
     .feat-tag{ padding-right:0; border-right:0; }
     .feat-list{ display:grid; grid-template-columns:1fr 1fr; gap:0 12px; }
@@ -468,11 +468,11 @@
     .feat-list a span{ overflow:hidden; text-overflow:ellipsis; }
   }
   /* 휴대전화: 바로가기 8개의 한 글자 아이콘 숨김 */
-  @media (max-width:760px), (pointer:coarse) and (max-width:1024px){
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse), (pointer:coarse) and (max-width:1024px){
     .quick a.qk .g{ display:none; }
     .quick a.qk{ justify-content:center; padding:0 6px; }
   }
-  @media (max-width:760px){ .quick a.qk{ height:40px; } .quick a.qk .t{ font-size:12px; } }
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){ .quick a.qk{ height:40px; } .quick a.qk .t{ font-size:12px; } }
 
   /* =====================================================================
      UI 테마: 모노크롬 글래스(흰 유리 카드 + 광택 검정 카드)
@@ -638,7 +638,7 @@
 
   /* 휴대전화 아래 탭 막대 */
   .tabbar{ display:none; }
-  @media (max-width:760px){
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
     .main{ padding-bottom:104px; }
     .nav-tog{ background:var(--panel); border:1px solid rgba(255,255,255,.95); border-radius:999px; box-shadow:var(--shadow-sm); }
     .bar.nav-open .nav-tog{ background:var(--gloss); color:var(--gloss-ink); }
@@ -691,7 +691,7 @@
     .cal-grid .out{ color:#4a4b50; }
     .tabbar button.on{ background:#111113; color:#fff; }
     @media (min-width:1181px){ .bar{ background:rgba(24,24,27,.72); border-color:rgba(255,255,255,.06); } .dd-panel{ background:#1e1e21; } }
-    @media (max-width:760px){ .bar .nav{ background:rgba(30,30,33,.96); } }
+    @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){ .bar .nav{ background:rgba(30,30,33,.96); } }
   }
 
   /* ---------- 색감: 따뜻한 회색 + 흰 카드 + 검정 + 라임 포인트 (모양·구조는 그대로) ---------- */
@@ -729,7 +729,7 @@
   mark{ background:var(--lime); color:#141414; }
   .cal-grid .today{ background:var(--lime); color:#141414; box-shadow:none; }
   .note{ background:rgba(238,242,90,.35); }
-  @media (max-width:760px){ .tabbar button.on{ background:var(--lime); color:#141414; } }
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){ .tabbar button.on{ background:var(--lime); color:#141414; } }
   @media (prefers-color-scheme:dark){
     :root{
       --bg:#0f0f0e; --ink:#f1f1ee; --ink-2:#cfcec9; --mute:#8f8d88; --faint:#5d5c58;
@@ -755,7 +755,7 @@
     @media (min-width:1181px){ .bar{ background:rgba(26,26,25,.78); } .dd-panel{ background:#1d1d1b; } }
   }
   /* PC: '아래 업무 도구 영역에 펼쳐 보기' 버튼 없음(메뉴를 누르면 바로 펼침) */
-  @media (min-width:761px){ .dd-more{ display:none; } }
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){ .dd-more{ display:none; } }
   /* ---------- 제목: K 로고 없이 글자 크게 ---------- */
   .crumb{ font-size:17px; gap:9px; }
   .crumb .num{ font-size:13px; padding:4px 11px 4px 10px; }
@@ -766,7 +766,7 @@
   }
 
   /* ---------- 휴대전화: 기본 글자 크기 키움 ---------- */
-  @media (max-width:760px){
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
     body{ font-size:15.5px; }
     .crumb{ font-size:17px; gap:8px; }
     .crumb .num{ font-size:12.5px; padding:3px 9px 3px 8px; letter-spacing:.12em; }
@@ -844,20 +844,20 @@
   a.lc-btn svg{ width:16px; height:16px; flex-shrink:0; color:var(--mute); }
   a.lc-btn:hover{ background:var(--gloss); color:var(--gloss-ink); border-color:transparent; box-shadow:var(--gloss-shadow); }
   a.lc-btn:hover svg{ color:var(--gloss-ink); }
-  @media (min-width:761px){ #tools .tools-cols{ flex:1 1 auto; } }
-  @media (min-width:761px){ #tools .tabs{ gap:5px; } #tools .tab{ padding:0 11px; gap:5px; } }
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){ #tools .tools-cols{ flex:1 1 auto; } }
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){ #tools .tabs{ gap:5px; } #tools .tab{ padding:0 11px; gap:5px; } }
   @media (prefers-color-scheme:dark){ a.lc-btn{ border-color:transparent; } }
   /* 휴대전화에서는 윈도 프로그램을 열 수 없으므로 숨김 */
-  @media (max-width:760px){ .tools-side{ display:none; } }
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){ .tools-side{ display:none; } }
   /* PC 메뉴 세부 도구: 마우스를 올리면 선택 색(라임/검정)으로 바뀜 (휴대전화는 그대로) */
-  @media (min-width:761px){
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){
     .dd-grid a{ transition:background .12s, color .12s, box-shadow .12s; }
     .dd-grid a:hover, .dd-grid a:focus-visible{ background:var(--gloss); color:var(--gloss-ink); box-shadow:var(--gloss-shadow); }
     .dd-grid a:hover i, .dd-grid a:focus-visible i{ background:var(--gloss-tile); color:var(--gloss-ink); }
   }
   /* ---------- 업무 도구 칸: 왼쪽 바로가기(윈도 프로그램) · 오른쪽 주요 자료, 낮고 간결하게 ---------- */
   #tools{ display:grid; grid-template-columns:1fr 1fr; gap:0; padding:14px 16px; }
-  @media (min-width:761px){ #tools{ flex:0 0 auto; display:grid; } }
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){ #tools{ flex:0 0 auto; display:grid; } }
   .hub-sec{ display:flex; align-items:center; gap:14px; min-width:0; padding:0 16px; }
   .hub-sec:first-child{ padding-left:4px; }
   .hub-sec + .hub-sec{ border-left:1px solid var(--line); padding-right:4px; }
@@ -875,7 +875,7 @@
   a.hub-tile:hover .hi{ background:var(--gloss-tile); color:var(--gloss-ink); }
   @media (prefers-color-scheme:dark){ a.hub-tile{ border-color:transparent; } a.hub-tile .hi{ background:rgba(255,255,255,.08); } }
   /* 휴대전화: 윈도 프로그램 바로가기는 열 수 없으므로 숨기고 주요 자료만 */
-  @media (max-width:760px){
+  @media (max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
     #tools{ grid-template-columns:1fr; padding:14px; }
     #tools .hub-pc{ display:none; }
     .hub-sec, .hub-sec + .hub-sec{ padding:0; border-left:0; flex-direction:column; align-items:stretch; gap:10px; }
@@ -901,7 +901,7 @@
   .dday-bar i{ display:block; height:100%; border-radius:999px; background:var(--gloss); }
   @media (prefers-color-scheme:dark){ .dday-bar i{ background:var(--lime); } }
   /* PC: 뉴스 칸과 오른쪽(D-day·메뉴서치) 칸의 높이·위아래 여백을 똑같이 맞춤 */
-  @media (min-width:761px){
+  @media (min-width:761px) and (min-height:501px), (min-width:761px) and (pointer:fine){
     .info .p-news, .info .p-find{ padding-top:14px; padding-bottom:14px; align-self:stretch; }
     .info .p-news{ justify-content:space-between; }
     .info .p-news .news-line{ flex:1 1 0; min-height:34px; }
@@ -911,6 +911,41 @@
   /* 웹검색 버튼 4개(구글·네이버·지도·법령) */
   .ws-btns{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; }
   .ws-btns button{ padding:0 4px; gap:5px; }
+  /* ---------- 휴대전화 가로 화면: 두 칸으로 펼치고 노치(안전 영역) 피하기 ---------- */
+  @media (orientation:landscape) and (max-height:500px) and (pointer:coarse){
+    .main{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); column-gap:12px; row-gap:12px; align-items:stretch; max-width:none;
+      padding-left:max(16px, env(safe-area-inset-left)); padding-right:max(16px, env(safe-area-inset-right)); padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+    .head, .feat, .p-news, #tools, .site-foot{ grid-column:1 / -1; }
+    .p-find, .p-clock, .p-wx, .p-ws{ grid-column:auto; min-width:0; }
+    .head{ padding:8px 4px 4px; }
+    .quick{ grid-template-columns:repeat(8, minmax(0,1fr)); }
+    .quick a.qk{ height:40px; }
+    .feat-list{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+    .head{ position:relative; }
+    .bar .nav{ position:fixed; top:calc(10px + env(safe-area-inset-top)); left:max(16px, env(safe-area-inset-left)); right:max(16px, env(safe-area-inset-right)); max-height:calc(100dvh - 86px); }
+    #tools .hub-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+    .cmd-list .rows{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+    .tabbar{ bottom:calc(8px + env(safe-area-inset-bottom)); padding:4px; }
+    .tabbar button{ height:40px; min-width:40px; }
+  }
+  /* ---------- 태블릿 등 터치 전용 기기: 윈도 프로그램 바로가기는 열 수 없으므로 숨기고 주요 자료를 한 줄로 ---------- */
+  @media (hover:none) and (pointer:coarse) and (min-width:761px){
+    #tools{ grid-template-columns:1fr; }
+    #tools .hub-pc{ display:none; }
+    #tools .hub-sec + .hub-sec{ border-left:0; padding-left:4px; }
+    #tools .hub-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+  }
+  @media (hover:none) and (pointer:coarse) and (min-width:761px) and (max-width:1180px){
+    .main{ padding-left:max(22px, env(safe-area-inset-left)); padding-right:max(22px, env(safe-area-inset-right)); }
+  }
+  /* 태블릿(위쪽 메뉴 구간): 펼침 메뉴가 화면 밖으로 넘쳐 페이지가 축소되지 않도록 메뉴 줄 너비에 맞춤 */
+  @media (hover:none) and (pointer:coarse) and (min-width:761px) and (max-width:1180px){
+    html, body{ overflow-x:clip; }
+    .bar{ position:relative; }
+    .bar .nav{ flex-wrap:wrap; row-gap:2px; }
+    .bar .dd, .bar .dd:nth-last-child(-n+2){ position:static; }
+    .bar .dd-panel, .bar .dd:nth-last-child(-n+2) .dd-panel{ left:0; right:0; width:auto; }
+  }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
 </style>
 </head>
@@ -1158,24 +1193,14 @@ var SECTIONS = [
     ['노트북','https://notebook.google.com/'],
     ['SUNO','https://suno.com/discover'],
     ['AI-ON','https://aion.jge.go.kr/'],
-    ['인사말씀스킬','https://drive.google.com/drive/folders/1l9ryMQ4vIt8GXIjvKd3Bo_0yTbSymBpK?usp=sharing'],
-    ['보도자료스킬','https://drive.google.com/drive/folders/1iZi6hkOac3YiJRArsJ7g3W-_6MGVpHqD?usp=sharing'],
-    ['민원답변스킬','https://drive.google.com/drive/folders/1ks2A7vperPqE10JDXupRBZFK-VcdvVg7?usp=sharing'],
-    ['SUNO생성스킬','https://drive.google.com/drive/folders/1Q_0v28aABIBcGEmbnaLxZBnwOHoa5xHB?usp=sharing'],
-    ['교육이미지생성','https://sevendog7.github.io/edu/promp/image.html'],        
-    ['정책홍보이미지생성','https://sevendog7.github.io/edu/promp/hong.html'],    
-    ['모션UI폰트','https://sevendog7.github.io/edu/promp/motion.html'],            
-    ['인포그래픽디자인','https://furoku.github.io/bananaX/projects/infographic-evaluation/ko/'],    
-    ['이미지프롬프트','https://youmind.com/ko-KR/nano-banana-pro-prompts?categories=poster-flyer&fbclid=PAdGRzdgP4ftNleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaeXWEIdMwwngimuCgCXOmil4cabA0CqM39n5bhfIEkoYqFHlvcjW4LJVSsQQw_aem_tLu2JfBI2TDSH_Vfu7P_DA'],        
+    ['인사말씀스킬(클로드)','https://drive.google.com/drive/folders/1l9ryMQ4vIt8GXIjvKd3Bo_0yTbSymBpK?usp=sharing'],
+    ['보도자료스킬(클로드)','https://drive.google.com/drive/folders/1iZi6hkOac3YiJRArsJ7g3W-_6MGVpHqD?usp=sharing'],
+    ['민원답변스킬(클로드)','https://drive.google.com/drive/folders/1ks2A7vperPqE10JDXupRBZFK-VcdvVg7?usp=sharing']
   ]},
   { id:'random', nav:'랜덤뽑기', title:'랜덤뽑기', cap:'카트레이스·사다리·핀볼', icon:'dice', items:[
     ['카트레이스','https://sevendog7.github.io/edu/kart/index.html'],
     ['사다리타기','https://sevendog7.github.io/edu/ladder/index.html'],
-    ['핀볼 뽑기','https://sevendog7.github.io/edu/pinball/index.html'],
-    ['해적 룰렛','https://sevendog7.github.io/edu/pirate/index.html'],
-    ['돌림판','https://sevendog7.github.io/edu/wheel/index.html'],    
-    ['가챠 랜덤뽑기','https://sevendog7.github.io/edu/gumball/index.html'],
-    ['로또 645','https://sevendog7.github.io/edu/lotto/index.html'],        
+    ['핀볼 뽑기','https://sevendog7.github.io/edu/pinball/index.html']
   ]}
 ];
 /* 윈도 기본 프로그램 바로가기: 업무 도구 오른쪽 칸 (윈도 PC 전용, 별도 설치 불필요) */
@@ -1200,7 +1225,7 @@ var WEB = [
 ];
 /* 교육부 보도자료 줄: 구글 Apps Script 웹 앱 주소(…/exec)를 따옴표 안에 붙여 넣기
    (교육부 누리집은 다른 사이트가 직접 읽을 수 없어 Apps Script가 대신 읽어 전달) */
-var MOE_FEED = 'https://script.google.com/macros/s/AKfycbxUN41Wrmu_kuc7y61Yg6JIGNVOWPOwPKHVDIzHdMdIaIblRBfJInm81VtL9_M1Y3_f8Q/exec';
+var MOE_FEED = '';
 var MOE_BOARD = 'https://www.moe.go.kr/boardCnts/listRenew.do?boardID=294&m=020402&s=moe';
 /* 교육청 소식 줄: 전남광주교육 통 RSS 3개(본청·기관·학교)를 번갈아 표시
    직접 읽기가 막히면 위 MOE_FEED 주소(Apps Script)에 ?src=jngj 를 붙여 대신 읽음 */
@@ -1249,7 +1274,7 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
   function pad(n){ return (n<10?'0':'')+n; }
   var EXT=' target="_blank" rel="noopener"';
-  var isMobile = function(){ return window.matchMedia('(max-width:760px)').matches; };
+  var isMobile = function(){ return window.matchMedia('(max-width:760px), (orientation:landscape) and (max-height:500px) and (pointer:coarse)').matches; };
 
   /* ① 바로가기 */
   $('quick').innerHTML = QUICK.map(function(q){
@@ -1297,7 +1322,7 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
     var b=d.querySelector('.dd-btn');
     b.addEventListener('click', function(e){
       e.stopPropagation();
-      if(isMobile()){   /* 휴대전화: 눌러서 세부 도구 펼치기·접기 */
+      if(isMobile() || window.matchMedia('(hover:none)').matches){   /* 휴대전화·태블릿: 눌러서 세부 도구 펼치기·접기 */
         var o=!d.classList.contains('open'); closeDD(d); d.classList.toggle('open', o); b.setAttribute('aria-expanded', o?'true':'false');
       } else {          /* PC: 마우스를 대면 세부 도구, 누르면 아래 업무 도구 영역에 펼침 */
         closeDD(); select(b.getAttribute('data-sel'), false);
