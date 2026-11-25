@@ -912,6 +912,110 @@
   .ws-btns{ grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; }
   .ws-btns button{ padding:0 4px; gap:5px; }
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; animation:none !important; } html{ scroll-behavior:auto; } }
+
+  /* =====================================================================
+     휴대전화·태블릿 가로/세로 회전 최적화
+     ===================================================================== */
+  html, body{ overflow-x:hidden; }
+  /* 노치·둥근 모서리(가로 모드)에 내용이 가려지지 않게 */
+  @media (max-width:760px){
+    .main{ padding-left:max(12px, calc(env(safe-area-inset-left) + 4px)); padding-right:max(12px, calc(env(safe-area-inset-right) + 4px)); }
+  }
+  @media (min-width:761px) and (max-width:1180px){
+    .main{ padding-left:max(22px, calc(env(safe-area-inset-left) + 6px)); padding-right:max(22px, calc(env(safe-area-inset-right) + 6px)); }
+  }
+
+  /* 바로가기 6개: 세로 휴대전화는 3칸×2줄로 빈칸 없이 */
+  @media (max-width:760px){ .quick{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+  @media (max-width:1180px) and (min-width:761px){ .quick{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+
+  /* 태블릿 세로·좁은 PC 창(761~1180px): 업무 메뉴가 화면 밖으로 넘치지 않게 줄바꿈,
+     세부 도구는 메뉴줄 바로 아래 전체 폭으로 펼침(누르면 열림) */
+  @media (min-width:761px) and (max-width:1180px){
+    .bar .nav{ position:relative; flex-wrap:wrap; row-gap:2px; }
+    .bar .dd{ position:static; }
+    .dd-btn{ padding:0 10px; }
+    .dd-panel, .dd:nth-last-child(-n+2) .dd-panel{ left:0; right:0; width:auto; top:calc(100% + 8px); }
+    .dd-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+    .dd:hover:not(.open) .dd-panel{ opacity:0; visibility:hidden; }
+    .dd:hover:not(.open) .chev{ transform:none; }
+  }
+  /* 태블릿 세로(좁은 칸): 시계·달력이 칸 안에 들어가게 */
+  @media (min-width:761px) and (max-width:1000px){
+    .aclock{ width:104px; height:104px; }
+    .clock-body{ gap:10px; }
+    .p-clock .live{ display:none; }
+    .p-clock .cal-side .gcal{ font-size:11px; padding:1px 7px; }
+    .ws-btns button{ font-size:13px; }
+  }
+  /* 태블릿 가로(터치, 사이드바 화면): 메뉴는 눌러서 열림 */
+  @media (min-width:1181px) and (hover:none){
+    .dd:hover .dd-btn{ background:transparent; }
+    .dd.open .dd-btn{ background:var(--card); }
+  }
+  /* 세로가 낮은 PC·태블릿 가로: 사이드바 메뉴가 잘리지 않게 촘촘히 */
+  @media (min-width:1181px) and (max-height:700px){
+    .bar{ gap:10px; padding:14px 12px; }
+    .brand{ padding-bottom:10px; }
+    .dd-btn{ height:36px; }
+    .bar::after{ display:none; }
+  }
+
+  /* 사이드바 화면 중 좁은 폭(태블릿 가로·노트북): 시계 칸 글자 잘림 방지 */
+  @media (min-width:1181px) and (max-width:1440px){
+    .aclock{ width:100px; height:100px; }
+    .clock-body{ gap:10px; }
+  }
+  /* 터치 태블릿: 윈도 프로그램 바로가기는 실행되지 않으므로 숨기고 주요 자료만 */
+  @media (min-width:761px) and (hover:none) and (pointer:coarse){
+    #tools{ grid-template-columns:1fr; }
+    #tools .hub-pc{ display:none; }
+    #tools .hub-sec + .hub-sec{ border-left:0; padding-left:4px; }
+    #tools .hub-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+  }
+
+  /* 넓은 휴대전화 가로·소형 태블릿 세로(560~760px): 2단 배치로 화면을 넓게 활용 */
+  @media (min-width:560px) and (max-width:760px){
+    .main{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); align-items:start; }
+    .head, .p-news, #tools, .site-foot{ grid-column:1 / -1; }
+    .p-find, .p-clock, .p-wx, .p-ws{ align-self:stretch; }
+    #tools .hub-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+    .cmd-list .rows{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+    .bar .nav{ max-height:70vh; }
+    .dd-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+  }
+
+  /* 휴대전화 가로(세로 높이 낮음): 상단 고정 해제, 바로가기 한 줄, 창·달력 크기 조정 */
+  @media (orientation:landscape) and (max-height:520px){
+    .head{ position:static; background:none; }
+    .quick{ display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:6px; }
+    .quick a.qk{ height:40px; padding:0 4px; justify-content:center; }
+    .quick a.qk .g{ display:none; }
+    .quick a.qk .t{ font-size:12.5px; overflow:hidden; text-overflow:ellipsis; }
+    .bar .nav{ max-height:calc(100dvh - 90px); }
+    #tools{ scroll-margin-top:12px; }
+    /* 통합검색 창: 화면 전체를 쓰고 입력줄은 낮게 */
+    .cmd{ padding:0; align-items:stretch; }
+    .cmd-box{ width:100%; max-height:none; height:100%; border-radius:0; }
+    .cmd-in input{ height:48px; }
+    .cmd-foot{ padding:6px 16px; }
+    /* 확대 달력: 높이에 맞춰 칸을 줄이고 넘치면 스크롤 */
+    .cal-modal{ padding:8px; }
+    .cal-box{ max-height:calc(100dvh - 16px); overflow-y:auto; padding:10px 16px 12px; }
+    .cal-head{ margin-bottom:4px; font-size:15px; }
+    .cal-grid{ row-gap:2px; font-size:14px; }
+    .cal-grid span{ height:calc((100dvh - 130px) / 6.6); min-height:26px; max-height:40px; border-radius:8px; }
+    .cal-grid .dow{ height:22px; font-size:12px; }
+    .cal-foot{ margin-top:6px; font-size:12px; }
+    /* 아래 탭 막대: 가로 화면에서는 낮게 */
+    .tabbar{ bottom:calc(8px + env(safe-area-inset-bottom)); padding:4px; }
+    .tabbar button{ height:38px; min-width:40px; }
+    .main{ padding-bottom:72px; }
+  }
+  /* 가로 휴대전화가 761px보다 넓을 때(대형 폰)도 아래 탭 막대 대신 여백만 정리 */
+  @media (orientation:landscape) and (max-height:520px) and (min-width:761px){
+    .main{ padding-bottom:16px; min-height:0; }
+  }
 </style>
 </head>
 <body>
@@ -1236,6 +1340,8 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
   function pad(n){ return (n<10?'0':'')+n; }
   var EXT=' target="_blank" rel="noopener"';
   var isMobile = function(){ return window.matchMedia('(max-width:760px)').matches; };
+  /* 터치 기기(태블릿 등)이거나 PC 창이 좁으면 마우스 올림 대신 눌러서 메뉴를 펼침 */
+  var tapOpen = function(){ return window.matchMedia('(hover:none), (max-width:1180px)').matches; };
 
   /* ① 바로가기 */
   $('quick').innerHTML = QUICK.map(function(q){
@@ -1283,8 +1389,9 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
     var b=d.querySelector('.dd-btn');
     b.addEventListener('click', function(e){
       e.stopPropagation();
-      if(isMobile()){   /* 휴대전화: 눌러서 세부 도구 펼치기·접기 */
+      if(isMobile() || tapOpen()){   /* 휴대전화·태블릿(터치)·좁은 PC 창: 눌러서 세부 도구 펼치기·접기 */
         var o=!d.classList.contains('open'); closeDD(d); d.classList.toggle('open', o); b.setAttribute('aria-expanded', o?'true':'false');
+        if(!isMobile()) select(b.getAttribute('data-sel'), false);
       } else {          /* PC: 마우스를 대면 세부 도구, 누르면 아래 업무 도구 영역에 펼침 */
         closeDD(); select(b.getAttribute('data-sel'), false);
       }
@@ -1297,6 +1404,11 @@ var ICON_OF = {feature:'star', chatbot:'chat', search:'search', policy:'doc', au
   $('nav').addEventListener('click', function(e){ e.stopPropagation(); });
   document.addEventListener('click', function(){ closeDD(); closeNav(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ closeDD(); closeNav(); } });
+  /* 화면을 가로·세로로 돌리거나 창 크기가 바뀌면 열려 있던 메뉴를 닫아 배치가 꼬이지 않게 함 */
+  ['(max-width:760px)','(max-width:1180px)','(orientation:landscape)'].forEach(function(q){
+    var mq=window.matchMedia(q), f=function(){ closeDD(); closeNav(); };
+    if(mq.addEventListener) mq.addEventListener('change', f); else if(mq.addListener) mq.addListener(f);
+  });
   [].forEach.call(document.querySelectorAll('[data-show]'), function(b){ b.addEventListener('click', function(){ closeDD(); closeNav(); select(b.getAttribute('data-show'), true); }); });
   [].forEach.call(document.querySelectorAll('.tab'), function(b){ b.addEventListener('click', function(){ select(b.getAttribute('data-sel'), false); }); });
   var saved=null; try{ saved=localStorage.getItem('kbs-sec'); }catch(e){}
